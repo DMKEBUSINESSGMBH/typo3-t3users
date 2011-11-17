@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.common</sheetTitle>
+        </TCEforms>
+
+        <type>array</type>
+        <el>
+          <action> <!-- Bezeichner ist frei wählbar -->
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action</label>
+              <config>
+                <type>select</type>
+                <items type="array">
+                  <numIndex index="10" type="array">
+                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.LoginBox</numIndex>
+                    <numIndex index="1">tx_t3users_actions_Login</numIndex>
+                  </numIndex>
+                  
+                  <numIndex index="100" type="array">
+                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.Registration</numIndex>
+                    <numIndex index="1">tx_t3users_actions_ShowRegistration</numIndex>
+                  </numIndex>
+                  <numIndex index="100" type="array">
+                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.RegistrationConfirm</numIndex>
+                    <numIndex index="1">tx_t3users_actions_ShowRegistrationConfirm</numIndex>
+                  </numIndex>
+                  
+                  <numIndex index="220" type="array">
+                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.EditFeUser</numIndex>
+                    <numIndex index="1">tx_t3users_actions_EditFeUser</numIndex>
+                  </numIndex>
+
+                  <numIndex index="200" type="array">
+                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ListFeUsers</numIndex>
+                    <numIndex index="1">tx_t3users_actions_ListFeUsers</numIndex>
+                  </numIndex>
+                  <numIndex index="210" type="array">
+                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ShowFeUser</numIndex>
+                    <numIndex index="1">tx_t3users_actions_ShowFeUser</numIndex>
+                  </numIndex>
+
+
+                </items>
+                <multiple>0</multiple>
+                <maxitems>10</maxitems>
+                <size>10</size>
+              </config>
+            </TCEforms>
+          </action>
+          <feuserPages>
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:lang/locallang_general.php:LGL.startingpoint</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>3</size>
+                <maxitems>22</maxitems>
+                <minitems>0</minitems>
+                <show_thumbs>1</show_thumbs>
+              </config>
+            </TCEforms>
+          </feuserPages>
+          <feuserPagesRecursive>
+            <TCEforms>
+              <label>LLL:EXT:lang/locallang_general.php:LGL.recursive</label>
+              <config>
+                <type>select</type>
+                <items type="array">
+                  <numIndex index="0" type="array">
+                    <numIndex index="0"></numIndex>
+                    <numIndex index="1"></numIndex>
+                  </numIndex>
+                  <numIndex index="1" type="array">
+                    <numIndex index="0">LLL:EXT:cms/locallang_ttc.php:recursive.I.1</numIndex>
+                    <numIndex index="1">1</numIndex>
+                  </numIndex>
+                  <numIndex index="2" type="array">
+                    <numIndex index="0">LLL:EXT:cms/locallang_ttc.php:recursive.I.2</numIndex>
+                    <numIndex index="1">2</numIndex>
+                  </numIndex>
+                  <numIndex index="3" type="array">
+                    <numIndex index="0">LLL:EXT:cms/locallang_ttc.php:recursive.I.3</numIndex>
+                    <numIndex index="1">3</numIndex>
+                  </numIndex>
+                  <numIndex index="4" type="array">
+                    <numIndex index="0">LLL:EXT:cms/locallang_ttc.php:recursive.I.4</numIndex>
+                    <numIndex index="1">4</numIndex>
+                  </numIndex>
+                  <numIndex index="5" type="array">
+                    <numIndex index="0">LLL:EXT:cms/locallang_ttc.php:recursive.I.5</numIndex>
+                    <numIndex index="1">250</numIndex>
+                    </numIndex>
+                 </items>
+                 <minitems>0</minitems>
+                 <maxitems>1</maxitems>
+                 <size>1</size>
+              </config>
+            </TCEforms>
+          </feuserPagesRecursive>
+        </el>
+      </ROOT>
+    </sDEF>
+    <s_loginbox>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.loginbox</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <loginbox.header_welcome>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_welcome</label>
+                <config>
+                <type>input</type>
+                <size>30</size>
+              </config>
+            </TCEforms>
+          </loginbox.header_welcome>
+          <loginbox.message_welcome>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_welcome</label>
+              <config>
+                <type>text</type>
+                <cols>30</cols>
+                <rows>5</rows>
+              </config>
+            </TCEforms>
+          </loginbox.message_welcome>		  
+          <loginbox.header_goodbye>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_goodbye</label>
+                <config>
+                <type>input</type>
+                <size>30</size>
+              </config>
+            </TCEforms>
+          </loginbox.header_goodbye>
+          <loginbox.message_goodbye>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_goodbye</label>
+              <config>
+                <type>text</type>
+                <cols>30</cols>
+                <rows>5</rows>
+              </config>
+            </TCEforms>
+          </loginbox.message_goodbye>		  
+          <loginbox.header_login>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_login</label>
+                <config>
+                <type>input</type>
+                <size>30</size>
+              </config>
+            </TCEforms>
+          </loginbox.header_login>
+          <loginbox.message_login>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_login</label>
+              <config>
+                <type>text</type>
+                <cols>30</cols>
+                <rows>5</rows>
+              </config>
+            </TCEforms>
+          </loginbox.message_login>		  
+          <loginbox.header_logout>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_logout</label>
+                <config>
+                <type>input</type>
+                <size>30</size>
+              </config>
+            </TCEforms>
+          </loginbox.header_logout>
+          <loginbox.message_logout>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_logout</label>
+              <config>
+                <type>text</type>
+                <cols>30</cols>
+                <rows>5</rows>
+              </config>
+            </TCEforms>
+          </loginbox.message_logout>		  
+          <loginbox.header_login_error>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_login_error</label>
+                <config>
+                <type>input</type>
+                <size>30</size>
+              </config>
+            </TCEforms>
+          </loginbox.header_login_error>
+          <loginbox.message_login_error>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_login_error</label>
+              <config>
+                <type>text</type>
+                <cols>30</cols>
+                <rows>5</rows>
+              </config>
+            </TCEforms>
+          </loginbox.message_login_error>		  
+
+          <loginbox.emailFrom>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.emailFrom</label>
+                <config>
+                <type>input</type>
+                <size>30</size>
+              </config>
+            </TCEforms>
+          </loginbox.emailFrom>
+          <loginbox.emailFromName>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.emailFromName</label>
+                <config>
+                <type>input</type>
+                <size>30</size>
+              </config>
+            </TCEforms>
+          </loginbox.emailFromName>
+          <loginbox.emailReply>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.emailReply</label>
+                <config>
+                <type>input</type>
+                <size>30</size>
+              </config>
+            </TCEforms>
+          </loginbox.emailReply>
+          <loginbox.loginRedirectPage>
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.loginRedirectPage</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <multiple>0</multiple>
+                <maxitems>1</maxitems>
+                <minitems>0</minitems>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </loginbox.loginRedirectPage>
+          <loginbox.logoutRedirectPage>
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.logoutRedirectPage</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <multiple>0</multiple>
+                <maxitems>1</maxitems>
+                <minitems>0</minitems>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </loginbox.logoutRedirectPage>
+
+          <loginTemplate>
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.loginTemplate</label>
+              <config>
+                <type>input</type>
+                <size>24</size>
+                <max>256</max>
+                <eval>trim</eval>
+              </config>
+            </TCEforms>
+          </loginTemplate>
+        </el>
+      </ROOT>
+    </s_loginbox>
+    <s_feuseredit>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.feuseredit</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+        	<feuseredit.mode>
+				<TCEforms>
+					<exclude>1</exclude>
+					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode</label>
+					<config>
+						<type>select</type>
+		                <items type="array">
+		                  <numIndex index="1" type="array">
+		                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode.normal</numIndex>
+		                    <numIndex index="1">normal</numIndex>
+		                  </numIndex>
+		                  <numIndex index="2" type="array">
+		                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode.check</numIndex>
+		                    <numIndex index="1">check</numIndex>
+		                  </numIndex>
+		                </items>
+		                <maxitems>1</maxitems>
+		                <minitems>1</minitems>
+		                <size>1</size>
+		                <default>normal</default>
+					</config>
+				</TCEforms>
+			</feuseredit.mode>
+        	<feuseredit.doubleoptin>
+				<TCEforms>
+					<exclude>1</exclude>
+					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.doubleoptin</label>
+						<config>
+							<type>check</type>
+			                <default>0</default>
+						</config>
+				</TCEforms>
+			</feuseredit.doubleoptin>
+			<feuseredit.doubleoptin.pid>
+				<TCEforms>
+					<exclude>1</exclude>
+					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.doubleoptin.pid</label>
+					<config>
+						<type>input</type>
+						<size>5</size>
+						<max>256</max>
+						<eval>trim</eval>
+						<wizards type="array">
+							<_PADDING type="integer">2</_PADDING>
+                               	<link type="array">
+                                   <type>popup</type>
+                                   <title>Link</title>
+                                   <icon>link_popup.gif</icon>
+                                   <script>browse_links.php?mode=wizard</script>
+                                   <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+                               	</link>
+                           	</wizards>
+					</config>
+				</TCEforms>
+			</feuseredit.doubleoptin.pid>
+			<feuseredit.formxml>
+				<TCEforms>
+					<exclude>1</exclude>
+					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.xml</label>
+					<config>
+						<type>input</type>
+						<size>50</size>
+						<max>256</max>
+						<eval>trim</eval>
+						<wizards type="array">
+							<_PADDING>2</_PADDING>
+							<link type="array">
+								<type>popup</type>
+								<title>Link</title>
+								<icon>link_popup.gif</icon>
+								<script>browse_links.php?mode=wizard&amp;act=file</script>
+								<params type="array">
+									<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+									<allowedExtensions>xml</allowedExtensions>
+								</params>
+								<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+							</link>
+						</wizards>
+					</config>
+				</TCEforms>
+			</feuseredit.formxml>
+			<feusereditTemplate>
+				<TCEforms>
+					<exclude>1</exclude>
+					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.template</label>
+					<config>
+						<type>input</type>
+						<size>50</size>
+						<max>256</max>
+						<eval>trim</eval>
+						<wizards type="array">
+							<_PADDING>2</_PADDING>
+							<link type="array">
+								<type>popup</type>
+								<title>Link</title>
+								<icon>link_popup.gif</icon>
+								<script>browse_links.php?mode=wizard&amp;act=file</script>
+								<params type="array">
+									<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+									<allowedExtensions>html</allowedExtensions>
+								</params>
+								<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+							</link>
+						</wizards>
+					</config>
+				</TCEforms>
+			</feusereditTemplate>
+			<feuseredit.redirect.pid>
+				<TCEforms>
+					<exclude>1</exclude>
+					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.redirect.pid</label>
+					<config>
+						<type>input</type>
+						<size>5</size>
+						<max>256</max>
+						<eval>trim</eval>
+						<wizards type="array">
+							<_PADDING type="integer">2</_PADDING>
+                               	<link type="array">
+                                   <type>popup</type>
+                                   <title>Link</title>
+                                   <icon>link_popup.gif</icon>
+                                   <script>browse_links.php?mode=wizard</script>
+                                   <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+                               	</link>
+                           	</wizards>
+					</config>
+				</TCEforms>
+			</feuseredit.redirect.pid>
+        </el>
+      </ROOT>
+    </s_feuseredit>
+    <s_userinfo>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.userinfo</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <feuserlist.feuser.links.list.pid>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.listPage</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <multiple>0</multiple>
+                <maxitems>1</maxitems>
+                <minitems>0</minitems>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </feuserlist.feuser.links.list.pid>
+          <feuserlistTemplate>
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.listTemplate</label>
+              <config>
+                <type>input</type>
+                <size>24</size>
+                <max>256</max>
+                <eval>trim</eval>
+              </config>
+            </TCEforms>
+          </feuserlistTemplate>
+          <feuserlist.feuser.links.details.pid>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.detailsPage</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <multiple>0</multiple>
+                <maxitems>1</maxitems>
+                <minitems>0</minitems>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </feuserlist.feuser.links.details.pid>
+          <feuserlist.staticUsers>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.staticUsers</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>fe_users</allowed>
+                <multiple>0</multiple>
+                <maxitems>100</maxitems>
+                <minitems>0</minitems>
+                <size>2</size>
+                <autoSizeMax>20</autoSizeMax>
+              </config>
+            </TCEforms>
+          </feuserlist.staticUsers>
+          <feuserdetailsTemplate>
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.detailsTemplate</label>
+              <config>
+                <type>input</type>
+                <size>24</size>
+                <max>256</max>
+                <eval>trim</eval>
+              </config>
+            </TCEforms>
+          </feuserdetailsTemplate>
+          <feuserdetails.staticUser>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.staticUser</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>fe_users</allowed>
+                <multiple>0</multiple>
+                <maxitems>1</maxitems>
+                <minitems>0</minitems>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </feuserdetails.staticUser>
+        </el>
+      </ROOT>
+    </s_userinfo>
+		<s_tssetup>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.TSSetup</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<flexformTS>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tssetup</label>
+							<config>
+								<type>text</type>
+								<cols>80</cols>
+								<rows>10</rows>
+							</config>
+						</TCEforms>
+					</flexformTS>
+				</el>
+			</ROOT>
+		</s_tssetup>
+  </sheets>
+</T3DataStructure>

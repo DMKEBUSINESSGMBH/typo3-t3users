@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>language labels for t3users frontend strings</description>
+		<type>database</type>
+		<csh_table></csh_table>
+		<fileId>EXT:t3users/locallang.xml</fileId>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="error">Error</label>
+			<label index="label_login">Login</label>
+			<label index="label_logout">Logout</label>
+			<label index="label_username">Username</label>
+			<label index="label_password">Password</label>
+			<label index="label_permalogin">Stay logged in</label>
+			<label index="label_email">Email</label>
+			<label index="label_email_repeat">Email repeated</label>
+			<label index="label_sendpass">Send password</label>
+			<label index="label_sendconfirmlink">Send confirmation mail</label>
+			<label index="label_save">save</label>
+			<label index="loginbox_header_login">Status</label>
+			<label index="loginbox_message_login">You are logged in as ###FEUSER_NAME###</label>
+			<label index="label_forgot_password">Forgot your password?</label>
+			<label index="label_register">Want to register?</label>
+
+			<label index="loginbox_header_forgot">You forgot your password?</label>
+			<label index="loginbox_message_forgot">Please enter the email address by which you registered your user account. Then press &quot;Send password&quot; and your password will immediately be emailed to you. Make sure to spell your email address correctly.</label>
+			<label index="loginbox_header_forgot_notfound">User not found</label>
+			<label index="loginbox_message_forgot_notfound">We couldn't find a username for email address '###YOUR_EMAIL###' and so cannot send the password to you. Probably you misspelled the email address or maybe you even didn't register yet?</label>
+			<label index="loginbox_header_forgot_sent">Password sent</label>
+			<label index="loginbox_message_forgot_sent">Your password has now been sent to the email address ###YOUR_EMAIL###.</label>
+			<label index="loginbox_forgot_infomail">Your password
+Hi ###FEUSER_NAME###
+
+Your username is &quot;###FEUSER_USERNAME###&quot;
+Your password is &quot;###PASSWORD###&quot;
+</label>
+			<label index="loginbox_header_requestconfirmation">You want to request the confirmation mail?</label>
+			<label index="loginbox_message_requestconfirmation">Please enter the email address by which you registered your user account. Then press &quot;Send confirmation mail&quot; and the confirmation link will immediately be emailed to you. Make sure to spell your email address correctly.</label>
+			<label index="loginbox_header_requestconfirmation_notfound">User not found</label>
+			<label index="loginbox_message_requestconfirmation_notfound">We couldn't find a username for email address '###YOUR_EMAIL###' and so cannot send the confirmation link to you. Probably you misspelled the email address, maybe you even didn't register yet or you've already clicked the confirmation link?</label>
+			<label index="loginbox_header_requestconfirmation_sent">Mail sent</label>
+			<label index="loginbox_message_requestconfirmation_sent">Your confirmation link has now been sent to the email address ###YOUR_EMAIL###.</label>
+			<label index="loginbox_requestconfirmation_infomail">Please confirm your registration
+Hi ###FEUSER_NAME###
+
+Your username is &quot;###FEUSER_USERNAME###&quot;
+Please confirm your registration by clicking thie following link:
+###CONFIRMLINKURL###
+If you are not able to click directly on the web link to confirm your registration, you can copy and paste the entire link to your web browser.
+</label>
+			<label index="loginbox_header_login_error">Login failed</label>
+			<label index="loginbox_message_login_error">Username or password was wrong wrong!</label>
+			<label index="feuserdetails_nouser">Sorry, no user found...</label>
+			<label index="registration_confirmation_mail">Confirm your registration
+Thank you for your application to become a member of ###SITENAME###.
+Everyone is welcome to browse around our website but you will need to confirm your membership to have 
+unrestricted access to all areas.
+To confirm your membership please click on this link: ###MAILCONFIRM_LINKURL###
+			</label>
+
+
+
+			<label index="label_form_username">Username</label>
+			<label index="label_form_password">Password</label>
+			<label index="label_form_password_confirm">Confirm Password</label>
+
+			<label index="msg_form_password_required">Password is required</label>
+			<label index="msg_form_password_sameas">Password and confirm don't match</label>
+			<label index="msg_form_username_required">Username is required</label>
+			<label index="msg_form_username_unique">Username already exists. Please choose another one.</label>
+			<label index="msg_form_email_required">Email is required</label>
+			<label index="msg_form_email_invalid">Email is invalid</label>
+			<label index="msg_form_email_unique">Email already exists. Please choose another one.</label>
+			<label index="msg_form_email_sameas">The entered emails don't match.</label>
+			<label index="msg_form_email_differsfromdb">The new email must differ from the old one.</label>
+			
+			<label index="msg_change_success">Data changed successfully. You may now log in with the new data.</label>
+			<label index="msg_change_error">There was an error. Data couldn't be changed.</label>
+
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="error">Fehler</label>
+			<label index="label_login">Anmelden</label>
+			<label index="label_logout">Abmelden</label>
+			<label index="label_username">Nutzername</label>
+			<label index="label_first_name">Vorname</label>
+			<label index="label_last_name">Name</label>
+			<label index="label_street">Stra&amp;szlig;e</label>
+			<label index="label_zip_code">PLZ</label>
+			<label index="label_town">Ort</label>
+			<label index="label_password">Pa&amp;szlig;wort</label>
+			<label index="label_permalogin">Angemeldet bleiben</label>
+			<label index="label_email">Email</label>
+			<label index="label_email_repeat">Wiederholung der Email</label>
+			<label index="label_sendpass">Passwort senden</label>
+			<label index="label_sendconfirmlink">Bestätigungslink anfordern</label>
+			<label index="label_save">speichern</label>
+			<label index="loginbox_header_login">Status</label>
+			<label index="loginbox_message_login">Sie sind angemeldet als ###FEUSER_NAME###</label>
+			<label index="label_forgot_password">Pa&amp;szlig;wort vergessen?</label>
+			<label index="label_register">Noch kein Mitglied? Einfach anmelden!</label>
+
+			<label index="loginbox_header_logout">Sie sind derzeit nicht angemeldet.</label>
+			<label index="loginbox_msg_logout">You just logged out from your user session on this website. You can login again or as another user by the form below.</label>
+
+			<label index="loginbox_header_forgot">Sie haben Ihr Passwort vergessen</label>
+			<label index="loginbox_message_forgot">Bitte geben Sie die Email Adresse ein, mit der sich registriert haben. Anschließend klicken Sie auf "Passwort senden" und Ihr Passwort wird Ihnen umgehend zugesendet. Achten Sie auf die korrekte Schreibweise Ihrer Email-Adresse.</label>
+			<label index="loginbox_header_forgot_notfound">User not found</label>
+			<label index="loginbox_message_forgot_notfound">Wir konnten keine mit dem angegeben Benutzernamen verknüpfte Email-Adresse finden. Aus diesem Grund können wir Ihnen kein Passwort zusenden. Vielleicht haben Sie Ihre Email-Adresse fehlerhaft eingegeben oder Sie haben sich eventuell noch gar nicht registriert.</label>
+			<label index="loginbox_header_forgot_sent">Passwort verschickt</label>
+			<label index="loginbox_message_forgot_sent">Ihr Passwort wurde soeben an die Email Adresse ###YOUR_EMAIL### geschickt.</label>
+			<label index="loginbox_forgot_infomail">Ihr neues Passwort
+Hallo ###FEUSER_NAME###
+
+Ihr Nutzername ist &quot;###FEUSER_USERNAME###&quot;
+Ihr Passwort ist &quot;###PASSWORD###&quot;
+</label>
+			<label index="loginbox_header_requestconfirmation">Sie wollen die E-Mail mit dem Bestätigungslink zugesendet bekommen?</label>
+			<label index="loginbox_message_requestconfirmation">Bitte geben Sie die E-Mail Adresse ein, mit der sich registriert haben. Anschließend klicken Sie auf "Passwort senden" und Ihr Passwort wird Ihnen umgehend zugesendet. Achten Sie auf die korrekte Schreibweise Ihrer Email-Adresse.</label>
+			<label index="loginbox_header_requestconfirmation_notfound">Nutzer nicht gefunden</label>
+			<label index="loginbox_message_requestconfirmation_notfound">Für die angegeben E-Mail-Adresse wurde kein Aktivierungslink angefordert, der noch nicht bestätigt wurde. Aus diesem Grund können wir Ihnen keine E-Mail zusenden. Vielleicht haben Sie Ihre E-Mail-Adresse fehlerhaft eingegeben oder Sie haben sich eventuell noch gar nicht registriert.</label>
+			<label index="loginbox_header_requestconfirmation_sent">Passwort verschickt</label>
+			<label index="loginbox_message_requestconfirmation_sent">Ihr Passwort wurde soeben an die Email Adresse ###YOUR_EMAIL### geschickt.</label>
+			<label index="loginbox_requestconfirmlink_infomail">Bestätigen Sie bitte Ihre Registrierung
+Hallo ###FEUSER_NAME###
+
+Ihr Anmeldename ist: &quot;###FEUSER_USERNAME###&quot;
+Bitte bestätigen Sie Ihre Anmeldung, indem Sie den folgenden Link klicken:
+###CONFIRMLINKURL###
+Wenn Sie den Link nicht klicken können um Ihre Anmeldung zu vollenden, kopieren Sie ihn bitte und fügen ihn direkt in die Adresszeile Ihres Webbrowsers ein.
+</label>
+			<label index="loginbox_header_login_error">Login fehlgeschlagen</label>
+			<label index="loginbox_message_login_error">Bitte überprüfen Sie Ihren Nutzernamen bzw. das Passwort!</label>
+
+			<label index="feuserdetails_nouser">Es wurde leider kein Nutzer gefunden...</label>
+
+			<label index="registration_confirmation_mail">Bestätigung der Registrierung
+Vielen Dank für dein Interesse an ###SITENAME###.
+Jeder ist eingeladen sich auf unseren Webseiten zu informieren. Der Zugriff auf alle Bereiche des Portals ist nur registrierten Mitgliedern erlaubt.
+Um deine Mitgliedschaft zu bestätigen, klicke bitte auf den folgenden Link:
+###MAILCONFIRM_LINKURL###
+			</label>
+			<label index="label_form_username">Nutzername</label>
+			<label index="label_form_password">Passwort</label>
+			<label index="label_form_password_confirm">Passwort bestätigen</label>
+
+			<label index="msg_form_password_required">Bitte geben Sie ein Passwort ein!</label>
+			<label index="msg_form_password_sameas">Die eingegebenen Passwörter stimmen nicht überein!</label>
+			<label index="msg_form_username_required">Bitte geben Sie einen Nutzernamen ein!</label>
+			<label index="msg_form_username_unique">Dieser Nutzername existiert bereits, bitte wählen Sie einen anderen!</label>
+			<label index="msg_form_email_required">Bitte geben Sie eine Email an.</label>
+			<label index="msg_form_email_invalid">Die Email ist nicht valide.</label>
+			<label index="msg_form_email_unique">Diese Email wird bereits verwendet, bitte wählen Sie eine andere!</label>
+			<label index="msg_form_email_sameas">Die eingegebenen Emails stimmen nicht überein.</label>
+			<label index="msg_form_email_differsfromdb">Die neue Email muss sich von der alten unterscheiden.</label>
+			
+			<label index="msg_change_success">Daten erfolgreich geändert. Sie können sich nun mit den neuen Daten einloggen.</label>
+			<label index="msg_change_error">Es ist ein Fehler aufgetreten. Daten konnten nicht geändert werden.</label>
+
+		</languageKey>
+	</data>
+</T3locallang>

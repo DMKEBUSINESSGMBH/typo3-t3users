@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 't3users'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+<!-- Module strings -->
+			<label index="tx_t3users_module_name">Manage FE users</label>
+			<label index="msg_search_feuser">Search for fe users</label>
+			<label index="label_info">Info</label>
+			<label index="label_searchterm">Search</label>
+			<label index="label_pagemode_all">All pages</label>
+			<label index="label_pagemode_current">Current page</label>
+			<label index="label_active_user">Active users only</label>
+			<label index="label_hidden_user">Include hidden users</label>
+			<label index="label_uid">UID</label>
+			<label index="label_username">Username</label>
+			<label index="label_name">Name</label>
+			<label index="label_lastname">Last name</label>
+			<label index="label_firstname">First name</label>
+			<label index="label_email">Email</label>
+			<label index="label_search4uid">Search for user with uid</label>
+			<label index="label_founduser">found user</label>
+			<label index="label_foundusers">found users</label>
+			<label index="btn_search">Search</label>
+
+
+		</languageKey>
+		<languageKey index="de" type="array">
+
+			<label index="tx_t3users_module_name">FE-User Verwaltung</label>
+			<label index="msg_search_feuser">Suche nach FE Usern</label>
+			<label index="label_info">Hinweis</label>
+			<label index="label_searchterm">Suche</label>
+
+		</languageKey>
+	</data>
+</T3locallang>

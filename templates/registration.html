@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+###REGISTRATION###
+
+###PART_REGISTER###
+###FORM###
+
+###PART_REGISTER###
+
+###PART_REGISTERFINISHED###
+<p>Die Daten wurden gespeichert. Eine Bestätigungsmail wurde an Ihre Webadresse geschickt.</p>
+###PART_REGISTERFINISHED###
+
+###PART_CONFIRMED###
+<p>Der Account wurde erfolgreich aktiviert.</p>
+###PART_CONFIRMED###
+
+###PART_CONFIRMFAILED###
+<p>Die Aktivierung ist fehlgeschlagen.</p>
+###PART_CONFIRMFAILED###
+
+###REGISTRATION###
+
+
+<h2>Vorlage für die Registrierungsbestätigung</h2>
+###REGISTRATIONCONFIRM###
+
+###PART_CONFIRMED###
+<p>Der Account für ###FEUSER_USERNAME### wurde erfolgreich aktiviert.</p>
+###FEUSER_FEGROUPS###
+<h4>You are member of this groups:</h4>
+<ul>
+###FEUSER_FEGROUP###
+<li>###FEUSER_FEGROUP_TITLE###
+###FEUSER_FEGROUP###
+</ul>
+###FEUSER_FEGROUPS###
+
+###PART_CONFIRMED###
+
+###PART_CONFIRMFAILED###
+<p>Die Aktivierung ist fehlgeschlagen.</p>
+###PART_CONFIRMFAILED###
+
+
+###REGISTRATIONCONFIRM###
+
+
+
+
+
+
+
+###CONFIRMATIONFORM###
+Bitte Daten überprüfen!
+
+###CONFIRMATIONFORM###
+
+
+
+Hier beginnt eine HTML-Vorlage für das Registrierungs-Form. Das wird aber derzeit nicht verwendet! 
+
+###REGISTRATIONFORM###
+
+<!-- ###EDITION-BOX### start-->
+<div style="display: {formerrors.cssdisplay};">
+<p>Please confirm your data:</p>
+{formerrors}
+</div>
+
+
+<div>
+<h2>Nutzerdaten</h2>
+<dl>
+<dt>{username.label}</dt> <dd>{username.input}</dd>
+<dt>{first_name.label}</dt> <dd>{first_name.input}</dd>
+<dt>{password.label}</dt> <dd>{password.input}</dd>
+<dt>{password_confirm.label}</dt> <dd>{password_confirm.input}</dd>
+<dt>{email.label}</dt> <dd>{email.input}</dd>
+<dt>{birthday.label}</dt> <dd>{birthday.input}</dd>
+
+<dt>{image.label}</dt> <dd>{image.input} {imagethumb}</dd>
+
+
+</dl>
+
+</div>
+
+<div>
+<p>{logo.label}: {logo.input}</p>
+<p>{imagethumb}</p>
+</div>
+
+
+
+{btnsubmit}
+<!-- ###EDITION-BOX### end-->
+
+
+###REGISTRATIONFORM###
+
+</body>
+</html>

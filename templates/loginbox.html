@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<!-- ------------------------------------------------------
+------------------------------------------------------- -->
+<h1>Start with template for loginbox</h1>
+###TEMPLATE_LOGIN###
+
+<!--###HEADER_VALID###-->
+<h3>###STATUS_HEADER###</h3>
+<!--###HEADER_VALID###-->
+
+<!--###MESSAGE_VALID###-->
+<p>###STATUS_MESSAGE###</p>
+<!--###MESSAGE_VALID###-->
+Users online: ###USER_ONLINE###
+
+<form name="logform" id="logform" action="###ACTION_URI###" target="_top" method="post">
+  <input type="hidden" id="user" name="user" value="" />
+  <input type="hidden" id="pass" name="pass" value="" /><br />
+	<input type="hidden" name="logintype" value="login" />
+	<input type="hidden" name="pid" value="###STORAGE_PID###" />
+	<input type="hidden" name="redirect_url" value="###REDIRECT_URL###" />
+	###EXTRA_HIDDEN###
+</form>
+
+<form action="###ACTION_URI###" target="_top" method="post" onSubmit="return superchallenge_password(this);">
+	<table>
+		<tbody>
+			<tr>
+				<th><label for="user1">###LABEL_USERNAME###</label></th>
+				<td><input type="text" id="user1" name="user1" value="" /></td>
+			</tr>
+			<tr>
+				<th><label for="pass1">###LABEL_PASSWORD###</label></th>
+				<td><input type="password" id="pass1" name="pass1" value="" /></td>
+			</tr>
+			<!--###PERMALOGIN_VALID###-->
+			<tr>
+				<th><label for="permalogin">###LABEL_PERMALOGIN###</label></th>
+				<td>
+					<input name="permalogin" value="0" type="hidden" ###PERMALOGIN_HIDDENFIELD_ATTRIBUTES### id="permaloginHiddenField">
+					<input name="permalogin" value="1" type="checkbox" ###PERMALOGIN_CHECKBOX_ATTRIBUTES### id="permalogin"  onclick="document.getElementById('permaloginHiddenField').disabled = this.checked;" />
+				</td>
+			</tr>
+			<!--###PERMALOGIN_VALID###-->
+		</tbody>
+		<tfoot>
+	 		<tr>
+	 			<td></td>
+	 			<td>
+	 				<input type="submit" name="submit" value="###LABEL_LOGIN###" />
+	 			</td>
+	 		</tr>
+		</tfoot>
+	</table>
+	<input type="hidden" name="logintype" value="login" />
+	<input type="hidden" name="pid" value="###STORAGE_PID###" />
+	<input type="hidden" name="redirect_url" value="###REDIRECT_URL###" />
+	###EXTRA_HIDDEN###
+</form>
+
+<p><!--###LOGINBOX_FORGOTPASSLINK###-->###LABEL_FORGOT_PASSWORD###<!--###LOGINBOX_FORGOTPASSLINK###--></p>
+<p><!--###LOGINBOX_REGISTERLINK###-->###LABEL_REGISTER###<!--###LOGINBOX_REGISTERLINK###--></p>
+
+###TEMPLATE_LOGIN###
+
+<!-- ------------------------------------------------------
+------------------------------------------------------- -->
+
+###TEMPLATE_WELCOME###
+<h3>###STATUS_HEADER###</h3>
+
+<p>###STATUS_MESSAGE###</p>
+###FEUSER_FEGROUPS###
+<h4>Sie (###FEUSER_USERNAME###) sind Mitglied in diesen Gruppen:</h4>
+<ul>
+###FEUSER_FEGROUP###
+<li>###FEUSER_FEGROUP_TITLE###
+###FEUSER_FEGROUP###
+</ul>
+###FEUSER_FEGROUPS###
+
+
+###TEMPLATE_WELCOME###
+
+
+<!-- ------------------------------------------------------
+------------------------------------------------------- -->
+
+###TEMPLATE_STATUS###
+<h3>###STATUS_HEADER###</h3>
+<p>###STATUS_MESSAGE###</p>
+
+<form action="###ACTION_URI###" target="_top" method="post">
+	<table>
+		<thead>
+	 		<tr>
+	 			<th>###LABEL_USERNAME###</th>
+	 			<td>###FEUSER_USERNAME###</td>
+	 		</tr>
+		</thead>
+		<tbody>
+	 		<tr>
+	 			<td></td>
+	 			<td>
+	 				<input type="submit" name="submit" value="###LABEL_LOGOUT###" />
+	 			</td>
+	 		</tr>
+		</tbody>
+	</table>
+	<input type="hidden" name="###PREFIXID###[NK_logintype]" value="logout" />
+	<input type="hidden" name="pid" value="###STORAGE_PID###" />
+</form>
+
+###TEMPLATE_STATUS###
+
+
+<!-- ------------------------------------------------------
+------------------------------------------------------- -->
+
+
+###TEMPLATE_FORGOT###
+
+<h3>###STATUS_HEADER###</h3>
+<p>###STATUS_MESSAGE###</p>
+<form action="###ACTION_URI###" method="post">
+	<table>
+		<tfoot>
+	 		<tr>
+	 			<td></td>
+	 			<td><input type="submit" name="submit" value="###LABEL_SENDPASS###" /></td>
+	 		</tr>
+		</tfoot>
+		<tbody>
+			<tr>
+				<th><label for="###PREFIXID###[NK_forgot_email]">###LABEL_EMAIL###</label></th>
+				<td><input type="text" name="###PREFIXID###[NK_forgot_email]" /></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+
+###TEMPLATE_FORGOT###
+
+<!-- ------------------------------------------------------
+------------------------------------------------------- -->
+
+###TEMPLATE_FORGOT_SENT###
+
+<h3>###STATUS_HEADER###</h3>
+<p>###STATUS_MESSAGE###</p>
+
+###TEMPLATE_FORGOT_SENT###
+
+<!-- ------------------------------------------------------
+------------------------------------------------------- -->
+
+###TEMPLATE_REQUESTCONFIRMATION###
+
+<h3>###STATUS_HEADER###</h3>
+<p>###STATUS_MESSAGE###</p>
+<form action="###ACTION_URI###" method="post">
+	<table>
+		<tfoot>
+	 		<tr>
+	 			<td></td>
+	 			<td><input type="submit" name="submit" value="###LABEL_SENDCONFIRMLINK###" /></td>
+	 		</tr>
+		</tfoot>
+		<tbody>
+			<tr>
+				<th><label for="###PREFIXID###[NK_requestconfirmation_email]">###LABEL_EMAIL###</label></th>
+				<td><input type="text" name="###PREFIXID###[NK_requestconfirmation_email]" /></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+
+###TEMPLATE_REQUESTCONFIRMATION###
+
+<!-- ------------------------------------------------------
+------------------------------------------------------- -->
+
+###TEMPLATE_REQUESTCONFIRMATION_SENT###
+
+<h3>###STATUS_HEADER###</h3>
+<p>###STATUS_MESSAGE###</p>
+
+###TEMPLATE_REQUESTCONFIRMATION_SENT###
+
+<!-- ------------------------------------------------------
+------------------------------------------------------- -->
+
+</body>
+</html>

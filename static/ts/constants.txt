@@ -1,0 +1,47 @@
+#contants
+plugin.tx_t3users {
+  # cat=FE User Management (Templates)/loginbox; type=string;label=HTML Template for login box
+  loginTemplate = EXT:t3users/templates/loginbox.html
+  # cat=FE User Management (Templates)/feuserlist; type=string;label=HTML Template for feuser list
+  feuserlistTemplate = EXT:t3users/templates/feuserlist.html
+  # cat=FE User Management (Templates)/feuserdetails; type=string;label=HTML Template for feuser details view
+  feuserdetailsTemplate = EXT:t3users/templates/feuserlist.html
+  # cat=FE User Management (Templates)/registration; type=string;label=HTML Template for feuser registration view
+  registrationTemplate = EXT:t3users/templates/registration.html
+  # cat=FE User Management (Templates)/registrationConfirm; type=string;label=HTML Template for feuser registration confirm view
+  registrationConfirmTemplate = EXT:t3users/templates/registration.html
+  # cat=FE User Management (Templates)/feuseredit; type=string;label=HTML Template for editing a feuser
+  feusereditTemplate = EXT:t3users/templates/feuseredit.html
+
+
+  # cat=FE User Management (Misc)/email; type=string; label= Administration email: Enter the administration email address here. This email address will be the sender email and also receive administration notifications.
+  email = MyTypo3Site@mydomain.org
+  # cat=FE User Management (Misc)/siteName; type=string; label= Site name: Enter the name of the registering site here.
+  siteName = My Typo3 Site
+
+  # cat=FE User Management (Misc)/redirectLogout; type=int+;label=PID of page for redirect after logout
+  redirectLogout = 0
+  # cat=FE User Management (Misc)/redirectLogin; type=int+;label=PID of page for redirect after login
+  redirectLogin = 0
+  # cat=FE User Management (Misc)/feuserlistPage; type=int+;label=PID of page for feuser list
+  feuserlistPage = 0
+  # cat=FE User Management (Misc)/feuserdetailsPage; type=int+;label=PID of page for feuser details
+  feuserdetailsPage = 0
+  # cat=FE User Management (Misc)/loginboxPage; type=int+;label=PID of login main page. Used for forgot password. 
+  loginboxPage = 0
+  # cat=FE User Management (Misc)/registerPage; type=int+;label=PID of page for feuser registration
+  registerPage = 0
+  # cat=FE User Management (Misc)/confirmPage; type=int+;label=PID of page for feuser confirmation from mail link
+  confirmPage = 0
+  # cat=FE User Management (Misc)/doubleOptInPage; type=int+;label=PID of page for confirmation of feuser editing
+  doubleOptInPage = 0
+  # cat=FE User Management (Misc)/feusereditRedirect; type=int+;label=PID of page for redirect after changing data
+  feusereditRedirect = 0
+
+  # cat=FE User Management (Misc)/userGroupUponRegistration; type=string;label=FE group UID of newly created FE users
+  userGroupUponRegistration = 0
+  # cat=FE User Management (Misc)/userGroupAfterConfirmation; type=string;label=FE group UID of confirmed FE users
+  userGroupAfterConfirmation = 0
+  # cat=FE User Management (Misc)/userpages; type=string;label=Commaseparated list of pages (pid) with feusers (Storage PID)
+  userPages = 0
+}

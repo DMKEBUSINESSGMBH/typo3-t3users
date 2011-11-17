@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<formidable version="1.0.0">
+  <meta>        
+    <name>RAW Test</name>
+    <form formid="testform"/>
+    <debug>false</debug>
+		<displaylabels>true</displaylabels>
+	</meta>
+	<control>
+		<datahandler:RAW>
+			<!-- Without tablename and keyname formidable throws: DATAHANDLER configuration isn't correct -->
+			<!--tablename>fe_users</tablename>
+			<keyname>uid</keyname-->
+			<parentcallback>doSomething</parentcallback>
+		</datahandler:RAW>
+
+	  <renderer:STANDARD/>
+	</control>
+
+	<elements>
+		<renderlet:TEXT name="first_name" label="First name" />
+		<renderlet:TEXT name="last_name" label="last_name" />
+
+		<renderlet:TEXT name="email" label="Email">
+			<validators>
+				<validator:STANDARD>
+					<required message="Email is required."/>
+					<email message="Email is not valid."/>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:SUBMIT name="btnsubmit" label="Save"/>
+	</elements>
+</formidable>

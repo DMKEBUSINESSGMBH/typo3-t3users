@@ -1,0 +1,94 @@
+# setup
+includeLibs.tx_t3users_controllers_main = EXT:t3users/controllers/class.tx_t3users_controllers_main.php
+
+
+plugin.tx_t3users_main                = USER_INT
+plugin.tx_t3users_main.flexform       = flexform_main.xml
+plugin.tx_t3users_main.userFunc       = tx_t3users_controllers_main->main
+plugin.tx_t3users_main.defaultAction  = tx_t3users_actions_Login
+plugin.tx_t3users_main.qualifier      = t3users
+plugin.tx_t3users_main.templatePath   = EXT:t3users/templates
+plugin.tx_t3users_main.locallangFilename = EXT:t3users/locallang.xml
+
+
+tt_content.list.20.tx_t3users_main    =< plugin.tx_t3users_main
+
+lib.t3users.pagebrowser {
+  limit = 2
+  maxPages = 7
+  pagefloat = CENTER
+}
+
+lib.t3users.feuser {
+  pagebrowser < lib.t3users.pagebrowser
+  links {
+    details.pid = {$plugin.tx_t3users.feuserdetailsPage}
+    list.pid = {$plugin.tx_t3users.feuserlistPage}
+  }
+  www.ifEmpty = -
+  www.typolink.parameter.field = mf_homepage
+  www.typolink.extTarget = _new
+  
+  email.ifEmpty = -
+  email.typolink.parameter.field = email
+  image =< tt_content.image.20
+}
+lib.t3users.fegroup {
+  pagebrowser < lib.t3users.pagebrowser
+}
+
+# Ab hier Konfiguration der einzelnen Views 
+plugin.tx_t3users_main {
+  loginTemplate = {$plugin.tx_t3users.loginTemplate}
+  feuserPages = {$plugin.tx_t3users.userPages}
+  userGroupUponRegistration = {$plugin.tx_t3users.userGroupUponRegistration}
+  userGroupAfterConfirmation = {$plugin.tx_t3users.userGroupAfterConfirmation}
+  feuserlistTemplate = {$plugin.tx_t3users.feuserlistTemplate}
+  feuserdetailsTemplate = {$plugin.tx_t3users.feuserdetailsTemplate}
+  registrationTemplate = {$plugin.tx_t3users.registrationTemplate}
+  registrationConfirmTemplate = {$plugin.tx_t3users.registrationConfirmTemplate}
+  feusereditTemplate = {$plugin.tx_t3users.feusereditTemplate}
+  siteName = {$plugin.tx_t3users.siteName}
+
+  loginbox {
+    links.forgotpass = 1
+    links.forgotpass.pid = {$plugin.tx_t3users.loginboxPage}
+    links.register.pid = {$plugin.tx_t3users.registerPage}
+    links.confirm.pid = {$plugin.tx_t3users.confirmPage}
+  }
+
+  feuserlist {
+    page = {$plugin.tx_t3users.feuserlistPage}
+    feuser =< lib.t3users.feuser
+  }
+  feuserdetails {
+    links.mailconfirm.pid = {$plugin.tx_t3users.feuserdetailsPage}
+    feuser =< lib.t3users.feuser
+  }
+  showregistration {
+    links.register.pid = {$plugin.tx_t3users.registerPage}
+    form = {$plugin.tx_t3users.registrationTemplate}
+    formxml = EXT:t3users/forms/registration.xml
+    confirmpage = {$plugin.tx_t3users.confirmPage}
+    email.from = {$plugin.tx_t3users.email}
+    email.fromName = {$plugin.tx_t3users.siteName}
+  }
+  
+  feuseredit {
+    formxml = EXT:t3users/forms/feuser_edit.xml
+    doubleoptin = 0
+    doubleoptin.pid = {$plugin.tx_t3users.doubleOptInPage}
+    mode = normal
+    redirect.pid = {$plugin.tx_t3users.feusereditRedirect}
+  }
+  
+      
+  #service {
+  #  serviceType = mkhoga
+  #  serviceSubType = email
+  #  handleForgotPass = 1
+  #  handleForgotPassMethodName = handleForgotPass
+  #}
+  
+}
+
