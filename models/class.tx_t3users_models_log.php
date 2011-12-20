@@ -49,7 +49,7 @@ interface tx_t3users_models_ILog {
 	function getRecTable();
 	/**
 	 * Optional additional data string
-	 * @return string
+	 * @return string or array
 	 */
 	function getData();
 	/**
