@@ -71,7 +71,7 @@ class tx_t3users_services_logging extends t3lib_svbase {
 		//we support strings and arrays
 		$data = $log->getData();
 		$data = (is_array($data)) ? serialize($data) : $data;
-		$row['data'] = substr(trim($data),0,254);
+		$row['data'] = trim($data);
 		tx_rnbase_util_DB::doInsert('tx_t3users_log', $row, 0);
 	}
 
