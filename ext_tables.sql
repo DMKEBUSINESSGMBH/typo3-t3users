@@ -8,7 +8,7 @@ CREATE TABLE tx_t3users_log (
 	beuser int(11) DEFAULT '0' NOT NULL,
 	recuid int(11) DEFAULT '0' NOT NULL,
 	rectable varchar(255) DEFAULT '' NOT NULL,
-	data text,
+	data mediumtext NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY idx_trt (typ,recuid,rectable),
