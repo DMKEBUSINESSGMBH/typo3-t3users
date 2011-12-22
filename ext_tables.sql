@@ -11,7 +11,9 @@ CREATE TABLE tx_t3users_log (
 	data mediumtext NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY idx_trt (typ,recuid,rectable),
+#	funktioniert nicht, wenn die tabelle utf8 ist,
+#	da für keys nur 1000 Bytes belegt werden können.
+#	KEY idx_trt (typ,recuid,rectable),
 	KEY idx_feusr (feuser)
 );
 
