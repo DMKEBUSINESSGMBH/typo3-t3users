@@ -3,7 +3,7 @@ CREATE TABLE tx_t3users_log (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) NOT NULL default '0',
 	tstamp datetime DEFAULT '0000-00-00 00:00:00',
-	typ varchar(100) DEFAULT '' NOT NULL,
+	typ varchar(50) DEFAULT '' NOT NULL,
 	feuser int(11) DEFAULT '0' NOT NULL,
 	beuser int(11) DEFAULT '0' NOT NULL,
 	recuid int(11) DEFAULT '0' NOT NULL,
@@ -11,9 +11,7 @@ CREATE TABLE tx_t3users_log (
 	data mediumtext NOT NULL,
 
 	PRIMARY KEY (uid),
-#	funktioniert nicht, wenn die tabelle utf8 ist,
-#	da für keys nur 1000 Bytes belegt werden können.
-#	KEY idx_trt (typ,recuid,rectable),
+	KEY idx_trt (typ,recuid,rectable),
 	KEY idx_feusr (feuser)
 );
 
