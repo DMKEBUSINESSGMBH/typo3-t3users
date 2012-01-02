@@ -30,7 +30,7 @@ tx_rnbase::load('tx_sv_auth');
 /**
  * Service for accessing user information
  * This service enables authentication by username and email
- * 
+ *
  * @author Rene Nitzsche
  */
 class tx_t3users_services_feuserauth extends tx_sv_auth {
@@ -38,7 +38,7 @@ class tx_t3users_services_feuserauth extends tx_sv_auth {
 	function initAuth($subType, $loginData, $authInfo, $userauth) {
 		parent::initAuth($subType, $loginData, $authInfo, $userauth);
 		
-		if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users','enableLoginByEmail')) && 
+		if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users','enableLoginByEmail')) &&
 					t3lib_div::validEmail($loginData['uname']) ) {
 			$this->pObj->username_column = 'email';
 			$this->db_user['username_column'] = 'email';

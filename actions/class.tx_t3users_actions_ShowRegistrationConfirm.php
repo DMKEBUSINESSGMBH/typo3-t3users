@@ -30,12 +30,12 @@ tx_rnbase::load('tx_t3users_models_feuser');
 
 /**
  * Controller für die Bestätigung einer Neuregistrierung
- * 
+ *
  */
 class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIOC {
 
 	/**
-	 * 
+	 *
 	 * @param tx_rnbase_IParameters $parameters
 	 * @param tx_rnbase_configurations $configurations
 	 * @param ArrayObject $viewData

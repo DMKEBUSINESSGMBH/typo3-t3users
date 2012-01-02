@@ -27,7 +27,7 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
 /**
  * Exception used for problems with feusers
- * 
+ *
  */
 class tx_t3users_exceptions_User extends Exception {
 	protected $feuser;

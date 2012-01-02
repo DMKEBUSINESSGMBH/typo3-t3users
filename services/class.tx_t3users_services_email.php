@@ -28,7 +28,7 @@ tx_rnbase::load('tx_rnbase_util_Templates');
 
 /**
  * Service to send emails
- * 
+ *
  */
 class tx_t3users_services_email extends t3lib_svbase {
 	/**
@@ -138,7 +138,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 		//Daten, die geändert werden sollen (also mit Link mitgeschickt werden)
 		foreach($data as $key => $value){
 			$markerArray['###'.strtoupper($key).'###'] = $value;
-			$linkParams['NK_'.$key] = $value;	
+			$linkParams['NK_'.$key] = $value;
 		}
 		$link->parameters($linkParams);
 
@@ -163,7 +163,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 		if($feUser->record['email'] != $data['email'])
 			$receiver = tx_rnbase::makeInstance('tx_t3users_receiver_FeUserChanged');
 		else
-			$receiver = tx_rnbase::makeInstance('tx_mkmailer_receiver_FeUser'); 
+			$receiver = tx_rnbase::makeInstance('tx_mkmailer_receiver_FeUser');
 		$receiver->setFeUser($feUser);
 
 		$job = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
@@ -263,7 +263,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$job->setContentText($messageTxt);
 		$job->setContentHtml($messageHtml);
 		$mailSrv->spoolMailJob($job);
-	} 
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/srv/class.tx_t3users_services_email.php']) {

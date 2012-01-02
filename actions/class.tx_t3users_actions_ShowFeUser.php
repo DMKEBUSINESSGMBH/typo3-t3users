@@ -30,12 +30,12 @@ tx_rnbase::load('tx_t3users_models_feuser');
 
 /**
  * Controller for detailview of FE-User
- * 
+ *
  */
 class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC {
 	
   /**
-   * 
+   *
    *
    * @param array_object $parameters
    * @param tx_rnbase_configurations $configurations

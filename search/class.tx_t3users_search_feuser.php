@@ -28,7 +28,7 @@ tx_rnbase::load('tx_rnbase_util_SearchBase');
 
 /**
  * Class to search feuser from database
- * 
+ *
  * @author Rene Nitzsche
  */
 class tx_t3users_search_feuser extends tx_rnbase_util_SearchBase {
@@ -58,7 +58,7 @@ class tx_t3users_search_feuser extends tx_rnbase_util_SearchBase {
   protected function getJoins($tableAliases) {
   	$join = '';
   	if(isset($tableAliases['FEGROUP'])) {
-  			$join .= ($this->useAlias()) ? 
+  			$join .= ($this->useAlias()) ?
   					' JOIN fe_groups AS FEGROUP ON FIND_IN_SET( FEGROUP.uid, FEUSER.usergroup )' :
   					' JOIN fe_groups ON FIND_IN_SET( fe_groups.uid, fe_users.usergroup )';
     }

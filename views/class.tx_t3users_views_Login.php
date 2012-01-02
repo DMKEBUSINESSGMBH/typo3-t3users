@@ -51,12 +51,12 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base {
 //		$subTemplate = $formatter->cObj->getSubpart($template,$subpart);
 		$markerArray = $formatter->getItemMarkerArrayWrapped($markers, 'loginbox.marker.' , 0, '');
 		// Passwort-Link
-		tx_rnbase_util_BaseMarker::initLink($markerArray, $subpartArray, 
-							$wrappedSubpartArray, $formatter, 
+		tx_rnbase_util_BaseMarker::initLink($markerArray, $subpartArray,
+							$wrappedSubpartArray, $formatter,
 							'loginbox.', 'forgotpass', 'LOGINBOX', array('NK_forgotpass' => '1'));
 		// Register-Link
-		tx_rnbase_util_BaseMarker::initLink($markerArray, $subpartArray, 
-							$wrappedSubpartArray, $formatter, 
+		tx_rnbase_util_BaseMarker::initLink($markerArray, $subpartArray,
+							$wrappedSubpartArray, $formatter,
 							'loginbox.', 'register', 'LOGINBOX', array());
 							
 		$out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
@@ -74,7 +74,7 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base {
 
   /**
    * Subpart der im HTML-Template geladen werden soll. Dieser wird der Methode
-   * createOutput automatisch als $template übergeben. 
+   * createOutput automatisch als $template übergeben.
    *
    * @return string
    */

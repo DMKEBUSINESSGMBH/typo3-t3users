@@ -130,7 +130,7 @@ class tx_t3users_mod_userSearcher {
 	 * @return int
 	 */
 	public function getSize() {
-		return $this->resultSize;		
+		return $this->resultSize;
 	}
 
 	function searchFEUser($searchterm, $searchhidden, $pagemode, $options = array()) {

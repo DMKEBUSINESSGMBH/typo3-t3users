@@ -44,8 +44,8 @@ class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base {
     $users =& $viewData->offsetGet('userlist');
 	  $listBuilder = tx_rnbase::makeInstance('tx_rnbase_util_ListBuilder');
     
-    $out = $listBuilder->render($users, 
-    								$viewData, $template, 'tx_t3users_util_FeUserMarker', 
+    $out = $listBuilder->render($users,
+    								$viewData, $template, 'tx_t3users_util_FeUserMarker',
     								'feuserlist.feuser.', 'FEUSER', $formatter);
     return $out;
   }

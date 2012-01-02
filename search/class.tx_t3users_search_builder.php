@@ -28,7 +28,7 @@ tx_rnbase::load('tx_rnbase_util_SearchBase');
 
 /**
  * Mit dem Builder werden haufig auftretende Suchanfragen zusammengebaut
- * 
+ *
  * @author Rene Nitzsche
  */
 class tx_t3users_search_builder {

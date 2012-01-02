@@ -30,7 +30,7 @@ tx_rnbase::load('tx_t3users_models_feuser');
 
 /**
  * Controller for edit form of FE-User
- * 
+ *
  */
 class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
   
@@ -48,7 +48,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 		//Bei Modus "check" werden die Daten aus der Url in die DB geschrieben (wenn
 		//möglich). Ansonsten wird ganz normal die Form geparsed.
 		if($this->conf->get($this->getConfId().'mode') == 'check'){
-			//uid und confirmstring sind nicht in tca weshalb wir sie 
+			//uid und confirmstring sind nicht in tca weshalb wir sie
 			//fest auslesen müssen
 			$uid = $parameters->offsetGet('NK_uid');
 			$confirmstring = $parameters->offsetGet('NK_confirmstring');
@@ -106,7 +106,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
     	
     	return $this->form;
 
-//der alte Weg    	
+//der alte Weg
 //		$ret = array();
 //
 //		$this->editItem = $item;
@@ -133,10 +133,10 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 		$params = tx_mklib_util_TCA::eleminateNonTcaColumns($feUser,$params);
 
 		//wenn die Option doubleoptin gewählt wurde dann werden die daten noch nicht
-		//gespeichert sondern mit einem confirmstring per email verschickt und 
+		//gespeichert sondern mit einem confirmstring per email verschickt und
 		//erst bei der Bestätigung in die DB geschrieben
 		if($this->conf->get($this->getConfId().'doubleoptin')){
-			//Zusätzlich Parameter setzen		
+			//Zusätzlich Parameter setzen
 			//Bestätigungscode generieren
 			$params['confirmstring'] = md5(uniqid());
 			$params['uid'] = $feUser->getUid();

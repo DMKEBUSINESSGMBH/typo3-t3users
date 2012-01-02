@@ -32,7 +32,7 @@ tx_rnbase::load('tx_rnbase_util_BaseMarker');
 class tx_t3users_util_FeUserMarker extends tx_rnbase_util_BaseMarker {
 
 	/**
-	 * Initialisiert den Marker Array. 
+	 * Initialisiert den Marker Array.
 	 * Optionen:
 	 * - hideregistrations
 	 * - hideuploads
@@ -65,7 +65,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_BaseMarker {
 		if(!is_object($feuser)) {
 			$feuser = self::getEmptyInstance('tx_t3users_models_feuser');
 		}
-		tx_rnbase_util_Misc::callHook('t3users','feuserMarker_initRecord', 
+		tx_rnbase_util_Misc::callHook('t3users','feuserMarker_initRecord',
 			array('item' => &$feuser, 'template'=>&$template, 'confid'=>$confId, 'marker'=>$marker, 'formatter'=>$formatter), $this);
 		$ignore = self::findUnusedCols($feuser->record, $template, $marker);
 		$markerArray = $formatter->getItemMarkerArrayWrapped($feuser->record, $confId , $ignore, $marker.'_',$feuser->getColumnNames());
@@ -78,7 +78,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_BaseMarker {
 			$template = $this->_addGroups($template, $feuser, $formatter, $confId.'group.', $marker.'_FEGROUP');
 
 		$out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
-		tx_rnbase_util_Misc::callHook('t3users','feuserMarker_afterSubst', 
+		tx_rnbase_util_Misc::callHook('t3users','feuserMarker_afterSubst',
 			array('item' => &$feuser, 'template'=>&$out, 'confid'=>$confId, 'marker'=>$marker, 'formatter'=>$formatter), $this);
 		return $out;
 	}

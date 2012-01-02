@@ -102,7 +102,7 @@ class tx_t3users_util_LoginAsFEUser {
 	function getNewSessionRecord($sessionId, $userId) {
 
 		if(!is_callable(array('t3lib_userAuth', 'ipLockClause_remoteIPNumber'))) {
-			// Ab 4.5 ist die Methode nicht mehr public. Daher den notwendigen 
+			// Ab 4.5 ist die Methode nicht mehr public. Daher den notwendigen
 			// Record anders erstellen
 			$auth = tx_rnbase::makeInstance('t3lib_userAuth');
 			$auth->id = $sessionId;

@@ -42,7 +42,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base {
 	 * Wir nutzen nicht die initialisierung von rnbase,
 	 * da dort enablefields mit geprüft werden.
 	 * Wir wollen aber auch immer nutzer welche auf disabled stehen.
-	 * 
+	 *
 	 * @param mixed 	$rowOrUid
 	 * @param boolean 	$bEnableFieldsOff
 	 */
@@ -87,7 +87,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base {
    * @TODO Sobald mind. PHP 5.3 auf so gut wie allen System installiert ist,
    * kann man das Feature backupStaticVariables von PHPUnit nutzen und brauch
    * solche Funktionen nicht mehr
-   * 
+   *
    * Natürlich ist das eigentlich ein No-Go so eine Funktion zu schreiben
    * aber damit die Tests weiter laufen, gibt es gerade keine andere vernünftige
    * Möglichkeit. Außer jemand schreibt einen StreamWrapper wie in
@@ -96,11 +96,11 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base {
    * auch für alle testzwecke User mit eigenen Uids nutzen aber
    * das würde zu unwahrscheinlich vielen und schwer pflegbaren
    * testdaten führen.
-   * 
+   *
    * @param int $uid
    */
   static function unsetInstance($uid) {
-	self::$instances[$uid] = null;  	
+	self::$instances[$uid] = null;
   }
   /**
    * Liefert die Instanz des aktuell angemeldeten Users oder false

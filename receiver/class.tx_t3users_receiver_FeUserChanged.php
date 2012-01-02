@@ -30,7 +30,7 @@ tx_rnbase::load('tx_mkmailer_receiver_FeUser');
  * liegt am mail log da die mail dort für die alte aber nicht die
  * geänderte adresse drin steht aber der receiver der mail nun eine
  * neue adresse hat. ergo wird die mail nochmals verschickt.
- * also brauchen wir einen eigen receiver der immer die ursprüngliche 
+ * also brauchen wir einen eigen receiver der immer die ursprüngliche
  * adresse zurück gibt statt die aktuelle des users
  */
 class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser {
@@ -43,7 +43,7 @@ class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser {
 		$aValues = t3lib_div::trimExplode(',',$value,true);
 		tx_rnbase::load('tx_t3users_models_feuser');
 		$this->setFeUser(tx_t3users_models_feuser::getInstance(intval($aValues[0])));
-		//die neue, geänderte Email Adresse im Empfänger setzen damit die 
+		//die neue, geänderte Email Adresse im Empfänger setzen damit die
 		//Mail nicht 2 mal verschickt wird an die neue Adresse
 		$this->email = $aValues[1];
 	}

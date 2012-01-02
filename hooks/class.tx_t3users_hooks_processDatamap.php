@@ -59,7 +59,7 @@ class tx_t3users_hooks_processDatamap {
 	 */
 	function convertBackendDateToYMD($dateString) {
 		$dateArray = explode('-',$dateString);
-		$ymdString = ($GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat'] == '1') ? 
+		$ymdString = ($GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat'] == '1') ?
 									$dateArray[2].'-'.$dateArray[0].'-'.$dateArray[1] : $dateArray[2].'-'.$dateArray[1].'-'.$dateArray[0];
 
 		return $ymdString;

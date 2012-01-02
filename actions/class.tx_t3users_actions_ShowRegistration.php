@@ -32,7 +32,7 @@ tx_rnbase::load('tx_t3users_models_feuser');
 
 /**
  * Controller für die Neuregistrierung
- * 
+ *
  */
 class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	private $feuser;
@@ -146,7 +146,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$confirmPage = intval($this->conf->get('showregistration.links.mailconfirm.pid'));
 		$link->destination($confirmPage ? $confirmPage : $GLOBALS['TSFE']->id);
 		// Zusätzlich Parameter für Finished setzen
-		$link->parameters(array('NK_confirm' => $params['confirmstring'], 
+		$link->parameters(array('NK_confirm' => $params['confirmstring'],
 														'NK_uid' => $uid));
 
 

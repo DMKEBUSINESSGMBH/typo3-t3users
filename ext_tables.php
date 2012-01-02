@@ -7,7 +7,7 @@ if($enableRoles) {
 	$TCA['tx_t3users_roles'] = array (
 		'ctrl' => array (
 			'title'     => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles',
-			'label'     => 'name',	
+			'label'     => 'name',
 			'tstamp'    => 'tstamp',
 			'crdate'    => 'crdate',
 			'cruser_id' => 'cruser_id',

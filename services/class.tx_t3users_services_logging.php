@@ -32,13 +32,13 @@ tx_rnbase::load('tx_t3users_exceptions_User');
 
 /**
  * Service for logging feuser actions
- * 
+ *
  * @author Rene Nitzsche
  */
 class tx_t3users_services_logging extends t3lib_svbase {
 
 	/**
-	 * TYPO3 Login of feuser 
+	 * TYPO3 Login of feuser
 	 * @param int $feuserUid
 	 */
 	public function logLogin($feuserUid) {

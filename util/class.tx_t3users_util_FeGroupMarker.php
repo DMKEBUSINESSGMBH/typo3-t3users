@@ -33,7 +33,7 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'util/class.tx_rnbase_util_BaseM
 class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker {
   
   /**
-   * Initialisiert den Marker Array. 
+   * Initialisiert den Marker Array.
    * Optionen:
    * - hideregistrations
    * - hideuploads

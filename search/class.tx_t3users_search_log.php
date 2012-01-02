@@ -28,7 +28,7 @@ tx_rnbase::load('tx_rnbase_util_SearchBase');
 
 /**
  * Class to search logging records from database
- * 
+ *
  * @author Rene Nitzsche
  */
 class tx_t3users_search_log extends tx_rnbase_util_SearchBase {
