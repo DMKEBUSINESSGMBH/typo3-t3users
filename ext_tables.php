@@ -164,10 +164,13 @@ if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users','extendTCA')
 			),
 		)
 	);
-	
-	$TCA['fe_users']['types']['0']['showitem'] = str_replace(', address', ', birthday, address', $TCA['fe_users']['types']['0']['showitem']);
+
+	t3lib_extMgm::addToAllTCAtypes('fe_users', 'birthday','','before:address');
+//	$TCA['fe_users']['types']['0']['showitem'] = str_replace(', address', ', birthday, address', $TCA['fe_users']['types']['0']['showitem']);
+
 	if(!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-		$TCA['fe_users']['types']['0']['showitem'] = str_replace(', birthday', ',first_name,last_name,gender,title, birthday', $TCA['fe_users']['types']['0']['showitem']);
+		t3lib_extMgm::addToAllTCAtypes('fe_users', 'first_name,last_name,gender,title','','before:birthday');
+//		$TCA['fe_users']['types']['0']['showitem'] = str_replace(', birthday', ',first_name,last_name,gender,title, birthday', $TCA['fe_users']['types']['0']['showitem']);
 
 //		if(strstr($TCA['fe_users']['palettes']['1']['showitem'],'title,'))
 //			$TCA['fe_users']['palettes']['1']['showitem'] = str_replace('title,', 'gender,first_name,last_name,title,', $TCA['fe_users']['palettes']['1']['showitem']);
