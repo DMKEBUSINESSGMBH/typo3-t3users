@@ -52,7 +52,7 @@ class tx_t3users_tests_Util {
   public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 't3users') {
     return t3lib_extMgm::extPath($extKey).$dir.$filename;
   }
-  
+
 /**
    * Ein Basis-Configurations Objekt erstellen
    */
@@ -75,6 +75,26 @@ class tx_t3users_tests_Util {
 
     return $configurations;
   }
+
+	/**
+	 * Setzt eine Vaiable in die Extension Konfiguration.
+	 * Achtung im setUp sollte storeExtConf und im tearDown restoreExtConf aufgerufen werden.
+	 * @param string 	$sCfgKey
+	 * @param string 	$sCfgValue
+	 * @param string 	$sExtKey
+	 */
+	public static function setExtConfVar($sCfgKey, $sCfgValue, $sExtKey='t3users'){
+		// aktuelle Konfiguration auslesen
+		$extConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey]);
+		// wenn keine Konfiguration existiert, legen wir eine an.
+		if(!is_array($extConfig)) {
+			$extConfig = array();
+		}
+		// neuen Wert setzen
+		$extConfig[$sCfgKey] = $sCfgValue;
+		// neue Konfiguration zurückschreiben
+		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey] = serialize($extConfig);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/tests/class.tx_t3users_tests_Util.php']) {
