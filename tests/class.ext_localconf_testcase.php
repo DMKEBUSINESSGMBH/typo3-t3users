@@ -50,6 +50,9 @@ class tx_t3users_tests_ext_localconf_testcase extends tx_phpunit_testcase {
 	protected $sXClassPathConfig;
 
 	public function setUp() {
+		if(!t3lib_extMgm::isLoaded('sr_feuser_register'))
+			$this->marktestSkipped('sr_feuser_register muss installiert sein!');
+
 		global $TYPO3_LOADED_EXT,$TYPO3_CONF_VARS;
 		$this->sExpectedXClassPath = PATH_site.$TYPO3_LOADED_EXT['t3users']['siteRelPath'].'xclasses/class.ux_tx_srfeuserregister_data.php';
 		$this->sXClassPathConfig = $TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'];
