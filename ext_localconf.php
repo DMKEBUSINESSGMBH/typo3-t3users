@@ -1,4 +1,7 @@
 <?php
+t3lib_div::debug(array(
+'?<s'
+),__METHOD__.' Line: '.__LINE__); // @TODO: remove me
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
 $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:' . $_EXTKEY . '/hooks/class.tx_t3users_hooks_processDatamap.php:tx_t3users_hooks_processDatamap';

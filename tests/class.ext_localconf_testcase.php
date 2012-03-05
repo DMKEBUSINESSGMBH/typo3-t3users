@@ -48,7 +48,7 @@ class tx_t3users_tests_ext_localconf_testcase extends tx_phpunit_testcase {
 			unset($TYPO3_LOADED_EXT['sr_feuser_register']);
 
 		$_EXTKEY = 't3users';
-		require_once(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
+		require(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
 
 		$this->assertEmpty($TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'],'XClass wurde doch registriert!');
 	}
@@ -62,7 +62,7 @@ class tx_t3users_tests_ext_localconf_testcase extends tx_phpunit_testcase {
 		tx_t3users_tests_Util::setExtConfVar('useSaltedPasswordsWithSrFeUser', 1);
 
 		$_EXTKEY = 't3users';
-		require_once(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
+		require(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
 
 		$this->assertEmpty($TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'],'XClass wurde doch registriert!');
 	}
@@ -77,7 +77,7 @@ class tx_t3users_tests_ext_localconf_testcase extends tx_phpunit_testcase {
 			$this->markTestSkipped('sr_feuser_register muss in Version 2.6.3 installiert sein damit dieser Test ausgeführt werden kann!');
 
 		$_EXTKEY = 't3users';
-		require_once(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
+		require(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
 
 		$this->assertEmpty($TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'],'XClass wurde doch registriert!');
 	}
@@ -95,7 +95,7 @@ class tx_t3users_tests_ext_localconf_testcase extends tx_phpunit_testcase {
 		tx_t3users_tests_Util::setExtConfVar('useSaltedPasswordsWithSrFeUser', 1);
 
 		$_EXTKEY = 't3users';
-		require_once(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
+		require(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
 
 		$this->assertEmpty($TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'],'XClass wurde doch registriert!');
 	}
@@ -113,9 +113,9 @@ class tx_t3users_tests_ext_localconf_testcase extends tx_phpunit_testcase {
 		tx_t3users_tests_Util::setExtConfVar('useSaltedPasswordsWithSrFeUser', 1);
 
 		$_EXTKEY = 't3users';
-		require_once(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
+		require(t3lib_extMgm::extPath('t3users', 'ext_localconf.php'));
 
-		$this->assertEquals(PATH_site.$TYPO3_LOADED_EXT[$_EXTKEY]['siteRelPath'].'xclasses/class.ux_tx_srfeuserregister_data.php',$TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'],'XClass wurde doch registriert!');
+		$this->assertEquals(PATH_site.$TYPO3_LOADED_EXT[$_EXTKEY]['siteRelPath'].'xclasses/class.ux_tx_srfeuserregister_data.php',$TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'],'XClass wurde nicht registriert!');
 	}
 }
 ?>
