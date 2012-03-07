@@ -49,6 +49,8 @@ class tx_t3users_tests_ext_localconf_testcase extends tx_phpunit_testcase {
 	 */
 	protected $sXClassPathConfig;
 
+	protected $srFeUserBackup;
+
 	public function setUp() {
 		if(!t3lib_extMgm::isLoaded('sr_feuser_register'))
 			$this->marktestSkipped('sr_feuser_register muss installiert sein!');
@@ -56,13 +58,15 @@ class tx_t3users_tests_ext_localconf_testcase extends tx_phpunit_testcase {
 		global $TYPO3_LOADED_EXT,$TYPO3_CONF_VARS;
 		$this->sExpectedXClassPath = PATH_site.$TYPO3_LOADED_EXT['t3users']['siteRelPath'].'xclasses/class.ux_tx_srfeuserregister_data.php';
 		$this->sXClassPathConfig = $TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'];
+		$this->srFeUserBackup = $TYPO3_LOADED_EXT['sr_feuser_register'];
 	}
 
 	public function tearDown() {
 		tx_t3users_tests_Util::setExtConfVar('useSaltedPasswordsWithSrFeUser', 0);
 		//backup zurück
-		global $TYPO3_CONF_VARS;
+		global $TYPO3_CONF_VARS,$TYPO3_LOADED_EXT;
 		$TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'] = $this->sXClassPathConfig;
+		$TYPO3_LOADED_EXT['sr_feuser_register'] = $this->srFeUserBackup;
 	}
 
 	public function testXClassIsNotRegisteredIfSrFeUserIsNotInstalledAndExtensionConfigNotActive() {
@@ -146,7 +150,10 @@ class tx_t3users_tests_ext_localconf_testcase extends tx_phpunit_testcase {
 			$this->markTestSkipped('sr_feuser_register muss in Version 2.6.3 installiert sein damit dieser Test ausgeführt werden kann!');
 
 		//es darf keine andere xlcass geladen sein sonst unsere nicht genutzt wird!!!
-		//eine art sicherheitscheck
+		//eine art sicherheitscheck.
+		//wenn unsere eigene schon geladen ist dann diese entfernen
+		if($TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'] == $this->sExpectedXClassPath)
+			$TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'] = null;
 		$this->assertEmpty($TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'],'Es ist bereits eine XClass registriert für "$TYPO3_CONF_VARS[\'FE\'][\'XCLASS\'][\'ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php\']" registriert. ('.$TYPO3_CONF_VARS['FE']['XCLASS']['ext/sr_feuser_register/model/class.tx_srfeuserregister_data.php'].') D.h. unsere wird nicht geladen!!! Es könnte z.B. srfeuserregister_t3secsaltedpw geladen sein welche sr_feuser_register >= 2.6.3 nicht geht!');
 
 		tx_t3users_tests_Util::setExtConfVar('useSaltedPasswordsWithSrFeUser', 1);
