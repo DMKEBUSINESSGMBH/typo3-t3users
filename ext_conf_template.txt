@@ -12,6 +12,3 @@ trackLogin = 0
 
   # cat=basic//10; type=boolean; label= Allow non-Admins to search by Uid and Pid in BE-Module
 fullModuleForNonAdmins = 0
-
-  # cat=basic//10; type=boolean; label= Use salted passwords in sr_feuser_register >= 2.6.3: srfeuserregister_t3secsaltedpw should not be installed. Furthermore saltedpasswords needs to be installed and sr_feuser_register needs to be installed at least in version 2.6.3. Before 2.6.3 use srfeuserregister_t3secsaltedpw! Please flush the cache after selection and update! 
-useSaltedPasswordsWithSrFeUser = 0
