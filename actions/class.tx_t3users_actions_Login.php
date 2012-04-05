@@ -188,7 +188,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		if($action == 'login') {
 			// This was a failed login attempt
 			// Maybe the user tried login with password
-//			$username = t3lib_div::GPvar('user');
+//			$username = t3lib_div::_GP('user');
 			// Annahme: Username fuer Passwort herausfinden und redirect mit Superchallenge
 			// Voraussetzung: 2. challengewert mit email
 //t3lib_div::debug($username, 'tx_t3users_actions_Login'); // TODO: Remove me!
