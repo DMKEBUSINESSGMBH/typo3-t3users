@@ -251,6 +251,12 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			$redirect_url = $link->makeUrl(false);
 			header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
 		}
+		// Direkt weiterleiten, wenn redirect_url angegeben
+		// wird bei externen Links, z.B. Newsletter genutzt, die auf geschützte Bereiche verweisen
+		// ist der User bereits eingeloggt, dann tritt dieser Fall in Kraft.
+		elseif(strlen($redirectUrl = t3lib_div::_GP('redirect_url')) && t3lib_div::isOnCurrentHost($redirectUrl)){
+			header('Location: '.t3lib_div::locationHeaderUrl($redirectUrl));
+		}
 		$markerArr['action_uri'] = $this->createPageUri($configurations);
 		
 		$viewData->offsetSet('markers', $markerArr);
