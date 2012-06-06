@@ -78,7 +78,8 @@ To confirm your membership please click on this link: ###MAILCONFIRM_LINKURL###
 			
 			<label index="msg_change_success">Data changed successfully. You may now log in with the new data.</label>
 			<label index="msg_change_error">There was an error. Data couldn't be changed.</label>
-
+			
+			<label index="ERROR_default">There was an unexpected error!</label>	
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="error">Fehler</label>
@@ -158,7 +159,7 @@ Um deine Mitgliedschaft zu bestätigen, klicke bitte auf den folgenden Link:
 			
 			<label index="msg_change_success">Daten erfolgreich geändert. Sie können sich nun mit den neuen Daten einloggen.</label>
 			<label index="msg_change_error">Es ist ein Fehler aufgetreten. Daten konnten nicht geändert werden.</label>
-
+			<label index="ERROR_default">Es gab einen unerwarteten Fehler!</label>
 		</languageKey>
 	</data>
 </T3locallang>
