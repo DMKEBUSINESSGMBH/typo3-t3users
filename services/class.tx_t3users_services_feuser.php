@@ -101,11 +101,11 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	}
 
 	/**
-	 * Get the number of users currently online
+	 * Get the number of users or user-objects currently online
 	 * @param array $config
-	 * 		pids liefert Nutzer in einer PID
-	 * 		count
-	 * @return int
+	 * 		pids provides the users in a PID
+	 * 		count (true = number of users) (false = array with user-objects)
+	 * @return int / array
 	 */
 	public function getOnlineUsers($options = null) {
 		$timeout = self::getSessionLifeTime();
@@ -116,6 +116,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 					'count' => true
 			);
 		}
+		$options['distinct'] = 1;
 		$fields = array();
 		$fields['FESESSION.ses_userid'][OP_GT_INT] = 0;
 		if(!empty($options['pids'])) {

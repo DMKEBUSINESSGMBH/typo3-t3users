@@ -140,8 +140,14 @@ class tx_t3users_tests_services_feuserDB_testcase extends tx_phpunit_database_te
 				'is_online' => ($GLOBALS['EXEC_TIME']-100),
 		));
 		tx_rnbase_util_DB::doInsert('fe_sessions', array(
+				'ses_id' => 'ioe45jzh09w36',
 				'ses_userid' => 100,
 				'ses_tstamp' => ($GLOBALS['EXEC_TIME']-100),
+		));
+		tx_rnbase_util_DB::doInsert('fe_sessions', array(
+				'ses_id' => 'aerj5tqa34z54',
+				'ses_userid' => 100,
+				'ses_tstamp' => ($GLOBALS['EXEC_TIME']-50),
 		));
 	}
 
