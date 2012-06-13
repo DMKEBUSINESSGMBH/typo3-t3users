@@ -66,7 +66,7 @@ class tx_t3users_tests_services_feuserDB_testcase extends tx_phpunit_database_te
 	public function setUp(){
 		// devlog deaktivieren
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['devlog']['nolog'] = true;
-		
+
 		$this->createDatabase();
 		// assuming that test-database can be created otherwise PHPUnit will skip the test
 		$this->useTestDatabase();
@@ -76,7 +76,7 @@ class tx_t3users_tests_services_feuserDB_testcase extends tx_phpunit_database_te
 		$this->importDataSet($fixturePath);
 
 		$this->feUserSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
-		
+
 	}
 
 	/**
@@ -115,7 +115,42 @@ class tx_t3users_tests_services_feuserDB_testcase extends tx_phpunit_database_te
 		}
 		$this->fail('Es wurde nicht die erwartete tx_t3users_exceptions_User Exception geworfen!');
 	}
-	
+
+	public function testGetOnlineUsersCount(){
+		$this->addOnlineUserToDB();
+		$onlineUsers = $this->feUserSrv->getOnlineUsers();
+		$this->assertEquals(1, $onlineUsers);
+	}
+
+	public function testGetOnlineUserModels(){
+		$this->addOnlineUserToDB();
+		$onlineUsers = $this->feUserSrv->getOnlineUsers(array());
+		$this->assertTrue(is_array($onlineUsers));
+		$this->assertEquals(1, count($onlineUsers));
+		/* @var $firstUser tx_t3users_models_feuser */
+		$firstUser = array_shift($onlineUsers);
+		$this->assertInstanceOf('tx_t3users_models_feuser', $firstUser);
+		$this->assertEquals(1, $firstUser->isSessionActive());
+	}
+
+	protected function addOnlineUserToDB(){
+		tx_rnbase_util_DB::doInsert('fe_users', array(
+				'uid' => 100,
+				'username' => 'test',
+				'is_online' => ($GLOBALS['EXEC_TIME']-100),
+		));
+		tx_rnbase_util_DB::doInsert('fe_sessions', array(
+				'ses_id' => 'ioe45jzh09w36',
+				'ses_userid' => 100,
+				'ses_tstamp' => ($GLOBALS['EXEC_TIME']-100),
+		));
+		tx_rnbase_util_DB::doInsert('fe_sessions', array(
+				'ses_id' => 'aerj5tqa34z54',
+				'ses_userid' => 100,
+				'ses_tstamp' => ($GLOBALS['EXEC_TIME']-50),
+		));
+	}
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/tests/services/class.tx_t3users_tests_services_feuserDB_testcase.php']) {
