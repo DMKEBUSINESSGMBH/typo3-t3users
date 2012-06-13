@@ -53,7 +53,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 //		$options['debug'] = 1;
 		tx_t3users_search_builder::buildFeuserByEmail($fields, $email, $pids);
 		$feusers = $this->search($fields, $options);
-		
+
 		return count($feusers) ? $feusers[0] : false;
 	}
 
@@ -70,7 +70,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 
 		$fields = array();
 		$options = array();
-		
+
 		$options['limit'] = 1;
 		// Würde es nicht auch enablefieldsbe tun?
 		$options['enablefieldsoff'] = 1;
@@ -79,9 +79,9 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		$fields['FEUSER.DISABLE'][OP_EQ_INT] = 1;
 		$fields['FEUSER.DELETED'][OP_EQ_INT] = 0;
 		tx_t3users_search_builder::buildFeuserByEmail($fields, $email, $pids);
-		
+
 		$feusers = $this->search($fields, $options);
-		
+
 		return count($feusers) ? $feusers[0] : false;
 	}
 
@@ -102,22 +102,27 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 
 	/**
 	 * Get the number of users currently online
-	 * @param string $pids
+	 * @param array $config
+	 * 		pids liefert Nutzer in einer PID
+	 * 		count
 	 * @return int
 	 */
-	public function getOnlineUsers($pids = ''){
+	public function getOnlineUsers($options = null) {
 		$timeout = self::getSessionLifeTime();
-		$from = array('fe_sessions LEFT JOIN fe_users ON (ses_userid=uid)', 'fe_sessions');
-		$options['where'] = '(ses_tstamp+'.$timeout.' > unix_timestamp() OR is_online+'.$timeout.' > unix_timestamp())';
-		if($pids) {
-			$pids = implode(',', t3lib_div::intExplode(',', $pids));
-			$options['where'] .= ' AND fe_users.pid IN (' . $pids . ')';
+		if(!is_array($options)) {
+			$options = array(
+					'pids' => $options,
+					// ursprünglich lieferte die Methode nur die Anzahl der Nutzer
+					'count' => true
+			);
 		}
-		$options['enablefieldsoff'] = 1;
-		// DISTINCT -> one FE user can have multiple sessions if he logs in several times
-		// in a shorter period of time as the defined timeout session
-		$res = tx_rnbase_util_DB::doSelect('count(distinct ses_userid, ses_hashlock) as cnt',$from, $options, 0);
-		return $res[0]['cnt'];
+		$fields = array();
+		$fields['FESESSION.ses_userid'][OP_GT_INT] = 0;
+		if(!empty($options['pids'])) {
+			$fields['FEUSER.pid'][OP_IN_INT] = $options['pids'];
+		}
+		$fields[SEARCH_FIELD_CUSTOM] = '(ses_tstamp+'.$timeout.' > unix_timestamp() OR is_online+'.$timeout.' > unix_timestamp())';
+		return $this->search($fields, $options);
 	}
 
 	/**
@@ -129,12 +134,12 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	public function isUserOnline($feUserId){
 		$timeout = self::getSessionLifeTime();
 		$from = array('fe_sessions JOIN fe_users ON (ses_userid=uid)', 'fe_sessions');
-		
+
 		$options = array('where' => 'fe_users.uid = ' . intval($feUserId));
-		
+
 		if ($timeout)
 			$options['where'] .= ' AND (ses_tstamp+'.$timeout.' > unix_timestamp() OR is_online+'.$timeout.' > unix_timestamp())';
-		
+
 		$options['enablefieldsoff'] = 1;
 		$res = tx_rnbase_util_DB::doSelect('count(distinct ses_userid, ses_hashlock) as cnt',$from, $options, 0);
 		return $res[0]['cnt'];
@@ -302,7 +307,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	public function addFeGroups(&$feuser, $feGroupIds) {
 		$feGroupIds = strlen($feGroupIds) ? t3lib_div::intExplode(',', $feGroupIds) : array();
 		if(!count($feGroupIds)) return; // Nothing to do
-		
+
 		$oldFeGroups = $feuser->record['usergroup'];
 		$oldFeGroups = strlen($oldFeGroups) ? t3lib_div::intExplode(',', $oldFeGroups) : array();
 		$oldFeGroupsKeys = array_flip($oldFeGroups);
@@ -370,9 +375,9 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		$uid = intval($uid);
 		if(!$uid) throw new tx_t3users_exceptions_User('No user id given!');
 		if(empty($confirmString)) throw new tx_t3users_exceptions_User('No confirmstring given!');
-		
+
     	$where = 'uid =	' . $uid . ' AND confirmstring = \'' . $confirmString . '\'';
-    	
+
 		return tx_rnbase_util_DB::doUpdate('fe_users', $where, $data, 0);
 	}
 
@@ -489,7 +494,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		}
 		return $email;
 	}
-	
+
 	/**
 	 * Return either the given fe user or the currently logged in one
 	 *
