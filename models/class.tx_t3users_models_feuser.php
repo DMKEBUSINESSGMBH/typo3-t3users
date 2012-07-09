@@ -63,7 +63,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base {
 			$this->record = is_array($this->record) ? $this->record : array();
 		}
 	}
-  
+
   /**
    * Liefert die Instance mit der übergebenen UID. Die Daten werden gecached, so daß
    * bei zwei Anfragen für die selbe UID nur ein DB Zugriff erfolgt.
@@ -79,7 +79,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base {
     }
     return self::$instances[$uid];
   }
-  
+
   /**
    * Löscht die Instanz mit der Uid
    * Eigentlich nur für Tests gut aber auch wenn der User geändert wurde
@@ -142,7 +142,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base {
   function getEmail() {
   	return $this->record['email'];
   }
-  
+
   /**
    * Whether or not user has an active session
    *
@@ -150,7 +150,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base {
   public function isSessionActive() {
 	return tx_t3users_util_ServiceRegistry::getFeUserService()->isUserOnline($this->getUid());
   }
-  
+
   /**
    * Prüft ob der User der gegebenen Gruppe angehört
    * @param int $groupUid
@@ -158,10 +158,10 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base {
   public function isInGroup($groupUid) {
   	foreach($this->getGroups() as $value)
   		$groups[$value->getUid()] = $value->getUid();//alle Gruppen IDs sammeln
-  	
+
   	return isset($groups[$groupUid]);
   }
-  
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_feuser.php']) {
