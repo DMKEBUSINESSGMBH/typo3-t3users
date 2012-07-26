@@ -110,7 +110,8 @@ if($enableRoles) {
 t3lib_extMgm::addTCAcolumns('fe_users', Array(
 		// don't display in BE, but define it in TCA so that this column is included in fe_user-Model!
 		'confirmstring' => Array (),
-	)
+		'confirmtimeout' => Array (),
+)
 );
 
 

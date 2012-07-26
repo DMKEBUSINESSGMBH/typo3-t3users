@@ -19,10 +19,11 @@ CREATE TABLE fe_users (
 	gender tinyint(4) DEFAULT '0' NOT NULL,
 	first_name varchar(60) DEFAULT '' NOT NULL,
 	last_name varchar(60) DEFAULT '' NOT NULL,
-	birthday date DEFAULT '0000-00-00'
+	birthday date DEFAULT '0000-00-00',
 	confirmstring varchar(60) DEFAULT '' NOT NULL,
+	confirmtimeout datetime DEFAULT '0000-00-00 00:00:00',
 	t3usersroles int(11) DEFAULT '0' NOT NULL,
-	beforelastlogin int(11) unsigned DEFAULT '0' NOT NULL,
+	beforelastlogin int(11) unsigned DEFAULT '0' NOT NULL
 );
 
 #
