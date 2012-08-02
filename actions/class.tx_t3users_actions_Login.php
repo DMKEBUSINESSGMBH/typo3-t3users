@@ -347,7 +347,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			return t3lib_div::getIndpEnv('TYPO3_REQUEST_URL');
 		}
 		$link = $configurations->createLink();
-		$link->initByTS($configurations, $this->getConfId().'actionUrl', $params);
+		$link->initByTS($configurations, $this->getConfId().'actionUrl.', $params);
 		//soll das Formular auf eine bestimmte Seite abgeschickt werden?
 		// die TargetPid wird weiter unterstützt
 		$targetPid = $configurations->get($this->getConfId().'targetPid');
