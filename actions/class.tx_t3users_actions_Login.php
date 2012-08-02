@@ -50,14 +50,13 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 */
 	function handleRequest(&$parameters,&$configurations, &$viewData){
 		// Find action: login, logout, forgotPassword
-			// Zuerst prüfen, ob eine Action fest per TS gesetzt wurde.
-		$action = $configurations->get($this->getConfId().'forceAction');
-		if(!$action) {
-			$action = t3lib_div::_GP('logintype');
-			$finished = intval($parameters->offsetGet('NK_loginfinished'));
-			if($finished) $action = 'login';
-		}
-		if(!$action) {
+		$action = t3lib_div::_GP('logintype');
+		$finished = intval($parameters->offsetGet('NK_loginfinished'));
+		if($finished) $action = 'login';
+		
+		$loginActionOnly = $configurations->get($this->getConfId().'loginActionOnly');
+		$loginActionOnly = $loginActionOnly && (strtolower($loginActionOnly) == 'true' || intval($loginActionOnly) > 0);
+		if(!$action && !$loginActionOnly) {
 			// no action found. Check forgot password
 			if(intval($parameters->offsetGet('NK_forgotpass')))
 				$action = 'forgotpass';
