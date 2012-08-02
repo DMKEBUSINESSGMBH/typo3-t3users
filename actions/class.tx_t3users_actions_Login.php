@@ -282,7 +282,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			}
 			// Redirect to same page to avoid forced logout
 			// Alternativ we redirect to a configured page
-			$redirect = intval($configurations->get('loginbox.loginRedirectPage'));
+			$redirect = $configurations->get('loginbox.loginRedirectPage');
 			$redirectMode = $configurations->get($this->getConfId().'redirectMode');
 			if($configurations->get($this->getConfId().'redirectMode') == 'forceRequestUrl')
 				$redirect = htmlspecialchars(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'));
