@@ -57,7 +57,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$mailMarker['###PASSWORD###'] = $newPassword;
 		$formatter = $configurations->getFormatter();
 		$mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $mailMarker);
-		
+
 		// Jetzt noch den FeuserMarker
 		$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
 		$mailtext = $marker->parseTemplate($mailtext, $feuser, $formatter, $confId.'feuser.');
@@ -67,8 +67,8 @@ class tx_t3users_services_email extends t3lib_svbase {
 
 		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
 	}
-	
-	
+
+
 	/**
 	 * Sends newPassword to the feUser
 	 *
@@ -112,7 +112,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$job->setContentHtml($messageHtml);
 		$mailSrv->spoolMailJob($job);
 	}
-	
+
 	/**
 	 * Send edited feUser data to his email for confirmation
 	 *
@@ -124,7 +124,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 		tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
 		$mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
 		$templateObj = $mailSrv->getTemplate('t3users_confirmdatachange');
-		
+
 		//Link zur Bestätigungsseite erstellen
 		$token = md5(microtime());
 		$link = $configurations->createLink();
@@ -146,8 +146,8 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$wrappedSubpartArray['###'.$linkMarker . '###'] = explode($token, $link->makeTag());
 
 		$markerArray = $data;
-		$markerArray['###'.$linkMarker . 'URL###'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
-			
+		$markerArray['###'.$linkMarker . 'URL###'] = $link->makeUrl(false);
+
 		tx_rnbase::load('tx_rnbase_util_Templates');
 		$messageTxt = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateObj->getContentText(), $markerArray, $subpartArray, $wrappedSubpartArray);
 		$messageHtml = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateObj->getContentHtml(), $markerArray, $subpartArray, $wrappedSubpartArray);
@@ -202,12 +202,12 @@ class tx_t3users_services_email extends t3lib_svbase {
 	private function sendConfirmLinkSimple($feuser, $confirmLink, $configurations, $confId) {
 		// Mail vorbereiten
 		$template = $configurations->getLL('loginbox_requestconfirmlink_infomail');
-				
+
 		$mailMarker['###CONFIRMLINKURL###'] = $confirmLink->makeUrl();
 		$mailWrappedSubpart['###CONFIRMLINK###'] = explode($confirmLink->getLabel(), $confirmLink->makeTag());
 		$formatter = $configurations->getFormatter();
 		$mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $mailMarker, array(), $mailWrappedSubpart);
-		
+
 		// Jetzt noch den FeuserMarker
 		$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
 		$mailtext = $marker->parseTemplate($mailtext, $feuser, $formatter, $confId.'feuser.');
@@ -217,8 +217,8 @@ class tx_t3users_services_email extends t3lib_svbase {
 
 		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
 	}
-	
-	
+
+
 	/**
 	 * Sends newPassword to the feUser
 	 *
@@ -240,7 +240,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$markerArray = array(); $wrappedSubpartArray = array();
 		$markerArray['###CONFIRMLINKURL###'] = $confirmLink->makeUrl();
 		$wrappedSubpartArray['###CONFIRMLINK###'] = explode($confirmLink->getLabel(), $confirmLink->makeTag());
-		
+
 		tx_rnbase::load('tx_rnbase_util_Templates');
 		$messageTxt = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateObj->getContentText(), $markerArray, $subpartArray, $wrappedSubpartArray);
 		$messageHtml = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateObj->getContentHtml(), $markerArray, $subpartArray, $wrappedSubpartArray);
