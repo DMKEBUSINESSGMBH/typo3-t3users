@@ -95,6 +95,10 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 	 * @return tx_a4base_util_Formidable
 	 */
 	private function getEditors($parameters, $configurations, $item) {
+		if(!t3lib_extMgm::isLoaded('mkforms')) {
+			$this->markTestSkipped('mkforms ist nicht installiert.');
+		}
+			
 		tx_rnbase::load('tx_mkforms_forms_Factory');
 		$this->form = tx_mkforms_forms_Factory::createForm('');
 		$formXml = $configurations->get($this->getConfId().'formxml');

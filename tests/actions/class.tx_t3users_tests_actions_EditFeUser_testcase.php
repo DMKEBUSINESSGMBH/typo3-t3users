@@ -31,7 +31,6 @@
  */
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_t3users_actions_EditFeUser');
-tx_rnbase::load('tx_mkforms_forms_Factory');
 tx_rnbase::load('tx_t3users_tests_Util');
 
 
@@ -48,8 +47,6 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
   protected $config;
   protected $parameters;
   protected $viewData;
-  protected $form;
-  protected $formXml;
   protected $workspaceIdAtStart;
 
   /**
