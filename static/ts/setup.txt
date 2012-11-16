@@ -90,5 +90,6 @@ plugin.tx_t3users_main {
   #  handleForgotPassMethodName = handleForgotPass
   #}
   
+  renewSession.intervallInSeconds = 300
 }
 

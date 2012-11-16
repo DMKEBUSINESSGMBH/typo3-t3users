@@ -47,7 +47,10 @@
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ShowFeUser</numIndex>
                     <numIndex index="1">tx_t3users_actions_ShowFeUser</numIndex>
                   </numIndex>
-
+				  <numIndex index="220" type="array">
+                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.RenewSession</numIndex>
+                    <numIndex index="1">tx_t3users_actions_RenewSession</numIndex>
+                  </numIndex>
 
                 </items>
                 <multiple>0</multiple>
@@ -517,6 +520,27 @@
         </el>
       </ROOT>
     </s_userinfo>
+    <s_renewSession>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.renewSession</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <intervallInSeconds>
+            <TCEforms>
+              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.renewSession.intervallInSeconds</label>
+              <config>
+                <type>input</type>
+                <size>5</size>
+                <eval>int</eval>
+                <default>300</default>
+              </config>
+            </TCEforms>
+          </intervallInSeconds>
+        </el>
+      </ROOT>
+    </s_renewSession>
 		<s_tssetup>
 			<ROOT>
 				<TCEforms>

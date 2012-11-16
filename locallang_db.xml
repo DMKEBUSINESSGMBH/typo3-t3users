@@ -12,6 +12,7 @@
 			<label index="plugin.t3users.flexform.tab.loginbox">Login-Box</label>
 			<label index="plugin.t3users.flexform.tab.userinfo">Userinformation</label>
 			<label index="plugin.t3users.flexform.tab.feuseredit">Edit User</label>
+			<label index="plugin.t3users.flexform.tab.renewSession">Renew Session</label>
 			<label index="plugin.t3users.flexform.action">View</label>
 			<label index="plugin.t3users.flexform.action.LoginBox">LoginBox for FE Users</label>
 			<label index="plugin.t3users.flexform.action.Registration">Show registration form</label>
@@ -19,6 +20,7 @@
 			<label index="plugin.t3users.flexform.action.ListFeUsers">List of FE Users</label>
 			<label index="plugin.t3users.flexform.action.ShowFeUser">Show single FE User</label>
 			<label index="plugin.t3users.flexform.action.EditFeUser">Edit own profile</label>
+			<label index="plugin.t3users.flexform.action.RenewSession">Renew Session (prevent automatic logout)</label>
 			<label index="plugin.t3users.flexform.loginbox.header_logout">Logout Header</label>
 			<label index="plugin.t3users.flexform.loginbox.message_logout">Logout Message</label>
 			<label index="plugin.t3users.flexform.loginbox.header_welcome">Welcome Header</label>
@@ -53,6 +55,8 @@
 			<label index="plugin.t3users.flexform.feuseredit.mode.check">check Double-Opt-In link</label>
 			<label index="plugin.t3users.flexform.feuseredit.doubleoptin.pid">Page where Double-Opt-In is checked</label>
 			<label index="plugin.t3users.flexform.feuseredit.redirect.pid">Redirect after sending data</label>
+			
+			<label index="plugin.t3users.flexform.renewSession.intervallInSeconds">Interval for renewal (in seconds)</label>
 
 			<label index="fe_users.first_name">First name</label>
 			<label index="fe_users.last_name">Last name</label>
@@ -85,6 +89,7 @@
 			<label index="plugin.t3users.flexform.tab.common">Allgemeines</label>
 			<label index="plugin.t3users.flexform.tab.userinfo">Nutzerinformationen</label>
 			<label index="plugin.t3users.flexform.tab.feuseredit">Nutzer editieren</label>
+			<label index="plugin.t3users.flexform.tab.renewSession">Session erneuern</label>
 
 			<label index="plugin.t3users.flexform.action.LoginBox">LoginBox für FE-Nutzer</label>
 			<label index="plugin.t3users.flexform.action.Registration">Zeige Registrierungsformular</label>
@@ -92,6 +97,7 @@
 			<label index="plugin.t3users.flexform.action.ListFeUsers">Liste von FE-Nutzern</label>
 			<label index="plugin.t3users.flexform.action.ShowFeUser">Zeige einzelnen FE-Nutzer</label>
 			<label index="plugin.t3users.flexform.action.EditFeUser">Eigenen Account bearbeiten</label>
+			<label index="plugin.t3users.flexform.action.RenewSession">Session erneuern (automatisches Logout verhindern)</label>
 			<label index="plugin.t3users.flexform.loginbox.header_welcome">Willkommen Überschrift</label>
 			<label index="plugin.t3users.flexform.loginbox.message_welcome">Willkommen Nachricht</label>
 			<label index="plugin.t3users.flexform.loginbox.emailFrom">Passwortmail From Adresse</label>
@@ -116,6 +122,8 @@
 			<label index="plugin.t3users.flexform.feuseredit.mode.check">Double-Opt-In Link prüfen</label>
 			<label index="plugin.t3users.flexform.feuseredit.doubleoptin.pid">Seite auf der Double-Opt-In geprüft wird</label>
 			<label index="plugin.t3users.flexform.feuseredit.redirect.pid">Weiterleitungsseite nach dem Absenden</label>
+			
+			<label index="plugin.t3users.flexform.renewSession.intervallInSeconds">Intervall für Erneuerung (in Sekunden)</label>
 
 			<label index="fe_users.first_name">Vorname</label>
 			<label index="fe_users.last_name">Nachname</label>
