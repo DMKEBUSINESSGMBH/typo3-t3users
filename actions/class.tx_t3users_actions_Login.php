@@ -275,6 +275,19 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 */
 	function handleLoginConfirmed($action, &$parameters,&$configurations, &$viewData, &$feuser){
 		$finished = intval($parameters->offsetGet('NK_loginfinished'));
+		
+		tx_rnbase_util_Misc::callHook(
+			't3users','beforeLoginConfirmed',
+			array(
+				'action' 			=> $action, 
+				'parameters' 		=> $parameters, 
+				'configurations'	=> $configurations,
+				'viewData' 			=> $viewData,
+				'feuser' 			=> $feuser
+			), 
+			$this
+		);
+		
 		if(!$finished) {
 			if(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'trackLogin')) {
 				tx_t3users_util_ServiceRegistry::getLoggingService()->logLogin($feuser->uid);
