@@ -429,11 +429,14 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 *
 	 * @param string $key key of session value
 	 * @param string $extKey optional
-	 * @return mixed
+	 * @return mixed or null
 	 */
 	function getSessionValue($key, $extKey='t3users_common') {
-		$vars = $GLOBALS['TSFE']->fe_user->getKey('ses',$extKey);
-		return $vars[$key];
+		if(is_object($GLOBALS['TSFE']->fe_user)) {
+			$vars = $GLOBALS['TSFE']->fe_user->getKey('ses',$extKey);
+			return $vars[$key];
+		}
+		return null;
 	}
 	/**
 	 * Removes a session value
