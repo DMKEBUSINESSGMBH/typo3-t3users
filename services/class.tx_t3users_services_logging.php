@@ -62,6 +62,11 @@ class tx_t3users_services_logging extends t3lib_svbase {
 	public function writeLog(tx_t3users_models_ILog $log) {
 		$row['tstamp'] = $log->getTimeStamp() ? $log->getTimeStamp() : date('Y-m-d H:i:s', time());
 		$row['feuser'] = $log->getFEUserUid();
+		if(intval($row['feuser']) == 0) {
+			// Prüfen, ob aktuell ein User vorhanden ist
+			$feuser = tx_t3users_models_feuser::getCurrent();
+			$row['feuser'] = is_object($feuser) ? $feuser->getUid() : 0;
+		}
 		if(is_object($GLOBALS['BE_USER'])) {
 			$row['beuser'] = $GLOBALS['BE_USER']->user['uid'];
 		}
