@@ -445,8 +445,10 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @param string $extKey optional
 	 */
 	function removeSessionValue($key, $extKey='t3users_common') {
-		$vars = $GLOBALS['TSFE']->fe_user->getKey('ses',$extKey);
-		unset($vars[$key]);
+		if(is_object($GLOBALS['TSFE']->fe_user)) {
+			$vars = $GLOBALS['TSFE']->fe_user->getKey('ses',$extKey);
+			unset($vars[$key]);
+		}
 		$GLOBALS['TSFE']->fe_user->setKey('ses',$extKey, $vars);
 	}
 
