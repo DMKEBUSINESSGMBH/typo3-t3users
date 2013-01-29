@@ -448,8 +448,8 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		if(is_object($GLOBALS['TSFE']->fe_user)) {
 			$vars = $GLOBALS['TSFE']->fe_user->getKey('ses',$extKey);
 			unset($vars[$key]);
+			$GLOBALS['TSFE']->fe_user->setKey('ses',$extKey, $vars);
 		}
-		$GLOBALS['TSFE']->fe_user->setKey('ses',$extKey, $vars);
 	}
 
 	/**
