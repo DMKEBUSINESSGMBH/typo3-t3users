@@ -26,6 +26,10 @@
 			<label index="label_foundusers">found users</label>
 			<label index="btn_search">Search</label>
 
+			<label index="label_tableheader_uid">Uid</label>
+			<label index="label_tableheader_firstname">Firstname</label>
+			<label index="label_tableheader_lastname">Lastname</label>
+			<label index="label_tableheader_actions">Actions</label>
 
 		</languageKey>
 		<languageKey index="de" type="array">
@@ -34,6 +38,10 @@
 			<label index="msg_search_feuser">Suche nach FE Usern</label>
 			<label index="label_info">Hinweis</label>
 			<label index="label_searchterm">Suche</label>
+
+			<label index="label_tableheader_actions">Aktionen</label>
+			<label index="label_tableheader_firstname">Vorname</label>
+			<label index="label_tableheader_lastname">Nachname</label>
 
 		</languageKey>
 	</data>

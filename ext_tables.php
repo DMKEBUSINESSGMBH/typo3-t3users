@@ -3,6 +3,22 @@ if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
 $enableRoles = false;
 
+// Backend Modul einbinden
+if (TYPO3_MODE == 'BE') {
+	t3lib_extMgm::addModule('web', 'txt3usersM1', '', t3lib_extMgm::extPath($_EXTKEY) . 'mod/');
+
+	/**
+	 * Callcenter Panel
+	 */
+	t3lib_extMgm::insertModuleFunction('web_txt3usersM1','tx_t3users_mod_FeUser',
+		t3lib_extMgm::extPath($_EXTKEY).'mod/class.tx_t3users_mod_FeUser.php',
+		'LLL:EXT:t3users/mod/locallang.xml:tx_t3users_module_name'
+	);
+
+	// Einbindung einer PageTSConfig
+	t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$_EXTKEY.'/mod/pageTSconfig.txt">');
+}
+
 if($enableRoles) {
 	$TCA['tx_t3users_roles'] = array (
 		'ctrl' => array (
@@ -24,7 +40,7 @@ if($enableRoles) {
 			'fe_admin_fieldList' => 'name',
 		)
 	);
-	
+
 	$TCA['tx_t3users_rights'] = array(
 		'ctrl' => array(
 			'title'     => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_rights',
