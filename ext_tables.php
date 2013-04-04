@@ -4,7 +4,9 @@ if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 $enableRoles = false;
 
 // Backend Modul einbinden
-if (TYPO3_MODE == 'BE') {
+if (
+	TYPO3_MODE == 'BE' && tx_rnbase_configurations::getExtensionCfgValue('t3users', 'activateBeModule')
+) {
 	t3lib_extMgm::addModule('web', 'txt3usersM1', '', t3lib_extMgm::extPath($_EXTKEY) . 'mod/');
 
 	/**

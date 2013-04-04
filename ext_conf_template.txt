@@ -12,3 +12,6 @@ trackLogin = 0
 
   # cat=basic//10; type=boolean; label= Allow non-Admins to search by Uid and Pid in BE-Module
 fullModuleForNonAdmins = 0
+
+ # cat=basic//10; type=boolean; label= Activate the BE Module
+activateBeModule = 0
