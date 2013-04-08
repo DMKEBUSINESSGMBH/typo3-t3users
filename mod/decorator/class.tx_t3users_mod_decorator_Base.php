@@ -99,6 +99,39 @@ class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
 
 
 	/**
+	 * @TODO: weitere links integrieren!
+	 * $options = array('hide'=>'ausblenden,'edit'=>'bearbeiten,'remove'=>'löschen','history'='history','info'=>'info','move'=>'verschieben');
+	 *
+	 * @param 	tx_rnbase_model_base 	$item
+	 * @param 	array 					$options
+	 * @return 	string
+	 */
+	protected function getActions(tx_rnbase_model_base $item, array $options) {
+		$ret = '';
+		foreach($options as $sLinkId => $bTitle){
+			switch($sLinkId) {
+				case 'edit':
+					$ret .= $this->getFormTool()->createEditLink($item->getTableName(), $item->getUid(), $bTitle);
+					break;
+				case 'hide':
+					$sHiddenColumn = tx_mklib_util_TCA::getEnableColumn($item->getTableName(), 'disabled', 'hidden');
+					$ret .= $this->getFormTool()->createHideLink($item->getTableName(), $item->getUid(), $item->record[$sHiddenColumn]);
+					break;
+				case 'remove':
+					//Es wird immer ein Bestätigungsdialog ausgegeben!!! Dieser steht
+					//in der BE-Modul locallang.xml der jeweiligen Extension im Schlüssel
+					//'confirmation_deletion'. (z.B. mkkvbb/mod1/locallang.xml) Soll kein
+					//Bestätigungsdialog ausgegeben werden, dann einfach 'confirmation_deletion' leer lassen
+					$ret .= $this->getFormTool()->createDeleteLink($item->getTableName(), $item->getUid(), $bTitle,array('confirm' => $GLOBALS['LANG']->getLL('confirmation_deletion')));
+					break;
+				default:
+					break;
+			}
+		}
+		return $ret;
+	}
+
+	/**
 	 * Returns the module
 	 * @return tx_rnbase_mod_IModule
 	 */
