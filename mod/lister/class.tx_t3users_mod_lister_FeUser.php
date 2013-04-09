@@ -135,6 +135,20 @@ class tx_t3users_mod_lister_FeUser extends tx_rnbase_mod_base_Lister {
 		return tx_rnbase::makeInstance('tx_t3users_mod_decorator_FeUser', $this->getModule());
 	}
 
+	/**
+	 * Kann von der Kindklasse überschrieben werden, um weitere Filter zu setzen.
+	 *
+	 * @param 	array 	$fields
+	 * @param 	array 	$options
+	 */
+	protected function prepareFieldsAndOptions(array &$fields, array &$options) {
+		parent::prepareFieldsAndOptions($fields, $options);
+
+		if($this->options['pid']) {
+			$fields['FEUSER.pid'][OP_EQ_INT] = $this->options['pid'];
+		}
+	}
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/mod/lister/class.tx_t3users_mod_lister_FeUser.php'])	{
