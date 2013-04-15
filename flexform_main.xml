@@ -20,34 +20,34 @@
               <config>
                 <type>select</type>
                 <items type="array">
-                  <numIndex index="10" type="array">
+                  <numIndex index="100" type="array">
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.LoginBox</numIndex>
                     <numIndex index="1">tx_t3users_actions_Login</numIndex>
                   </numIndex>
                   
-                  <numIndex index="100" type="array">
+                  <numIndex index="110" type="array">
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.Registration</numIndex>
                     <numIndex index="1">tx_t3users_actions_ShowRegistration</numIndex>
                   </numIndex>
-                  <numIndex index="100" type="array">
+                  <numIndex index="120" type="array">
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.RegistrationConfirm</numIndex>
                     <numIndex index="1">tx_t3users_actions_ShowRegistrationConfirm</numIndex>
                   </numIndex>
                   
-                  <numIndex index="220" type="array">
+                  <numIndex index="130" type="array">
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.EditFeUser</numIndex>
                     <numIndex index="1">tx_t3users_actions_EditFeUser</numIndex>
                   </numIndex>
 
-                  <numIndex index="200" type="array">
+                  <numIndex index="140" type="array">
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ListFeUsers</numIndex>
                     <numIndex index="1">tx_t3users_actions_ListFeUsers</numIndex>
                   </numIndex>
-                  <numIndex index="210" type="array">
+                  <numIndex index="150" type="array">
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ShowFeUser</numIndex>
                     <numIndex index="1">tx_t3users_actions_ShowFeUser</numIndex>
                   </numIndex>
-				  <numIndex index="220" type="array">
+				  <numIndex index="160" type="array">
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.RenewSession</numIndex>
                     <numIndex index="1">tx_t3users_actions_RenewSession</numIndex>
                   </numIndex>
