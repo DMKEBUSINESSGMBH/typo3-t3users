@@ -46,20 +46,24 @@ class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC {
     
   	$userSrv = tx_t3users_util_serviceRegistry::getFeUserService();
 
-  	// Look for static user uid
-    $uid = intval($configurations->get('feuserdetails.staticUser'));
-    if(!$uid)
-      $uid = intval($parameters->offsetGet('feuserId'));
-    if(!$uid)
-      $uid = intval($parameters->offsetGet('NK_feuserId'));
-    if(!$uid)
-      return $configurations->getCfgOrLL('feuserdetails.nouser');
-
-		// Let's get the current fe_user
+  	// gegenwärtig angemeldeten User ausgeben, wenn Option gesetzt
+  	if ($configurations->getBool('feuserdetails.currentUser', true, false)) {
+	  	$user = $userSrv->getFeUserWithFallback();
+  	}
+  	else {
+	  	// Look for static user uid
+	    $uid = intval($configurations->get('feuserdetails.staticUser'));
+	    if(!$uid)
+	      $uid = intval($parameters->offsetGet('feuserId'));
+	    if(!$uid)
+	      $uid = intval($parameters->offsetGet('NK_feuserId'));
+	    if(!$uid)
+	      return $configurations->getCfgOrLL('feuserdetails.nouser');
+	
+			// Let's get the current fe_user
 		$user = tx_t3users_models_feuser::getInstance($uid);
-		$viewData->offsetSet('user', $user);
-
-		
+  	}
+	$viewData->offsetSet('user', $user);
     return null;
   }
 

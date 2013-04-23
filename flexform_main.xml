@@ -517,6 +517,16 @@
               </config>
             </TCEforms>
           </feuserdetails.staticUser>
+           <feuserdetails.currentUser>
+                <TCEforms>
+                    <exclude>1</exclude>
+                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.currentUser</label>
+                        <config>
+                            <type>check</type>
+                            <default>0</default>
+                        </config>
+                </TCEforms>
+         </feuserdetails.currentUser>
         </el>
       </ROOT>
     </s_userinfo>

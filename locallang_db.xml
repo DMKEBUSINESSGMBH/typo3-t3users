@@ -44,6 +44,7 @@
 			<label index="plugin.t3users.flexform.userinfo.detailsTemplate">Template for single view</label>
 			<label index="plugin.t3users.flexform.userinfo.staticUser">Static user</label>
 			<label index="plugin.t3users.flexform.userinfo.staticUsers">Static users</label>
+			<label index="plugin.t3users.flexform.userinfo.currentUser">Currently logged in User</label>
 			<label index="plugin.t3users.flexform.tab.TSSetup">Typoscript</label>
 			<label index="plugin.t3users.flexform.tssetup">plugin.tx_t3users_main.</label>
 			
@@ -113,6 +114,7 @@
 			<label index="plugin.t3users.flexform.userinfo.detailsTemplate">Template für Detailansicht</label>
 			<label index="plugin.t3users.flexform.userinfo.staticUser">Fester Nutzer</label>
 			<label index="plugin.t3users.flexform.userinfo.staticUsers">Feste Nutzerliste</label>
+			<label index="plugin.t3users.flexform.userinfo.currentUser">Gegenwärtig angemeldeter FE-User</label>
 			
 			<label index="plugin.t3users.flexform.feuseredit.xml">XML für das Formular</label>
 			<label index="plugin.t3users.flexform.feuseredit.template">Template für View</label>
