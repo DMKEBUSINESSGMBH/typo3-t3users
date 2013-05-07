@@ -79,6 +79,10 @@ class tx_t3users_mod_handler_ManageFeUser extends tx_rnbase_mod_BaseModule {
 		$markerArray['###SIZE###'] = $data['totalsize'];
 		$markerArray['###PAGER###'] = $data['pager'];
 
+		// mehr Marker per Hook
+		tx_rnbase_util_Misc::callHook('t3users','mod_feuser_getMoreMarker',
+			array('markerArray' => &$markerArray, 'mod' => $mod), $this);
+
 		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
 		return $out;
 	}
