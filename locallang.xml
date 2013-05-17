@@ -108,7 +108,7 @@ To confirm your membership please click on this link: ###MAILCONFIRM_LINKURL###
 
       <label index="loginbox_header_forgot">Sie haben Ihr Passwort vergessen</label>
       <label index="loginbox_message_forgot">Bitte geben Sie die Email Adresse ein, mit der sich registriert haben. Anschließend klicken Sie auf "Passwort senden" und Ihr Passwort wird Ihnen umgehend zugesendet. Achten Sie auf die korrekte Schreibweise Ihrer Email-Adresse.</label>
-      <label index="loginbox_header_forgot_notfound">User not found</label>
+      <label index="loginbox_header_forgot_notfound">Nutzername konnte nicht gefunden werden</label>
       <label index="loginbox_message_forgot_notfound">Wir konnten keine mit dem angegeben Benutzernamen verknüpfte Email-Adresse finden. Aus diesem Grund können wir Ihnen kein Passwort zusenden. Vielleicht haben Sie Ihre Email-Adresse fehlerhaft eingegeben oder Sie haben sich eventuell noch gar nicht registriert.</label>
       <label index="loginbox_header_forgot_sent">Passwort verschickt</label>
       <label index="loginbox_message_forgot_sent">Ihr Passwort wurde soeben an die Email Adresse ###YOUR_EMAIL### geschickt.</label>
