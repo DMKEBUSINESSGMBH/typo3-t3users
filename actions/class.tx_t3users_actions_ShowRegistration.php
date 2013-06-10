@@ -156,7 +156,8 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			'showRegistration_beforeSendConfirmationMail_hook',
 			array(
 				'params' => &$params,
-				'form' => &$form
+				'form' => &$form,
+				'newEntryId' => $uid
 			),
 			$this
 		);
