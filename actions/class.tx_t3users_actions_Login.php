@@ -53,7 +53,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		$action = t3lib_div::_GP('logintype');
 		$finished = intval($parameters->offsetGet('NK_loginfinished'));
 		if($finished) $action = 'login';
-		
+
 		$loginActionOnly = $configurations->get($this->getConfId().'loginActionOnly');
 		$loginActionOnly = $loginActionOnly && (strtolower($loginActionOnly) == 'true' || intval($loginActionOnly) > 0);
 		if(!$action && !$loginActionOnly) {
@@ -109,11 +109,11 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		// 1. alles klappt: Meldung FE und Infomail
 		// 2. Nutzer nicht gefunden: Meldung im FE
 		// 3. Sonstiger Fehler: Meldung im FE
-		
+
 		$email = $parameters->offsetGet('NK_requestconfirmation_email');
 		if ($email && t3lib_div::validEmail($email) ) {
 			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
-			
+
 			$markerArr['your_email'] = $email;
 			$storagePid = $this->getStoragePid($configurations);
 			$feuser = $usrSrv->getDisabledUserByEmail($email, $storagePid);
@@ -161,7 +161,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			if($feuser) {
 				$viewData->offsetSet('subpart', '###TEMPLATE_FORGOT_SENT###');
 				$this->setLanguageMarkers($markerArr, $configurations, 'forgot_sent');
-				
+
 				// TODO: Mailversand in eigene Methode verlegen
 				// TODO: Direkt auf Service mit niedriger Prio umstellen. Das TS muss wieder raus!
 				// an external service should be able to handle this case
@@ -174,7 +174,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		}
 		else
 			$this->setLanguageMarkers($markerArr, $configurations, 'forgot');
-		
+
 		$viewData->offsetSet('markers', $markerArr);
 	}
   /**
@@ -208,12 +208,12 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			if($markerArr['redirect_url'] == '' && $configurations->get($this->getConfId().'redirectMode') == 'force')
 				$markerArr['redirect_url'] = htmlspecialchars(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'));
 		}
-		
+
 		// Wenn explizit eine URL mitgegeben wurde, nutzen wir diese!
 		if(strlen($redirectUrl = t3lib_div::_GP('redirect_url')) && t3lib_div::isOnCurrentHost($redirectUrl)){
 			$markerArr['redirect_url'] = $redirectUrl;
 		}
-		
+
 		$markerArr['redirect_url'] = preg_replace("/[&?]logintype=[a-z]+/", '', $markerArr['redirect_url']);
 
 		$this->setLanguageMarkers($markerArr, $configurations, $statusKey);
@@ -225,7 +225,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		$markerArr['extra_hidden'] = $this->prepareLoginFormOnSubmit();
 		$viewData->offsetSet('markers', $markerArr);
 	}
-	
+
 	/**
 	 * User ist logged in. Show Status and logout-Button
 	 *
@@ -261,7 +261,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			header('Location: '.t3lib_div::locationHeaderUrl($redirectUrl));
 		}
 		$markerArr['action_uri'] = $this->createPageUri($configurations);
-		
+
 		$viewData->offsetSet('markers', $markerArr);
 	}
 	/**
@@ -275,19 +275,19 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 */
 	function handleLoginConfirmed($action, &$parameters,&$configurations, &$viewData, &$feuser){
 		$finished = intval($parameters->offsetGet('NK_loginfinished'));
-		
+
 		tx_rnbase_util_Misc::callHook(
 			't3users','beforeLoginConfirmed',
 			array(
-				'action' 			=> $action, 
-				'parameters' 		=> $parameters, 
+				'action' 			=> $action,
+				'parameters' 		=> $parameters,
 				'configurations'	=> $configurations,
 				'viewData' 			=> $viewData,
 				'feuser' 			=> $feuser
-			), 
+			),
 			$this
 		);
-		
+
 		if(!$finished) {
 			if(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'trackLogin')) {
 				tx_t3users_util_ServiceRegistry::getLoggingService()->logLogin($feuser->uid);
@@ -302,15 +302,23 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			elseif(strlen($redirectUrl = t3lib_div::_GP('redirect_url')) && t3lib_div::isOnCurrentHost($redirectUrl)){
 				$redirect = $redirectUrl;
 			}
-			
+
+
 			$link = $configurations->createLink();
+			// Initialisieren und zusaetzlich Parameter fuer Finished setzen
+			$link->initByTS($configurations, $this->getConfId().'links.loginRedirect.', array('NK_loginfinished' => '1'));
+
 			//soll das Formular auf eine bestimmte Seite abgeschickt werden?
-			//$targetPid = $configurations->get($this->getConfId().'targetPid');
-			$link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id);
-			// Zusaetzlich Parameter fuer Finished setzen
-			$link->parameters(array('NK_loginfinished' => '1'));
-			$redirect_url = $link->makeUrl(false);
-			header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
+			if ($redirect) {
+				$link->destination($redirect);
+			}
+			// wir brauchen eine absolute url für den redirect
+			if (!$link->isAbsUrl()) {
+				$link->setAbsUrl(true);
+			}
+			// redirect durchführen
+			header('Location: ' . $link->makeUrl(false));
+			exit; //ab hier ist nichts mehr zu tun!
 		}
 		$viewData->offsetSet('subpart', '###TEMPLATE_WELCOME###');
 		$this->setLanguageMarkers($markerArr, $configurations, 'welcome');
@@ -411,7 +419,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			$GLOBALS['TSFE']->additionalHeaderData['tx_t3users'] = '<script language="JavaScript" type="text/javascript" src="typo3/md5.js"></script>';
 			$chal_val = md5(time().getmypid().uniqid());
 			tx_rnbase_util_DB::doInsert('tx_kbmd5fepw_challenge', array('challenge' => $chal_val, 'tstamp' => time()), 0);
-	
+
 			$hidden = '<input type="hidden" name="challenge" value="'.$chal_val.'">';
 		}
 

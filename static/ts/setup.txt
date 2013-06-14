@@ -55,6 +55,8 @@ plugin.tx_t3users_main {
     links.forgotpass.pid = {$plugin.tx_t3users.loginboxPage}
     links.register.pid = {$plugin.tx_t3users.registerPage}
     links.confirm.pid = {$plugin.tx_t3users.confirmPage}
+    ### die destination kommt aus den parametern und muss nicht gesetzt werden. Allerdings können hier beispielsweise weitere parameter an den link gehängt werden.
+    links.loginRedirect.pid = 0
   }
 
   feuserlist {
