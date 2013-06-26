@@ -244,15 +244,29 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			if(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'trackLogin')) {
 				tx_t3users_util_ServiceRegistry::getLoggingService()->logLogout($feuser->uid);
 			}
+
+
 			// Redirect with logout
-			$redirect = intval($configurations->get('loginbox.logoutRedirectPage'));
-			$link = $configurations->createLink(false);
+			$redirect= $configurations->get('loginbox.logoutRedirectPage');
+
+			$link = $configurations->createLink();
+			// Initialisieren und zusaetzlich Parameter fuer Finished setzen
+			$link->initByTS($configurations, $this->getConfId().'links.logoutRedirect.', array('logintype' => 'logout'));
+
 			$link->designatorString = '';
-			$link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id);
-			// Zusaetzlich Parameter fuer Finished setzen
-			$link->parameters(array('logintype' => 'logout'));
-			$redirect_url = $link->makeUrl(false);
-			header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
+
+			//soll das Formular auf eine bestimmte Seite abgeschickt werden?
+			if ($redirect) {
+				$link->destination($redirect);
+			}
+
+			// wir brauchen eine absolute url für den redirect
+			if (!$link->isAbsUrl()) {
+				$link->setAbsUrl(true);
+			}
+			// redirect durchführen
+			header('Location: ' . $link->makeUrl(false));
+			exit; //ab hier ist nichts mehr zu tun!
 		}
 		// Direkt weiterleiten, wenn redirect_url angegeben
 		// wird bei externen Links, z.B. Newsletter genutzt, die auf geschützte Bereiche verweisen
@@ -312,6 +326,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			if ($redirect) {
 				$link->destination($redirect);
 			}
+
 			// wir brauchen eine absolute url für den redirect
 			if (!$link->isAbsUrl()) {
 				$link->setAbsUrl(true);
