@@ -193,15 +193,33 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * Returns all fegroups of a feuser
 	 *
 	 * @param tx_t3users_models_feuser $feuser
-	 * @return array of tx_t3users_models_group
+	 * @return array[tx_t3users_models_group]
 	 */
 	function getFeGroups($feuser) {
+		if(!$feuser->record['usergroup']) {
+			return array();
+		}
+		
 		$from = 'fe_groups';
-		$options['where'] = 'uid IN (' . $feuser->record['usergroup'] . ') ';
-		$options['wrapperclass'] = 'tx_t3users_models_fegroup';
-		$options['orderby'] = 'title';
-		return tx_rnbase_util_DB::doSelect('*',$from,$options,0);
+		$options = array(
+			'where' => 'uid IN (' . $feuser->record['usergroup'] . ') ',
+			'wrapperclass' => 'tx_t3users_models_fegroup',
+			'orderby' => 'title'
+		);
+		
+		$rnBaseDbUtil = $this->getRnBaseDbUtil();
+		return $rnBaseDbUtil::doSelect('*',$from,$options,0);
 	}
+	
+	/**
+	 * für tests
+	 * 
+	 * @return tx_rnbase_util_DB
+	 */
+	protected function getRnBaseDbUtil() {
+		return tx_rnbase_util_DB;
+	}
+	
 	/**
 	 * Returns all users of given fe_groups
 	 *
