@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 /***************************************************************
 *  Copyright notice
@@ -227,7 +228,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	}
 
 	/**
-	 * User ist logged in. Show Status and logout-Button
+	 * User is logged in. Show Status and logout-Button
 	 *
 	 * @param string $action
 	 * @param array_object $parameters
@@ -246,13 +247,22 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			}
 			// Redirect with logout
 			$redirect = intval($configurations->get('loginbox.logoutRedirectPage'));
-			$link = $configurations->createLink(false);
+			$link = $configurations->createLink();
+			// Initialisieren und zusaetzlich Parameter fuer Finished setzen
+			$link->initByTS($configurations, $this->getConfId().'links.logoutRedirect.', array('logintype' => 'logout'));
 			$link->designatorString = '';
-			$link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id);
-			// Zusaetzlich Parameter fuer Finished setzen
-			$link->parameters(array('logintype' => 'logout'));
-			$redirect_url = $link->makeUrl(false);
-			header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
+
+			//soll das Formular auf eine bestimmte Seite abgeschickt werden?
+			if ($redirect) {
+				$link->destination($redirect);
+			}
+			// wir brauchen eine absolute url für den redirect
+			if (!$link->isAbsUrl()) {
+				$link->setAbsUrl(true);
+			}
+
+			// redirect durchführen
+			$link->redirect();
 		}
 		// Direkt weiterleiten, wenn redirect_url angegeben
 		// wird bei externen Links, z.B. Newsletter genutzt, die auf geschützte Bereiche verweisen
@@ -304,13 +314,17 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			}
 
 			$link = $configurations->createLink();
+			// Initialisieren und zusaetzlich Parameter fuer Finished setzen
+			$link->initByTS($configurations, $this->getConfId().'links.loginRedirect.', array('NK_loginfinished' => '1'));
 			//soll das Formular auf eine bestimmte Seite abgeschickt werden?
-			//$targetPid = $configurations->get($this->getConfId().'targetPid');
-			$link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id);
-			// Zusaetzlich Parameter fuer Finished setzen
-			$link->parameters(array('NK_loginfinished' => '1'));
-			$redirect_url = $link->makeUrl(false);
-			header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
+			if ($redirect) {
+				$link->destination($redirect);
+			}
+			// wir brauchen eine absolute url für den redirect
+			if (!$link->isAbsUrl()) {
+				$link->setAbsUrl(true);
+			}
+			$link->redirect();
 		}
 		$viewData->offsetSet('subpart', '###TEMPLATE_WELCOME###');
 		$this->setLanguageMarkers($markerArr, $configurations, 'welcome');
@@ -397,55 +411,6 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 
 		if($code->jsCode)
 			$GLOBALS['TSFE']->JSCode .= $code->jsCode;
-
-		//if($_SERVER['REMOTE_ADDR']  == '178.15.114.146')
-// 		tx_rnbase_util_Debug::debug($code, 'class.tx_t3users_actions_Login.php LINE: '.__LINE__); // TODO: remove me
-// 		tx_rnbase_util_Debug::debug(array(htmlspecialchars($GLOBALS['TSFE']->additionalHeaderData['tx_t3users'])
-// 				,htmlspecialchars($GLOBALS['TSFE']->JSCode),
-// 				$markerArr), 'class.tx_t3users_actions_Login.php LINE: '.__LINE__); // TODO: remove me
-return;
-
-		$js = '
-		function superchallenge_password(form) {
-	// Non-md5-version
-			trgForm = document.forms["logform"];
-			if(!trgForm) trgForm = document.getElementById("logform");
-			var pass = form.pass1.value;
-			if (pass) {
-				trgForm.user.value = form.user1.value;
-				trgForm.pass.value = form.pass1.value;
-				trgForm.submit();
-			}
-			return false;
-		  }';
-
-		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
-		if($usrSrv->useMD5()) {
-			$js = '
-		function superchallenge_password(form) {
-	// md5-version
-			trgForm = document.forms["logform"];
-			if(!trgForm) trgForm = document.getElementById("logform");
-			var pass = form.pass1.value;
-			if (pass) {
-				var enc_pass = MD5(pass);
-				var str = form.user1.value+":"+enc_pass+":"+trgForm.challenge.value;
-				trgForm.user.value = form.user1.value;
-				trgForm.pass.value = MD5(str);
-				trgForm.submit();
-			}
-			return false;
-		  }';
-			$GLOBALS['TSFE']->additionalHeaderData['tx_t3users'] = '<script language="JavaScript" type="text/javascript" src="typo3/md5.js"></script>';
-			$chal_val = md5(time().getmypid().uniqid());
-			tx_rnbase_util_DB::doInsert('tx_kbmd5fepw_challenge', array('challenge' => $chal_val, 'tstamp' => time()), 0);
-
-			$hidden = '<input type="hidden" name="challenge" value="'.$chal_val.'">';
-		}
-
-		$GLOBALS['TSFE']->JSCode .= $js;
-
-		$markerArr['extra_hidden'] = $hidden;
 	}
 	function getConfId() { return 'loginbox.';}
 	function getTemplateName() { return 'login';}
@@ -455,5 +420,3 @@ return;
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_Login.php'])	{
   include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_Login.php']);
 }
-
-?>

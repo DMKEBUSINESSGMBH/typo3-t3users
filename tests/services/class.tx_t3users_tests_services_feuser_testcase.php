@@ -30,6 +30,7 @@
  */
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_t3users_util_ServiceRegistry');
+tx_rnbase::load('tx_t3users_services_feuser');
 
 /**
  * Testfälle für tx_t3users_services_feuser
@@ -41,6 +42,7 @@ tx_rnbase::load('tx_t3users_util_ServiceRegistry');
 class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 	
 	/**
+	 * @group unit
 	 * @dataProvider providerEmailDisable
 	 */
 	public function testEmailDisable($sEMail, $sResult) {
@@ -58,6 +60,7 @@ class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 			);
 	}
 	/**
+	 * @group unit
 	 * @dataProvider providerEmailEnable
 	 */
 	public function testEmailEnable($sEMail, $sResult) {
@@ -76,6 +79,57 @@ class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 			);
 	}
 	
+	/**
+	 * @group unit
+	 */
+	public function testGetFeGroupsCallsNotDoSelectAndReturnsEmptyArrayIfUserHasNoGroups() {
+		$feUserService = $this->getMock(
+			'tx_t3users_services_feuser', array('getRnBaseDbUtil')
+		);
+		
+		$feUserService->expects(($this->never()))
+			->method('getRnBaseDbUtil');
+			
+		$feUserRecord = array('uid' => 1);
+		$feUser = tx_rnbase::makeInstance('tx_t3users_models_feuser', $feUserRecord);
+		$groups = $feUserService->getFeGroups($feUser);
+		
+		$this->assertTrue(is_array($groups), 'kein array zurück gegeben');
+		$this->assertEmpty($groups, 'array nicht leer');
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testGetFeGroupsCallsDoSelectAndReturnsCorrectArrayIfUserHasGroups() {
+		$feUserService = $this->getMock(
+			'tx_t3users_services_feuser', array('getRnBaseDbUtil')
+		);
+		
+		$rnBaseDbUtil = $this->getMockClass(
+			'tx_rnbase_util_DB', array('doSelect')
+		);
+		$usergroups = '1,2,3';
+		$expectedOptions = array(
+			'where' => 'uid IN (' . $usergroups . ') ',
+			'wrapperclass' => 'tx_t3users_models_fegroup',
+			'orderby' => 'title'
+		);
+		$rnBaseDbUtil::staticExpects($this->once())
+			->method('doSelect')
+			->with('*', 'fe_groups')
+			->will($this->returnValue(array('testResult')));
+			
+		$feUserService->expects(($this->once()))
+			->method('getRnBaseDbUtil')
+			->will($this->returnValue($rnBaseDbUtil));
+			
+		$feUserRecord = array('uid' => 1, 'usergroup' => $usergroups);
+		$feUser = tx_rnbase::makeInstance('tx_t3users_models_feuser', $feUserRecord);
+		$groups = $feUserService->getFeGroups($feUser);
+		
+		$this->assertEquals(array('testResult'), $groups, 'gruppen falsch');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/tests/services/class.tx_t3users_tests_services_feuser_testcase.php']) {

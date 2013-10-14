@@ -24,8 +24,9 @@
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 require_once(t3lib_extMgm::extPath('rn_base') . 'util/class.tx_rnbase_util_DB.php');
-require_once(t3lib_extMgm::extPath('ameos_formidable') . 'api/class.tx_ameosformidable.php');
-
+if(t3lib_extMgm::isLoaded('ameos_formidable')) {
+	require_once(t3lib_extMgm::extPath('ameos_formidable') . 'api/class.tx_ameosformidable.php');
+}
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 tx_rnbase::load('tx_t3users_models_feuser');
 
@@ -128,6 +129,16 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 		if($usrSrv->useMD5())
 			$params['password'] = md5($params['password']);
+		
+		tx_rnbase_util_Misc::callHook(
+			't3users',
+			'showRegistration_beforeUpdateDB_hook',
+			array(
+				'params' => &$params,
+				'form' => &$form
+			),
+			$this
+		);
 		return $params;
 	}
 	/**
@@ -137,8 +148,20 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	 * @param tx_ameosformidable $form
 	 */
 	public function handleUpdateDB($params, $form) {
-
+				
 		$uid = $form->oDataHandler->newEntryId;
+		
+		tx_rnbase_util_Misc::callHook(
+			't3users',
+			'showRegistration_beforeSendConfirmationMail_hook',
+			array(
+				'params' => &$params,
+				'form' => &$form,
+				'newEntryId' => $uid
+			),
+			$this
+		);
+		
 		// Mail schicken
 		$token = md5(microtime());
 		$link = $this->conf->createLink();
