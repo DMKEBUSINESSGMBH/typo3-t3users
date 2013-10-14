@@ -102,12 +102,15 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 
 	/**
 	 * Get the number of users or user-objects currently online
+	 * This is possible only, if extension DBAL is active.
 	 * @param array $config
 	 * 		pids provides the users in a PID
 	 * 		count (true = number of users) (false = array with user-objects)
 	 * @return int / array
 	 */
 	public function getOnlineUsers($options = null) {
+		if(tx_rnbase_util_TYPO3::isExtLoaded('dbal'))
+			return 0;
 		$timeout = self::getSessionLifeTime();
 		if(!is_array($options)) {
 			$options = array(
@@ -240,6 +243,15 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 */
 	function useSaltedPasswords() {
 		return t3lib_extMgm::isLoaded('saltedpasswords');
+	}
+
+	/**
+	 * Whether or not RSA encryption is enabled.
+	 */
+	public function useRSA() {
+		return
+			($GLOBALS['TYPO3_CONF_VARS']['FE']['loginSecurityLevel'] == 'rsa') &&
+			t3lib_extMgm::isLoaded('rsaauth');
 	}
 
 	/**

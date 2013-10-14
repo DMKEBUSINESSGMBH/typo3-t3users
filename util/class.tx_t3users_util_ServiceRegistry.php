@@ -55,10 +55,17 @@ class tx_t3users_util_ServiceRegistry {
 	}
 	/**
 	 * Liefert den E-Mail-Service
-	 * @return tx_t3users_services_Email
+	 * @return tx_t3users_services_email
 	 */
 	public static function getEmailService() {
 		return tx_rnbase_util_Misc::getService('t3users', 'email');
+	}
+	/**
+	 * Liefert den LoginForm-Service
+	 * @return tx_t3users_services_LoginForm
+	 */
+	public static function getLoginFormService() {
+		return tx_rnbase_util_Misc::getService('t3users', 'loginform');
 	}
 }
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_ServiceRegistry.php'])	{
