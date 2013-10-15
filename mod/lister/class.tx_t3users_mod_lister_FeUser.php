@@ -107,22 +107,31 @@ class tx_t3users_mod_lister_FeUser extends tx_rnbase_mod_base_Lister {
 		$sTableAlias = 'FEUSER.';
 		$aDecorator['uid'] = array(
 				'title' => $aDecorator['uid']['title'],
-				'decorator' => &$oDecorator,
+				'decorator' => $oDecorator,
 				'sortable' => $sTableAlias
 		);
 		$aDecorator['actions'] = array(
 				'title' => 'label_tableheader_actions',
-				'decorator' => &$oDecorator,
+				'decorator' => $oDecorator,
+		);
+		$aDecorator['username'] = array(
+				'title' => 'label_tableheader_username',
+				'decorator' => $oDecorator,
+				'sortable' => $sTableAlias
 		);
 		$aDecorator['first_name'] = array(
 				'title' => 'label_tableheader_firstname',
-				'decorator' => &$oDecorator,
+				'decorator' => $oDecorator,
 				'sortable' => $sTableAlias
 		);
 		$aDecorator['last_name'] = array(
 				'title' => 'label_tableheader_lastname',
-				'decorator' => &$oDecorator,
+				'decorator' => $oDecorator,
 				'sortable' => $sTableAlias
+		);
+		$aDecorator['usergroup'] = array(
+				'title' => 'label_tableheader_usergroup',
+				'decorator' => $oDecorator
 		);
 		return $aDecorator;
 	}

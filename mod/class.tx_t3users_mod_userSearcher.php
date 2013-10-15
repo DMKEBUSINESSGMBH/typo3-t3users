@@ -28,6 +28,8 @@ tx_rnbase::load('tx_rnbase_configurations');
 
 /**
  * Searcher class for fe users.
+ * Wird im Function-Modul verwendet.
+ * @deprecated TODO: convert mod_lister_FeUser instead!
  */
 class tx_t3users_mod_userSearcher {
 	private $mod;
@@ -39,14 +41,14 @@ class tx_t3users_mod_userSearcher {
 	public function tx_t3users_mod_userSearcher(&$mod, $options = array()) {
 		$this->init($mod, $options);
 	}
-	
+
 	private function init($mod, $options) {
 		$this->options = $options;
 		$this->mod = $mod;
 		$this->formTool = $this->mod->formTool;
 		$this->resultSize = 0;
     	$this->data = t3lib_div::_GP('searchdata');
-    	
+
 		$this->bAllowNonAdmins = tx_rnbase_configurations::getExtensionCfgValue('t3users', 'fullModuleForNonAdmins');
 
     if(!isset($options['nopersist'])) {
@@ -81,7 +83,7 @@ class tx_t3users_mod_userSearcher {
 	    $out .= (strlen($label) ? $label : $LANG->getLL('label_searchterm')).': ';
 	    $out .= $this->formTool->createTxtInput('searchdata[termfeuser]', $this->SEARCH_SETTINGS['termfeuser'], 20);
 	    $out .= $this->getFormTool()->createSelectSingleByArray('searchdata[hiddenfeuser]', $this->SEARCH_SETTINGS['hiddenfeuser'], array(0 => $LANG->getLL('label_active_user'), 1 => $LANG->getLL('label_hidden_user')));
-	    
+
 		if($GLOBALS['BE_USER']->isAdmin() || $this->bAllowNonAdmins)
 	    	$out .= $this->getFormTool()->createSelectSingleByArray('searchdata[pagemode]', $this->SEARCH_SETTINGS['pagemode'], array(1 => $LANG->getLL('label_pagemode_all'), 0 => $LANG->getLL('label_pagemode_current')));
 		if($GLOBALS['BE_USER']->isAdmin() || $this->bAllowNonAdmins)
@@ -99,7 +101,7 @@ class tx_t3users_mod_userSearcher {
 		$searchterm = trim($this->SEARCH_SETTINGS['termfeuser']);
 		$pagemode = intval($this->SEARCH_SETTINGS['pagemode']);
 		$pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'feusrpager', $this->mod->MCONF['name'], $this->mod->id);
-		
+
 		if($searchuid>0 && ($GLOBALS['BE_USER']->isAdmin() || $this->bAllowNonAdmins)) {
 			// Diese Suche nach der UID hat Vorrang.
 			tx_rnbase::load('tx_t3users_models_feuser');
@@ -157,7 +159,8 @@ class tx_t3users_mod_userSearcher {
 		tx_rnbase::load('tx_t3users_util_Decorator');
 		$decor = tx_rnbase::makeInstance('tx_t3users_util_FEUserDecorator');
 		$columns['uid'] = array('title' => 'label_uid');
-		$columns['username'] = array('title' => 'label_username', 'decorator' => $decor);
+		$columns['username'] = array('title' => 'label_tableheader_username', 'decorator' => $decor);
+		$columns['usergroup'] = array('title' => 'label_tableheader_usergroup', 'decorator' => $decor);
 		$columns['name'] = array('title' => 'label_name');
 		if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users','extendTCA'))) {
 			$columns['first_name'] = array('title' => 'label_firstname');
