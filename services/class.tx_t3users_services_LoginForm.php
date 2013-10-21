@@ -60,6 +60,9 @@ class tx_t3users_services_LoginForm extends t3lib_svbase {
 			elseif($usrSrv->useMD5()) {
 				$method = 'md5';
 			}
+			else {
+				$method = 'nomd5';
+			}
 		}
 
 

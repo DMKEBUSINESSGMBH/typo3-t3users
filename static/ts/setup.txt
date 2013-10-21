@@ -78,7 +78,7 @@ plugin.tx_t3users_main {
 )
       }
       md5 {
-        onsubmit = superchallenge_password(form);
+        onsubmit = superchallenge_password(this);
         jsCode (
 					function superchallenge_password(form) {
 				// md5-version
@@ -97,7 +97,7 @@ plugin.tx_t3users_main {
 )
       }
       nomd5 {
-        onsubmit = superchallenge_password(form)
+        onsubmit = superchallenge_password(this)
         jsCode (
 					function superchallenge_password(form) {
 				// Non-md5-version
