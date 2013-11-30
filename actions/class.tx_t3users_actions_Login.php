@@ -297,7 +297,8 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 				'parameters' 		=> $parameters,
 				'configurations'	=> $configurations,
 				'viewData' 			=> $viewData,
-				'feuser' 			=> $feuser
+				'feuser' 			=> $feuser,
+				'finished' => $finished
 			),
 			$this
 		);
