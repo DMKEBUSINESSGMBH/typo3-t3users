@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+tx_rnbase::load('tx_t3users_mod_decorator_Base');
 
 
 /**
@@ -32,16 +33,21 @@ class tx_t3users_util_FEUserDecorator {
 
 	public function format($value, $colName, $record, $entry, $formTool) {
 		$ret = $value;
-		if($colName == 'date') {
-			$ret = date('H:i d.m.y', $value);
-		}
-		elseif($colName == 'username') {
-			$ret = $entry->isDisabled() ? '<s>'.$value.'</s>' : $value;
-			$ret .= ' ' . $formTool->createEditLink('fe_users', $record['uid'], '');
-			if($entry->getEmail()) {
-				global $LANG;
-				$ret .= '<br />'.$LANG->getLL('label_email').': <a href="mailto:' . $entry->getEmail() .'">'.$entry->getEmail().'</a>';
-			}
+		switch ($colName) {
+			case 'date':
+				$ret = date('H:i d.m.y', $value);
+				break;
+			case 'usergroup':
+				$ret = tx_t3users_mod_decorator_Base::showUsergroups($entry, $formTool);
+				break;
+			case 'username':
+				$ret = $entry->isDisabled() ? '<s>'.$value.'</s>' : $value;
+				$ret .= ' ' . $formTool->createEditLink('fe_users', $record['uid'], '');
+				if($entry->getEmail()) {
+					global $LANG;
+					$ret .= '<br />'.$LANG->getLL('label_email').': <a href="mailto:' . $entry->getEmail() .'">'.$entry->getEmail().'</a>';
+				}
+				break;
 		}
 		return $ret;
 	}

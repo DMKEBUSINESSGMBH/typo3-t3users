@@ -63,9 +63,10 @@ class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
 			case 'crdate':
 			case 'tstamp':
 				$ret = strftime('%d.%m.%y %H:%M:%S', intval($ret));
-
 				break;
-
+			case 'usergroup':
+				$ret = self::showUsergroups($item, $this->getFormTool());
+				break;
 			case 'actions':
 				$ret .= $this->getActions($item, $this->getActionOptions($item));
 				break;
@@ -97,6 +98,19 @@ class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
 		return $cols;
 	}
 
+	public static function showUsergroups($feuser, $formTool) {
+		$ret = '';
+		$srv = tx_t3users_util_ServiceRegistry::getFeUserService();
+		$items = array();
+		$groups = $srv->getFeGroups($feuser);
+		foreach ($groups As $group) {
+			$items[] = '<li>'.$group->getTitle().' '. $formTool->createEditLink('fe_groups', $group->getUid(), '').'</li>';
+		}
+		if(!empty($items))
+			$ret = '<ul>'.implode('', $items).'</ul>';
+
+		return $ret;
+	}
 
 	/**
 	 * @TODO: weitere links integrieren!

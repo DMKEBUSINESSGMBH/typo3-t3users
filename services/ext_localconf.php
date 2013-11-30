@@ -54,6 +54,16 @@ t3lib_extMgm::addService($_EXTKEY,  't3users' /* sv type */,  'tx_t3users_servic
   )
 );
 
+t3lib_extMgm::addService($_EXTKEY,  't3users' /* sv type */,  'tx_t3users_services_LoginForm' /* sv key */,
+		array(
+				'title' => 'Service to extend LoginForm', 'description' => 'Service functions for security handling in login form', 'subtype' => 'loginform',
+				'available' => TRUE, 'priority' => 51, 'quality' => 50,
+				'os' => '', 'exec' => '',
+				'classFile' => t3lib_extMgm::extPath($_EXTKEY).'services/class.tx_t3users_services_LoginForm.php',
+				'className' => 'tx_t3users_services_LoginForm',
+		)
+);
+
 //
 //t3lib_extMgm::addService($_EXTKEY,  'auth' /* sv type */,  'tx_kbssignon_auth' /* sv key */,
 //    array(

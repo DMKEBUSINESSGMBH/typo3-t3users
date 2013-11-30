@@ -57,6 +57,63 @@ plugin.tx_t3users_main {
     links.confirm.pid = {$plugin.tx_t3users.confirmPage}
     ### die destination kommt aus den parametern und muss nicht gesetzt werden. Allerdings können hier beispielsweise weitere parameter an den link gehängt werden.
     links.loginRedirect.pid = 0
+    extend {
+      # Art der Erweiterung: none, auto, nomd5, md5, rsa
+      method = auto
+      rsa {
+        onsubmit = superchallenge_password(this);
+        jsCode (
+					function superchallenge_password(form) {
+						// copy values and start tx_rsaauth_feencrypt
+						var trgForm = document.forms["logform"];
+						if(!trgForm) trgForm = document.getElementById("logform");
+						if(form.pass1.value) {
+							trgForm.user.value = form.user1.value;
+							trgForm.pass.value = form.pass1.value;
+							tx_rsaauth_feencrypt(trgForm);
+							trgForm.submit();
+						}
+						return false;
+					}
+)
+      }
+      md5 {
+        onsubmit = superchallenge_password(this);
+        jsCode (
+					function superchallenge_password(form) {
+				// md5-version
+						trgForm = document.forms["logform"];
+						if(!trgForm) trgForm = document.getElementById("logform");
+						var pass = form.pass1.value;
+						if (pass) {
+							var enc_pass = MD5(pass);
+							var str = form.user1.value+":"+enc_pass+":"+trgForm.challenge.value;
+							trgForm.user.value = form.user1.value;
+							trgForm.pass.value = MD5(str);
+							trgForm.submit();
+						}
+						return false;
+					  }
+)
+      }
+      nomd5 {
+        onsubmit = superchallenge_password(this)
+        jsCode (
+					function superchallenge_password(form) {
+				// Non-md5-version
+						trgForm = document.forms["logform"];
+						if(!trgForm) trgForm = document.getElementById("logform");
+						var pass = form.pass1.value;
+						if (pass) {
+							trgForm.user.value = form.user1.value;
+							trgForm.pass.value = form.pass1.value;
+							trgForm.submit();
+						}
+						return false;
+					  }
+)
+      }
+    }
   }
 
   feuserlist {

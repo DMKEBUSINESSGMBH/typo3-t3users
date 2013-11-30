@@ -16,7 +16,6 @@
 			<label index="label_active_user">Active users only</label>
 			<label index="label_hidden_user">Include hidden users</label>
 			<label index="label_uid">UID</label>
-			<label index="label_username">Username</label>
 			<label index="label_name">Name</label>
 			<label index="label_lastname">Last name</label>
 			<label index="label_firstname">First name</label>
@@ -29,8 +28,10 @@
 			<label index="label_add_feuser">Create new FE-User</label>
 			<label index="label_tableheader_uid">Uid</label>
 			<label index="label_tableheader_actions">Actions</label>
+			<label index="label_tableheader_username">Username</label>
 			<label index="label_tableheader_firstname">Firstname</label>
 			<label index="label_tableheader_lastname">Lastname</label>
+			<label index="label_tableheader_usergroup">Usergroup</label>
 
 			<label index="label_search">Free text search:</label>
 			<label index="label_hidden">Hidden entries:</label>
@@ -49,6 +50,7 @@
 			<label index="label_tableheader_actions">Aktionen</label>
 			<label index="label_tableheader_firstname">Vorname</label>
 			<label index="label_tableheader_lastname">Nachname</label>
+			<label index="label_tableheader_usergroup">Usergroup</label>
 
 			<label index="label_search">Freitextsuche:</label>
 			<label index="label_hidden">Versteckte Einträge:</label>
