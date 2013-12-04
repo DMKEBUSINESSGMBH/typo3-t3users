@@ -23,7 +23,9 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-//require_once(t3lib_extMgm::extPath('dam') . 'lib/class.tx_dam_media.php');
+if (t3lib_extMgm::isLoaded('dam')) {
+	require_once(t3lib_extMgm::extPath('dam', 'lib/class.tx_dam_media.php'));
+}
 
 tx_rnbase::load('tx_rnbase_view_Base');
 
