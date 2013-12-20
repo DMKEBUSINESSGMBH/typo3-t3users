@@ -397,6 +397,19 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	/**
 	 * Update user data in database
 	 *
+	 * @param tx_t3users_models_feuser $feuser
+	 * @param array $values
+	 * @return boolean
+	 * @throws tx_t3users_exceptions_User
+	 */
+	public function handleUpdate(tx_t3users_models_feuser $feuser, array $values) {
+		$this->updateFeUser($feuser->getUid(), $values);
+		return $feuser;
+	}
+	
+	/**
+	 * Update user data in database
+	 *
 	 * @param int $uid
 	 * @param array $values
 	 * @return boolean
