@@ -162,8 +162,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 				$viewData->offsetSet('subpart', '###TEMPLATE_FORGOT_SENT###');
 				$this->setLanguageMarkers($markerArr, $configurations, 'forgot_sent');
 
-				// TODO: Mailversand in eigene Methode verlegen
-				// TODO: Direkt auf Service mit niedriger Prio umstellen. Das TS muss wieder raus!
+				// TODO: Direkt auf Service mit niedriger Prio umstellen.
 				// an external service should be able to handle this case
 				$regSrv = tx_t3users_util_ServiceRegistry::getRegistrationService();
 				$regSrv->handleForgotPass($feuser, $configurations , 'loginbox.');

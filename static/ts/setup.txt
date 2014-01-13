@@ -51,6 +51,8 @@ plugin.tx_t3users_main {
   siteName = {$plugin.tx_t3users.siteName}
 
   loginbox {
+    # TODO: als Konstante mit Auswahlfeld auslagern
+    resetPasswordMode = sendpassword
     links.forgotpass = 1
     links.forgotpass.pid = {$plugin.tx_t3users.loginboxPage}
     links.register.pid = {$plugin.tx_t3users.registerPage}

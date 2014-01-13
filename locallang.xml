@@ -9,6 +9,7 @@
   <data type="array">
     <languageKey index="default" type="array">
       <label index="error">Error</label>
+      <label index="label_wrong_pass">The given passwords are not valid. Check your input.</label>
       <label index="label_login">Login</label>
       <label index="label_logout">Logout</label>
       <label index="label_username">Username</label>
@@ -36,6 +37,23 @@ Hi ###FEUSER_NAME###
 Your username is &quot;###FEUSER_USERNAME###&quot;
 Your password is &quot;###PASSWORD###&quot;
 </label>
+      <label index="loginbox_reset_infomail">Your password
+Hi ###FEUSER_NAME###
+
+Your username is &quot;###FEUSER_USERNAME###&quot;
+Please open this URL to reset your password:
+
+###RESETLINKURL###
+
+This Link will work the next 48 hours.
+</label>
+      <label index="loginbox_reset_infomail_html"><![CDATA[
+Your password
+Hallo ###FEUSER_NAME###<br /><br />
+Your username is <strong>###FEUSER_USERNAME###</strong>;
+<p>To reset your password, click ###RESETLINK###this link###RESETLINK###.</p>
+<p>This Link will work the next 48 hours.</p>
+]]></label>
       <label index="loginbox_header_requestconfirmation">You want to request the confirmation mail?</label>
       <label index="loginbox_message_requestconfirmation">Please enter the email address by which you registered your user account. Then press &quot;Send confirmation mail&quot; and the confirmation link will immediately be emailed to you. Make sure to spell your email address correctly.</label>
       <label index="loginbox_header_requestconfirmation_notfound">User not found</label>
@@ -83,6 +101,7 @@ To confirm your membership please click on this link: ###MAILCONFIRM_LINKURL###
     </languageKey>
     <languageKey index="de" type="array">
       <label index="error">Fehler</label>
+      <label index="label_wrong_pass">Die angegebenen Passwörter sind nicht zulässig. Bitte prüfen Sie Ihre Eingaben.</label>
       <label index="label_login">Anmelden</label>
       <label index="label_logout">Abmelden</label>
       <label index="label_username">Nutzername</label>
@@ -118,6 +137,23 @@ Hallo ###FEUSER_NAME###
 Ihr Nutzername ist &quot;###FEUSER_USERNAME###&quot;
 Ihr Passwort ist &quot;###PASSWORD###&quot;
 </label>
+      <label index="loginbox_reset_infomail">Ihr neues Passwort
+Hallo ###FEUSER_NAME###
+
+Ihr Nutzername ist &quot;###FEUSER_USERNAME###&quot;
+Um ihr Passwort zurückzusetzen, öffnen Sie bitte die folgende URL:
+
+###RESETLINKURL###
+
+Die Seite ist für 48 Stunden gültig.
+</label>
+      <label index="loginbox_reset_infomail_html"><![CDATA[
+Ihr neues Passwort
+Hallo ###FEUSER_NAME###<br /><br />
+Ihr Nutzername ist <strong>###FEUSER_USERNAME###</strong>;
+<p>Um ihr Passwort zurückzusetzen, öffnen Sie bitte ###RESETLINK###diese Seite###RESETLINK###.</p>
+<p>Die Seite ist für 48 Stunden gültig.</p>
+]]></label>
       <label index="loginbox_header_requestconfirmation">Sie wollen die E-Mail mit dem Bestätigungslink zugesendet bekommen?</label>
       <label index="loginbox_message_requestconfirmation">Bitte geben Sie die E-Mail Adresse ein, mit der sich registriert haben. Anschließend klicken Sie auf "Passwort senden" und Ihr Passwort wird Ihnen umgehend zugesendet. Achten Sie auf die korrekte Schreibweise Ihrer E-Mail-Adresse.</label>
       <label index="loginbox_header_requestconfirmation_notfound">Nutzer nicht gefunden</label>

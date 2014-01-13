@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2007-2009 Rene Nitzsche (rene@system25.de)
+ *  (c) 2007-2014 Rene Nitzsche (rene@system25.de)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -149,6 +149,30 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		return $res[0]['cnt'];
 	}
 
+	/**
+	 * Save the given plaintext password to database. The password is encrypted
+	 * if an encrpyption method is actived. 
+	 * @param unknown $feuser
+	 * @param string $newPassword plaintext password
+	 */
+	public function saveNewPassword($feuser, $newPassword) {
+		if($this->useMD5()) {
+			$newPassword = md5($newPassword);
+		}
+		elseif($this->useSaltedPasswords()) {
+			require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
+			if (tx_saltedpasswords_div::isUsageEnabled()) {
+				// generate password for db
+				$cconf = tx_saltedpasswords_div::returnExtConf();
+				$objPHPass = t3lib_div::makeInstance($cconf['saltedPWHashingMethod']);
+				$newPassword = $objPHPass->getHashedPassword($newPassword);
+			}
+		}
+		// save password to db
+		$values = array('password'=> $newPassword);
+		$where = 'uid = ' . $feuser->uid;
+		tx_rnbase_util_DB::doUpdate('fe_users', $where, $values, 0);
+	}
 	/**
 	 * Set a new randomized password for user if md5 encyption is enabled. Otherwise
 	 * this methode simply retrieves the existing user password!
@@ -430,11 +454,80 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @param tx_t3users_models_feuser $feUser
 	 * @param tx_rnbase_configurations $configurations
 	 */
-	public function handleForgotPass($feuser, $configurations, $confId){
+	public function handleForgotPass_old($feuser, $configurations, $confId){
 		$newpass = $this->createNewPassword($feuser);
 		$emailService = tx_t3users_util_ServiceRegistry::getEmailService();
 		$emailService->sendNewPassword($feuser, $newpass, $configurations , $confId);
 	}
+	
+	/**
+	 * Email mit Änderungslink verschicken.
+	 * 
+	 * @param tx_t3users_models_feuser $feUser
+	 * @param tx_rnbase_configurations $configurations
+	 */
+	public function handleForgotPass($feuser, $configurations, $confId){
+		if($configurations->get($confId.'resetPasswordMode') == 'sendpassword') {
+			$this->handleForgotPass_old($feuser, $configurations, $confId);
+			return;
+		}
+		$tz = date_default_timezone_get();
+		if(!$tz)
+			date_default_timezone_set('UTC');
+		// Wir benötigen ein Hash und ein Ablaufdatum
+		tx_rnbase::load('tx_rnbase_util_Dates');
+		$data = array(
+				'confirmtimeout'=> tx_rnbase_util_Dates::datetime_tstamp2mysql(strtotime('+2 days'))
+		);
+		$secret = $configurations->get($confId.'passwordsecret');
+		$data['confirmstring'] = md5($data['confirmtimeout'].$secret.$feuser->getUid());
+
+		$where = 'uid = ' . $feuser->uid;
+		tx_rnbase_util_DB::doUpdate('fe_users', $where, $data, 0);
+		// Und jetzt eine Mail mit dem Link senden
+		$pwLink = $configurations->createLink();
+		$pwLink->label($token);
+		$pwLink->initByTS( $configurations, $confId . 'links.resetPassword.',
+				array('NK_confirm' => $data['confirmstring'], 'NK_uid' => $feuser->getUid()) );
+		$pwLink->setAbsUrl(TRUE);
+
+		$emailService = tx_t3users_util_ServiceRegistry::getEmailService();
+		$emailService->sendResetPassword($feuser, $pwLink, $configurations , $confId);
+	}
+	/**
+	 * Prüft die Gültigkeit eines Confirm-Strings und liefert in diesem Fall die Instanz
+	 * des feusers.
+	 * 
+	 * @param int $uid
+	 * @param string $confirmstring
+	 * @return tx_t3users_models_feuser
+	 */
+	public function getUserForConfirm($uid, $confirmstring) {
+		tx_rnbase::load('tx_t3users_models_feuser');
+		$feUser = tx_t3users_models_feuser::getInstance(intval($uid));
+		if ((empty($feUser) || !$feUser->isValid()) && $force)
+			throw new Exception('Requested FE user not found or invalid!');
+
+		// Ist der String korrekt?
+		if($confirmstring != $feUser->record['confirmstring']) {
+			tx_rnbase::load('tx_rnbase_util_Logger');
+			tx_rnbase_util_Logger::info('Password reset failed on invalid confirmstring', 't3users', 
+				array('feuser'=>$feUser->getUid(),'stored confirm'=>$feUser->record['confirmstring'], 'submitted'=>$confirmstring));
+			return null;
+		}
+		// Ist die Zeit noch okay
+		tx_rnbase::load('tx_rnbase_util_Dates');
+		$timeout = tx_rnbase_util_Dates::datetime_mysql2tstamp($feUser->record['confirmtimeout']);
+		if($timeout < time()) {
+			tx_rnbase::load('tx_rnbase_util_Logger');
+			tx_rnbase_util_Logger::info('Password reset failed on timeout', 't3users',
+				array('feuser'=>$feUser->getUid(),'stored timeout'=>$feUser->record['confirmtimeout'], 
+						'stored timeout2'=>$timeout, 'submitted'=> time()));
+			return null;
+		}
+		return $feUser;
+	}
+
 	/**
 	 *
 	 * @param tx_t3users_models_feuser $feUser
