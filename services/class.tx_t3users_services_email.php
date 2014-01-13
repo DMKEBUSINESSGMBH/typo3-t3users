@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2010 Holger Gebhardt <gebhardt@das-medienkombinat.de>
+ *  (c) 2010-2014 René Nitzsche <nitzsche@das-medienkombinat.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,8 @@ tx_rnbase::load('tx_rnbase_util_Templates');
 
 /**
  * Service to send emails
- *
+ * @author René Nitzsche
+ * @author Holger Gebhardt
  */
 class tx_t3users_services_email extends t3lib_svbase {
 	/**
@@ -65,7 +66,86 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$emailFromName = $configurations->get($confId.'emailFromName');
 		$emailReply = $configurations->get($confId.'emailReply');
 
+		$parts = explode(LF, $mailtext, 2);		// First line is subject
+		$subject=trim($parts[0]);
+
+		$mail = tx_rnbase::makeInstance('tx_rnbase_util_Mail');
+		$mail->setSubject($subject);
+
+		$mail->setFrom($emailFrom, $emailFromName);
+		$mail->setTo($feuser->getEmail());
+		$mail->setTextPart($mailtext);
+//		$mail->setHtmlPart($mailhtml);
+		$mail->send();
+
 		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
+	}
+	/**
+	 * 
+	 * @param tx_t3users_models_feuser $feuser
+	 * @param tx_rnbase_util_Link $pwLink
+	 * @param tx_rnbase_configurations $configurations
+	 * @param string $confId
+	 */
+	public function sendResetPassword($feuser, $pwLink, $configurations, $confId = 'loginbox.') {
+		if(t3lib_extMgm::isLoaded('mkmailer')) {
+			// FIXME: implement!
+			return $this->sendResetPasswordMkMailer($feuser, $pwLink, $configurations, $confId);
+		}
+		return $this->sendResetPasswordSimple($feuser, $pwLink, $configurations, $confId);
+
+	}
+	/**
+	 * Sends a password reset link to the feUser
+	 *
+	 * @param tx_t3users_models_feuser $feuser
+	 * @param tx_rnbase_util_Link $pwLink
+	 * @param tx_rnbase_configurations $configurations
+	 */
+	private function sendResetPasswordSimple($feuser, $pwLink, $configurations, $confId) {
+		// Mail vorbereiten
+		$template = $configurations->getLL('loginbox_reset_infomail');
+		$templateHtml = trim($configurations->getLL('loginbox_reset_infomail_html'));
+		$subpartArray = array();
+		$wrappedSubpartArray = array();
+
+		$token = '---';
+		$pwLink->label($token);
+		$linkMarker = 'RESETLINK';
+		$markerArray['###'.$linkMarker . 'URL###'] = $pwLink->makeUrl(false);
+		$wrappedSubpartArray['###'.$linkMarker . '###'] = explode($token, $pwLink->makeTag());
+		$formatter = $configurations->getFormatter();
+		$mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+		if($templateHtml)
+			$mailhtml = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateHtml, $markerArray, $subpartArray, $wrappedSubpartArray);
+
+		// Jetzt noch den FeuserMarker
+		$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+		$mailtext = $marker->parseTemplate($mailtext, $feuser, $formatter, $confId.'feuser.');
+		$mailhtml = $marker->parseTemplate($mailhtml, $feuser, $formatter, $confId.'feuser.');
+		$emailFrom = $configurations->get($confId.'emailFrom');
+		$emailFromName = $configurations->get($confId.'emailFromName');
+		$emailReply = $configurations->get($confId.'emailReply');
+
+		$parts = explode(LF, $mailtext, 2);		// First line is subject
+		$subject=trim($parts[0]);
+		$mailtext=trim($parts[1]);
+		if($mailhtml) {
+			$parts = explode(LF, $mailhtml, 2);		// First line is subject
+			$subject=trim($parts[0]);
+			$mailhtml=trim($parts[1]);
+		}
+
+		$mail = tx_rnbase::makeInstance('tx_rnbase_util_Mail');
+		$mail->setSubject($subject);
+
+		$mail->setFrom($emailFrom, $emailFromName);
+		$mail->setTo($feuser->getEmail());
+		$mail->setTextPart($mailtext);
+		$mail->setHtmlPart($mailhtml);
+		$mail->send();
+
+//		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
 	}
 
 

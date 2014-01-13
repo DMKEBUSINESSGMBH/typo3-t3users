@@ -15,6 +15,7 @@
 			<label index="plugin.t3users.flexform.tab.renewSession">Renew Session</label>
 			<label index="plugin.t3users.flexform.action">View</label>
 			<label index="plugin.t3users.flexform.action.LoginBox">LoginBox for FE Users</label>
+			<label index="plugin.t3users.flexform.action.ResetPassword">Password reset</label>
 			<label index="plugin.t3users.flexform.action.Registration">Show registration form</label>
 			<label index="plugin.t3users.flexform.action.RegistrationConfirm">Show registration confirm</label>
 			<label index="plugin.t3users.flexform.action.ListFeUsers">List of FE Users</label>
@@ -94,6 +95,7 @@
 			<label index="plugin.t3users.flexform.tab.renewSession">Session erneuern</label>
 
 			<label index="plugin.t3users.flexform.action.LoginBox">LoginBox für FE-Nutzer</label>
+			<label index="plugin.t3users.flexform.action.ResetPassword">Passwort zurücksetzen</label>
 			<label index="plugin.t3users.flexform.action.Registration">Zeige Registrierungsformular</label>
 			<label index="plugin.t3users.flexform.action.RegistrationConfirm">Zeige Registrierungsbestätigung</label>
 			<label index="plugin.t3users.flexform.action.ListFeUsers">Liste von FE-Nutzern</label>
