@@ -160,7 +160,11 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 			$newPassword = md5($newPassword);
 		}
 		elseif($this->useSaltedPasswords()) {
-			require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
+			tx_rnbase::load('tx_rnbase_util_TYPO3');
+			if(tx_rnbase_util_TYPO3::isTYPO45OrHigher())
+				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
+			else
+				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
 			if (tx_saltedpasswords_div::isUsageEnabled()) {
 				// generate password for db
 				$cconf = tx_saltedpasswords_div::returnExtConf();
@@ -193,7 +197,11 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 				$ret=$new_password;
 			}
 		} elseif($this->useSaltedPasswords()) {
-			require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
+			tx_rnbase::load('tx_rnbase_util_TYPO3');
+			if(tx_rnbase_util_TYPO3::isTYPO45OrHigher())
+				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
+			else
+				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
 			if (tx_saltedpasswords_div::isUsageEnabled()) {
 				$new_password = $this->generatePassword($defaultLength); 	//generate password
 				$ret = $new_password; // for return in email
