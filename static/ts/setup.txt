@@ -25,12 +25,17 @@ lib.t3users.feuser {
     details.pid = {$plugin.tx_t3users.feuserdetailsPage}
     list.pid = {$plugin.tx_t3users.feuserlistPage}
   }
-  www.ifEmpty = -
-  www.typolink.parameter.field = mf_homepage
-  www.typolink.extTarget = _new
+  www{
+    ifEmpty = -
+    typolink.parameter.field = www
+    typolink.extTarget = _new
+  }
   
-  email.ifEmpty = -
-  email.typolink.parameter.field = email
+  email{
+    ifEmpty = -
+    typolink.parameter.field = email
+  }
+  
   image =< tt_content.image.20
 }
 lib.t3users.fegroup {
