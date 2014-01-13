@@ -320,6 +320,16 @@
 					</config>
 				</TCEforms>
 			</feuseredit.mode>
+        	<feuseredit.enableNonTcaColumns>
+				<TCEforms>
+					<exclude>1</exclude>
+					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.enableNonTcaColumns</label>
+						<config>
+							<type>check</type>
+			                <default>0</default>
+						</config>
+				</TCEforms>
+			</feuseredit.enableNonTcaColumns>
         	<feuseredit.doubleoptin>
 				<TCEforms>
 					<exclude>1</exclude>

@@ -44,7 +44,6 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 	 */
 	function handleRequest(&$parameters,&$configurations, &$viewData){
 		$this->conf =& $configurations;
-
 		//Bei Modus "check" werden die Daten aus der Url in die DB geschrieben (wenn
 		//möglich). Ansonsten wird ganz normal die Form geparsed.
 		if($this->conf->get($this->getConfId().'mode') == 'check'){
@@ -132,10 +131,13 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 	 */
 	public function handleBeforeUpdateDB($params, $form) {
 		$feUser = tx_t3users_models_feuser::getCurrent();
-		//leeres Model bilden um Felder zu löschen die da nicht hingehören
-		tx_rnbase::load('tx_mklib_util_TCA');
-		$params = tx_mklib_util_TCA::eleminateNonTcaColumns($feUser,$params);
+		//If enableNonTcaColumns is set: do not eliminate the NonTCA-Enabled columns
+		if(! $this->conf->get($this->getConfId().'enableNonTcaColumns')){
+			//leeres Model bilden um Felder zu löschen die da nicht hingehören
+			tx_rnbase::load('tx_mklib_util_TCA');
+			$params = tx_mklib_util_TCA::eleminateNonTcaColumns($feUser,$params);
 
+		}
 		//wenn die Option doubleoptin gewählt wurde dann werden die daten noch nicht
 		//gespeichert sondern mit einem confirmstring per email verschickt und
 		//erst bei der Bestätigung in die DB geschrieben

@@ -50,6 +50,7 @@
 			
 			<label index="plugin.t3users.flexform.feuseredit.xml">XML for the form</label>
 			<label index="plugin.t3users.flexform.feuseredit.template">Template for the View</label>
+			<label index="plugin.t3users.flexform.feuseredit.enableNonTcaColumns">Do not ignore Non-TCA-Fields (like deleted, hidden)</label>
 			<label index="plugin.t3users.flexform.feuseredit.doubleoptin">change via Double-Opt-In?</label>
 			<label index="plugin.t3users.flexform.feuseredit.mode">Mode</label>
 			<label index="plugin.t3users.flexform.feuseredit.mode.normal">change Data</label>
@@ -119,6 +120,7 @@
 			<label index="plugin.t3users.flexform.feuseredit.xml">XML für das Formular</label>
 			<label index="plugin.t3users.flexform.feuseredit.template">Template für View</label>
 			<label index="plugin.t3users.flexform.feuseredit.doubleoptin">per Double-Opt-In ändern?</label>
+			<label index="plugin.t3users.flexform.feuseredit.enableNonTcaColumns">Non-TCA-Fields nicht ignorieren (like deleted, hidden)</label>
 			<label index="plugin.t3users.flexform.feuseredit.mode">Modus</label>
 			<label index="plugin.t3users.flexform.feuseredit.mode.normal">Daten ändern</label>
 			<label index="plugin.t3users.flexform.feuseredit.mode.check">Double-Opt-In Link prüfen</label>
