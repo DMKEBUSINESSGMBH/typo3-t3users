@@ -151,7 +151,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 
 	/**
 	 * Save the given plaintext password to database. The password is encrypted
-	 * if an encrpyption method is actived. 
+	 * if an encrpyption method is actived.
 	 * @param unknown $feuser
 	 * @param string $newPassword plaintext password
 	 */
@@ -162,7 +162,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		elseif($this->useSaltedPasswords()) {
 			tx_rnbase::load('tx_rnbase_util_TYPO3');
 			if(tx_rnbase_util_TYPO3::isTYPO45OrHigher())
-				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
+				require_once t3lib_extMgm::extPath('saltedpasswords').'Classes/class.tx_saltedpasswords_div.php';
 			else
 				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
 			if (tx_saltedpasswords_div::isUsageEnabled()) {
@@ -199,7 +199,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		} elseif($this->useSaltedPasswords()) {
 			tx_rnbase::load('tx_rnbase_util_TYPO3');
 			if(tx_rnbase_util_TYPO3::isTYPO45OrHigher())
-				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
+				require_once t3lib_extMgm::extPath('saltedpasswords').'Classes/class.tx_saltedpasswords_div.php';
 			else
 				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
 			if (tx_saltedpasswords_div::isUsageEnabled()) {
@@ -234,27 +234,27 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		if(!$feuser->record['usergroup']) {
 			return array();
 		}
-		
+
 		$from = 'fe_groups';
 		$options = array(
 			'where' => 'uid IN (' . $feuser->record['usergroup'] . ') ',
 			'wrapperclass' => 'tx_t3users_models_fegroup',
 			'orderby' => 'title'
 		);
-		
+
 		$rnBaseDbUtil = $this->getRnBaseDbUtil();
 		return $rnBaseDbUtil::doSelect('*',$from,$options,0);
 	}
-	
+
 	/**
 	 * für tests
-	 * 
+	 *
 	 * @return tx_rnbase_util_DB
 	 */
 	protected function getRnBaseDbUtil() {
 		return tx_rnbase_util_DB;
 	}
-	
+
 	/**
 	 * Returns all users of given fe_groups
 	 *
@@ -438,7 +438,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		$this->updateFeUser($feuser->getUid(), $values);
 		return $feuser;
 	}
-	
+
 	/**
 	 * Update user data in database
 	 *
@@ -467,10 +467,10 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		$emailService = tx_t3users_util_ServiceRegistry::getEmailService();
 		$emailService->sendNewPassword($feuser, $newpass, $configurations , $confId);
 	}
-	
+
 	/**
 	 * Email mit Änderungslink verschicken.
-	 * 
+	 *
 	 * @param tx_t3users_models_feuser $feUser
 	 * @param tx_rnbase_configurations $configurations
 	 */
@@ -505,7 +505,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	/**
 	 * Prüft die Gültigkeit eines Confirm-Strings und liefert in diesem Fall die Instanz
 	 * des feusers.
-	 * 
+	 *
 	 * @param int $uid
 	 * @param string $confirmstring
 	 * @return tx_t3users_models_feuser
@@ -519,7 +519,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		// Ist der String korrekt?
 		if($confirmstring != $feUser->record['confirmstring']) {
 			tx_rnbase::load('tx_rnbase_util_Logger');
-			tx_rnbase_util_Logger::info('Password reset failed on invalid confirmstring', 't3users', 
+			tx_rnbase_util_Logger::info('Password reset failed on invalid confirmstring', 't3users',
 				array('feuser'=>$feUser->getUid(),'stored confirm'=>$feUser->record['confirmstring'], 'submitted'=>$confirmstring));
 			return null;
 		}
@@ -529,7 +529,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		if($timeout < time()) {
 			tx_rnbase::load('tx_rnbase_util_Logger');
 			tx_rnbase_util_Logger::info('Password reset failed on timeout', 't3users',
-				array('feuser'=>$feUser->getUid(),'stored timeout'=>$feUser->record['confirmtimeout'], 
+				array('feuser'=>$feUser->getUid(),'stored timeout'=>$feUser->record['confirmtimeout'],
 						'stored timeout2'=>$timeout, 'submitted'=> time()));
 			return null;
 		}
