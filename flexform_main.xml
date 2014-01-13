@@ -24,6 +24,11 @@
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.LoginBox</numIndex>
                     <numIndex index="1">tx_t3users_actions_Login</numIndex>
                   </numIndex>
+
+                  <numIndex index="105" type="array">
+                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ResetPassword</numIndex>
+                    <numIndex index="1">tx_t3users_actions_ResetPassword</numIndex>
+                  </numIndex>
                   
                   <numIndex index="110" type="array">
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.Registration</numIndex>

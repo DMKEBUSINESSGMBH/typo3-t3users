@@ -23,11 +23,13 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-require_once(t3lib_extMgm::extPath('dam') . 'lib/class.tx_dam_media.php');
+if (t3lib_extMgm::isLoaded('dam')) {
+	require_once(t3lib_extMgm::extPath('dam', 'lib/class.tx_dam_media.php'));
+// 	tx_rnbase::load('tx_dam_media');
+}
 
 tx_rnbase::load('tx_rnbase_view_Base');
 tx_rnbase::load('tx_rnbase_util_ListBuilder');
-//tx_rnbase::load('tx_dam_media');
 
 
 /**
@@ -43,7 +45,7 @@ class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base {
     // Die ViewData bereitstellen
     $users =& $viewData->offsetGet('userlist');
 	  $listBuilder = tx_rnbase::makeInstance('tx_rnbase_util_ListBuilder');
-    
+
     $out = $listBuilder->render($users,
     								$viewData, $template, 'tx_t3users_util_FeUserMarker',
     								'feuserlist.feuser.', 'FEUSER', $formatter);
@@ -51,7 +53,7 @@ class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base {
   }
 
   function getMainSubpart() {return '###FEUSER_LIST###';}
-  
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php'])	{

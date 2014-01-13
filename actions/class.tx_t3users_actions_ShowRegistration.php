@@ -176,10 +176,12 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$linkMarker = 'MAILCONFIRM_LINK';
 		$wrappedSubpartArray['###'.$linkMarker . '###'] = explode($token, $link->makeTag());
 		$markerArray = $params;
-		$markerArray['###'.$linkMarker . 'URL###'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
+		if ($this->conf->getBool('showregistration.links.mailconfirm.noAbsurl'))
+			$markerArray['###'.$linkMarker . 'URL###'] = $link->makeUrl(false);
+		else
+			$markerArray['###'.$linkMarker . 'URL###'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
 		$markerArray['###SITENAME###'] = $this->conf->get('siteName');
 		$subpartArray = array();
-
 		$template = $this->conf->getLL('registration_confirmation_mail');
 		$mailtext = $this->conf->getFormatter()->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
