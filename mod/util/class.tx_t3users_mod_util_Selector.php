@@ -64,6 +64,7 @@ class tx_t3users_mod_util_Selector {
 	 * @return string selected item
 	 */
 	protected function showSelectorByArray($aItems, $sDefId, &$aData, $aOptions=array()) {
+		$pid = isset($aOptions['pid']) && $aOptions['pid'] ? $aOptions['pid'] : 0;
 		$id = isset($aOptions['id']) && $aOptions['id'] ? $aOptions['id'] : $sDefId;
 
 		$selectedItem = array_key_exists('forcevalue', $aOptions) ? $aOptions['forcevalue'] : $this->getValueFromModuleData($id);
