@@ -38,7 +38,7 @@ tx_rnbase::load('tx_rnbase_util_Templates');
  * @package tx_t3users
  * @subpackage tx_t3users_mod
  */
-class tx_t3users_mod_handler_ManageFeUser extends tx_rnbase_mod_BaseModule {
+class tx_t3users_mod_handler_ManageFeUser {
 
 	/**
 	 * Das aktuelle Modul
@@ -89,9 +89,14 @@ class tx_t3users_mod_handler_ManageFeUser extends tx_rnbase_mod_BaseModule {
 
 	/**
 	 *
+	 * @param tx_rnbase_mod_IModule $mod
+	 * @param array $options
+	 * @return tx_t3users_mod_lister_FeUser
 	 */
-	private function getLister($mod, $options) {
-		$lister = $this->getConfigurations()->get('feuser.listerclass');
+	private function getLister(tx_rnbase_mod_IModule $mod, $options) {
+		// @TODO: das ist falsch, die ID muss von getSubID geholt werden
+		// das würde dann ManageFeUser.listerclass ergeben!
+		$lister = $mod->getConfigurations()->get('feuser.listerclass');
 		if($lister) {
 			return tx_rnbase::makeInstance($lister, $mod, $options);
 		}
