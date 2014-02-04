@@ -198,7 +198,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 			}
 		} elseif($this->useSaltedPasswords()) {
 			tx_rnbase::load('tx_rnbase_util_TYPO3');
-			if(tx_rnbase_util_TYPO3::isTYPO45OrHigher())
+			if(tx_rnbase_util_TYPO3::isTYPO60OrHigher())
 				require_once t3lib_extMgm::extPath('saltedpasswords').'Classes/class.tx_saltedpasswords_div.php';
 			else
 				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
