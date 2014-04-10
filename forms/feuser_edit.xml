@@ -52,11 +52,11 @@
 				<renderlet:PASSWORD name="password123_confirm">
 					<label>LLL:EXT:t3users/locallang.php:label_form_password_confirm</label>
 					<renderonly>true</renderonly>
-					<confirm>EDITION-BOX.password123</confirm>
+					<confirm>EDITION-BOX__password123</confirm>
 					<validators>
 						<validator:STANDARD>
 							<sameas>
-								<value>EDITION-BOX.password123</value>
+								<value>EDITION-BOX__password123</value>
 								<message>LLL:EXT:t3users/locallang.php:msg_form_password_sameas</message>
 							</sameas>
 						</validator:STANDARD>

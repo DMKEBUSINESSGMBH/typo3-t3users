@@ -68,7 +68,7 @@
 				<renderlet:PASSWORD name="password_confirm">
 					<label>LLL:EXT:t3users/locallang.php:label_form_password_confirm</label>
 					<renderonly>true</renderonly>
-					<confirm>EDITION-BOX.password</confirm>
+					<confirm>EDITION-BOX__password</confirm>
 					<validators>
 						<validator:STANDARD>
 							<required>
@@ -76,7 +76,7 @@
 								<message>LLL:EXT:t3users/locallang.php:msg_form_password_required</message>
 							</required>
 							<sameas>
-								<value>EDITION-BOX.password</value>
+								<value>EDITION-BOX__password</value>
 								<message>LLL:EXT:t3users/locallang.php:msg_form_password_sameas</message>
 							</sameas>
 						</validator:STANDARD>
