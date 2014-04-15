@@ -104,19 +104,19 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	 */
 	protected function sendAdminReviewMail($userUid, $confirmString, $adminReviewMail) {
 		$feuser = tx_t3users_models_feuser::getInstance($userUid);
-		if($confirmString == $feuser->record['confirmstring']) {
-			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
-			$confirmString = $this->getConfirmString();
-			$feuser->record['confirmstring'] = $confirmString;
-			$usrSrv->handleUpdate($feuser, array('confirmstring'  => $confirmString));
-			//adminEmail injizieren
-			$feuser->record['email'] = $adminReviewMail;
-			$this->sendConfirmationMail($userUid, $feuser->record);
-
-			return true;
-		} else {
+		if($confirmString != $feuser->record['confirmstring']) {
 			return false;
 		}
+		//else
+		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
+		$confirmString = $this->getConfirmString();
+		$feuser->record['confirmstring'] = $confirmString;
+		$usrSrv->handleUpdate($feuser, array('confirmstring'  => $confirmString));
+		//adminEmail injizieren
+		$feuser->record['email'] = $adminReviewMail;
+		$this->sendConfirmationMail($userUid, $feuser->record);
+
+		return true;
 	}
 
 	/**
