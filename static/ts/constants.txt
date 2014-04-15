@@ -37,6 +37,19 @@ plugin.tx_t3users {
   doubleOptInPage = 0
   # cat=FE User Management (Misc)/feusereditRedirect; type=int+;label=PID of page for redirect after changing data
   feusereditRedirect = 0
+  ### ist das gesetzt, wird der Nutzer bei confirmation nicht freigeschaltet
+  ### sondern eine neue confirmation an den Admin geschickt.
+  ### es sollte also immer eine Seite für die Bestätigung geben, auf der das
+  ### gesetzt wird. auf dieser Bestätigungsseite wird dann wiederum eine
+  ### andere confirmpage konfiguriert, auf welcher adminReviewMail nicht
+  ### gesetzt wird. auf dieser seite sollte aber notifyUserAboutConfirmation
+  ### gesetzt werden damit der Nutzer über die Freischaltung informiert wird.
+  # cat=FE User Management (Misc)/adminReviewMail; type=int+;label=Recipient of the admin review mail
+  adminReviewMail = 
+  ### das nicht auf der Seite setzen, auf welcher adminReviewMail gesetzt ist, sondern
+  ### auf der confirmPage, welche auf der Seite mit adminReviewMail gesetzt wurde
+  # cat=FE User Management (Misc)/notifyUserAboutConfirmation; type=boolean;label=Notify user about his confirmation?
+  notifyUserAboutConfirmation = 0
 
   # cat=FE User Management (Misc)/userGroupUponRegistration; type=string;label=FE group UID of newly created FE users
   userGroupUponRegistration = 0

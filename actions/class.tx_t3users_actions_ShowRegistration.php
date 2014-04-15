@@ -46,10 +46,12 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$hideForm = false;
 		$viewData->offsetSet('part', 'REGISTER');
 		$confirm = $parameters->offsetGet('NK_confirm');
-		if($confirm) {
+		$userUid = intval($parameters->offsetGet('NK_uid'));
+
+		if($adminReviewMail = $configurations->get('showregistration.adminReviewMail')) {
+			$this->sendAdminReviewMail($userUid, $adminReviewMail);
+		} elseif($confirm) {
 			$hideForm = true;
-			// User wants to be confirmed
-			$userUid = intval($parameters->offsetGet('NK_uid'));
 			// Load instance
 			$feuser = tx_t3users_models_feuser::getInstance($userUid);
 			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
@@ -86,8 +88,29 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 
 		$viewData->offsetSet('editors', $editors );
 	}
-	
 
+	/**
+	 *
+	 * @param int $userUid
+	 */
+	protected function sendAdminReviewMail($userUid, $adminReviewMail) {
+		$feuser = tx_t3users_models_feuser::getInstance($userUid);
+		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
+		$confirmString = $this->getConfirmString();
+		$feuser->record['confirmstring'] = $confirmString;
+		$usrSrv->handleUpdate($feuser, array('confirmstring'  => $confirmString));
+		//adminEmail injizieren
+		$feuser->record['email'] = $adminReviewMail;
+		$this->sendConfirmationMail($userUid, $feuser->record);
+	}
+
+	/**
+	 *
+	 * @param unknown $parameters
+	 * @param unknown $configurations
+	 * @param unknown $hide
+	 * @return string|unknown
+	 */
 	private function getEditors($parameters, $configurations, $hide) {
 		$editors['FORM'] = '';
 		if($hide) return $editors;
@@ -104,8 +127,8 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$xmlfile = $xmlfile ? $xmlfile : t3lib_extmgm::extPath('t3users') . '/forms/registration.xml';
 		$this->regForm->init($this,$xmlfile,false);
 		$editors['FORM'] = $this->regForm->render();
-		
-		
+
+
 
 		return $editors;
 	}
@@ -117,7 +140,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	 * @param tx_ameosformidable $form
 	 */
 	public function handleBeforeUpdateDB($params, $form) {
-		$params['confirmstring'] = md5(uniqid());
+		$params['confirmstring'] = $this->getConfirmString();
 		$pid = t3lib_div::intExplode(',',$this->conf->get('feuserPages'));
 		$params['pid'] = (is_array($pid) && count($pid)) ? $pid[0] : 0;
 		$params['disable'] = 1;
@@ -129,7 +152,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 		if($usrSrv->useMD5())
 			$params['password'] = md5($params['password']);
-		
+
 		tx_rnbase_util_Misc::callHook(
 			't3users',
 			'showRegistration_beforeUpdateDB_hook',
@@ -141,6 +164,16 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		);
 		return $params;
 	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	protected function getConfirmString() {
+		return md5(uniqid());
+	}
+
+
 	/**
 	 * User is saved. Send confirmation mail
 	 *
@@ -148,9 +181,9 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	 * @param tx_ameosformidable $form
 	 */
 	public function handleUpdateDB($params, $form) {
-				
+
 		$uid = $form->oDataHandler->newEntryId;
-		
+
 		tx_rnbase_util_Misc::callHook(
 			't3users',
 			'showRegistration_beforeSendConfirmationMail_hook',
@@ -161,42 +194,64 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			),
 			$this
 		);
-		
+
+		$this->sendConfirmationMail($uid, $params);
+		$this->userDataSaved = true;
+	}
+
+	/**
+	 * @param int $feUserUid
+	 * @param array $feUserData
+	 *
+	 * @return void
+	 */
+	protected function sendConfirmationMail($feUserUid, array $feUserData) {
 		// Mail schicken
 		$token = md5(microtime());
 		$link = $this->conf->createLink();
 		$link->label($token);
-		$confirmPage = intval($this->conf->get('showregistration.links.mailconfirm.pid'));
+		$confirmPage = $this->conf->get('showregistration.links.mailconfirm.pid');
 		$link->destination($confirmPage ? $confirmPage : $GLOBALS['TSFE']->id);
 		// Zusätzlich Parameter für Finished setzen
-		$link->parameters(array('NK_confirm' => $params['confirmstring'],
-														'NK_uid' => $uid));
-
+		$link->parameters(array(
+			'NK_confirm' => $feUserData['confirmstring'],
+			'NK_uid' => $feUserUid)
+		);
 
 		$linkMarker = 'MAILCONFIRM_LINK';
 		$wrappedSubpartArray['###'.$linkMarker . '###'] = explode($token, $link->makeTag());
-		$markerArray = $params;
-		if ($this->conf->getBool('showregistration.links.mailconfirm.noAbsurl'))
+		$markerArray = $feUserData;
+		if ($this->conf->getBool('showregistration.links.mailconfirm.noAbsurl')) {
 			$markerArray['###'.$linkMarker . 'URL###'] = $link->makeUrl(false);
-		else
+		} else {
 			$markerArray['###'.$linkMarker . 'URL###'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
+		}
 		$markerArray['###SITENAME###'] = $this->conf->get('siteName');
 		$subpartArray = array();
 		$template = $this->conf->getLL('registration_confirmation_mail');
-		$mailtext = $this->conf->getFormatter()->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+		$mailtext = $this->conf->getFormatter()->cObj->substituteMarkerArrayCached(
+			$template, $markerArray, $subpartArray, $wrappedSubpartArray
+		);
 
 		$markerArray = array();
 		tx_rnbase::load('tx_rnbase_util_BaseMarker');
-		tx_rnbase_util_BaseMarker::callModules($mailtext, $markerArray, $subpartArray, $wrappedSubpartArray, $params, $this->conf->getFormatter());
-		$mailtext = $this->conf->getFormatter()->cObj->substituteMarkerArrayCached($mailtext, $markerArray, $subpartArray, $wrappedSubpartArray);
+		tx_rnbase_util_BaseMarker::callModules(
+			$mailtext, $markerArray, $subpartArray, $wrappedSubpartArray,
+			$feUserData, $this->conf->getFormatter()
+		);
+		$mailtext = $this->conf->getFormatter()->cObj->substituteMarkerArrayCached(
+			$mailtext, $markerArray, $subpartArray, $wrappedSubpartArray
+		);
 		// Now send mail
-		$userEmail = $params['email'];
+		$userEmail = $feUserData['email'];
 		$from = $this->conf->get('showregistration.email.from');
 		$fromName = $this->conf->get('showregistration.email.fromName');
 		$cc = $this->conf->get('showregistration.email.cc');
-		$this->conf->getFormatter()->cObj->sendNotifyEmail($mailtext, $userEmail, $cc, $from, $fromName, $userEmail);
-		$this->userDataSaved = true;
+		$this->conf->getFormatter()->cObj->sendNotifyEmail(
+			$mailtext, $userEmail, $cc, $from, $fromName, $userEmail
+		);
 	}
+
 	public function nextPage($params) {
 		$this->regValues = $params;
 	}
@@ -218,7 +273,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
   	$path = t3lib_div::getFileAbsFileName($this->conf->get('showregistration.form'));
   	return $path;
   }
-  
+
   function getTemplateName() { return 'registration';}
 	function getViewClassName() { return 'tx_t3users_views_ShowRegistration';}
 }

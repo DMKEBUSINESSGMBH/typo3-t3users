@@ -135,11 +135,23 @@ plugin.tx_t3users_main {
   }
   showregistration {
     links.register.pid = {$plugin.tx_t3users.registerPage}
+    links.mailconfirm.pid = {$plugin.tx_t3users.confirmPage}
     form = {$plugin.tx_t3users.registrationTemplate}
     formxml = EXT:t3users/forms/registration.xml
     confirmpage = {$plugin.tx_t3users.confirmPage}
     email.from = {$plugin.tx_t3users.email}
     email.fromName = {$plugin.tx_t3users.siteName}
+    ### ist das gesetzt, wird der Nutzer bei confirmation nicht freigeschaltet
+    ### sondern eine neue confirmation an den Admin geschickt.
+    ### es sollte also immer eine Seite für die Bestätigung geben, auf der das
+    ### gesetzt wird. auf dieser Bestätigungsseite wird dann wiederum eine
+    ### andere confirmpage konfiguriert, auf welcher adminReviewMail nicht
+    ### gesetzt wird. auf dieser seite sollte aber notifyUserAboutConfirmation
+    ### gesetzt werden damit der Nutzer über die Freischaltung informiert wird.
+    adminReviewMail = {$plugin.tx_t3users.adminReviewMail}
+    ### das nicht auf der Seite setzen, auf welcher adminReviewMail gesetzt ist, sondern
+    ### auf der confirmPage, welche auf der Seite mit adminReviewMail gesetzt wurde
+    notifyUserAboutConfirmation = {$plugin.tx_t3users.notifyUserAboutConfirmation}
   }
   
   feuseredit {
