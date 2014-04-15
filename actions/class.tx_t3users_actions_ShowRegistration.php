@@ -49,7 +49,13 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$userUid = intval($parameters->offsetGet('NK_uid'));
 
 		if($adminReviewMail = $configurations->get('showregistration.adminReviewMail')) {
-			$this->sendAdminReviewMail($userUid, $adminReviewMail);
+			if($this->sendAdminReviewMail($userUid, $confirm, $adminReviewMail)) {
+				$viewData->offsetSet('part', 'ADMINREVIEWMAILSENT');
+			} else {
+				$viewData->offsetSet('part', 'ADMINREVIEWMAILSENTALREADY');
+			}
+
+			$viewData->offsetSet('confirmed', $feuser);
 		} elseif($confirm) {
 			$hideForm = true;
 			// Load instance
@@ -90,18 +96,27 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	}
 
 	/**
-	 *
 	 * @param int $userUid
+	 * @param string $confirmString
+	 * @param string $adminReviewMail
+	 *
+	 * @return boolean
 	 */
-	protected function sendAdminReviewMail($userUid, $adminReviewMail) {
+	protected function sendAdminReviewMail($userUid, $confirmString, $adminReviewMail) {
 		$feuser = tx_t3users_models_feuser::getInstance($userUid);
-		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
-		$confirmString = $this->getConfirmString();
-		$feuser->record['confirmstring'] = $confirmString;
-		$usrSrv->handleUpdate($feuser, array('confirmstring'  => $confirmString));
-		//adminEmail injizieren
-		$feuser->record['email'] = $adminReviewMail;
-		$this->sendConfirmationMail($userUid, $feuser->record);
+		if($confirmString == $feuser->record['confirmstring']) {
+			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
+			$confirmString = $this->getConfirmString();
+			$feuser->record['confirmstring'] = $confirmString;
+			$usrSrv->handleUpdate($feuser, array('confirmstring'  => $confirmString));
+			//adminEmail injizieren
+			$feuser->record['email'] = $adminReviewMail;
+			$this->sendConfirmationMail($userUid, $feuser->record);
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
