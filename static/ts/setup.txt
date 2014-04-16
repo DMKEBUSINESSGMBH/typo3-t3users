@@ -18,12 +18,17 @@ lib.t3users.pagebrowser {
   maxPages = 7
   pagefloat = CENTER
 }
-
+	
 lib.t3users.feuser {
   pagebrowser < lib.t3users.pagebrowser
   links {
     details.pid = {$plugin.tx_t3users.feuserdetailsPage}
     list.pid = {$plugin.tx_t3users.feuserlistPage}
+    login{
+    	pid = {$plugin.tx_t3users.loginboxPage}
+    	### absolut da es z.B. auch in Mailtemplates verwendet wird
+    	absurl = 1
+    }
   }
   www{
     ifEmpty = -
@@ -148,10 +153,17 @@ plugin.tx_t3users_main {
     ### andere confirmpage konfiguriert, auf welcher adminReviewMail nicht
     ### gesetzt wird. auf dieser seite sollte aber notifyUserAboutConfirmation
     ### gesetzt werden damit der Nutzer über die Freischaltung informiert wird.
+    ### es wird das gleiche mail template verwendet wie für die normale
+    ### confirm mail. Dies lässt sich überschreiben indem man auf der gewünschten Seite
+    ### eine weitere locallang hinzufügt und dort das template überschreibt:
+    ### plugin.tx_t3users_main.locallangFilename.0 = PFAD-ZU-LOCALLANG-FÜR-REVIEW-SEITE
+    ### dort dann registration_confirmation_mail überschreiben
     adminReviewMail = {$plugin.tx_t3users.adminReviewMail}
     ### das nicht auf der Seite setzen, auf welcher adminReviewMail gesetzt ist, sondern
     ### auf der confirmPage, welche auf der Seite mit adminReviewMail gesetzt wurde
     notifyUserAboutConfirmation = {$plugin.tx_t3users.notifyUserAboutConfirmation}
+    
+    feuser =< lib.t3users.feuser
   }
   
   feuseredit {

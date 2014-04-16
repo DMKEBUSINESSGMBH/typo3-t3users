@@ -46,7 +46,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$hideForm = false;
 		$viewData->offsetSet('part', 'REGISTER');
 		$confirm = $parameters->offsetGet('NK_confirm');
-		$userUid = intval($parameters->offsetGet('NK_uid'));
+		$userUid = $parameters->getInt('NK_uid');
 
 		if($adminReviewMail = $configurations->get('showregistration.adminReviewMail')) {
 			if($this->sendAdminReviewMail($userUid, $confirm, $adminReviewMail)) {
@@ -72,6 +72,12 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			else {
 				$viewData->offsetSet('part', 'CONFIRMFAILED');
 				$viewData->offsetSet('confirmed', '0');
+			}
+
+
+			if($configurations->get('showregistration.notifyUserAboutConfirmation')) {
+				tx_t3users_util_ServiceRegistry::getEmailService()
+					->sendNotificationAboutConfirmationToFeUser($feuser, $configurations);
 			}
 		}
 		elseif($parameters->offsetGet('NK_saved')) {

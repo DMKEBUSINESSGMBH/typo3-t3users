@@ -81,7 +81,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
 	}
 	/**
-	 * 
+	 *
 	 * @param tx_t3users_models_feuser $feuser
 	 * @param tx_rnbase_util_Link $pwLink
 	 * @param tx_rnbase_configurations $configurations
@@ -343,6 +343,59 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$job->setContentText($messageTxt);
 		$job->setContentHtml($messageHtml);
 		$mailSrv->spoolMailJob($job);
+	}
+
+	/**
+	 * @param tx_t3users_models_feuser $feuser
+	 * @param tx_rnbase_configurations $configurations
+	 * @param string $confId
+	 *
+	 * Beispiel Mailtemplate:
+	 *
+		Guten Tag ###FEUSER_NAME###
+		ihre Registrierung auf Serviceoasen wurde freigegeben. Sie können sich nun unter ###FEUSER_LOGINLINK###diesem Link###FEUSER_LOGINLINK### anmelden.
+		Für Fragen stehen wir Ihnen gerne jederzeit zur Verfügung.
+	 *
+	 */
+	public function sendNotificationAboutConfirmationToFeUser(
+		tx_t3users_models_feuser $feuser, tx_rnbase_configurations $configurations,
+		$confId = 'showregistration.'
+	) {
+		$mailSrv = $this->getMkMailerMailService();
+		$templateObj = $mailSrv->getTemplate('t3users_send_confirmation_notification');
+
+		tx_rnbase::load('tx_rnbase_util_Templates');
+
+		// feUser-Marker werden mittels Marker-Klasse ersetzt
+		$formatter = $configurations->getFormatter();
+		$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+		$messageTxt = $marker->parseTemplate(
+			$templateObj->getContentText(), $feuser, $formatter, $confId.'feuser.'
+		);
+		$messageHtml = $marker->parseTemplate(
+			$templateObj->getContentHtml(), $feuser, $formatter, $confId.'feuser.'
+		);
+
+		$receiver = tx_rnbase::makeInstance('tx_mkmailer_receiver_FeUser');
+		$receiver->setFeUser($feuser);
+
+		$job = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
+		$job->addReceiver($receiver);
+		$job->setFrom($templateObj->getFromAddress());
+		$job->setCCs($templateObj->getCcAddress());
+		$job->setBCCs($templateObj->getBccAddress());
+		$job->setSubject($templateObj->getSubject());
+		$job->setContentText($messageTxt);
+		$job->setContentHtml($messageHtml);
+		$mailSrv->spoolMailJob($job);
+	}
+
+	/**
+	 * @return tx_mkmailer_services_Mail
+	 */
+	protected function getMkMailerMailService() {
+		tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
+		return tx_mkmailer_util_ServiceRegistry::getMailService();
 	}
 }
 

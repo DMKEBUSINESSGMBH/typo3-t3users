@@ -23,13 +23,13 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-tx_rnbase::load('tx_rnbase_util_BaseMarker');
+tx_rnbase::load('tx_rnbase_util_SimpleMarker');
 
 
 /**
  * Diese Klasse ist für die Erstellung von Markerarrays für FE User verantwortlich
  */
-class tx_t3users_util_FeUserMarker extends tx_rnbase_util_BaseMarker {
+class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker {
 
 	/**
 	 * Initialisiert den Marker Array.
@@ -120,8 +120,8 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_BaseMarker {
 	 * @param string $confId
 	 * @param tx_rnbase_util_FormatUtil $formatter
 	 */
-	private function prepareLinks(&$feuser, $marker, &$markerArray, &$subpartArray, &$wrappedSubpartArray, $confId, &$formatter, $template) {
-
+	protected function prepareLinks(&$feuser, $marker, &$markerArray, &$subpartArray, &$wrappedSubpartArray, $confId, &$formatter, $template) {
+		parent::prepareLinks($feuser, $marker, $markerArray, $subpartArray, $wrappedSubpartArray, $confId, $formatter, $template);
 		if($feuser->isDetailsEnabled()) {
 			$this->initLink($markerArray, $subpartArray, $wrappedSubpartArray, $formatter, $confId, 'details', $marker, array('feuserId' => $feuser->uid), $template);
 		}
