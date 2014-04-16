@@ -47,6 +47,16 @@ class tx_t3users_tests_services_email_testcase extends tx_rnbase_tests_BaseTestC
 	 */
 	protected function setUp() {
 		tx_mklib_tests_Util::prepareTSFE();
+		tx_mklib_tests_Util::storeExtConf('mkmailer');
+		tx_mklib_tests_Util::setExtConfVar('cronpage', 'unknown', 'mkmailer');
+	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::tearDown()
+	 */
+	protected function tearDown() {
+		tx_mklib_tests_Util::restoreExtConf('mkmailer');
 	}
 
 	/**
