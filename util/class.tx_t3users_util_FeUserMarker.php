@@ -77,7 +77,8 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker {
 		if($this->containsMarker($template, $marker.'_FEGROUPS'))
 			$template = $this->_addGroups($template, $feuser, $formatter, $confId.'group.', $marker.'_FEGROUP');
 
-		$out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+		tx_rnbase::load('tx_rnbase_util_Templates');
+		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 		tx_rnbase_util_Misc::callHook('t3users','feuserMarker_afterSubst',
 			array('item' => &$feuser, 'template'=>&$out, 'confid'=>$confId, 'marker'=>$marker, 'formatter'=>$formatter), $this);
 		return $out;
