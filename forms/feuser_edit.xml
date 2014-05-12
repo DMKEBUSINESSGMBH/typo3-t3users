@@ -73,7 +73,11 @@
 							<email message="Die Emailadresse ist nicht gültig."/>
 						</validator:STANDARD>
 						<validator:DB>
-							<unique message="Die angegebene Emailadresse wird bereits von einem anderen Mitglied verwendet!"/>
+							<!-- deleted="TRUE" -> gelöschte Datensätze ausschließen -->
+							<unique 
+								message="Die angegebene Emailadresse wird bereits von einem anderen Mitglied verwendet!"
+								deleted="TRUE" 
+							/>
 						</validator:DB>
 					</validators>
 				</renderlet:TEXT>
