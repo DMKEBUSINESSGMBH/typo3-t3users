@@ -73,6 +73,16 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC {
 		$viewData->offsetSet('userlist', $result);
 		$viewData->offsetSet('pagebrowser', $pageBrowser);
 
+		tx_rnbase_util_Misc::callHook(
+			't3users','actions_ListFeUsers_afterHandleRequest',
+			array(
+				'viewData' => &$viewData,
+				'parameters' => &$parameters,
+				'configurations' => &$configurations,
+			),
+			$this
+		);
+
 		return null;
   }
 
