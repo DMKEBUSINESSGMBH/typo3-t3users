@@ -17,6 +17,7 @@ lib.t3users.pagebrowser {
   limit = 2
   maxPages = 7
   pagefloat = CENTER
+  link.useKeepVars = 1
 }
 	
 lib.t3users.feuser {
