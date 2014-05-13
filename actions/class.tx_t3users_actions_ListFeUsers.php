@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
-tx_rnbase::load('tx_t3users_search_Builder');
+tx_rnbase::load('tx_t3users_search_builder');
 
 
 
@@ -34,7 +34,7 @@ tx_rnbase::load('tx_t3users_search_Builder');
  *
  */
 class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC {
-	
+
 	/**
 	 *
 	 *
@@ -46,7 +46,7 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC {
 	function handleRequest(&$parameters,&$configurations, &$viewData){
 
 		$userSrv = tx_t3users_util_serviceRegistry::getFeUserService();
-  	
+
 		$fields = array();
 		$options = array('count'=> 1);
 //  	$options['debug'] = 1;
@@ -100,7 +100,7 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC {
     }
 
   	// Freitextsuche
-  	tx_t3users_search_Builder::buildFeUserFreeText($fields, $parameters->offsetGet('searchfeuser'));
+  	tx_t3users_search_builder::buildFeUserFreeText($fields, $parameters->offsetGet('searchfeuser'));
 	}
 
 	function getTemplateName() { return 'feuserlist';}
