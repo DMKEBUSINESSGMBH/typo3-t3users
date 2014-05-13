@@ -93,13 +93,15 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC {
   		$fields['FEUSER.UID'][OP_IN_INT] = $uids;
     }
     else {
-	  	// ggf. die Konfiguration aus der TS-Config lesen
-	  	tx_rnbase_util_SearchBase::setConfigFields($fields, $configurations, 'feuserlist.fields.');
-	  	// Optionen
-	  	tx_rnbase_util_SearchBase::setConfigOptions($options, $configurations, 'feuserlist.options.');
+	  	$filter = tx_rnbase_filter_BaseFilter::createFilter(
+  			$parameters, $configurations, $configurations->getViewData(),
+  			$this->getConfId()
+		);
+	  	$filter->init($fields, $options);
     }
 
   	// Freitextsuche
+  	// @TODO freitext suche in eigenen filter auslagern
   	tx_t3users_search_builder::buildFeUserFreeText($fields, $parameters->offsetGet('searchfeuser'));
 	}
 
