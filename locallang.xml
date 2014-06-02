@@ -77,6 +77,11 @@ Everyone is welcome to browse around our website but you will need to confirm yo
 unrestricted access to all areas.
 To confirm your membership please click on this link: ###MAILCONFIRM_LINKURL###
       </label>
+      <!-- <label index="registration_confirmation_mail_cc">A user registrede
+Username: ###FEUSER_USERNAME###
+UID: ###FEUSER_UID###
+      </label>
+      -->
 
 
 
@@ -179,6 +184,11 @@ Jeder ist eingeladen sich auf unseren Webseiten zu informieren. Der Zugriff auf 
 Um deine Mitgliedschaft zu bestätigen, klicke bitte auf den folgenden Link:
 ###MAILCONFIRM_LINKURL###
       </label>
+      <!-- <label index="registration_confirmation_mail_cc">Ein Nutzer hat sich registriert.
+Nutzername: ###FEUSER_USERNAME###
+UID: ###FEUSER_UID###
+      </label>
+      -->
       <label index="label_form_username">Nutzername</label>
       <label index="label_form_password">Passwort</label>
       <label index="label_form_password_confirm">Passwort bestätigen</label>

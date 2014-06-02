@@ -241,15 +241,50 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 
 		$linkMarker = 'MAILCONFIRM_LINK';
 		$wrappedSubpartArray['###'.$linkMarker . '###'] = explode($token, $link->makeTag());
-		$markerArray = $feUserData;
+
+		$markerArray = array();
+		foreach ($feUserData as $key => $value) {
+			$markerArray['###FEUSER_' . strtoupper($key) . '###'] = $value;
+		}
+
 		if ($this->conf->getBool('showregistration.links.mailconfirm.noAbsurl')) {
 			$markerArray['###'.$linkMarker . 'URL###'] = $link->makeUrl(false);
 		} else {
 			$markerArray['###'.$linkMarker . 'URL###'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
 		}
 		$markerArray['###SITENAME###'] = $this->conf->get('siteName');
+
 		$subpartArray = array();
-		$template = $this->conf->getLL('registration_confirmation_mail');
+
+		$userTemplate = $this->conf->getLL('registration_confirmation_mail');
+		$userMailContent = $this->parseMailTemplate(
+			$userTemplate, $markerArray, $subpartArray, $wrappedSubpartArray, $feUserData
+		);
+
+		$ccTemplate = $this->conf->getLL('registration_confirmation_mail_cc');
+		$ccTemplate = $ccTemplate ? $ccTemplate : $userTemplate;
+		$ccMailContent= $this->parseMailTemplate(
+			$ccTemplate, $markerArray, $subpartArray, $wrappedSubpartArray, $feUserData
+		);
+
+		// Now send mail
+		$userEmail = $feUserData['email'];
+		$from = $this->conf->get('showregistration.email.from');
+		$fromName = $this->conf->get('showregistration.email.fromName');
+		$this->conf->getFormatter()->cObj->sendNotifyEmail(
+			$userMailContent, $userEmail, '', $from, $fromName, $userEmail
+		);
+
+		if (($cc = $this->conf->get('showregistration.email.cc'))) {
+			$this->conf->getFormatter()->cObj->sendNotifyEmail(
+				$ccMailContent, '', $cc, $from, $fromName, $userEmail
+			);
+		}
+	}
+
+	private function parseMailTemplate(
+		$template, array $markerArray, array $subpartArray, array $wrappedSubpartArray, array $feUserData
+	) {
 		$mailtext = $this->conf->getFormatter()->cObj->substituteMarkerArrayCached(
 			$template, $markerArray, $subpartArray, $wrappedSubpartArray
 		);
@@ -260,16 +295,8 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			$mailtext, $markerArray, $subpartArray, $wrappedSubpartArray,
 			$feUserData, $this->conf->getFormatter()
 		);
-		$mailtext = $this->conf->getFormatter()->cObj->substituteMarkerArrayCached(
+		return $this->conf->getFormatter()->cObj->substituteMarkerArrayCached(
 			$mailtext, $markerArray, $subpartArray, $wrappedSubpartArray
-		);
-		// Now send mail
-		$userEmail = $feUserData['email'];
-		$from = $this->conf->get('showregistration.email.from');
-		$fromName = $this->conf->get('showregistration.email.fromName');
-		$cc = $this->conf->get('showregistration.email.cc');
-		$this->conf->getFormatter()->cObj->sendNotifyEmail(
-			$mailtext, $userEmail, $cc, $from, $fromName, $userEmail
 		);
 	}
 

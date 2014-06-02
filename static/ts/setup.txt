@@ -145,8 +145,15 @@ plugin.tx_t3users_main {
     form = {$plugin.tx_t3users.registrationTemplate}
     formxml = EXT:t3users/forms/registration.xml
     confirmpage = {$plugin.tx_t3users.confirmPage}
-    email.from = {$plugin.tx_t3users.email}
-    email.fromName = {$plugin.tx_t3users.siteName}
+    email{
+    	from = {$plugin.tx_t3users.email}
+    	fromName = {$plugin.tx_t3users.siteName}
+    	### es kann auch eine weitere Mail versendet werden bei einer Bestätigung.
+    	### dafür wird registration_confirmation_mail_cc aus der locallang verwendet, was per default leer ist.
+    	### und wenn das leer ist, wird registration_confirmation_mail als template verwendet. somit
+    	### sind wir abwärtskompatibel
+    	#cc = 
+    }
     ### ist das gesetzt, wird der Nutzer bei confirmation nicht freigeschaltet
     ### sondern eine neue confirmation an den Admin geschickt.
     ### es sollte also immer eine Seite für die Bestätigung geben, auf der das
