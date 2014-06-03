@@ -29,12 +29,7 @@
 		<!-- renderer:TEMPLATE>
 			<template subpart="###REGISTRATIONFORM###">
 				<errortag>formerrors</errortag>
-				<path>
-				  <userobj>
-				  	<extension>this</extension>
-				  	<method>getFormTemplatePath</method>
-				  </userobj>
-				</path>
+				<path>EXT:...html</path>
 			</template>
 		</renderer:TEMPLATE-->
 	  <renderer:STANDARD/>

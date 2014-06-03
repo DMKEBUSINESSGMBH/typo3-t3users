@@ -316,6 +316,9 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
    * The HTML-Template for registration form
    *
    * @return string path name
+   *
+   * @deprecated der template pfad sollte im XML gesetzt werden da diese methode
+   * bei ajax calls nicht funktioniert
    */
   function getFormTemplatePath() {
   	$path = t3lib_div::getFileAbsFileName($this->conf->get('showregistration.form'));
