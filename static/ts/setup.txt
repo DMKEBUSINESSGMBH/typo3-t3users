@@ -63,7 +63,11 @@ plugin.tx_t3users_main {
 
   loginbox {
     # TODO: als Konstante mit Auswahlfeld auslagern
+    # sendpassword sollte nie gesetzt werden weil dann das Passwort per Mail
+    # zugesendet wird. Einfach leer lassen und links.resetPassword.pid setzen
     resetPasswordMode = sendpassword
+    # Seite auf welcher ResetPassword Plugin liegt
+    #links.resetPassword.pid =
     links.forgotpass = 1
     links.forgotpass.pid = {$plugin.tx_t3users.loginboxPage}
     links.register.pid = {$plugin.tx_t3users.registerPage}
