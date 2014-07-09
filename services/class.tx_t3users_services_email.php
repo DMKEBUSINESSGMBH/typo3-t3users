@@ -143,20 +143,6 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$mail->setTo($feuser->getEmail());
 		$mail->setTextPart($mailtext);
 		$mail->setHtmlPart($mailhtml);
-		if(
-			defined('TYPO3_ERRORHANDLER_MODE') &&
-			TYPO3_ERRORHANDLER_MODE == 'debug'
-		) {
-			require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-			tx_rnbase::load('tx_rnbase_util_Debug');
-			tx_rnbase_util_Debug::debug(
-				array(
-				$mailtext,$mailhtml,$emailFrom, $emailFromName,$feuser->getEmail()
-				),
-				__METHOD__ . ' Zeile:' .  __LINE__
-			);
-			exit;
-		}
 		$mail->send();
 
 //		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
