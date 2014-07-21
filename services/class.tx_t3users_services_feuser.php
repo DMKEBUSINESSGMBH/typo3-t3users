@@ -23,7 +23,6 @@
  ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-require_once(PATH_t3lib.'class.t3lib_svbase.php');
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_t3users_search_builder');
 tx_rnbase::load('tx_t3users_exceptions_User');
