@@ -69,15 +69,18 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
   public function setUp(){
 	// devlog deaktivieren
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['devlog']['nolog'] = true;
-		
+
     $this->actionsFeUser = tx_rnbase::makeInstance('tx_t3users_actions_EditFeUser');
     $this->config = tx_t3users_tests_Util::getConfigurations();
     $this->parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
-    
+
     $this->createDatabase();
     // assuming that test-database can be created otherwise PHPUnit will skip the test
     $this->useTestDatabase();
     $this->importStdDB();
+	if(tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+		$this->importExtensions(array('frontend'));
+	}
     $this->importExtensions(array('static_info_tables','t3users'),true);
     $fixturePath = tx_t3users_tests_Util::getFixturePath('db/feuser.xml');
     $this->importDataSet($fixturePath);
@@ -93,7 +96,7 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
 
     $GLOBALS['BE_USER']->setWorkspace($this->workspaceIdAtStart);
   }
-  
+
   /**
    * Pürfen on handleRequest() die Daten ändert und die richtige Meldung ausgibt wenn
    * der Modus "check" ist
@@ -110,14 +113,14 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
     $this->config->init($this->configData, $this->cObj, 't3users', 't3users');
     $this->viewData = $this->config->getViewData();
     $this->actionsFeUser->handleRequest($this->parameters,$this->config,$this->viewData);
-    
+
     $res = tx_rnbase_util_DB::doSelect('*', 'fe_users', array());
     $this->assertEquals(1,$res[0]['uid'],'[table:fe_users field:uid]] stimmt nicht!');
     $this->assertEquals('dummy1@dummy1.de',$res[0]['username'],'[table:fe_users field:username] stimmt nicht!');
     $this->assertEquals('dummy1@dummy1.de',$res[0]['email'],'[table:fe_users field:email] stimmt nicht!');
     $this->assertEquals('7346tbvn45tc91m9',$res[0]['confirmstring'],'[table:fe_users field:confirmstring] stimmt nicht!');
   }
-  
+
 	/**
    * Pürfen on handleRequest() die Daten ändert und die richtige Meldung ausgibt wenn
    * der Modus "check" ist
@@ -134,7 +137,7 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
     $this->config->init($this->configData, $this->cObj, 't3users', 't3users');
     $this->viewData = $this->config->getViewData();
     $this->actionsFeUser->handleRequest($this->parameters,$this->config,$this->viewData);
-    
+
     $res = tx_rnbase_util_DB::doSelect('*', 'fe_users', array());
     $this->assertEquals(1,$res[0]['uid'],'[table:fe_users field:uid]] stimmt nicht!');
     $this->assertEquals('dummy1@dummy1.de',$res[0]['username'],'[table:fe_users field:username] stimmt nicht!');
@@ -150,7 +153,7 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
     $this->parameters->offsetSet('NK_uid',1);
     $this->parameters->offsetSet('NK_email','dummy2@dummy2.de');
     $this->parameters->offsetSet('NK_confirmstring','7346tbvn45tc91m9');
-    
+
     $this->configData = array('feuseredit.' => array(
     				'mode' => 'check',
                   )
@@ -159,7 +162,7 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
     $this->config->init($this->configData, $this->cObj, 't3users', 't3users');
     $this->viewData = $this->config->getViewData();
     $this->actionsFeUser->handleRequest($this->parameters,$this->config,$this->viewData);
-    
+
     $res = tx_rnbase_util_DB::doSelect('*', 'fe_users', array());
 
     $this->assertEquals(1,$res[0]['uid'],'[table:fe_users field:uid]] stimmt nicht!');
@@ -167,7 +170,7 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
     $this->assertEquals('dummy2@dummy2.de',$res[0]['email'],'[table:fe_users field:email] stimmt nicht!');
     $this->assertTrue(empty($res[0]['confirmstring']),'[table:fe_users field:confirmstring]] stimmt nicht!');
   }
-  
+
   /**
    * Pürfen on handleRequest() die Daten ändert und die richtige Meldung ausgibt wenn
    * der Modus "check" ist
@@ -176,7 +179,7 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
     $this->parameters->offsetSet('NK_uid',1);
     $this->parameters->offsetSet('NK_email','dummy2@dummy2.de');
     $this->parameters->offsetSet('NK_confirmstring','123');
-    
+
     $this->configData = array('feuseredit.' => array(
     				'mode' => 'check',
                   )
@@ -185,7 +188,7 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
     $this->config->init($this->configData, $this->cObj, 't3users', 't3users');
     $this->viewData = $this->config->getViewData();
     $this->actionsFeUser->handleRequest($this->parameters,$this->config,$this->viewData);
-    
+
     $res = tx_rnbase_util_DB::doSelect('*', 'fe_users', array());
 
     $this->assertEquals(1,$res[0]['uid'],'[table:fe_users field:uid]] stimmt nicht!');
@@ -195,8 +198,8 @@ class tx_t3users_tests_actions_EditFeUser_testcase extends tx_phpunit_database_t
   }
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/tests/actions/class.tx_t3users_tests_actions_EditFeUser_testcase.php']) {
-  include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/tests/actions/class.tx_t3users_tests_actions_EditFeUser_testcase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/actions/class.tx_t3users_tests_actions_EditFeUser_testcase.php']) {
+  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/actions/class.tx_t3users_tests_actions_EditFeUser_testcase.php']);
 }
 
 ?>

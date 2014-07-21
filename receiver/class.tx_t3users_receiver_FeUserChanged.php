@@ -55,7 +55,7 @@ class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/receiver/class.tx_t3users_receiver_FeUserChanged.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/receiver/class.tx_t3users_receiver_FeUserChanged.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/receiver/class.tx_t3users_receiver_FeUserChanged.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/receiver/class.tx_t3users_receiver_FeUserChanged.php']);
 }
 ?>

@@ -123,6 +123,6 @@ class tx_t3users_mod_handler_ManageFeUser {
 
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/mod/handler/class.tx_t3users_mod_handler_ManageFeUser.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/mod/handler/class.tx_t3users_mod_handler_ManageFeUser.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/handler/class.tx_t3users_mod_handler_ManageFeUser.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/handler/class.tx_t3users_mod_handler_ManageFeUser.php']);
 }
