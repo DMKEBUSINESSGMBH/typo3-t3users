@@ -71,6 +71,9 @@ class tx_t3users_tests_services_feuserDB_testcase extends tx_phpunit_database_te
 		// assuming that test-database can be created otherwise PHPUnit will skip the test
 		$this->useTestDatabase();
 		$this->importStdDB();
+		if(tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			$this->importExtensions(array('frontend'));
+		}
 		$this->importExtensions(array('static_info_tables','t3users'),true);
 		$fixturePath = tx_t3users_tests_Util::getFixturePath('db/feuser.xml');
 		$this->importDataSet($fixturePath);
