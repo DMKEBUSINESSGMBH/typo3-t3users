@@ -74,7 +74,7 @@ class tx_t3users_util_LoginAsFEUser {
 		</script>
 		';
 		return $ret;
-		
+
 	}
 	/**
 	 * Aktualisiert die User-Session in der DB.
@@ -108,6 +108,7 @@ class tx_t3users_util_LoginAsFEUser {
 			$auth->id = $sessionId;
 			$auth->name = 'fe_typo_user';
 			$auth->userid_column = 'uid';
+			$auth->is_permanent = 0;
 			$auth->lockIP = $GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP'];
 			$tempUser = array($auth->userid_column => $userId);
 
