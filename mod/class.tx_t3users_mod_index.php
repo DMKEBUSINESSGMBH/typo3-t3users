@@ -24,6 +24,10 @@
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/heads/master
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 tx_rnbase::load('tx_t3users_util_LoginAsFEUser');
 
