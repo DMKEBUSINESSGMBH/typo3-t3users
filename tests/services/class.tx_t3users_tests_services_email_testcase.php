@@ -30,9 +30,6 @@
  */
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_t3users_services_email');
-tx_rnbase::load('tx_mkmailer_services_Mail');
-tx_rnbase::load('tx_mklib_tests_Util');
 
 /**
  * @package tx_t3users
@@ -46,6 +43,14 @@ class tx_t3users_tests_services_email_testcase extends tx_rnbase_tests_BaseTestC
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
 	protected function setUp() {
+		if (!t3lib_extMgm::isLoaded('mkmailer')) {
+			$this->markTestSkipped('mkmailer nicht installiert');
+		}
+
+		tx_rnbase::load('tx_t3users_services_email');
+		tx_rnbase::load('tx_mkmailer_services_Mail');
+		tx_rnbase::load('tx_mklib_tests_Util');
+
 		tx_mklib_tests_Util::prepareTSFE();
 		tx_mklib_tests_Util::storeExtConf('mkmailer');
 		tx_mklib_tests_Util::setExtConfVar('cronpage', 'unknown', 'mkmailer');
