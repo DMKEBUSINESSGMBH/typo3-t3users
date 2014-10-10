@@ -24,7 +24,10 @@
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> refs/heads/master
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 tx_rnbase::load('tx_t3users_util_LoginAsFEUser');
 
@@ -114,7 +117,7 @@ Vorgehen
   }
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php']);
 }
 ?>

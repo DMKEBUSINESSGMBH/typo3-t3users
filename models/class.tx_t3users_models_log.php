@@ -85,10 +85,10 @@ class tx_t3users_models_log extends tx_rnbase_model_base implements tx_t3users_m
 		return $this->record['typ'];
 	}
 	function getRecUid(){
-		return $this->record['recuid'];
+		return intval($this->record['recuid']);
 	}
 	function getRecTable(){
-		return $this->record['rectable'];
+		return (string) $this->record['rectable'];
 	}
 	function getData(){
 		return $this->record['data'];
@@ -102,7 +102,7 @@ class tx_t3users_models_log extends tx_rnbase_model_base implements tx_t3users_m
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_log.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_log.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_log.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_log.php']);
 }
 ?>

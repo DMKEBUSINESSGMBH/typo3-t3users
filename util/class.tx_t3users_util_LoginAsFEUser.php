@@ -74,7 +74,7 @@ class tx_t3users_util_LoginAsFEUser {
 		</script>
 		';
 		return $ret;
-		
+
 	}
 	/**
 	 * Aktualisiert die User-Session in der DB.
@@ -109,6 +109,7 @@ class tx_t3users_util_LoginAsFEUser {
 			$auth->is_permanent = TRUE;
 			$auth->name = 'fe_typo_user';
 			$auth->userid_column = 'uid';
+			$auth->is_permanent = 0;
 			$auth->lockIP = $GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP'];
 			$tempUser = array($auth->userid_column => $userId);
 
@@ -139,8 +140,8 @@ class tx_t3users_util_LoginAsFEUser {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_LoginAsFEUser.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_LoginAsFEUser.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_LoginAsFEUser.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_LoginAsFEUser.php']);
 }
 
 

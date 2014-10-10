@@ -159,11 +159,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 			$newPassword = md5($newPassword);
 		}
 		elseif($this->useSaltedPasswords()) {
-			tx_rnbase::load('tx_rnbase_util_TYPO3');
-			if(tx_rnbase_util_TYPO3::isTYPO60OrHigher())
-				require_once t3lib_extMgm::extPath('saltedpasswords').'Classes/class.tx_saltedpasswords_div.php';
-			else
-				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
+			$this->loadSaltedPasswordUtility();
 			if (tx_saltedpasswords_div::isUsageEnabled()) {
 				// generate password for db
 				$cconf = tx_saltedpasswords_div::returnExtConf();
@@ -196,11 +192,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 				$ret=$new_password;
 			}
 		} elseif($this->useSaltedPasswords()) {
-			tx_rnbase::load('tx_rnbase_util_TYPO3');
-			if(tx_rnbase_util_TYPO3::isTYPO60OrHigher())
-				require_once t3lib_extMgm::extPath('saltedpasswords').'Classes/class.tx_saltedpasswords_div.php';
-			else
-				require_once t3lib_extMgm::extPath('saltedpasswords').'classes/class.tx_saltedpasswords_div.php';
+			$this->loadSaltedPasswordUtility();
 			if (tx_saltedpasswords_div::isUsageEnabled()) {
 				$new_password = $this->generatePassword($defaultLength); 	//generate password
 				$ret = $new_password; // for return in email
@@ -221,6 +213,24 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 			$ret = $tmpUser->record['password'];
 		}
 		return $ret;
+	}
+
+	/**
+	 *
+	 */
+	protected function loadSaltedPasswordUtility() {
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
+		// ab 6.2 wird saltedpasswords automatisch geladen
+		if	(
+			tx_rnbase_util_TYPO3::isTYPO60OrHigher() &&
+			!tx_rnbase_util_TYPO3::isTYPO62OrHigher()
+		) {
+			require_once t3lib_extMgm::extPath('saltedpasswords') .
+				'Classes/class.tx_saltedpasswords_div.php';
+		} else {
+			require_once t3lib_extMgm::extPath('saltedpasswords') .
+				'classes/class.tx_saltedpasswords_div.php';
+		}
 	}
 
 	/**
@@ -672,6 +682,6 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuser.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuser.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuser.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuser.php']);
 }

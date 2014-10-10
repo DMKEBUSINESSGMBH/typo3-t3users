@@ -33,8 +33,8 @@ class tx_t3users_controllers_main extends tx_rnbase_controller {
   var $qualifier = 't3users'; // Der Notfall-Qualifier
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php']);
 }
 
 ?>

@@ -132,8 +132,8 @@ class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/tests/services/class.tx_t3users_tests_services_feuser_testcase.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/tests/services/class.tx_t3users_tests_services_feuser_testcase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/services/class.tx_t3users_tests_services_feuser_testcase.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/services/class.tx_t3users_tests_services_feuser_testcase.php']);
 }
 
 ?>

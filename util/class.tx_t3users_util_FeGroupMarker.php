@@ -75,7 +75,7 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker {
   }
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php'])	{
-  include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php'])	{
+  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php']);
 }
 ?>
