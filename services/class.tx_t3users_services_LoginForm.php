@@ -91,7 +91,8 @@ class tx_t3users_services_LoginForm extends t3lib_svbase {
 		tx_rnbase_util_DB::doInsert('tx_kbmd5fepw_challenge', array('challenge' => $chal_val, 'tstamp' => time()), 0);
 
 		$code->formFields = '<input type="hidden" name="challenge" value="'.$chal_val.'">';
-		$code->onsubmit = 'superchallenge_password_md5(form)';
+		if(!$code->onsubmit)
+			$code->onsubmit = 'superchallenge_password(this)';
 	}
 
 	/**
