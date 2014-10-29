@@ -104,9 +104,13 @@ class tx_t3users_services_LoginForm extends t3lib_svbase {
 	 * @param tx_t3users_actions_Login $plugin
 	 */
 	protected function handleMethod_rsa($code, $statusKey, $configurations, $confId, $plugin) {
-		require_once(t3lib_extMgm::extPath('rsaauth') . 'hooks/class.tx_rsaauth_feloginhook.php');
-
-		$rsa = tx_rnbase::makeInstance('tx_rsaauth_feloginhook');
+		if (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			$rsa = tx_rnbase::makeInstance('TYPO3\\CMS\\Rsaauth\\Hook\\FrontendLoginHook');
+		}
+		else {
+			require_once(t3lib_extMgm::extPath('rsaauth') . 'hooks/class.tx_rsaauth_feloginhook.php');
+			$rsa = tx_rnbase::makeInstance('tx_rsaauth_feloginhook');
+		}
 		$result = $rsa->loginFormHook();
 		// Use onSubmit only if not set by Typoscript
 		if(!$code->onsubmit)
