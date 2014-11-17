@@ -221,10 +221,10 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	protected function loadSaltedPasswordUtility() {
 		tx_rnbase::load('tx_rnbase_util_TYPO3');
 		// ab 6.2 wird saltedpasswords automatisch geladen
-		if	(
-			tx_rnbase_util_TYPO3::isTYPO60OrHigher() &&
-			!tx_rnbase_util_TYPO3::isTYPO62OrHigher()
-		) {
+		if (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			return;
+		}
+		elseif(tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			require_once t3lib_extMgm::extPath('saltedpasswords') .
 				'Classes/class.tx_saltedpasswords_div.php';
 		} else {
