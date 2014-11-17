@@ -149,12 +149,13 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	}
 
 	/**
-	 * Save the given plaintext password to database. The password is encrypted
+	 * Encrypt the given password
 	 * if an encrpyption method is actived.
-	 * @param unknown $feuser
+	 *
 	 * @param string $newPassword plaintext password
+	 * @return string $newPassword encrypted password
 	 */
-	public function saveNewPassword($feuser, $newPassword) {
+	public function encryptPassword($newPassword) {
 		if($this->useMD5()) {
 			$newPassword = md5($newPassword);
 		}
@@ -167,9 +168,20 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 				$newPassword = $objPHPass->getHashedPassword($newPassword);
 			}
 		}
+		return $newPassword;
+	}
+
+	/**
+	 * Save the given plaintext password to database. The password is encrypted
+	 * if an encrpyption method is actived.
+	 * @param unknown $feuser
+	 * @param string $newPassword plaintext password
+	 */
+	public function saveNewPassword($feuser, $newPassword) {
+		$newPassword = $this->encryptPassword($newPassword);
 		// save password to db
 		$values = array('password'=> $newPassword);
-		$where = 'uid = ' . $feuser->uid;
+		$where = 'uid = ' . $feuser->getUid();
 		tx_rnbase_util_DB::doUpdate('fe_users', $where, $values, 0);
 	}
 	/**

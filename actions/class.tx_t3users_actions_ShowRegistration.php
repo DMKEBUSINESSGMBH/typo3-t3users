@@ -171,8 +171,8 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$params['usergroup'] = $groupId;
 		$params['name'] = trim($params['first_name'] . ' ' .$params['last_name']);
 		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
-		if($usrSrv->useMD5())
-			$params['password'] = md5($params['password']);
+
+		$params['password'] = $usrSrv->encryptPassword($params['password']);
 
 		tx_rnbase_util_Misc::callHook(
 			't3users',
