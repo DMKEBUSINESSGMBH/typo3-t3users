@@ -33,7 +33,7 @@ tx_rnbase::load('tx_t3users_models_feuser');
  *
  */
 class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
-  
+
 	/**
 	 * Erstmal nur das eigene Profil bearbeiten
 	 *
@@ -51,18 +51,18 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 			//fest auslesen müssen
 			$uid = $parameters->offsetGet('NK_uid');
 			$confirmstring = $parameters->offsetGet('NK_confirmstring');
-			
+
 			if(empty($uid) || empty($confirmstring))
 				return $configurations->getLL('msg_change_error');
-				
+
 			//leeres Model um alle DB Felder auszulesen
 			$feUser = tx_rnbase::makeInstance('tx_t3users_models_feuser', array('uid'=>0));
-			
+
 			//für jedes Feld in der DB prüfen ob ein Wert übermittelt wurde
 			foreach($feUser->getColumnNames() as $cols)
 				if($parameters->offsetExists('NK_'.$cols))
 					$params[$cols] = $parameters->offsetGet('NK_'.$cols);
-					
+
 			//zur Sicherheit email == username setzen
 			if(!empty($params['email']))
 				$params['username'] = $params['email'];
@@ -78,7 +78,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 			$feuser = tx_t3users_models_feuser::getCurrent();
 			if(!$feuser)
 				return $configurations->getLL('notLoggedIn');
-	
+
 			$form = $this->getEditors($parameters, $configurations, $feuser);
 			$viewData->offsetSet('form', $form->render());
 			$viewData->offsetSet('user', $feuser);
@@ -97,16 +97,16 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 		if(!t3lib_extMgm::isLoaded('mkforms')) {
 			$this->markTestSkipped('mkforms ist nicht installiert.');
 		}
-			
+
 		tx_rnbase::load('tx_mkforms_forms_Factory');
 		$this->form = tx_mkforms_forms_Factory::createForm('');
 		$formXml = $configurations->get($this->getConfId().'formxml');
-		
+
     	$this->editItem = $item;
     	$itemUid = ($this->editItem) ? $this->editItem->getUid() : 0;
 
     	$this->form->init($this, $formXml, $itemUid/*, $this->config*/);
-    	
+
     	return $this->form;
 
 //der alte Weg
@@ -161,11 +161,11 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 			if($params['password123']) {
 				$params['password'] = $params['password123'];
 				$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
-				if($usrSrv->useMD5())
-					$params['password'] = md5($params['password123']);
+				$params['password'] = $usrSrv->encryptPassword($params['password123']);
+				unset($params['password123']);
 			}
 		}
-		
+
 		return $params;
 	}
 	/**
@@ -176,14 +176,13 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 	 */
 	public function handleUpdateDB($params, $form) {
 		// Wohin soll umgeleitet werden?
-		$redirect = intval($this->conf->get($this->getConfId().'redirect.pid'));
-			
+		$redirect = $this->conf->get($this->getConfId().'redirect.pid');
 		$link = $this->conf->createLink();
 		$link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id);//fallback
 		$redirect_url = $link->makeUrl(false);
 		header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
 	}
-	
+
 	function getTemplateName() { return 'feuseredit';}
 	function getViewClassName() { return 'tx_t3users_views_EditFeUser';}
 }
