@@ -46,6 +46,8 @@ class tx_t3users_tests_services_feuserDB_testcase extends tx_phpunit_database_te
 	protected $feUserSrv;
 	protected $workspaceIdAtStart;
 
+	private static $hooks = array();
+
 	/**
 	 * Klassenkonstruktor - BE-Workspace setzen
 	 *
@@ -80,6 +82,18 @@ class tx_t3users_tests_services_feuserDB_testcase extends tx_phpunit_database_te
 
 		$this->feUserSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
+		// Hooks leer machen da die aus anderen extensions stören könnten
+		self::$hooks['rn_base']['util_db_do_insert_post'] =
+			$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rn_base']['util_db_do_insert_post'];
+		self::$hooks['rn_base']['util_db_do_update_post'] =
+			$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rn_base']['util_db_do_update_post'];
+		self::$hooks['rn_base']['util_db_do_delete_pre'] =
+			$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rn_base']['util_db_do_delete_pre'];
+
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rn_base']['util_db_do_insert_post'] = array();
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rn_base']['util_db_do_update_post'] = array();
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rn_base']['util_db_do_delete_pre'] = array();
+
 	}
 
 	/**
@@ -91,6 +105,13 @@ class tx_t3users_tests_services_feuserDB_testcase extends tx_phpunit_database_te
 		$GLOBALS['TYPO3_DB']->sql_select_db(TYPO3_db);
 
 		$GLOBALS['BE_USER']->setWorkspace($this->workspaceIdAtStart);
+
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rn_base']['util_db_do_insert_post'] =
+		self::$hooks['rn_base']['util_db_do_insert_post'];
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rn_base']['util_db_do_update_post'] =
+		self::$hooks['rn_base']['util_db_do_update_post'];
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rn_base']['util_db_do_delete_pre'] =
+		self::$hooks['rn_base']['util_db_do_delete_pre'];
 	}
 
 	/**
