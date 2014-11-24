@@ -68,6 +68,7 @@ plugin.tx_t3users_main {
     resetPasswordMode = sendpassword
     # Seite auf welcher ResetPassword Plugin liegt
     #links.resetPassword.pid =
+    links.resetPassword.absurl = 1
     links.forgotpass = 1
     links.forgotpass.pid = {$plugin.tx_t3users.loginboxPage}
     links.register.pid = {$plugin.tx_t3users.registerPage}

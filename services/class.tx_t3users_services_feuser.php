@@ -518,8 +518,6 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		$pwLink->label($token);
 		$pwLink->initByTS( $configurations, $confId . 'links.resetPassword.',
 				array('NK_confirm' => $data['confirmstring'], 'NK_uid' => $feuser->getUid()) );
-		$pwLink->setAbsUrl(TRUE);
-
 		$emailService = tx_t3users_util_ServiceRegistry::getEmailService();
 		$emailService->sendResetPassword($feuser, $pwLink, $configurations , $confId);
 	}
