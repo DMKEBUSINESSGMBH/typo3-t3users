@@ -216,6 +216,9 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			$this
 		);
 
+		// FIXME:
+		// In tx_t3users_services_email::sendConfirmLink() macht im
+		// Prinzip dasselbe. Das sollte vereinheitlicht werden
 		$this->sendConfirmationMail($uid, $params);
 		$this->userDataSaved = true;
 	}
@@ -225,6 +228,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	 * @param array $feUserData
 	 *
 	 * @return void
+	 * @deprecated:  use tx_t3users_services_email::sendConfirmLink() instead
 	 */
 	protected function sendConfirmationMail($feUserUid, array $feUserData) {
 		// Mail schicken
