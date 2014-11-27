@@ -86,14 +86,116 @@ class tx_t3users_services_email extends t3lib_svbase {
 	 * @param tx_rnbase_configurations $configurations
 	 * @param string $confId
 	 */
-	public function sendResetPassword($feuser, $pwLink, $configurations, $confId = 'loginbox.') {
-		if(t3lib_extMgm::isLoaded('mkmailer') && method_exists($this, 'sendResetPasswordMkMailer')) {
-			// FIXME: implement!
-			return $this->sendResetPasswordMkMailer($feuser, $pwLink, $configurations, $confId);
+	public function sendResetPassword(
+		$feuser, $pwLink, $configurations, $confId = 'loginbox.'
+	) {
+		// aus Kompatibilitätsgründen zu alten Projekten muss
+		// der Versand via mkmailer explizit aktiviert werden
+		if(t3lib_extMgm::isLoaded('mkmailer') &&
+			$configurations->getBool($confId . 'email.useMkmailer')
+		) {
+			return $this->sendResetPasswordMkMailer(
+				$feuser, $pwLink, $configurations, $confId
+			);
 		}
-		return $this->sendResetPasswordSimple($feuser, $pwLink, $configurations, $confId);
+		return $this->sendResetPasswordSimple(
+			$feuser, $pwLink, $configurations, $confId
+		);
 
 	}
+
+	/**
+	 * Sends a password reset link to the feUser via mkmailer
+	 *
+	 * @param tx_t3users_models_feuser $feuser
+	 * @param tx_rnbase_util_Link $pwLink
+	 * @param tx_rnbase_configurations $configurations
+	 * @param string $confId
+	 */
+	private function sendResetPasswordMkmailer(
+		$feuser, $pwLink, $configurations, $confId
+	) {
+
+		// 	Das E-Mail-Template holen
+		$templatekey = 't3users_resetPassword';
+		tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
+		$templateObj = tx_mkmailer_util_ServiceRegistry::getMailService()
+			->getTemplate($templatekey);
+
+		// den E-Mail-Empfänger erzeugen
+		/* @var $receiver tx_mkmailer_receiver_Email */
+		$receiver = tx_rnbase::makeInstance(
+			// @TODO: den receiver konfigurierbar machen!
+			'tx_mkmailer_receiver_Email',
+			$feuser->getEmail()
+		);
+
+		// Einen E-Mail-Job anlegen.
+		/* @var $job tx_mkmailer_mail_MailJob */
+		$job  = tx_rnbase::makeInstance(
+			'tx_mkmailer_mail_MailJob',
+			array($receiver),
+			$templateObj
+		);
+
+		$markerClass = tx_rnbase::makeInstance('tx_rnbase_util_SimpleMarker');
+		$formatter = $configurations->getFormatter();
+		$confId .= 'sendmail.';
+		$itemName = $configurations->get($confId.'item') ?
+			$configurations->get($confId.'item') : 'feuser';
+
+		$markerArray = $subpartArray = $wrappedSubpartArray = array();
+
+		// Daten rendern
+		$token = '---';
+		$pwLink->label($token);
+		$linkMarker = 'RESETLINK';
+		$markerArray['###'.$linkMarker . 'URL###'] = $pwLink->makeUrl(false);
+		$wrappedSubpartArray['###'.$linkMarker . '###'] =
+			explode($token, $pwLink->makeTag());
+		$formatter = $configurations->getFormatter();
+		$mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached(
+			$job->getContentText(),
+			$markerArray, $subpartArray, $wrappedSubpartArray
+		);
+		$mailhtml = tx_rnbase_util_Templates::substituteMarkerArrayCached(
+			$job->getContentHtml(),
+			$markerArray, $subpartArray, $wrappedSubpartArray
+		);
+
+		// Mailjob konfigurieren
+		$job->setSubject( // Betreff rendern.
+			$markerClass->parseTemplate(
+				$job->getSubject(),
+				$feuser, $formatter,
+				$confId.strtolower($itemName).'subject.',
+				strtoupper($itemName)
+			)
+		);
+		$job->setContentText( // Text Nachricht rendern.
+			$markerClass->parseTemplate(
+				$mailtext,
+				$feuser, $formatter,
+				$confId.strtolower($itemName).'text.',
+				strtoupper($itemName)
+			)
+		);
+		$job->setContentHtml(  // HTML Nachricht rendern.
+			$markerClass->parseTemplate(
+				$mailhtml,
+				$feuser, $formatter,
+				$confId.strtolower($itemName).'html.',
+				strtoupper($itemName)
+			)
+		);
+
+		$job->setFrom($templateObj->getFromAddress());
+
+		// E-Mail für den versand in die Queue legen.
+		tx_mkmailer_util_ServiceRegistry::getMailService()->spoolMailJob($job);
+		return true;
+	}
+
 	/**
 	 * Sends a password reset link to the feUser
 	 *
@@ -124,7 +226,6 @@ class tx_t3users_services_email extends t3lib_svbase {
 		$mailhtml = $marker->parseTemplate($mailhtml, $feuser, $formatter, $confId.'feuser.');
 		$emailFrom = $configurations->get($confId.'emailFrom');
 		$emailFromName = $configurations->get($confId.'emailFromName');
-		$emailReply = $configurations->get($confId.'emailReply');
 
 		$parts = explode(LF, $mailtext, 2);		// First line is subject
 		$subject=trim($parts[0]);
