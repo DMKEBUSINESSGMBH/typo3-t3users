@@ -77,7 +77,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 //		$mail->setHtmlPart($mailhtml);
 		$mail->send();
 
-		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
+// 		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
 	}
 	/**
 	 *
