@@ -64,6 +64,7 @@ class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC {
 				// Übertragen, aber falsch
 				$viewdata->offsetSet('message', '###LABEL_WRONG_PASS###');
 			}
+			// @TODO: weitere validierungen über ts oder hook ermöglichen (zeichenlänge, mindestens eine zahl/buchstabe, ...)
 			elseif ($pass1 && $pass1 == $pass2) {
 				// Speichern
 				$usrSrv->saveNewPassword($feuser, $pass1);
