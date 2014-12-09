@@ -85,6 +85,21 @@ plugin.tx_t3users_main {
     extend {
       # Art der Erweiterung: none, auto, nomd5, md5, rsa
       method = auto
+      rsa62 {
+        onsubmit = superchallenge_password(this);
+        jsCode (
+					function superchallenge_password(form) {
+						var trgForm = document.forms["logform"];
+						if(!trgForm) trgForm = document.getElementById("logform");
+						if(form.pass1.value) {
+							trgForm.user.value = form.user1.value;
+							trgForm.pass.value = form.pass1.value;
+							return TYPO3FrontendLoginFormRsaEncryption.submitForm(trgForm, TYPO3FrontendLoginFormRsaEncryptionPublicKeyUrl);
+						}
+						return false;
+					}
+)
+      }
       rsa {
         onsubmit = superchallenge_password(this);
         jsCode (

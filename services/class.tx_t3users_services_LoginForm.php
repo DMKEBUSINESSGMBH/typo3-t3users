@@ -54,7 +54,7 @@ class tx_t3users_services_LoginForm extends t3lib_svbase {
 		if($method == 'auto') {
 			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 			if($usrSrv->useRSA()) {
-				$method = 'rsa';
+				$method = tx_rnbase_util_TYPO3::isTYPO62OrHigher() ? 'rsa62' : 'rsa';
 			}
 			elseif($usrSrv->useMD5()) {
 				$method = 'md5';
@@ -104,13 +104,8 @@ class tx_t3users_services_LoginForm extends t3lib_svbase {
 	 * @param tx_t3users_actions_Login $plugin
 	 */
 	protected function handleMethod_rsa($code, $statusKey, $configurations, $confId, $plugin) {
-		if (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-			$rsa = tx_rnbase::makeInstance('TYPO3\\CMS\\Rsaauth\\Hook\\FrontendLoginHook');
-		}
-		else {
-			require_once(t3lib_extMgm::extPath('rsaauth') . 'hooks/class.tx_rsaauth_feloginhook.php');
-			$rsa = tx_rnbase::makeInstance('tx_rsaauth_feloginhook');
-		}
+		require_once(t3lib_extMgm::extPath('rsaauth') . 'hooks/class.tx_rsaauth_feloginhook.php');
+		$rsa = tx_rnbase::makeInstance('tx_rsaauth_feloginhook');
 		$result = $rsa->loginFormHook();
 		// Use onSubmit only if not set by Typoscript
 		if(!$code->onsubmit)
@@ -120,7 +115,29 @@ class tx_t3users_services_LoginForm extends t3lib_svbase {
 		$mixedCode = $result[1];
 		$code->formFields = strstr($mixedCode, '<input');
 		$code->jsFiles = strstr($mixedCode, '<input', true);
-
+	}
+	/**
+	 * RSA Authentifizierung ab 6.2.x.
+	 * Aufpassen: bei frühen Versionen (bis Mai 2014) funktioniert dieser Weg noch nicht. In dem
+	 * Fall muss TYPO3 aktualisiert werden.
+	 * 
+	 * https://forge.typo3.org/issues/59041
+	 * 
+	 * @param stdClass $code
+	 * @param string $statusKey
+	 * @param tx_rnbase_configurations $configurations
+	 * @param string $confId
+	 * @param tx_t3users_actions_Login $plugin
+	 */
+	protected function handleMethod_rsa62($code, $statusKey, $configurations, $confId, $plugin) {
+		// Ab 6.2.? (Mai 2014) wurde der Ablauf für RSA auf Ajax umgestellt. Die Informationen
+		// werden nicht mehr beim rendern erzeugt, sondern erst vorm Submit per Ajax.
+		$rsa = tx_rnbase::makeInstance('TYPO3\\CMS\\Rsaauth\\Hook\\FrontendLoginHook');
+		$result = $rsa->loginFormHook();
+		// Im Result steht jetzt nur noch eine Methode, die beim Submit ausgeführt werden soll.
+		// return TYPO3FrontendLoginFormRsaEncryption.submitForm(this, TYPO3FrontendLoginFormRsaEncryptionPublicKeyUrl);
+		// Diese ist entsprechend im JS-Code per Typoscript eingestellt. Wenn da wieder etwas umgestellt wird, müssen
+		// wir das ggf. dynamisch im JS-Code unterbringen. Also austauschen in $code.
 	}
 }
 

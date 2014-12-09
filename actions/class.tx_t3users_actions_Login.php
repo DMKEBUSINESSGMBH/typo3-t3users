@@ -399,6 +399,8 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		$srv = tx_t3users_util_ServiceRegistry::getLoginFormService();
 		$srv->extendLoginForm($code, $statusKey, $configurations, $confId, $this);
 
+		$markerArr['extra_hidden'] = '';
+		
 		// Daten integrieren
 		if($code->onsubmit)
 			$markerArr['on_submit'] = $code->onsubmit;
