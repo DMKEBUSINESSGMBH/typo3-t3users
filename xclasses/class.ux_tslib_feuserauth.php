@@ -22,12 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib . 'class.tslib_feuserauth.php');
-
 class ux_tslib_feuserauth extends tslib_feuserauth {
 
 	var $beforelastLogin_column = 'beforelastlogin';
-	
+
 	/**
 	 * Starts a user session
 	 *
@@ -35,14 +33,14 @@ class ux_tslib_feuserauth extends tslib_feuserauth {
 	 * @see tslib_feUserAuth::start()
 	 */
 	function start() {
-		
+
 		// Set auto timeout to lifetime, if lifetime set
 		if( intval($this->lifetime) > 0 )
 			$this->auth_timeout_field = $this->lifetime;
 
 		parent::start();
 	}
-	
+
 	/**
 	 * Update additional fields for feuser
 	 * Than create a user session record.
