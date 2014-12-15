@@ -1,10 +1,11 @@
 {
 	"name" : "dmk/t3users",
 	"description" : "Enhanced frontend user management for TYPO3. User registration, login and management in a single extension.",
+	"version" : "1.0.1",
 	"type" : "typo3-cms-extension",
-	"keywords" : ["feuser", "login", "registration", "log"],
+	"keywords" : ["TYPO3 CMS", "feuser", "login", "registration", "log"],
 	"homepage" : "http://www.dmk-ebusiness.de/",
-	"license" : "GPL-3.0+",
+	"license" : "GPL-2.0+",
 	"authors" : [
 		{
 			"name" : "Michael Wagner",
@@ -29,6 +30,6 @@
 		"typo3-ter/t3users": "*"
 	}, 
 	"require" : {
-		"typo3-ter/rn-base" : "*"
+		"typo3-ter/rn-base" : "~0.14"
 	}
 }
