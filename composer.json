@@ -28,8 +28,5 @@
 	},
 	"replace": {
 		"typo3-ter/t3users": "*"
-	}, 
-	"require" : {
-		"typo3-ter/rn-base" : "~0.14"
 	}
 }
