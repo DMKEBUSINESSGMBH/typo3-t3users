@@ -134,67 +134,74 @@ t3lib_extMgm::addTCAcolumns('fe_users', Array(
 
 
 if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users','extendTCA'))) {
-	t3lib_extMgm::addTCAcolumns('fe_users', Array(
-			'first_name' => Array (
-				'exclude' => 0,
-				'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.first_name',
-				'config' => Array (
-					'type' => 'input',
-					'size' => '20',
-					'max' => '50',
-					'eval' => 'trim',
-					'default' => ''
+	$feUsersExtendedFields = array(
+		'gender' => Array (
+			'exclude' => 0,
+			'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.gender',
+			'config' => Array (
+				'type' => 'radio',
+				'items' => Array (
+					Array('LLL:EXT:t3users/locallang_db.xml:fe_users_gender_mr', '0'),
+					Array('LLL:EXT:t3users/locallang_db.xml:fe_users_gender_ms', '1'),
+				),
+			)
+		),
+		'birthday' => Array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.birthday',
+			'config' => Array (
+				'type' => 'input',
+				'size' => '12',
+				'max' => '10',
+				'default' => '00-00-0000',
+				'wizards' => Array (
+					'calendar' => $date2CalTCA
 				)
-			),
-			'last_name' => Array (
-				'exclude' => 0,
-				'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.last_name',
-				'config' => Array (
-					'type' => 'input',
-					'size' => '20',
-					'max' => '50',
-					'eval' => 'trim',
-					'default' => ''
-				)
-	 		),
-			'gender' => Array (
-				'exclude' => 0,
-				'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.gender',
-				'config' => Array (
-					'type' => 'radio',
-					'items' => Array (
-						Array('LLL:EXT:t3users/locallang_db.xml:fe_users_gender_mr', '0'),
-						Array('LLL:EXT:t3users/locallang_db.xml:fe_users_gender_ms', '1'),
-					),
-				)
-			),
-			'birthday' => Array (
-				'exclude' => 1,
-				'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.birthday',
-				'config' => Array (
-					'type' => 'input',
-					'size' => '12',
-					'max' => '10',
-					'default' => '00-00-0000',
-					'wizards' => Array (
-						'calendar' => $date2CalTCA
-					)
-				)
-			),
-		)
+			)
+		),
 	);
+	// ab TYPO3 6.2 sind die Namensfelder direkt im Core enthalten
+	if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+		$feUsersExtendedFields = array_merge(
+			$feUsersExtendedFields,
+			array(
+				'first_name' => Array (
+					'exclude' => 0,
+					'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.first_name',
+					'config' => Array (
+						'type' => 'input',
+						'size' => '20',
+						'max' => '50',
+						'eval' => 'trim',
+						'default' => ''
+					)
+				),
+				'last_name' => Array (
+					'exclude' => 0,
+					'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.last_name',
+					'config' => Array (
+						'type' => 'input',
+						'size' => '20',
+						'max' => '50',
+						'eval' => 'trim',
+						'default' => ''
+					)
+		 		)
+			)
+		);
+	}
+
+	t3lib_extMgm::addTCAcolumns('fe_users', $feUsersExtendedFields);
 
 	t3lib_extMgm::addToAllTCAtypes('fe_users', 'birthday','','before:address');
-//	$TCA['fe_users']['types']['0']['showitem'] = str_replace(', address', ', birthday, address', $TCA['fe_users']['types']['0']['showitem']);
 
 	if(!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-		t3lib_extMgm::addToAllTCAtypes('fe_users', 'first_name,last_name,gender,title','','before:birthday');
-//		$TCA['fe_users']['types']['0']['showitem'] = str_replace(', birthday', ',first_name,last_name,gender,title, birthday', $TCA['fe_users']['types']['0']['showitem']);
-
-//		if(strstr($TCA['fe_users']['palettes']['1']['showitem'],'title,'))
-//			$TCA['fe_users']['palettes']['1']['showitem'] = str_replace('title,', 'gender,first_name,last_name,title,', $TCA['fe_users']['palettes']['1']['showitem']);
-//		if(strstr($TCA['fe_users']['palettes']['2']['showitem'], 'title,'))
-//			$TCA['fe_users']['palettes']['2']['showitem'] = str_replace('title,', 'gender,first_name,last_name,title,', $TCA['fe_users']['palettes']['2']['showitem']);
+		if (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			t3lib_extMgm::addToAllTCAtypes('fe_users', 'gender,title','','before:birthday');
+		}
+		else {
+			t3lib_extMgm::addToAllTCAtypes('fe_users', 'first_name,last_name,gender,title','','before:birthday');
+		}
 	}
 }
 if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users','extendTCA'))) {
