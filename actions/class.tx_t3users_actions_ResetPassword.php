@@ -60,16 +60,30 @@ class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC {
 			$status = 'FORM';
 			$pass1 = htmlspecialchars($parameters->get('pass1'));
 			$pass2 = htmlspecialchars($parameters->get('pass2'));
-			if($pass1 && $pass1 != $pass2) {
-				// Übertragen, aber falsch
-				$viewdata->offsetSet('message', '###LABEL_WRONG_PASS###');
-			}
-			// @TODO: weitere validierungen über ts oder hook ermöglichen (zeichenlänge, mindestens eine zahl/buchstabe, ...)
-			elseif ($pass1 && $pass1 == $pass2) {
-				// Speichern
-				$usrSrv->saveNewPassword($feuser, $pass1);
-				// Und TODO: Redirect...
-				$status = 'FINISHED';
+
+			if ($pass1) {
+				$validated = ($pass1 && $pass1 == $pass2);
+				$validationFailureMessage = '###LABEL_WRONG_PASS###';
+				// Hook für weitere Validierungen
+				tx_rnbase_util_Misc::callHook(
+					't3users','resetPassword_ValidatePassword',
+					array(
+						'validated' => &$validated,
+						'validationFailureMessage' => &$validationFailureMessage,
+						'password' => $pass1
+					),
+					$this
+				);
+				if ($validated) {
+					// Speichern
+					$usrSrv->saveNewPassword($feuser, $pass1);
+					// Und TODO: Redirect...
+					$status = 'FINISHED';
+				}
+				else {
+					// Validierung fehlgeschlagen
+					$viewdata->offsetSet('message', $validationFailureMessage);
+				}
 			}
 		}
 		$viewdata->offsetSet('subpart', $status);
