@@ -168,6 +168,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 
 		return $params;
 	}
+
 	/**
 	 * User is saved.
 	 *
@@ -175,6 +176,16 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 	 * @param tx_ameosformidable $form
 	 */
 	public function handleUpdateDB($params, $form) {
+		tx_rnbase_util_Misc::callHook(
+			't3users',
+			'editFeUser_handleUpdateDB_hook',
+			array(
+				'params' => &$params,
+				'form' => &$form,
+			),
+			$this
+		);
+
 		// Wohin soll umgeleitet werden?
 		$redirect = $this->conf->get($this->getConfId().'redirect.pid');
 		$link = $this->conf->createLink();
