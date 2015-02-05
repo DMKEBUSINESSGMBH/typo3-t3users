@@ -61,7 +61,8 @@ class tx_t3users_tests_services_email_testcase extends tx_rnbase_tests_BaseTestC
 	 * @see PHPUnit_Framework_TestCase::tearDown()
 	 */
 	protected function tearDown() {
-		tx_mklib_tests_Util::restoreExtConf('mkmailer');
+		if (t3lib_extMgm::isLoaded('mkmailer'))
+			tx_mklib_tests_Util::restoreExtConf('mkmailer');
 	}
 
 	/**
