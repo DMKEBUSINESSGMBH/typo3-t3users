@@ -107,7 +107,7 @@ class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
 			$items[] = '<li>'.$group->getTitle().' '. $formTool->createEditLink('fe_groups', $group->getUid(), '').'</li>';
 		}
 		if(!empty($items))
-			$ret = '<ul>'.implode('', $items).'</ul>';
+			$ret = '<ul class="usergroup">'.implode('', $items).'</ul>';
 
 		return $ret;
 	}
