@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Rene Nitzsche (rene@system25.de)
+*  (c) 2008 Rene Nitzsche (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -346,6 +346,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		}
 		$markerArr['status_header'] = $configurations->getCfgOrLL('loginbox.header_'.$statusKey);
 		$markerArr['status_message'] = $configurations->getCfgOrLL('loginbox.message_'.$statusKey);
+
 		$markerArr['prefixid'] = $configurations->getQualifier();
 		$storagePid = $this->getStoragePid($configurations);
 		$markerArr['storage_pid'] = $storagePid;
@@ -400,7 +401,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		$srv->extendLoginForm($code, $statusKey, $configurations, $confId, $this);
 
 		$markerArr['extra_hidden'] = '';
-		
+
 		// Daten integrieren
 		if($code->onsubmit)
 			$markerArr['on_submit'] = $code->onsubmit;

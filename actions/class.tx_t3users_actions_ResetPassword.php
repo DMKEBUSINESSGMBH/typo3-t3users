@@ -2,11 +2,11 @@
 /**
  * 	@package TYPO3
  *  @subpackage tx_t3users
- *  @author René Nitzsche <nitzsche@das-medienkombinat.de>
+ *  @author René Nitzsche <dev@dmk-ebusiness.de>
  *
  *  Copyright notice
  *
- *  (c) 2013 das MedienKombinat GmbH <kontakt@das-medienkombinat.de>
+ *  (c) 2013 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
