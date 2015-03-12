@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009 Rene Nitzsche <rene@system25.de>
+*  (c) 2009 Rene Nitzsche <dev@dmk-ebusiness.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,7 +39,7 @@ define('ICON_FATAL', 3);
 /**
  * Module extension (addition to function menu)
  *
- * @author	Rene Nitzsche <rene@system25.de>
+ * @author	Rene Nitzsche <dev@dmk-ebusiness.de>
  * @package	TYPO3
  */
 class tx_t3users_mod_index extends t3lib_extobjbase {

@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2007-2014 Rene Nitzsche (rene@system25.de)
+ *  (c) 2007-2014 Rene Nitzsche (dev@dmk-ebusiness.de)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is

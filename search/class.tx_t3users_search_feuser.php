@@ -3,7 +3,7 @@
  *  Copyright notice
 *
 *  (c) 2008 Rene Nitzsche
-*  Contact: rene@system25.de
+*  Contact: dev@dmk-ebusiness.de
 *  All rights reserved
 *
 * This library is free software; you can redistribute it and/or

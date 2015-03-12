@@ -5,7 +5,7 @@
  *
  *  Copyright notice
  *
- *  (c) 2011 das MedienKombinat GmbH
+ *  (c) 2011 DMK E-BUSINESS GmbH
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,7 +37,7 @@ tx_rnbase::load('tx_t3users_services_feuser');
  *
  * @package tx_t3users
  * @subpackage tx_t3users_tests_services
- * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @author Michael Wagner <dev@dmk-ebusiness.de>
  */
 class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 	
