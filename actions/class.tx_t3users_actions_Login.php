@@ -188,12 +188,6 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		$viewData->offsetSet('subpart', '###TEMPLATE_LOGIN###');
 
 		if($action == 'login') {
-			// This was a failed login attempt
-			// Maybe the user tried login with password
-//			$username = t3lib_div::_GP('user');
-			// Annahme: Username fuer Passwort herausfinden und redirect mit Superchallenge
-			// Voraussetzung: 2. challengewert mit email
-//t3lib_div::debug($username, 'tx_t3users_actions_Login'); // TODO: Remove me!
 			$statusKey = 'login_error';
 		}
 		elseif($action == 'logout') {
@@ -215,9 +209,14 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 
 		$markerArr['redirect_url'] = preg_replace("/[&?]logintype=[a-z]+/", '', $markerArr['redirect_url']);
 
+		$markerArr['redirect_url'] = t3lib_div::removeXSS($markerArr['redirect_url']);
+		// t3lib_div::removeXSS könnte Anführungszeichen etc. leer lassen.
+		// damit könnte die Ausgabe auch beeinflusst werden. daher
+		// htmlspecialchars
+		$markerArr['redirect_url'] = htmlspecialchars($markerArr['redirect_url'], ENT_QUOTES);
+
 		$this->setLanguageMarkers($markerArr, $configurations, $statusKey);
 		$markerArr['storage_pid'] = $this->getStoragePid($configurations);
-//		$markerArr['status_message'] = $configurations->getCfgOrLL('loginbox.msg.login_error');
 
 		$markerArr['action_uri'] = $this->createPageUri($configurations);
 		// Prepare some stuff for login
