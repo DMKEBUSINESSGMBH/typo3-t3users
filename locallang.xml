@@ -131,7 +131,7 @@ UID: ###FEUSER_UID###
       <label index="loginbox_msg_logout">You just logged out from your user session on this website. You can login again or as another user by the form below.</label>
 
       <label index="loginbox_header_forgot">Sie haben Ihr Passwort vergessen</label>
-      <label index="loginbox_message_forgot">Bitte geben Sie die E-Mail-Adresse ein, mit der sich registriert haben. Anschließend klicken Sie auf "Passwort senden" und Ihr Passwort wird Ihnen umgehend zugesendet. Achten Sie auf die korrekte Schreibweise Ihrer E-Mail-Adresse.</label>
+      <label index="loginbox_message_forgot">Bitte geben Sie die E-Mail-Adresse ein, mit der Sie sich registriert haben. Anschließend klicken Sie auf "Passwort senden" und Ihr Passwort wird Ihnen umgehend zugesendet. Achten Sie auf die korrekte Schreibweise Ihrer E-Mail-Adresse.</label>
       <label index="loginbox_header_forgot_notfound">Nutzername konnte nicht gefunden werden</label>
       <label index="loginbox_message_forgot_notfound">Wir konnten keine mit dem angegeben Benutzernamen verknüpfte E-Mail-Adresse finden. Aus diesem Grund können wir Ihnen kein Passwort zusenden. Vielleicht haben Sie Ihre E-Mail-Adresse fehlerhaft eingegeben oder Sie haben sich eventuell noch gar nicht registriert.</label>
       <label index="loginbox_header_forgot_sent">Passwort verschickt</label>
