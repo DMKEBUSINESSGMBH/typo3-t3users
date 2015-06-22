@@ -53,7 +53,7 @@ An example configuration for mod_security, which has to be put into the httpd.co
       # Check for authentication failure and increment counters
       SecRule RESPONSE_HEADERS:Login "@streq -1" \
          "phase:5,t:none,pass, \
-         setvar:IP.bf_counter=+1, \
+       another  setvar:IP.bf_counter=+1, \
          setvar:USER.bf_counter=+1, \
          setvar:RESOURCE.bf_counter=+1, \
          expirevar:IP.bf_counter=3600, \
@@ -82,3 +82,14 @@ An example configuration for mod_security, which has to be put into the httpd.co
          expirevar:RESOURCE.bf_block=600,id:5000106"
    </LocationMatch>
 
+If a attacker uses parallel requests with several IPs this mechanism might not be efficient enough.
+So there is a feature which at least slows down bruteforce attacks. If a login fails you
+can configure a delay in seconds through TypoScript. This way e.g. after every failed login the site loads with a
+delay of 3 seconds.
+
+.. code-block:: ts
+
+   plugin.tx_t3users_main.loginbox.delayInSecondsAfterFailedLogin = 3
+   
+Those are just some mechanisms to protect your login. There are plenty more things you can do. Search
+the internet and a you will find a lot more.

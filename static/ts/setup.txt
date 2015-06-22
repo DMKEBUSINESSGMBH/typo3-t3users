@@ -80,6 +80,10 @@ plugin.tx_t3users_main {
 		basetemplate < lib.mkmailer.basetemplate
 	} 
 		
+	### wenn ein Login fehlschlägt, dann 3 Sekunden Verzögerung einbauen bis die Anmeldemaske
+	### wieder ausgegeben wird	
+	#delayInSecondsAfterFailedLogin = 3
+	
     ### die destination kommt aus den parametern und muss nicht gesetzt werden. Allerdings können hier beispielsweise weitere parameter an den link gehängt werden.
     links.loginRedirect.pid = 0
     extend {

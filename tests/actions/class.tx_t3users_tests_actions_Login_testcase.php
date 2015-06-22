@@ -46,10 +46,58 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
 
 	/**
 	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::setUp()
+	 */
+	protected function setUp() {
+		/*
+		 * warning "Cannot modify header information" abfangen.
+		 *
+		 * Einige Tests lassen sich leider nicht ausführen:
+		 * "Cannot modify header information - headers already sent by"
+		 * Diese wird an unterschiedlichen stellen ausgelöst,
+		 * meißt jedoch bei Session operationen
+		 * Ab Typo3 6.1 laufend die Tests auch auf der CLI nicht.
+		 * Eigentlich gibt es dafür die runInSeparateProcess Anotation,
+		 * Allerdings funktioniert diese bei Typo3 nicht, wenn versucht wird
+		 * die GLOBALS in den anderen Prozess zu Übertragen.
+		 * Ein Deaktivierend er Übertragung führt dazu,
+		 * das Typo3 nicht initialisiert ist.
+		 *
+		 * Wir gehen also erst mal den Weg, den Fehler abzufangen.
+		 */
+		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+	}
+
+	/**
+	 *
+	 * @param integer $errno
+	 * @param string $errstr
+	 * @param string $errfile
+	 * @param integer $errline
+	 * @param array $errcontext
+	 */
+	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
+		$ignoreMsg = array(
+			'Cannot modify header information - headers already sent by',
+		);
+		foreach($ignoreMsg as $msg) {
+			if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== FALSE) {
+				// Don't execute PHP internal error handler
+				return FALSE;
+			}
+		}
+		return NULL;
+	}
+
+	/**
+	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::tearDown()
 	 */
 	protected function tearDown() {
 		unset($_GET['redirect_url']);
+
+		// error handler zurücksetzen
+		restore_error_handler();
 	}
 
 	/**
@@ -66,9 +114,11 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
 			)
 		);
 
-		$parameters = $configurations = NULL;
+		$parameters = NULL;
+		$configurations = $this->createConfigurations(array(), 't3users');
 		$viewData = new ArrayObject(array());
 		$action = 'login';
+		$loginAction->setConfigurations($configurations);
 
 		$loginAction->_callRef(
 			'handleNotLoggedIn', $action, $parameters, $configurations, $viewData
@@ -79,6 +129,63 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
 		$this->assertEquals(
 			t3lib_div::getIndpEnv('TYPO3_SITE_URL') . '&#039;&gt;&lt;sc&lt;x&gt;ript&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;&#039;',
 			$marker['redirect_url']
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testHandleNotLoggedInDelaysNotAfterFailedLoginsIfNotConfigured() {
+		$loginAction = $this->getAccessibleMock(
+			'tx_t3users_actions_Login',
+			array(
+				'prepareLoginFormOnSubmit', 'setLanguageMarkers',
+				'getStoragePid', 'createPageUri'
+			)
+		);
+
+		$parameters = NULL;
+		$configurations = $this->createConfigurations(array(), 't3users');
+		$viewData = new ArrayObject(array());
+		$action = 'login';
+		$loginAction->setConfigurations($configurations);
+
+		$startTime = microtime(TRUE);
+		$loginAction->_callRef(
+			'handleNotLoggedIn', $action, $parameters, $configurations, $viewData
+		);
+		self::assertLessThan(
+			1, microtime(TRUE)-$startTime,
+			'mehr als 1 Sekunde vergangen. sleep scheint aufgerufen worden zu sein.');
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testHandleNotLoggedInDelaysAfterFailedLoginsIfConfigured() {
+		$loginAction = $this->getAccessibleMock(
+			'tx_t3users_actions_Login',
+			array(
+				'prepareLoginFormOnSubmit', 'setLanguageMarkers',
+				'getStoragePid', 'createPageUri'
+			)
+		);
+
+		$parameters = NULL;
+		$configurations = $this->createConfigurations(array(
+			'loginbox.' => array('delayInSecondsAfterFailedLogin' => 1)
+		), 't3users');
+		$viewData = new ArrayObject(array());
+		$action = 'login';
+		$loginAction->setConfigurations($configurations);
+
+		$startTime = microtime(TRUE);
+		$loginAction->_callRef(
+			'handleNotLoggedIn', $action, $parameters, $configurations, $viewData
+		);
+		self::assertGreaterThan(
+			1, microtime(TRUE)-$startTime,
+			'weniger als 1 Sekunde vergangen. sleep scheint nicht aufgerufen worden zu sein.'
 		);
 	}
 }
