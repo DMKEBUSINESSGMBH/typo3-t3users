@@ -189,6 +189,10 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 
 		if($action == 'login') {
 			$statusKey = 'login_error';
+			// kann z.B. verwendet werden um in mod_security zu prüfen ob ein Login
+			// fehlgeschlagen ist. Man könnte zwar auch etwas im HTML Body verwenden,
+			// das kostet aber mehr Performance und ist nicht so einfach wenn gzip verwendet wird.
+			header('Login: -1');
 		}
 		elseif($action == 'logout') {
 			// User logged out
