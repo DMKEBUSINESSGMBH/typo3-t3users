@@ -87,9 +87,17 @@ So there is a feature which at least slows down bruteforce attacks. If a login f
 can configure a delay in seconds through TypoScript. This way e.g. after every failed login the site loads with a
 delay of 3 seconds.
 
+Configure through the TypoScript constants editor (FE User Management (Misc)) in the path
+plugin.tx_t3users.delayInSecondsAfterFailedLogin or
+directly in the TypoScript setup in the path plugin.tx_t3users_main.loginbox.delayInSecondsAfterFailedLogin.
+
 .. code-block:: ts
 
-   plugin.tx_t3users_main.loginbox.delayInSecondsAfterFailedLogin = 3
+   ### constants
+   plugin.tx_t3users.delayInSecondsAfterFailedLogin = 5
+   
+   ### setup
+   plugin.tx_t3users_main.loginbox.delayInSecondsAfterFailedLogin = 5
    
 Those are just some mechanisms to protect your login. There are plenty more things you can do. Search
 the internet and a you will find a lot more.
