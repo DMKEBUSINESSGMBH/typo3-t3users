@@ -176,7 +176,8 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 
 		$viewData->offsetSet('markers', $markerArr);
 	}
-  /**
+
+	/**
 	 * User is not logged in
 	 *
 	 * @param string $action
@@ -193,6 +194,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			// fehlgeschlagen ist. Man könnte zwar auch etwas im HTML Body verwenden,
 			// das kostet aber mehr Performance und ist nicht so einfach wenn gzip verwendet wird.
 			header('Login: -1');
+			$this->delayNextLogin();
 		}
 		elseif($action == 'logout') {
 			// User logged out
@@ -226,6 +228,18 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		// Prepare some stuff for login
 		$this->prepareLoginFormOnSubmit($markerArr, $statusKey, $configurations, $this->getConfId());
 		$viewData->offsetSet('markers', $markerArr);
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function delayNextLogin() {
+		$delayInSeconds = $this->getConfigurations()->get(
+			$this->getConfId() . 'delayInSecondsAfterFailedLogin'
+		);
+		if ($delayInSeconds) {
+			sleep($delayInSeconds);
+		}
 	}
 
 	/**
