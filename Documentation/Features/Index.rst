@@ -19,7 +19,7 @@ Features
 	Registration
 	Login
 	Editing
-	ForgotPassword
+	ResetPassword
 	ListFeUser
 	ShowFeUser
 	RenewSession
