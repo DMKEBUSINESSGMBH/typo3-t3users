@@ -162,6 +162,9 @@ plugin.tx_t3users_main {
 
 	feuserlist {
 		feuser =< lib.t3users.feuser
+
+		### comma separated list of user uids to be shown
+		#staticUsers = 1,2,3
 	}
 	feuserdetails {
 		links.mailconfirm.pid = {$plugin.tx_t3users.feuserdetailsPage}
