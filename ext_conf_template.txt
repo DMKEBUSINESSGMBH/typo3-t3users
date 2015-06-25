@@ -1,17 +1,17 @@
-  # cat=basic//10; type=boolean; label= Enable user login by email: This option enables frontend login either by username or by email address.
+	# cat=basic//10; type=boolean; label= Enable user login by email: This option enables frontend login either by username or by email address.
 enableLoginByEmail = 1
 
-  # cat=basic//10; type=boolean; label= Extend TCA with additional fields for feusers: This option adds new fields like first_name, last_name and birthday to feusers.
+	# cat=basic//10; type=boolean; label= Extend TCA with additional fields for feusers: This option adds new fields like first_name, last_name and birthday to feusers.
 extendTCA = 1
 
-  # cat=basic//10; type=boolean; label= Extend feusers with additional field beforelastlogin: This option adds a new field (beforelastlogin) to feusers. It was filled with the lastlogin timestamp before the lastlogin field was updated at any login!
+	# cat=basic//10; type=boolean; label= Extend feusers with additional field beforelastlogin: This option adds a new field (beforelastlogin) to feusers. It is filled with the lastlogin timestamp before the lastlogin field was updated at any login!
 useBeforelastLogin = 1
 
-  # cat=basic//10; type=boolean; label= Track login and logouts in table tx_t3users_logs
+	# cat=basic//10; type=boolean; label= Track login and logouts in table tx_t3users_logs
 trackLogin = 0
 
-  # cat=basic//10; type=boolean; label= Allow non-Admins to search by Uid and Pid in BE-Module
+	# cat=basic//10; type=boolean; label= Allow non-Admins to search by Uid and Pid in BE-Module
 fullModuleForNonAdmins = 0
 
- # cat=basic//10; type=boolean; label= Activate the BE Module
+# cat=basic//10; type=boolean; label= Activate the BE Module
 activateBeModule = 0
