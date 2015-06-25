@@ -14,84 +14,84 @@ plugin.tx_t3users_main.locallangFilename = EXT:t3users/locallang.xml
 tt_content.list.20.tx_t3users_main    =< plugin.tx_t3users_main
 
 lib.t3users.pagebrowser {
-  limit = 2
-  maxPages = 7
-  pagefloat = CENTER
-  link.useKeepVars = 1
+	limit = 2
+	maxPages = 7
+	pagefloat = CENTER
+	link.useKeepVars = 1
 }
-	
+
 lib.t3users.feuser {
-  pagebrowser < lib.t3users.pagebrowser
-  links {
-    details.pid = {$plugin.tx_t3users.feuserdetailsPage}
-    list.pid = {$plugin.tx_t3users.feuserlistPage}
-    login{
-    	pid = {$plugin.tx_t3users.loginboxPage}
-    	### absolut da es z.B. auch in Mailtemplates verwendet wird
-    	absurl = 1
-    }
-  }
-  www{
-    ifEmpty = -
-    typolink.parameter.field = www
-    typolink.extTarget = _new
-  }
-  
-  email{
-    ifEmpty = -
-    typolink.parameter.field = email
-  }
-  
-  image =< tt_content.image.20
+	pagebrowser < lib.t3users.pagebrowser
+	links {
+		details.pid = {$plugin.tx_t3users.feuserdetailsPage}
+		list.pid = {$plugin.tx_t3users.feuserlistPage}
+		login{
+			pid = {$plugin.tx_t3users.loginboxPage}
+			### absolut da es z.B. auch in Mailtemplates verwendet wird
+			absurl = 1
+		}
+	}
+	www{
+		ifEmpty = -
+		typolink.parameter.field = www
+		typolink.extTarget = _new
+	}
+
+	email{
+		ifEmpty = -
+		typolink.parameter.field = email
+	}
+
+	image =< tt_content.image.20
 }
 lib.t3users.fegroup {
-  pagebrowser < lib.t3users.pagebrowser
+	pagebrowser < lib.t3users.pagebrowser
 }
 
-# Ab hier Konfiguration der einzelnen Views 
+# Ab hier Konfiguration der einzelnen Views
 plugin.tx_t3users_main {
-  loginTemplate = {$plugin.tx_t3users.loginTemplate}
-  feuserPages = {$plugin.tx_t3users.userPages}
-  userGroupUponRegistration = {$plugin.tx_t3users.userGroupUponRegistration}
-  userGroupAfterConfirmation = {$plugin.tx_t3users.userGroupAfterConfirmation}
-  feuserlistTemplate = {$plugin.tx_t3users.feuserlistTemplate}
-  feuserdetailsTemplate = {$plugin.tx_t3users.feuserdetailsTemplate}
-  registrationTemplate = {$plugin.tx_t3users.registrationTemplate}
-  registrationConfirmTemplate = {$plugin.tx_t3users.registrationConfirmTemplate}
-  feusereditTemplate = {$plugin.tx_t3users.feusereditTemplate}
-  siteName = {$plugin.tx_t3users.siteName}
+	loginTemplate = {$plugin.tx_t3users.loginTemplate}
+	feuserPages = {$plugin.tx_t3users.userPages}
+	userGroupUponRegistration = {$plugin.tx_t3users.userGroupUponRegistration}
+	userGroupAfterConfirmation = {$plugin.tx_t3users.userGroupAfterConfirmation}
+	feuserlistTemplate = {$plugin.tx_t3users.feuserlistTemplate}
+	feuserdetailsTemplate = {$plugin.tx_t3users.feuserdetailsTemplate}
+	registrationTemplate = {$plugin.tx_t3users.registrationTemplate}
+	registrationConfirmTemplate = {$plugin.tx_t3users.registrationConfirmTemplate}
+	feusereditTemplate = {$plugin.tx_t3users.feusereditTemplate}
+	siteName = {$plugin.tx_t3users.siteName}
 
-  loginbox {
-    # TODO: als Konstante mit Auswahlfeld auslagern
-    # sendpassword sollte nie gesetzt werden weil dann das Passwort per Mail
-    # zugesendet wird. Einfach leer lassen und links.resetPassword.pid setzen
-    resetPasswordMode = sendpassword
-    # Seite auf welcher ResetPassword Plugin liegt
-    #links.resetPassword.pid =
-    links.resetPassword.absurl = 1
-    links.forgotpass = 1
-    links.forgotpass.pid = {$plugin.tx_t3users.loginboxPage}
-    links.register.pid = {$plugin.tx_t3users.registerPage}
-    links.confirm.pid = {$plugin.tx_t3users.confirmPage}
+	loginbox {
+		# TODO: als Konstante mit Auswahlfeld auslagern
+		# sendpassword sollte nie gesetzt werden weil dann das Passwort per Mail
+		# zugesendet wird. Einfach leer lassen und links.resetPassword.pid setzen
+		resetPasswordMode = sendpassword
+		# Seite auf welcher ResetPassword Plugin liegt
+		#links.resetPassword.pid =
+		links.resetPassword.absurl = 1
+		links.forgotpass = 1
+		links.forgotpass.pid = {$plugin.tx_t3users.loginboxPage}
+		links.register.pid = {$plugin.tx_t3users.registerPage}
+		links.confirm.pid = {$plugin.tx_t3users.confirmPage}
 
 	email {
 		### Mail-Versand via mkmailer muss explizit aktiviert werden
 		useMkmailer = 0
 		basetemplate < lib.mkmailer.basetemplate
-	} 
-		
+	}
+
 	### wenn ein Login fehlschlägt, dann x Sekunden Verzögerung einbauen bis die Anmeldemaske
-	### wieder ausgegeben wird	
+	### wieder ausgegeben wird
 	delayInSecondsAfterFailedLogin = {$plugin.tx_t3users.delayInSecondsAfterFailedLogin}
-	
-    ### die destination kommt aus den parametern und muss nicht gesetzt werden. Allerdings können hier beispielsweise weitere parameter an den link gehängt werden.
-    links.loginRedirect.pid = 0
-    extend {
-      # Art der Erweiterung: none, auto, nomd5, md5, rsa
-      method = auto
-      rsa62 {
-        onsubmit = superchallenge_password(this);
-        jsCode (
+
+		### die destination kommt aus den parametern und muss nicht gesetzt werden. Allerdings können hier beispielsweise weitere parameter an den link gehängt werden.
+		links.loginRedirect.pid = 0
+		extend {
+			# Art der Erweiterung: none, auto, nomd5, md5, rsa
+			method = auto
+			rsa62 {
+				onsubmit = superchallenge_password(this);
+				jsCode (
 					function superchallenge_password(form) {
 						var trgForm = document.forms["logform"];
 						if(!trgForm) trgForm = document.getElementById("logform");
@@ -103,10 +103,10 @@ plugin.tx_t3users_main {
 						return false;
 					}
 )
-      }
-      rsa {
-        onsubmit = superchallenge_password(this);
-        jsCode (
+			}
+			rsa {
+				onsubmit = superchallenge_password(this);
+				jsCode (
 					function superchallenge_password(form) {
 						// copy values and start tx_rsaauth_feencrypt
 						var trgForm = document.forms["logform"];
@@ -120,10 +120,10 @@ plugin.tx_t3users_main {
 						return false;
 					}
 )
-      }
-      md5 {
-        onsubmit = superchallenge_password(this);
-        jsCode (
+			}
+			md5 {
+				onsubmit = superchallenge_password(this);
+				jsCode (
 					function superchallenge_password(form) {
 				// md5-version
 						trgForm = document.forms["logform"];
@@ -137,12 +137,12 @@ plugin.tx_t3users_main {
 							trgForm.submit();
 						}
 						return false;
-					  }
+						}
 )
-      }
-      nomd5 {
-        onsubmit = superchallenge_password(this)
-        jsCode (
+			}
+			nomd5 {
+				onsubmit = superchallenge_password(this)
+				jsCode (
 					function superchallenge_password(form) {
 				// Non-md5-version
 						trgForm = document.forms["logform"];
@@ -154,73 +154,72 @@ plugin.tx_t3users_main {
 							trgForm.submit();
 						}
 						return false;
-					  }
+						}
 )
-      }
-    }
-  }
+			}
+		}
+	}
 
-  feuserlist {
-    page = {$plugin.tx_t3users.feuserlistPage}
-    feuser =< lib.t3users.feuser
-  }
-  feuserdetails {
-    links.mailconfirm.pid = {$plugin.tx_t3users.feuserdetailsPage}
-    feuser =< lib.t3users.feuser
-    ### Userdetails zu gegenwärtig angemeldetem Benutzer anzeigen
-    currentUser = 0
-  }
-  showregistration {
-    links.register.pid = {$plugin.tx_t3users.registerPage}
-    links.mailconfirm.pid = {$plugin.tx_t3users.confirmPage}
-    form = {$plugin.tx_t3users.registrationTemplate}
-    formxml = EXT:t3users/forms/registration.xml
-    confirmpage = {$plugin.tx_t3users.confirmPage}
-    email{
-    	from = {$plugin.tx_t3users.email}
-    	fromName = {$plugin.tx_t3users.siteName}
-    	### es kann auch eine weitere Mail versendet werden beim Versand der Bestätigungsmail.
-    	### dafür wird registration_confirmation_mail_cc aus der locallang verwendet, was per default leer ist.
-    	### und wenn das leer ist, wird registration_confirmation_mail als template verwendet. somit
-    	### sind wir abwärtskompatibel. den Empfänger in cc konfigurieren
-    	#cc = 
-    }
-    ### ist das gesetzt, wird der Nutzer bei confirmation nicht freigeschaltet
-    ### sondern eine neue confirmation an den Admin geschickt.
-    ### es sollte also immer eine Seite für die Bestätigung geben, auf der das
-    ### gesetzt wird. auf dieser Bestätigungsseite wird dann wiederum eine
-    ### andere confirmpage konfiguriert, auf welcher adminReviewMail nicht
-    ### gesetzt wird. auf dieser seite sollte aber notifyUserAboutConfirmation
-    ### gesetzt werden damit der Nutzer über die Freischaltung informiert wird.
-    ### es wird das gleiche mail template verwendet wie für die normale
-    ### confirm mail. Dies lässt sich überschreiben indem man auf der gewünschten Seite
-    ### eine weitere locallang hinzufügt und dort das template überschreibt:
-    ### plugin.tx_t3users_main.locallangFilename.0 = PFAD-ZU-LOCALLANG-FÜR-REVIEW-SEITE
-    ### dort dann registration_confirmation_mail überschreiben
-    adminReviewMail = {$plugin.tx_t3users.adminReviewMail}
-    ### das nicht auf der Seite setzen, auf welcher adminReviewMail gesetzt ist, sondern
-    ### auf der confirmPage, welche auf der Seite mit adminReviewMail gesetzt wurde
-    notifyUserAboutConfirmation = {$plugin.tx_t3users.notifyUserAboutConfirmation}
-    
-    feuser =< lib.t3users.feuser
-  }
-  
-  feuseredit {
-    formxml = EXT:t3users/forms/feuser_edit.xml
-    doubleoptin = 0
-    doubleoptin.pid = {$plugin.tx_t3users.doubleOptInPage}
-    mode = normal
-    redirect.pid = {$plugin.tx_t3users.feusereditRedirect}
-  }
-  
-      
-  #service {
-  #  serviceType = mkhoga
-  #  serviceSubType = email
-  #  handleForgotPass = 1
-  #  handleForgotPassMethodName = handleForgotPass
-  #}
-  
-  renewSession.intervallInSeconds = 300
+	feuserlist {
+		feuser =< lib.t3users.feuser
+	}
+	feuserdetails {
+		links.mailconfirm.pid = {$plugin.tx_t3users.feuserdetailsPage}
+		feuser =< lib.t3users.feuser
+		### Userdetails zu gegenwärtig angemeldetem Benutzer anzeigen
+		currentUser = 0
+	}
+	showregistration {
+		links.register.pid = {$plugin.tx_t3users.registerPage}
+		links.mailconfirm.pid = {$plugin.tx_t3users.confirmPage}
+		form = {$plugin.tx_t3users.registrationTemplate}
+		formxml = EXT:t3users/forms/registration.xml
+		confirmpage = {$plugin.tx_t3users.confirmPage}
+		email{
+			from = {$plugin.tx_t3users.email}
+			fromName = {$plugin.tx_t3users.siteName}
+			### es kann auch eine weitere Mail versendet werden beim Versand der Bestätigungsmail.
+			### dafür wird registration_confirmation_mail_cc aus der locallang verwendet, was per default leer ist.
+			### und wenn das leer ist, wird registration_confirmation_mail als template verwendet. somit
+			### sind wir abwärtskompatibel. den Empfänger in cc konfigurieren
+			#cc =
+		}
+		### ist das gesetzt, wird der Nutzer bei confirmation nicht freigeschaltet
+		### sondern eine neue confirmation an den Admin geschickt.
+		### es sollte also immer eine Seite für die Bestätigung geben, auf der das
+		### gesetzt wird. auf dieser Bestätigungsseite wird dann wiederum eine
+		### andere confirmpage konfiguriert, auf welcher adminReviewMail nicht
+		### gesetzt wird. auf dieser seite sollte aber notifyUserAboutConfirmation
+		### gesetzt werden damit der Nutzer über die Freischaltung informiert wird.
+		### es wird das gleiche mail template verwendet wie für die normale
+		### confirm mail. Dies lässt sich überschreiben indem man auf der gewünschten Seite
+		### eine weitere locallang hinzufügt und dort das template überschreibt:
+		### plugin.tx_t3users_main.locallangFilename.0 = PFAD-ZU-LOCALLANG-FÜR-REVIEW-SEITE
+		### dort dann registration_confirmation_mail überschreiben
+		adminReviewMail = {$plugin.tx_t3users.adminReviewMail}
+		### das nicht auf der Seite setzen, auf welcher adminReviewMail gesetzt ist, sondern
+		### auf der confirmPage, welche auf der Seite mit adminReviewMail gesetzt wurde
+		notifyUserAboutConfirmation = {$plugin.tx_t3users.notifyUserAboutConfirmation}
+
+		feuser =< lib.t3users.feuser
+	}
+
+	feuseredit {
+		formxml = EXT:t3users/forms/feuser_edit.xml
+		doubleoptin = 0
+		doubleoptin.pid = {$plugin.tx_t3users.doubleOptInPage}
+		mode = normal
+		redirect.pid = {$plugin.tx_t3users.feusereditRedirect}
+	}
+
+
+	#service {
+	#  serviceType = mkhoga
+	#  serviceSubType = email
+	#  handleForgotPass = 1
+	#  handleForgotPassMethodName = handleForgotPass
+	#}
+
+	renewSession.intervallInSeconds = 300
 }
 
