@@ -18,7 +18,7 @@ $MLANG['default']['ll_ref'] = 'LLL:EXT:t3users/mod/locallang_mod.php';
 
 
 $REQUIRE_PATH = $BACK_PATH;
-if (!@is_readable($REQUIRE_PATH))
+if (!@is_readable($REQUIRE_PATH . 'sysext/'))
 {
 	$PATH_thisScript = str_replace('//', '/', str_replace('\\', '/',
 			(PHP_SAPI == 'fpm-fcgi' || PHP_SAPI == 'cgi' || PHP_SAPI == 'isapi' || PHP_SAPI == 'cgi-fcgi') &&
