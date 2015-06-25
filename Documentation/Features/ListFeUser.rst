@@ -14,7 +14,7 @@ List FE Users
 This action can be selected in the flexform of plugin providing a list of FE users. It is a
 rn_base plugin which means you can use all features like link configuration etc. of rn_base.
 
-The template can be configured with TypoScript in the constants:
+The template can be configured in the flexform in the tab user information or through TypoScript in the constants:
 
 .. code-block:: ts
 
@@ -26,10 +26,12 @@ or in the setup:
 
 	plugin.tx_t3users_main.feuserlistTemplate = ...
 
+
 Example Template
 ----------------
 
-The extension ships with a default template (EXT:t3users/templates/feuserlist.html). It looks like this:
+The extension ships with a default template (EXT:t3users/templates/feuserlist.html). Check the
+subpart *###FEUSER_LIST###*. It looks like this:
 
 .. code-block:: html
 
@@ -125,11 +127,12 @@ is as follows (check rn_base for all configuration possibilities):
 	plugin.tx_t3users_main.feuserlist.feuser.links ...
 
 If you just want to edit the pids you can configure them in TypoScript constants editor.
+Or you use the flexform in the tab user information.
 
 Static User List
 ----------------
 
-You can configure a static list of users to be shown with TypoScript:
+You can configure a static list of users to be shown in the flexform in the tab user information or with TypoScript:
 
 .. code-block:: ts
 
