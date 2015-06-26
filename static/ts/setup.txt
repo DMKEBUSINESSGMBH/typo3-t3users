@@ -213,6 +213,9 @@ plugin.tx_t3users_main {
 		doubleoptin.pid = {$plugin.tx_t3users.doubleOptInPage}
 		mode = normal
 		redirect.pid = {$plugin.tx_t3users.feusereditRedirect}
+
+		### Non-TCA-Fields nicht ignorieren (like deleted, hidden)
+		#enableNonTcaColumns = 1
 	}
 
 
