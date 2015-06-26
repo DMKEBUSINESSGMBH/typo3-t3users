@@ -211,6 +211,8 @@ plugin.tx_t3users_main {
 		formxml = EXT:t3users/forms/feuser_edit.xml
 		doubleoptin = 0
 		doubleoptin.pid = {$plugin.tx_t3users.doubleOptInPage}
+
+		### check order normal
 		mode = normal
 		redirect.pid = {$plugin.tx_t3users.feusereditRedirect}
 
