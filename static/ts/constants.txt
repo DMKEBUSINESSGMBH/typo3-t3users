@@ -46,7 +46,7 @@ plugin.tx_t3users {
 	### andere confirmpage konfiguriert, auf welcher adminReviewMail nicht
 	### gesetzt wird. auf dieser seite sollte aber notifyUserAboutConfirmation
 	### gesetzt werden damit der Nutzer über die Freischaltung informiert wird.
-	# cat=FE User Management (Misc)/adminReviewMail; type=int+;label=Recipient of the admin review mail
+	# cat=FE User Management (Misc)/adminReviewMail; type=string;label=Recipient of the admin review mail
 	adminReviewMail =
 	### das nicht auf der Seite setzen, auf welcher adminReviewMail gesetzt ist, sondern
 	### auf der confirmPage, welche auf der Seite mit adminReviewMail gesetzt wurde
