@@ -108,21 +108,8 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
     	$this->form->init($this, $formXml, $itemUid/*, $this->config*/);
 
     	return $this->form;
-
-//der alte Weg
-//		$ret = array();
-//
-//		$this->editItem = $item;
-//		$this->editForm =& tx_rnbase::makeInstance('tx_mkameos_util_Ameos');
-//		$this->editForm->setConfigurations($configurations, $this->getConfId());
-//		$formXml = $configurations->get($this->getConfId().'form');
-//		$formXml = $formXml ? $formXml : t3lib_extmgm::extPath('t3users') . 'forms/feuser_edit.xml';
-//		$itemUid = ($this->editItem) ? $this->editItem->getUid() : 0;
-//		$this->editForm->setStore('itemid', $itemUid);
-//		$this->editForm->setStore('itemclazz', 'tx_t3users_models_feuser');
-//		$this->editForm->init($this,$formXml, $itemUid);
-//		return $this->editForm;
 	}
+
 	/**
 	 * Modify user before update to db
 	 *
