@@ -73,15 +73,15 @@ plugin.tx_t3users_main {
 		links.register.pid = {$plugin.tx_t3users.registerPage}
 		links.confirm.pid = {$plugin.tx_t3users.confirmPage}
 
-	email {
-		### Mail-Versand via mkmailer muss explizit aktiviert werden
-		useMkmailer = 0
-		basetemplate < lib.mkmailer.basetemplate
-	}
+		email {
+			### Mail-Versand via mkmailer muss explizit aktiviert werden
+			useMkmailer = 0
+			basetemplate < lib.mkmailer.basetemplate
+		}
 
-	### wenn ein Login fehlschlägt, dann x Sekunden Verzögerung einbauen bis die Anmeldemaske
-	### wieder ausgegeben wird
-	delayInSecondsAfterFailedLogin = {$plugin.tx_t3users.delayInSecondsAfterFailedLogin}
+		### wenn ein Login fehlschlägt, dann x Sekunden Verzögerung einbauen bis die Anmeldemaske
+		### wieder ausgegeben wird
+		delayInSecondsAfterFailedLogin = {$plugin.tx_t3users.delayInSecondsAfterFailedLogin}
 
 		### die destination kommt aus den parametern und muss nicht gesetzt werden. Allerdings können hier beispielsweise weitere parameter an den link gehängt werden.
 		links.loginRedirect.pid = 0
