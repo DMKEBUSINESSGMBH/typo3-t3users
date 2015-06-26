@@ -8,8 +8,6 @@ plugin.tx_t3users {
 	feuserdetailsTemplate = EXT:t3users/templates/feuserlist.html
 	# cat=FE User Management (Templates)/registration; type=string;label=HTML Template for feuser registration view
 	registrationTemplate = EXT:t3users/templates/registration.html
-	# cat=FE User Management (Templates)/registrationConfirm; type=string;label=HTML Template for feuser registration confirm view
-	registrationConfirmTemplate = EXT:t3users/templates/registration.html
 	# cat=FE User Management (Templates)/feuseredit; type=string;label=HTML Template for editing a feuser
 	feusereditTemplate = EXT:t3users/templates/feuseredit.html
 
