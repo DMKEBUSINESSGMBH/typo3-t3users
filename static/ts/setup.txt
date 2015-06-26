@@ -65,6 +65,8 @@ plugin.tx_t3users_main {
 		# sendpassword sollte nie gesetzt werden weil dann das Passwort per Mail
 		# zugesendet wird. Einfach leer lassen und links.resetPassword.pid setzen
 		resetPasswordMode = sendpassword
+		# zusätzliches secret für die erstellung des confirm string
+		#passwordsecret = hb(G)&/GOh
 		# Seite auf welcher ResetPassword Plugin liegt
 		#links.resetPassword.pid =
 		links.resetPassword.absurl = 1
