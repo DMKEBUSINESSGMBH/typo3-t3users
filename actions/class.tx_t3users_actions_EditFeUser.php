@@ -95,7 +95,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 	 */
 	private function getEditors($parameters, $configurations, $item) {
 		if(!t3lib_extMgm::isLoaded('mkforms')) {
-			$this->markTestSkipped('mkforms ist nicht installiert.');
+			throw new Exception('mkforms ist nicht installiert, wird aber benötigt für das Bearbeitungsformular');
 		}
 
 		tx_rnbase::load('tx_mkforms_forms_Factory');
