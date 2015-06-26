@@ -72,7 +72,7 @@ confirmation page *plugin.tx_t3users.notifyUserAboutConfirmation* should be conf
 notified about the final confirmation through the admin.
 
 The same mail template like for the normal confirmation is used. You can overwrite this on the desired
-page by adding ad additional locallang file by configuring *plugin.tx_t3users_main.locallangFilename.0 = path-to-file*
+page by adding an additional locallang file by configuring *plugin.tx_t3users_main.locallangFilename.0 = path-to-file*
 In this file you can overwrite the label registration_confirmation_mail which is used for the
 confirmation mail.
 
