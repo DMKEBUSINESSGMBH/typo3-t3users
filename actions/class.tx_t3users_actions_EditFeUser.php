@@ -46,6 +46,9 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 		$this->conf =& $configurations;
 		//Bei Modus "check" werden die Daten aus der Url in die DB geschrieben (wenn
 		//möglich). Ansonsten wird ganz normal die Form geparsed.
+		// @TODO das ist sehr gefährlich. Im Formular könnten Daten validiert wurden sein
+		// und dann im Link geändert werden. Die Daten sollten nicht im Link übertragen werden
+		// sondern in einem eigenen Feld etc. in der DB zwischengespeichert werden.
 		if($this->conf->get($this->getConfId().'mode') == 'check'){
 			//uid und confirmstring sind nicht in tca weshalb wir sie
 			//fest auslesen müssen
