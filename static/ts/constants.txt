@@ -12,7 +12,7 @@ plugin.tx_t3users {
 	feusereditTemplate = EXT:t3users/templates/feuseredit.html
 
 	# cat=FE User Management (Misc)/delayInSecondsAfterFailedLogin; type=int+;label=Delay in seconds after failed logins to slow down possible bruteforce attacks
-	delayInSecondsAfterFailedLogin = 5
+	delayInSecondsAfterFailedLogin = 0
 
 	# cat=FE User Management (Misc)/email; type=string; label= Administration email: Enter the administration email address here. This email address will be the sender email and also receive administration notifications.
 	email = MyTypo3Site@mydomain.org
