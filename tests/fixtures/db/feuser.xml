@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<dataset>
-	<fe_users>
-		<uid>1</uid>
-		<username>dummy1@dummy1.de</username>
-		<email>dummy1@dummy1.de</email>
-		<confirmstring>7346tbvn45tc91m9</confirmstring>
-	</fe_users>
-</dataset>
