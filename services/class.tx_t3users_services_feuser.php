@@ -470,12 +470,17 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 */
 	public function updateFeUserByConfirmstring($uid, $confirmString, $data) {
 		$uid = intval($uid);
-		if(!$uid) throw new tx_t3users_exceptions_User('No user id given!');
-		if(empty($confirmString)) throw new tx_t3users_exceptions_User('No confirmstring given!');
+		if (!$uid) {
+			throw new tx_t3users_exceptions_User('No user id given!');
+		}
+		if (empty($confirmString)) {
+			throw new tx_t3users_exceptions_User('No confirmstring given!');
+		}
 
     	$where = 'uid =	' . $uid . ' AND confirmstring = \'' . $confirmString . '\'';
 
-		return tx_rnbase_util_DB::doUpdate('fe_users', $where, $data, 0);
+    	$databaseUtility = $this->getRnBaseDbUtil();
+		return $databaseUtility::doUpdate('fe_users', $where, $data, 0);
 	}
 
 	/**

@@ -72,7 +72,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 			//confirmstring wieder auf '' setzen
 			$params['confirmstring'] = '';
 			//und ab damit
-			$feUserSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
+			$feUserSrv = $this->getFeUserService();
 			if($feUserSrv->updateFeUserByConfirmstring($uid,$confirmstring,$params))
 				return $configurations->getLL('msg_change_success');
 			else
@@ -86,6 +86,13 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 			$viewData->offsetSet('form', $form->render());
 			$viewData->offsetSet('user', $feuser);
 		}
+	}
+
+	/**
+	 * @return tx_t3users_services_feuser
+	 */
+	protected function getFeUserService() {
+		return tx_t3users_util_ServiceRegistry::getFeUserService();
 	}
 
 	/**
