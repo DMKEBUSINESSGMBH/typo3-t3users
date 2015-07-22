@@ -12,6 +12,7 @@ if (class_exists('ux_tslib_feuserauth')) {
 	);
 }
 require_once t3lib_extMgm::extPath($_EXTKEY, 'xclasses/class.ux_tslib_feuserauth.php');
+tx_rnbase::load('tx_rnbase_util_TYPO3');
 if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 	$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication'] = array(
 			'className' => 'ux_tslib_feuserauth'
