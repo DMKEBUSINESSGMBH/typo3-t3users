@@ -28,7 +28,8 @@ You just have to activate it in the path in extendTCA.
 **use before last login**
 
 This option adds a new field (beforelastlogin) to feusers. It is filled with the
-lastlogin timestamp before the lastlogin field was updated at any login!
+lastlogin timestamp before the lastlogin field was updated at any login! So you can check for example if
+the user was logged in for the first time.
 You just have to activate it in the path in useBeforelastLogin.
 
 
