@@ -62,7 +62,7 @@ class ux_tslib_feuserauth extends tslib_feuserauth {
 									array($this->beforelastLogin_column => $tempuser[$this->lastLogin_column])
 								);
 		}
-		parent::createUserSession($tempuser);
+		return parent::createUserSession($tempuser);
 	}
 }
 
