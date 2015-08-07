@@ -5,9 +5,13 @@ $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['pro
 $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getMainFieldsClass'][] = 'EXT:' . $_EXTKEY . '/hooks/class.tx_t3users_hooks_getMainFields.php:tx_t3users_hooks_getMainFields';
 
 // Anpassung tslib_feuserauth
+
 if (class_exists('ux_tslib_feuserauth')) {
+	$reflector = new ReflectionClass("ux_tslib_feuserauth");
+	$fn = $reflector->getFileName();
 	throw new LogicException(
-		'There allready exists an ux_tslib_feuserauth XCLASS!' .
+		'There allready exists an ux_tslib_feuserauth XCLASS in the path ' .
+		dirname($reflector->getFileName()) . ' !' .
 		' Remove the other XCLASS or or the user record won\'t be filled with the beforelastlogin column'
 	);
 }
