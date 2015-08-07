@@ -8,7 +8,6 @@ $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['ge
 
 if (class_exists('ux_tslib_feuserauth')) {
 	$reflector = new ReflectionClass("ux_tslib_feuserauth");
-	$fn = $reflector->getFileName();
 	throw new LogicException(
 		'There allready exists an ux_tslib_feuserauth XCLASS in the path ' .
 		dirname($reflector->getFileName()) . ' !' .
