@@ -37,3 +37,14 @@ There are some useful classes shipped with this extension. Here is a small code 
    }
 
 As you can see, there is not a single sql statements in that code.
+
+
+Login a FE user manually
+------------------------
+You only need to call the method tx_t3users_services_feuser::loginFrontendUserByUsernameAndPassword passing
+the username as first parameter and the password as second one.
+
+.. code-block:: php
+
+   $feUserService = tx_t3users_util_ServiceRegistry::getFeUserService();
+   $feUserService->loginFrontendUserByUsernameAndPassword('john@doe.com', 'S3cr3t');

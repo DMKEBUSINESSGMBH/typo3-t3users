@@ -694,6 +694,19 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		return $feUser;
 	}
 
+	/**
+	 * @param string $username
+	 * @param string $password
+	 * @return void
+	 */
+	public function loginFrontendUserByUsernameAndPassword($username, $password) {
+		// die Daten können nur aus einem flachen Array gelesen werden
+		$_POST['user'] = $username;
+		$_POST['pass'] = $password;
+		$_POST['logintype'] = 'login';
+
+		$GLOBALS['TSFE']->fe_user->start();
+	}
 }
 
 

@@ -9,6 +9,10 @@
 Changelog
 =========
 
+1.0.16
+------
+* [FEATURE] method to login an FE user manually
+
 1.0.15
 ------
 * [TASK] show path of already registered XClass

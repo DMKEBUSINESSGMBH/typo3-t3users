@@ -42,6 +42,22 @@ tx_rnbase::load('tx_t3users_services_feuser');
 class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 
 	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::tearDown()
+	 */
+	protected function tearDown() {
+		if (isset($_POST['user'])) {
+			unset($_POST['user']);
+		}
+		if (isset($_POST['pass'])) {
+			unset($_POST['pass']);
+		}
+		if (isset($_POST['logintype'])) {
+			unset($_POST['logintype']);
+		}
+	}
+
+	/**
 	 * @group unit
 	 * @dataProvider providerEmailDisable
 	 */
@@ -250,5 +266,22 @@ class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 			->will($this->returnValue('searchResult'));
 
 		self::assertEquals('searchResult', $feUserService->getOnlineUsers(array('pids' => '1,2,3')));
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testLoginFrontendUserByUsernameAndPassword(){
+		tx_rnbase_util_Misc::prepareTSFE(array('force'=>TRUE));
+
+		$GLOBALS['TSFE']->fe_user = $this->getMock('stdClass', array('start'));
+		$GLOBALS['TSFE']->fe_user->expects(self::once())->method('start');
+
+		$feUserService = tx_t3users_util_ServiceRegistry::getFeUserService();
+		$feUserService->loginFrontendUserByUsernameAndPassword('john@doe.com', 'S3cr3t');
+
+		self::assertEquals('john@doe.com', $_POST['user'], 'Nutzername falsch in Postdata');
+		self::assertEquals('S3cr3t', $_POST['pass'], 'Passwort falsch in Postdata');
+		self::assertEquals('login', $_POST['logintype'], 'logintype falsch in Postdata');
 	}
 }
