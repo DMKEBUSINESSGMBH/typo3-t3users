@@ -4,6 +4,9 @@ enableLoginByEmail = 1
 	# cat=basic//10; type=boolean; label= Extend TCA with additional fields for feusers: This option adds new fields like first_name, last_name and birthday to feusers.
 extendTCA = 1
 
+	# cat=basic//10; type=boolean; label= Disable the tslib_feuserauth xclass. Caution: useBeforelastLogin won't be work.
+disableUxFeUserAuth = 0
+
 	# cat=basic//10; type=boolean; label= Extend feusers with additional field beforelastlogin: This option adds a new field (beforelastlogin) to feusers. It is filled with the lastlogin timestamp before the lastlogin field was updated at any login!
 useBeforelastLogin = 1
 
