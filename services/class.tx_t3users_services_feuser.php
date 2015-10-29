@@ -698,6 +698,8 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @param string $username
 	 * @param string $password
 	 * @return void
+	 * @todo es muss entweder $GLOBALS['TSFE']->fe_user->checkPid = FALSE gesetzt werden oder eine pid übergeben
+	 * werden. ALternativ kann vor dem Aufruf auch selbst $_POST['pid'] gesetzt werden.
 	 */
 	public function loginFrontendUserByUsernameAndPassword($username, $password) {
 		// die Daten können nur aus einem flachen Array gelesen werden
