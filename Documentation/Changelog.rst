@@ -9,6 +9,10 @@
 Changelog
 =========
 
+1.0.17
+------
+* feuserauth xclass deactivation added in extension configuration and Exception handling fixed
+
 1.0.16
 ------
 * [FEATURE] method to login an FE user manually
