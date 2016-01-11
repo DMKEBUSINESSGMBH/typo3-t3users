@@ -31,6 +31,7 @@
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_t3users_util_ServiceRegistry');
 tx_rnbase::load('tx_t3users_services_feuser');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Testfälle für tx_t3users_services_feuser
@@ -39,7 +40,7 @@ tx_rnbase::load('tx_t3users_services_feuser');
  * @subpackage tx_t3users_tests_services
  * @author Michael Wagner <dev@dmk-ebusiness.de>
  */
-class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
+class tx_t3users_tests_services_feuser_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	/**
 	 * (non-PHPdoc)
@@ -117,12 +118,22 @@ class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 	/**
 	 * @group unit
 	 */
+	public function testGetRnBaseDbUtil() {
+		self::assertInstanceOf(
+			'Tx_Rnbase_Database_Connection',
+			$this->callInaccessibleMethod(tx_rnbase::makeInstance('tx_t3users_services_feuser'), 'getRnBaseDbUtil')
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
 	public function testGetFeGroupsCallsDoSelectAndReturnsCorrectArrayIfUserHasGroups() {
 		$feUserService = $this->getMock(
 			'tx_t3users_services_feuser', array('getRnBaseDbUtil')
 		);
 
-		$rnBaseDbUtil = $this->getMockClass(
+		$rnBaseDbUtil = $this->getMock(
 			'tx_rnbase_util_DB', array('doSelect')
 		);
 		$usergroups = '1,2,3';
@@ -131,7 +142,7 @@ class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 			'wrapperclass' => 'tx_t3users_models_fegroup',
 			'orderby' => 'title'
 		);
-		$rnBaseDbUtil::staticExpects($this->once())
+		$rnBaseDbUtil->expects($this->once())
 			->method('doSelect')
 			->with('*', 'fe_groups')
 			->will($this->returnValue(array('testResult')));
@@ -199,11 +210,11 @@ class tx_t3users_tests_services_feuser_testcase extends tx_phpunit_testcase {
 		$feUserService = $this->getMock(
 			'tx_t3users_services_feuser', array('getRnBaseDbUtil')
 		);
-		$databaseUtility = $this->getMockClass(
+		$databaseUtility = $this->getMock(
 			'tx_rnbase_util_DB', array('doUpdate')
 		);
 		$data = array('city' => 'def');
-		$databaseUtility::staticExpects($this->once())
+		$databaseUtility->expects($this->once())
 			->method('doUpdate')
 			->with('fe_users', 'uid =	123 AND confirmstring = \'abc\'', $data, 0)
 			->will($this->returnValue('updateResult'));

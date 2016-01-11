@@ -263,17 +263,16 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 			'orderby' => 'title'
 		);
 
-		$rnBaseDbUtil = $this->getRnBaseDbUtil();
-		return $rnBaseDbUtil::doSelect('*',$from,$options,0);
+		return $this->getRnBaseDbUtil()->doSelect('*',$from,$options,0);
 	}
 
 	/**
 	 * für tests
 	 *
-	 * @return tx_rnbase_util_DB
+	 * @return Tx_Rnbase_Database_Connection
 	 */
 	protected function getRnBaseDbUtil() {
-		return tx_rnbase_util_DB;
+		return tx_rnbase::makeInstance('Tx_Rnbase_Database_Connection');
 	}
 
 	/**
@@ -479,8 +478,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 
     	$where = 'uid =	' . $uid . ' AND confirmstring = \'' . $confirmString . '\'';
 
-    	$databaseUtility = $this->getRnBaseDbUtil();
-		return $databaseUtility::doUpdate('fe_users', $where, $data, 0);
+		return $this->getRnBaseDbUtil()->doUpdate('fe_users', $where, $data, 0);
 	}
 
 	/**
