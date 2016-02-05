@@ -9,6 +9,8 @@ require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_configurations');
 if (!tx_rnbase_configurations::getExtensionCfgValue($_EXTKEY, 'disableUxFeUserAuth')) {
 	// Anpassung tslib_feuserauth
+	// kann schon durch autoloading da sein aber auch eine andere Klasse sein
+	// als die von t3users
 	if (class_exists('ux_tslib_feuserauth')) {
 		$reflector = new ReflectionClass("ux_tslib_feuserauth");
 		$rPath = realpath($reflector->getFileName());
@@ -21,19 +23,18 @@ if (!tx_rnbase_configurations::getExtensionCfgValue($_EXTKEY, 'disableUxFeUserAu
 			);
 		}
 		unset($reflector, $rPath, $tPath);
-	}
-	// register the xclass
-	else {
+	} else {
 		require_once t3lib_extMgm::extPath($_EXTKEY, 'xclasses/class.ux_tslib_feuserauth.php');
-		tx_rnbase::load('tx_rnbase_util_TYPO3');
-		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication'] = array(
-					'className' => 'ux_tslib_feuserauth'
-			);
-		} else {
-			$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['tslib/class.tslib_feuserauth.php'] =
-				t3lib_extMgm::extPath($_EXTKEY, 'xclasses/class.ux_tslib_feuserauth.php');
-		}
+	}
+
+	tx_rnbase::load('tx_rnbase_util_TYPO3');
+	if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication'] = array(
+				'className' => 'ux_tslib_feuserauth'
+		);
+	} else {
+		$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['tslib/class.tslib_feuserauth.php'] =
+			t3lib_extMgm::extPath($_EXTKEY, 'xclasses/class.ux_tslib_feuserauth.php');
 	}
 }
 
