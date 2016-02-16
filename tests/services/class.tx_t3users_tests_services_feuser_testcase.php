@@ -237,9 +237,13 @@ class tx_t3users_tests_services_feuser_testcase extends tx_rnbase_tests_BaseTest
 			'tx_t3users_services_feuser', array('search')
 		);
 
+
 		$expectedFields = array(
 			'FESESSION.ses_userid' => array(OP_GT_INT => 0),
-			'CUSTOM' => '(ses_tstamp+86400 > unix_timestamp() OR is_online+86400 > unix_timestamp())'
+			'CUSTOM' => sprintf(
+				'(ses_tstamp+%1$d > unix_timestamp() OR is_online+%1$d > unix_timestamp())',
+				$feUserService->getSessionLifeTime()
+			)
 		);
 		$expectedOptions = array(
 			'pids' => '',
@@ -264,7 +268,10 @@ class tx_t3users_tests_services_feuser_testcase extends tx_rnbase_tests_BaseTest
 
 		$expectedFields = array(
 			'FESESSION.ses_userid' => array(OP_GT_INT => 0),
-			'CUSTOM' => '(ses_tstamp+86400 > unix_timestamp() OR is_online+86400 > unix_timestamp())',
+			'CUSTOM' => sprintf(
+				'(ses_tstamp+%1$d > unix_timestamp() OR is_online+%1$d > unix_timestamp())',
+				$feUserService->getSessionLifeTime()
+			),
 			'FEUSER.pid' => array(OP_IN_INT => '1,2,3')
 		);
 		$expectedOptions = array(
