@@ -22,11 +22,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_t3users_search_builder');
 tx_rnbase::load('tx_t3users_exceptions_User');
-
 
 
 /**
@@ -90,13 +88,10 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @return int
 	 * @see tslib_feUserAuth->start()
 	 */
-	private function getSessionLifeTime() {
-		global $GLOBALS;
+	public function getSessionLifeTime() {
 		$lt = $GLOBALS['TYPO3_CONF_VARS']['FE']['sessionDataLifetime'];
-		if ($lt <= 0) {
-			$lt = 86400;
-		}
-		return $lt;
+
+		return $lt <= 0 ? 86400 : $lt;
 	}
 
 	/**
@@ -110,7 +105,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	public function getOnlineUsers($options = null) {
 		if(tx_rnbase_util_TYPO3::isExtLoaded('dbal'))
 			return 0;
-		$timeout = self::getSessionLifeTime();
+		$timeout = $this->getSessionLifeTime();
 		if(!is_array($options)) {
 			$options = array(
 					'pids' => $options,
@@ -135,7 +130,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @return int
 	 */
 	public function isUserOnline($feUserId){
-		$timeout = self::getSessionLifeTime();
+		$timeout = $this->getSessionLifeTime();
 		$from = array('fe_sessions JOIN fe_users ON (ses_userid=uid)', 'fe_sessions');
 
 		$options = array('where' => 'fe_users.uid = ' . intval($feUserId));
