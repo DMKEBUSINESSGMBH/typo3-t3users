@@ -22,11 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
+tx_rnbase::load('tx_rnbase_filter_BaseFilter');
 tx_rnbase::load('tx_t3users_search_builder');
-
 
 
 /**
@@ -122,5 +121,3 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php'])	{
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php']);
 }
-
-?>
