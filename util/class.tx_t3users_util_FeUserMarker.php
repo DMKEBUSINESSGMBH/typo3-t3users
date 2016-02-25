@@ -69,8 +69,10 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker {
 			array('item' => &$feuser, 'template'=>&$template, 'confid'=>$confId, 'marker'=>$marker, 'formatter'=>$formatter), $this);
 		$ignore = self::findUnusedCols($feuser->record, $template, $marker);
 		$markerArray = $formatter->getItemMarkerArrayWrapped($feuser->record, $confId , $ignore, $marker.'_',$feuser->getColumnNames());
-		$wrappedSubpartArray = array();
-		$subpartArray = array();
+		// subparts erzeugen
+		$wrappedSubpartArray = $subpartArray = array();
+		$this->prepareSubparts($wrappedSubpartArray, $subpartArray, $template, $feuser, $formatter, $confId, $marker);
+
 		$this->prepareLinks($feuser, $marker, $markerArray, $subpartArray, $wrappedSubpartArray, $confId, $formatter, $template);
 
 		// Gruppen hinzufügen
