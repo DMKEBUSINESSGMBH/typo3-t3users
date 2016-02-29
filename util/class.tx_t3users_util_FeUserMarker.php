@@ -109,6 +109,9 @@ class tx_t3users_util_FeUserMarker
 
 		$this->prepareItem($feuser, $formatter->getConfigurations(), $confId);
 
+		// Einstiegspunkt für Kindklassen
+		$template = $this->prepareTemplate($template, $feuser, $formatter, $confId, $marker);
+
 		// Es wird das MarkerArray mit den Daten des Records gefüllt.
 		$ignore = self::findUnusedCols($feuser->getRecord(), $template, $marker);
 		$markerArray = $formatter->getItemMarkerArrayWrapped(
