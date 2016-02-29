@@ -117,7 +117,8 @@ class tx_t3users_services_email extends t3lib_svbase {
 	) {
 
 		// 	Das E-Mail-Template holen
-		$templatekey = 't3users_resetPassword';
+		$templatekey = $configurations->get($confId . 'resetpassword.mailtemplate');
+		$templatekey = empty($templatekey) ? 't3users_resetPassword' : $templatekey;
 		tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
 		$templateObj = tx_mkmailer_util_ServiceRegistry::getMailService()
 			->getTemplate($templatekey);

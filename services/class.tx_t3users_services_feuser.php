@@ -499,12 +499,14 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 			return;
 		}
 		$tz = date_default_timezone_get();
-		if(!$tz)
+		if(!$tz) {
 			date_default_timezone_set('UTC');
+		}
+
 		// Wir benötigen ein Hash und ein Ablaufdatum
 		tx_rnbase::load('tx_rnbase_util_Dates');
 		$data = array(
-				'confirmtimeout'=> tx_rnbase_util_Dates::datetime_tstamp2mysql(strtotime('+2 days'))
+			'confirmtimeout'=> tx_rnbase_util_Dates::datetime_tstamp2mysql(strtotime('+2 days'))
 		);
 		$secret = $configurations->get($confId.'passwordsecret');
 		$data['confirmstring'] = md5($data['confirmtimeout'].$secret.$feuser->getUid());
@@ -513,7 +515,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 		tx_rnbase_util_DB::doUpdate('fe_users', $where, $data, 0);
 		// Und jetzt eine Mail mit dem Link senden
 		$pwLink = $configurations->createLink();
-		$pwLink->label($token);
+		$pwLink->label(md5(microtime()));
 		$pwLink->initByTS( $configurations, $confId . 'links.resetPassword.',
 				array('NK_confirm' => $data['confirmstring'], 'NK_uid' => $feuser->getUid()) );
 		$emailService = tx_t3users_util_ServiceRegistry::getEmailService();
