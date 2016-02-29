@@ -618,12 +618,12 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	/**
 	 * Deaktiviert einen Nutzer und entwertet die E-Mail-Adresse.
 	 *
-	 * @param 	tx_t3users_models_feuser 	$feuser
-	 * @return 	tx_t3users_models_feuser
+	 * @param tx_t3users_models_feuser $feuser
+	 * @return tx_t3users_models_feuser
 	 */
-	public function userDisable($feuser){
+	public function userDisable($feuser) {
 		$values = array(
-			'email'=> $this->emailDisable($feuser->getEmail()),
+			'email' => $this->emailDisable($feuser->getEmail()),
 			'disable' => 1,
 		);
 		$res = $this->updateFeUser($feuser->uid, $values);
@@ -643,7 +643,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	public function emailDisable($email) {
 		$email = trim($email);
 		// Prüfen, ob die Adresse schon disabled ist
-		if(!strstr($email, '@@')) {
+		if (!strstr($email, '@@')) {
 			$email = str_replace('@','@@',$email);
 		}
 		return $email;
@@ -658,7 +658,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	public function emailEnable($email) {
 		$email = trim($email);
 		// Prüfen, ob die Adresse disabled ist
-		while(strstr($email, '@@')) {
+		while (strstr($email, '@@')) {
 			$email = str_replace('@@','@',$email);
 		}
 		return $email;
