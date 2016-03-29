@@ -428,9 +428,10 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		if($code->jsFiles)
 			$GLOBALS['TSFE']->additionalHeaderData['tx_t3users'] .= $code->jsFiles;
 
-		if($code->jsCode)
+		if($code->jsCode && (strpos($GLOBALS['TSFE']->JSCode, $code->jsCode)===false))
 			$GLOBALS['TSFE']->JSCode .= $code->jsCode;
 	}
+
 	function getConfId() { return 'loginbox.';}
 	function getTemplateName() { return 'login';}
 	function getViewClassName() { return 'tx_t3users_views_Login';}
