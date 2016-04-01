@@ -246,14 +246,14 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @param tx_t3users_models_feuser $feuser
 	 * @return array[tx_t3users_models_group]
 	 */
-	function getFeGroups($feuser) {
+	public function getFeGroups($feuser) {
 		if(!$feuser->record['usergroup']) {
 			return array();
 		}
 
 		$from = 'fe_groups';
 		$options = array(
-			'where' => 'uid IN (' . $feuser->record['usergroup'] . ') ',
+			'where' => 'uid IN (' . trim($feuser->record['usergroup'], ',') . ') ',
 			'wrapperclass' => 'tx_t3users_models_fegroup',
 			'orderby' => 'title'
 		);
