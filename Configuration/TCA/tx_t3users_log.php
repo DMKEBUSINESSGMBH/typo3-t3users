@@ -1,12 +1,25 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
-$TCA['tx_t3users_log'] = array (
-	'ctrl' => $TCA['tx_t3users_log']['ctrl'],
+$tx_t3users_log = array (
+	'ctrl' => array (
+		'title'     => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log',
+		'label'     => 'typ',
+//		'tstamp'    => 'tstamp',
+		'rootLevel' => 1,
+//		'crdate'    => 'crdate',
+//		'cruser_id' => 'cruser_id',
+		'default_sortby' => 'ORDER BY uid desc',
+//		'delete' => 'deleted',
+		'enablecolumns' => array (),
+		'iconfile'          => tx_rnbase_util_Extensions::extRelPath('t3users').'icon_tx_t3users_tables.gif',
+	),
 	'interface' => array (
 		'showRecordFieldList' => 'type'
 	),
-	'feInterface' => $TCA['tx_t3users_log']['feInterface'],
+	'feInterface' => array (
+		'fe_admin_fieldList' => 'name',
+	),
 	'columns' => array (
 		'typ' => Array (
 			'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_typ',
@@ -67,3 +80,4 @@ $TCA['tx_t3users_log'] = array (
 	)
 );
 
+return $tx_t3users_log;
