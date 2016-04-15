@@ -23,6 +23,8 @@
  ***************************************************************/
 
 tx_rnbase::load('tx_rnbase_util_SimpleMarker');
+tx_rnbase::load('Tx_Rnbase_Frontend_Marker_Utility');
+
 
 /**
  * Repository to handle companies.
@@ -34,9 +36,7 @@ tx_rnbase::load('tx_rnbase_util_SimpleMarker');
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_t3users_util_FeUserMarker
-	extends tx_rnbase_util_SimpleMarker
-{
+class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker {
 	/**
 	 * Initialisiert den Marker Array.
 	 * Optionen:
@@ -58,19 +58,8 @@ class tx_t3users_util_FeUserMarker
 	 *
 	 * @return array
 	 */
-	public function initLabelMarkers(
-		tx_rnbase_util_FormatUtil $formatter,
-		$confId,
-		$defaultMarkerArr = 0,
-		$marker = 'FEUSER'
-	) {
-		return $this->prepareLabelMarkers(
-			'tx_t3users_models_feuser',
-			$formatter,
-			$confId,
-			$defaultMarkerArr,
-			$marker
-		);
+	public function initLabelMarkers(tx_rnbase_util_FormatUtil $formatter, $confId, $defaultMarkerArr = 0, $marker = 'FEUSER') {
+		return $this->prepareLabelMarkers('tx_t3users_models_feuser', $formatter, $confId, $defaultMarkerArr, $marker);
 	}
 
 	/**
@@ -83,20 +72,11 @@ class tx_t3users_util_FeUserMarker
 	 *        Von diesem String hängen die entsprechenden weiteren Marker ab: ###FEUSER_NAME###
 	 * @return String das geparste Template
 	 */
-	public function parseTemplate(
-		$template,
-		$feuser,
-		tx_rnbase_util_FormatUtil $formatter,
-		$confId,
-		$marker = 'FEUSER'
-	) {
+	public function parseTemplate($template, $feuser, tx_rnbase_util_FormatUtil $formatter, $confId, $marker = 'FEUSER') {
 		if (!is_object($feuser)) {
 			$feuser = self::getEmptyInstance('tx_t3users_models_feuser');
 		}
-
-		tx_rnbase_util_Misc::callHook(
-			't3users',
-			'feuserMarker_initRecord',
+		tx_rnbase_util_Misc::callHook('t3users', 'feuserMarker_initRecord',
 			array(
 				'item' => &$feuser,
 				'template' => &$template,
@@ -113,38 +93,19 @@ class tx_t3users_util_FeUserMarker
 		$template = $this->prepareTemplate($template, $feuser, $formatter, $confId, $marker);
 
 		// Es wird das MarkerArray mit den Daten des Records gefüllt.
-		$ignore = self::findUnusedCols($feuser->getRecord(), $template, $marker);
+		$ignore = Tx_Rnbase_Frontend_Marker_Utility::findUnusedAttributes($feuser, $template, $marker);
+
 		$markerArray = $formatter->getItemMarkerArrayWrapped(
-			$feuser->getRecord(),
-			$confId,
-			$ignore,
-			$marker . '_',
-			$feuser->getColumnNames()
-		);
+			$feuser->getRecord(), $confId, $ignore, $marker . '_', $feuser->getColumnNames());
 
 		// subparts erzeugen
 		$wrappedSubpartArray = $subpartArray = array();
-		$this->prepareSubparts(
-			$wrappedSubpartArray,
-			$subpartArray,
-			$template,
-			$feuser,
-			$formatter,
-			$confId,
-			$marker
-		);
+		$this->prepareSubparts($wrappedSubpartArray, $subpartArray, $template, $feuser,
+			$formatter, $confId, $marker);
 
 		// Links erzeugen
-		$this->prepareLinks(
-			$feuser,
-			$marker,
-			$markerArray,
-			$subpartArray,
-			$wrappedSubpartArray,
-			$confId,
-			$formatter,
-			$template
-		);
+		$this->prepareLinks($feuser, $marker, $markerArray, $subpartArray,
+			$wrappedSubpartArray, $confId, $formatter, $template);
 
 		// Gruppen hinzufügen
 		if ($this->containsMarker($template, $marker . '_FEGROUPS')) {
@@ -154,9 +115,7 @@ class tx_t3users_util_FeUserMarker
 		// das Template rendern
 		$out = self::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
-		tx_rnbase_util_Misc::callHook(
-			't3users',
-			'feuserMarker_afterSubst',
+		tx_rnbase_util_Misc::callHook('t3users', 'feuserMarker_afterSubst',
 			array(
 				'item' => &$feuser,
 				'template' => &$out,
@@ -179,11 +138,7 @@ class tx_t3users_util_FeUserMarker
 	 *
 	 * @return void
 	 */
-	protected function prepareItem(
-		Tx_Rnbase_Domain_Model_RecordInterface $item,
-		tx_rnbase_configurations $configurations,
-		$confId
-	) {
+	protected function prepareItem(Tx_Rnbase_Domain_Model_RecordInterface $item, tx_rnbase_configurations $configurations, $confId) {
 		$item->setIsCurrentUser(
 			$GLOBALS['TSFE']->fe_user->user['uid'] == $item->getUid()
 		);
@@ -245,4 +200,3 @@ class tx_t3users_util_FeUserMarker
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeUserMarker.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeUserMarker.php']);
 }
-?>
