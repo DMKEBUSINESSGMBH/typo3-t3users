@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Rene Nitzsche (dev@dmk-ebusiness.de)
+*  (c) 2008-2016 Rene Nitzsche (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,10 +22,9 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 
 tx_rnbase::load('tx_rnbase_view_Base');
+tx_rnbase::load('tx_rnbase_util_Templates');
 
 
 /**
@@ -38,19 +37,25 @@ class tx_t3users_views_ShowRegistration extends tx_rnbase_view_Base {
 	function createOutput($template, &$viewData, &$configurations, &$formatter){
 		$editors =& $viewData->offsetGet('editors');
 		$subpartName = '###PART_'.$viewData->offsetGet('part').'###';
-		$template = $formatter->cObj->getSubpart($template, $subpartName);
-    
-    $out = '';
+		$template = tx_rnbase_util_Templates::getSubpart($template, $subpartName);
 
-    // Jetzt die Editoren einbinden
-    foreach($editors AS $marker => $editor) {
-    	$markerArray['###'.$marker.'###'] = $editor;
-    }
-    $out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray);
-    return $out;
-  }
-  function getMainSubpart() {return '###REGISTRATION###';}
-  
+		$feuser = $viewData->offsetGet('confirmed');
+		if(is_object($feuser)) {
+			// Jetzt mit dem FEuser-Marker drüber
+			$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+			$template = $marker->parseTemplate($template, $feuser, $formatter, $this->getController()->getConfId(). 'feuser.');
+		}
+
+		// Jetzt die Editoren einbinden
+		$markerArray = $subpartArray = array();
+		foreach($editors AS $marker => $editor) {
+			$markerArray['###'.$marker.'###'] = $editor;
+		}
+		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray);
+		return $out;
+	}
+	function getMainSubpart() {return '###REGISTRATION###';}
+
 }
 
 
@@ -58,4 +63,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 {
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistration.php']);
 }
-?>
