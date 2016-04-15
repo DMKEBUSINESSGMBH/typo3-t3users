@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007 Rene Nitzsche (dev@dmk-ebusiness.de)
+*  (c) 2007-2016 Rene Nitzsche (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,13 +22,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-require_once(t3lib_extMgm::extPath('rn_base') . 'util/class.tx_rnbase_util_DB.php');
-if(t3lib_extMgm::isLoaded('ameos_formidable')) {
-	require_once(t3lib_extMgm::extPath('ameos_formidable') . 'api/class.tx_ameosformidable.php');
-}
+tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 tx_rnbase::load('tx_t3users_models_feuser');
+tx_rnbase::load('Tx_Rnbase_Utility_Strings');
+
 
 
 /**
@@ -40,8 +38,8 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	private $afterRegistrationPID;
 	private $userDataSaved = false;
 
-	function handleRequest(&$parameters,&$configurations, &$viewData){
-		global $TSFE;
+	public function handleRequest(&$parameters,&$configurations, &$viewData){
+		$this->assertMkforms();
 		$this->conf = $configurations;
 		$hideForm = false;
 		$viewData->offsetSet('part', 'REGISTER');
@@ -54,7 +52,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			} else {
 				$viewData->offsetSet('part', 'ADMINREVIEWMAILSENTALREADY');
 			}
-
+			// Wo kommt denn hier der $feuser her?
 			$viewData->offsetSet('confirmed', $feuser);
 		} elseif($confirm) {
 			$hideForm = true;
@@ -62,6 +60,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			$feuser = tx_t3users_models_feuser::getInstance($userUid);
 			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 			// Set config
+			$options = array();
 			$options['successgroupsadd'] = $configurations->get('userGroupAfterConfirmation');
 			$options['successgroupsremove'] = $configurations->get('userGroupUponRegistration');
 			$confirmed = $usrSrv->confirmUser($feuser, $confirm, $options);
@@ -100,6 +99,11 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 
 		$viewData->offsetSet('editors', $editors );
 	}
+	protected function assertMkforms() {
+		if(!tx_rnbase_util_Extensions::isLoaded('mkforms')) {
+			throw new Exception('mkforms is not installed');
+		}
+	}
 
 	/**
 	 * @param int $userUid
@@ -133,23 +137,14 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	 * @return string|unknown
 	 */
 	private function getEditors($parameters, $configurations, $hide) {
-		$editors['FORM'] = '';
+		$editors = array('FORM' => '');
 		if($hide) return $editors;
-		$ameosClass = $configurations->get('showregistration.ameos');
-		if($ameosClass) {
-			$this->regForm =& tx_rnbase::makeInstance($ameosClass);
-			$this->regForm->setConfigurations($configurations, 'showregistration.');
-		}
-		else {
-			$this->regForm =& t3lib_div::makeInstance('tx_ameosformidable');
-		}
-
+		tx_rnbase::load('tx_mkforms_forms_Factory');
+		$regForm = tx_mkforms_forms_Factory::createForm('registration');
 		$xmlfile = $configurations->get('showregistration.formxml');
-		$xmlfile = $xmlfile ? $xmlfile : t3lib_extmgm::extPath('t3users') . '/forms/registration.xml';
-		$this->regForm->init($this,$xmlfile,false);
-		$editors['FORM'] = $this->regForm->render();
-
-
+		$xmlfile = $xmlfile ? $xmlfile : tx_rnbase_util_Extensions::extPath('t3users') . '/forms/registration.xml';
+		$regForm->init($this, $xmlfile, false, $configurations, 'showregistration.');
+		$editors['FORM'] = $regForm->render();
 
 		return $editors;
 	}
@@ -162,7 +157,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	 */
 	public function handleBeforeUpdateDB($params, $form) {
 		$params['confirmstring'] = $this->getConfirmString();
-		$pid = t3lib_div::intExplode(',',$this->conf->get('feuserPages'));
+		$pid = Tx_Rnbase_Utility_Strings::intExplode(',',$this->getConfigurations()->get('feuserPages'));
 		$params['pid'] = (is_array($pid) && count($pid)) ? $pid[0] : 0;
 		$params['disable'] = 1;
 		$params['tstamp'] = time();
@@ -244,28 +239,28 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		);
 
 		$linkMarker = 'MAILCONFIRM_LINK';
-		$wrappedSubpartArray['###'.$linkMarker . '###'] = explode($token, $link->makeTag());
+		$wrappedSubpartArray = array('###'.$linkMarker . '###' => explode($token, $link->makeTag()));
 
 		$markerArray = array();
 		foreach ($feUserData as $key => $value) {
 			$markerArray['###FEUSER_' . strtoupper($key) . '###'] = $value;
 		}
 
-		if ($this->conf->getBool('showregistration.links.mailconfirm.noAbsurl')) {
+		if ($this->getConfigurations()->getBool('showregistration.links.mailconfirm.noAbsurl')) {
 			$markerArray['###'.$linkMarker . 'URL###'] = $link->makeUrl(false);
 		} else {
 			$markerArray['###'.$linkMarker . 'URL###'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
 		}
-		$markerArray['###SITENAME###'] = $this->conf->get('siteName');
+		$markerArray['###SITENAME###'] = $this->getConfigurations()->get('siteName');
 
 		$subpartArray = array();
 
-		$userTemplate = $this->conf->getLL('registration_confirmation_mail');
+		$userTemplate = $this->getConfigurations()->getLL('registration_confirmation_mail');
 		$userMailContent = $this->parseMailTemplate(
 			$userTemplate, $markerArray, $subpartArray, $wrappedSubpartArray, $feUserData
 		);
 
-		$ccTemplate = $this->conf->getLL('registration_confirmation_mail_cc');
+		$ccTemplate = $this->getConfigurations()->getLL('registration_confirmation_mail_cc');
 		$ccTemplate = $ccTemplate ? $ccTemplate : $userTemplate;
 		$ccMailContent= $this->parseMailTemplate(
 			$ccTemplate, $markerArray, $subpartArray, $wrappedSubpartArray, $feUserData
@@ -273,14 +268,14 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 
 		// Now send mail
 		$userEmail = $feUserData['email'];
-		$from = $this->conf->get('showregistration.email.from');
-		$fromName = $this->conf->get('showregistration.email.fromName');
-		$this->conf->getFormatter()->cObj->sendNotifyEmail(
+		$from = $this->getConfigurations()->get('showregistration.email.from');
+		$fromName = $this->getConfigurations()->get('showregistration.email.fromName');
+		$this->getConfigurations()->getFormatter()->cObj->sendNotifyEmail(
 			$userMailContent, $userEmail, '', $from, $fromName, $userEmail
 		);
 
-		if (($cc = $this->conf->get('showregistration.email.cc'))) {
-			$this->conf->getFormatter()->cObj->sendNotifyEmail(
+		if (($cc = $this->getConfigurations()->get('showregistration.email.cc'))) {
+			$this->getConfigurations()->getFormatter()->cObj->sendNotifyEmail(
 				$ccMailContent, '', $cc, $from, $fromName, $userEmail
 			);
 		}

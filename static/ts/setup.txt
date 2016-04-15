@@ -177,7 +177,7 @@ plugin.tx_t3users_main {
 		links.register.pid = {$plugin.tx_t3users.registerPage}
 		links.mailconfirm.pid = {$plugin.tx_t3users.confirmPage}
 		form = {$plugin.tx_t3users.registrationTemplate}
-		formxml = EXT:t3users/forms/registration.xml
+		formxml = {$plugin.tx_t3users.registrationForm}
 		email{
 			from = {$plugin.tx_t3users.email}
 			fromName = {$plugin.tx_t3users.siteName}

@@ -288,7 +288,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @param array $options
 	 * @return array of tx_t3users_models_feuser
 	 */
-	function search($fields, $options) {
+	public function search($fields, $options) {
 		tx_rnbase::load('tx_rnbase_util_SearchBase');
 		$searcher = tx_rnbase_util_SearchBase::getInstance('tx_t3users_search_feuser');
 		return $searcher->search($fields, $options);
@@ -348,7 +348,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @param string $confirmString
 	 * @return boolean
 	 */
-	function confirmUser($feuser, $confirmString, &$options = array()) {
+	public function confirmUser($feuser, $confirmString, &$options = array()) {
 		$ret = false;
 		if($feuser->record['confirmstring'] == '0') {
 			// is already confirmed, so nothing to do

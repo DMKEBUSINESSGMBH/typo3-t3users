@@ -8,6 +8,8 @@ plugin.tx_t3users {
 	feuserdetailsTemplate = EXT:t3users/templates/feuserlist.html
 	# cat=FE User Management (Templates)/registration; type=string;label=HTML Template for feuser registration view
 	registrationTemplate = EXT:t3users/templates/registration.html
+	# cat=FE User Management (Templates)/registrationform; type=string;label=XML for feuser registration form
+	registrationForm = EXT:t3users/forms/registration.xml
 	# cat=FE User Management (Templates)/feuseredit; type=string;label=HTML Template for editing a feuser
 	feusereditTemplate = EXT:t3users/templates/feuseredit.html
 
@@ -51,9 +53,9 @@ plugin.tx_t3users {
 	# cat=FE User Management (Misc)/notifyUserAboutConfirmation; type=boolean;label=Notify user about his confirmation?
 	notifyUserAboutConfirmation = 0
 
-	# cat=FE User Management (Misc)/userGroupUponRegistration; type=string;label=FE group UID of newly created FE users
+	# cat=FE User Management (Misc)/userGroupUponRegistration; type=string;label=FE group UID (comma separated) of newly created FE users
 	userGroupUponRegistration = 0
-	# cat=FE User Management (Misc)/userGroupAfterConfirmation; type=string;label=FE group UID of confirmed FE users
+	# cat=FE User Management (Misc)/userGroupAfterConfirmation; type=string;label=FE group UID (comma separated) of confirmed FE users
 	userGroupAfterConfirmation = 0
 	# cat=FE User Management (Misc)/userpages; type=string;label=Commaseparated list of pages (pid) with feusers (Storage PID)
 	userPages = 0
