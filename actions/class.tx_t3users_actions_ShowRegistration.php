@@ -63,6 +63,9 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			$options = array();
 			$options['successgroupsadd'] = $configurations->get('userGroupAfterConfirmation');
 			$options['successgroupsremove'] = $configurations->get('userGroupUponRegistration');
+			$options['configurations'] = $configurations;
+			$options['confid'] = $this->getConfId();
+
 			$confirmed = $usrSrv->confirmUser($feuser, $confirm, $options);
 			if($confirmed) {
 				$viewData->offsetSet('part', 'CONFIRMED');

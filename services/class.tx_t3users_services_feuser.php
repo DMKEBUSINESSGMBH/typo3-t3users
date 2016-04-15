@@ -370,7 +370,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 				$this->removeFeGroup($feuser, $options['successgroupsremove']);
 			}
 			tx_rnbase_util_Misc::callHook('t3users','srv_feuser_confirmUser_finished',
-				array('feuser' => $feuser), $this);
+				array('feuser' => $feuser, 'options' => $options), $this);
 			$ret = true;
 		}
 		return $ret;

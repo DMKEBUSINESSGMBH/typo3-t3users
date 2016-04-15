@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 tx_rnbase::load('tx_t3users_models_feuser');
 
@@ -41,10 +39,9 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
 	 * @param ArrayObject $viewData
 	 */
 	function handleRequest(&$parameters,&$configurations, &$viewData){
-		global $TSFE;
 		$confirm = $parameters->get('confirm');
 		if(!$confirm) return '<!-- -->';
-			
+
 		// User wants to be confirmed
 		$userUid = $parameters->getInt('uid');
 
@@ -53,8 +50,12 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
 		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
 		// Set config
+		$options = array();
 		$options['successgroupsadd'] = $configurations->get($this->getConfId().'userGroupAfterConfirmation');
 		$options['successgroupsremove'] = $configurations->get($this->getConfId().'userGroupUponRegistration');
+		$options['configurations'] = $configurations;
+		$options['confid'] = $this->getConfId();
+
 		$confirmed = $usrSrv->confirmUser($feuser, $confirm, $options);
 		if($confirmed) {
 			$viewData->offsetSet('part', 'CONFIRMED');
@@ -65,7 +66,7 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
 			$viewData->offsetSet('feuser', '');
 		}
 	}
-	
+
   function getTemplateName() { return 'registrationConfirm';}
 	function getViewClassName() { return 'tx_t3users_views_ShowRegistrationConfirm';}
 }
