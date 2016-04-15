@@ -327,6 +327,11 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
   	return $path;
   }
 
+  /**
+   * FIXME: WARUM wird hier nicht showregistration verwendet?
+   * (non-PHPdoc)
+   * @see tx_rnbase_action_BaseIOC::getTemplateName()
+   */
   function getTemplateName() { return 'registration';}
 	function getViewClassName() { return 'tx_t3users_views_ShowRegistration';}
 }

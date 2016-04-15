@@ -173,6 +173,9 @@ plugin.tx_t3users_main {
 		### Userdetails zu gegenwärtig angemeldetem Benutzer anzeigen
 		currentUser = 0
 	}
+	registration {
+		feuser =< lib.t3users.feuser
+	}
 	showregistration {
 		links.register.pid = {$plugin.tx_t3users.registerPage}
 		links.mailconfirm.pid = {$plugin.tx_t3users.confirmPage}
