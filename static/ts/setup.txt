@@ -56,7 +56,7 @@ plugin.tx_t3users_main {
 	userGroupAfterConfirmation = {$plugin.tx_t3users.userGroupAfterConfirmation}
 	feuserlistTemplate = {$plugin.tx_t3users.feuserlistTemplate}
 	feuserdetailsTemplate = {$plugin.tx_t3users.feuserdetailsTemplate}
-	registrationTemplate = {$plugin.tx_t3users.registrationTemplate}
+	showregistrationTemplate = {$plugin.tx_t3users.registrationTemplate}
 	feusereditTemplate = {$plugin.tx_t3users.feusereditTemplate}
 	siteName = {$plugin.tx_t3users.siteName}
 

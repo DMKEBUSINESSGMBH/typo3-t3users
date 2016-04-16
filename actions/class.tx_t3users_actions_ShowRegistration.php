@@ -26,6 +26,8 @@ tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 tx_rnbase::load('tx_t3users_models_feuser');
 tx_rnbase::load('Tx_Rnbase_Utility_Strings');
+tx_rnbase::load('tx_rnbase_util_Files');
+tx_rnbase::load('tx_rnbase_util_Templates');
 
 
 
@@ -40,13 +42,12 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 
 	public function handleRequest(&$parameters,&$configurations, &$viewData){
 		$this->assertMkforms();
-		$this->conf = $configurations;
 		$hideForm = false;
 		$viewData->offsetSet('part', 'REGISTER');
 		$confirm = $parameters->offsetGet('NK_confirm');
 		$userUid = $parameters->getInt('NK_uid');
 
-		if($adminReviewMail = $configurations->get('showregistration.adminReviewMail')) {
+		if($adminReviewMail = $configurations->get($this->getConfId(). 'adminReviewMail')) {
 			if($this->sendAdminReviewMail($userUid, $confirm, $adminReviewMail)) {
 				$viewData->offsetSet('part', 'ADMINREVIEWMAILSENT');
 			} else {
@@ -61,6 +62,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 			// Set config
 			$options = array();
+			// Das sollte MIT Pfad gesetzt werden...
 			$options['successgroupsadd'] = $configurations->get('userGroupAfterConfirmation');
 			$options['successgroupsremove'] = $configurations->get('userGroupUponRegistration');
 			$options['configurations'] = $configurations;
@@ -77,7 +79,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			}
 
 
-			if($configurations->get('showregistration.notifyUserAboutConfirmation')) {
+			if($configurations->get($this->getConfId(). 'notifyUserAboutConfirmation')) {
 				tx_t3users_util_ServiceRegistry::getEmailService()
 					->sendNotificationAboutConfirmationToFeUser($feuser, $configurations);
 			}
@@ -144,9 +146,9 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		if($hide) return $editors;
 		tx_rnbase::load('tx_mkforms_forms_Factory');
 		$regForm = tx_mkforms_forms_Factory::createForm('registration');
-		$xmlfile = $configurations->get('showregistration.formxml');
+		$xmlfile = $configurations->get($this->getConfId(). 'formxml');
 		$xmlfile = $xmlfile ? $xmlfile : tx_rnbase_util_Extensions::extPath('t3users') . '/forms/registration.xml';
-		$regForm->init($this, $xmlfile, false, $configurations, 'showregistration.');
+		$regForm->init($this, $xmlfile, false, $configurations, $this->getConfId());
 		$editors['FORM'] = $regForm->render();
 
 		return $editors;
@@ -165,7 +167,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$params['disable'] = 1;
 		$params['tstamp'] = time();
 		$params['crdate'] = $params['tstamp'];
-		$groupId = intval($this->conf->get('userGroupUponRegistration'));
+		$groupId = intval($this->getConfigurations()->get('userGroupUponRegistration'));
 		$params['usergroup'] = $groupId;
 		$params['name'] = trim($params['first_name'] . ' ' .$params['last_name']);
 		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
@@ -231,9 +233,9 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	protected function sendConfirmationMail($feUserUid, array $feUserData) {
 		// Mail schicken
 		$token = md5(microtime());
-		$link = $this->conf->createLink();
+		$link = $this->getConfigurations()->createLink();
 		$link->label($token);
-		$confirmPage = $this->conf->get('showregistration.links.mailconfirm.pid');
+		$confirmPage = $this->getConfigurations()->get($this->getConfId().'links.mailconfirm.pid');
 		$link->destination($confirmPage ? $confirmPage : $GLOBALS['TSFE']->id);
 		// Zusätzlich Parameter für Finished setzen
 		$link->parameters(array(
@@ -249,7 +251,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			$markerArray['###FEUSER_' . strtoupper($key) . '###'] = $value;
 		}
 
-		if ($this->getConfigurations()->getBool('showregistration.links.mailconfirm.noAbsurl')) {
+		if ($this->getConfigurations()->getBool($this->getConfId(). 'links.mailconfirm.noAbsurl')) {
 			$markerArray['###'.$linkMarker . 'URL###'] = $link->makeUrl(false);
 		} else {
 			$markerArray['###'.$linkMarker . 'URL###'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
@@ -271,14 +273,14 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 
 		// Now send mail
 		$userEmail = $feUserData['email'];
-		$from = $this->getConfigurations()->get('showregistration.email.from');
-		$fromName = $this->getConfigurations()->get('showregistration.email.fromName');
-		$this->getConfigurations()->getFormatter()->cObj->sendNotifyEmail(
+		$from = $this->getConfigurations()->get($this->getConfId(). 'email.from');
+		$fromName = $this->getConfigurations()->get($this->getConfId(). 'email.fromName');
+		$this->getConfigurations()->getCObj()->sendNotifyEmail(
 			$userMailContent, $userEmail, '', $from, $fromName, $userEmail
 		);
 
-		if (($cc = $this->getConfigurations()->get('showregistration.email.cc'))) {
-			$this->getConfigurations()->getFormatter()->cObj->sendNotifyEmail(
+		if (($cc = $this->getConfigurations()->get($this->getConfId(). 'email.cc'))) {
+			$this->getConfigurations()->getCObj()->sendNotifyEmail(
 				$ccMailContent, '', $cc, $from, $fromName, $userEmail
 			);
 		}
@@ -287,7 +289,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	private function parseMailTemplate(
 		$template, array $markerArray, array $subpartArray, array $wrappedSubpartArray, array $feUserData
 	) {
-		$mailtext = $this->conf->getFormatter()->cObj->substituteMarkerArrayCached(
+		$mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached(
 			$template, $markerArray, $subpartArray, $wrappedSubpartArray
 		);
 
@@ -295,9 +297,9 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		tx_rnbase::load('tx_rnbase_util_BaseMarker');
 		tx_rnbase_util_BaseMarker::callModules(
 			$mailtext, $markerArray, $subpartArray, $wrappedSubpartArray,
-			$feUserData, $this->conf->getFormatter()
+			$feUserData, $this->getConfigurations()->getFormatter()
 		);
-		return $this->conf->getFormatter()->cObj->substituteMarkerArrayCached(
+		return tx_rnbase_util_Templates::substituteMarkerArrayCached(
 			$mailtext, $markerArray, $subpartArray, $wrappedSubpartArray
 		);
 	}
@@ -323,7 +325,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
    * bei ajax calls nicht funktioniert
    */
   function getFormTemplatePath() {
-  	$path = t3lib_div::getFileAbsFileName($this->conf->get('showregistration.form'));
+  	$path = tx_rnbase_util_Files::getFileAbsFileName($this->getConfigurations()->get($this->getConfId().'form'));
   	return $path;
   }
 
@@ -332,7 +334,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
    * (non-PHPdoc)
    * @see tx_rnbase_action_BaseIOC::getTemplateName()
    */
-  function getTemplateName() { return 'registration';}
+  function getTemplateName() { return 'showregistration';}
 	function getViewClassName() { return 'tx_t3users_views_ShowRegistration';}
 }
 
@@ -340,4 +342,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowRegistration.php']);
 }
 
-?>
