@@ -22,19 +22,17 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_t3users_search_builder');
 tx_rnbase::load('tx_t3users_exceptions_User');
-
-
+tx_rnbase::load('Tx_Rnbase_Service_Base');
 
 /**
  * Service for logging feuser actions
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_services_logging extends t3lib_svbase {
+class tx_t3users_services_logging extends Tx_Rnbase_Service_Base {
 
 	/**
 	 * TYPO3 Login of feuser

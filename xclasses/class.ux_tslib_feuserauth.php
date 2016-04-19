@@ -22,7 +22,37 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-class ux_tslib_feuserauth extends tslib_feuserauth {
+tx_rnbase::load('tx_rnbase_util_TYPO3');
+if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+	/**
+	 * tx_t3users_FrontendUserAuthenticationBase
+	 *
+	 * Wrapper für TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication seit TYPO3 6.x
+	 *
+	 * @package 		TYPO3
+	 * @subpackage	 	t3users
+	 * @author 			Hannes Bochmann <rene@system25.de>
+	 * @license 		http://www.gnu.org/licenses/lgpl.html
+	 * 					GNU Lesser General Public License, version 3 or later
+	 */
+	class tx_t3users_FrontendUserAuthenticationBase
+	extends TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication {}
+} else {
+	/**
+	 * tx_t3users_FrontendUserAuthenticationBase
+	 *
+	 * Wrapper für tslib_feUserAuth bis TYPO3 6.x
+	 *
+	 * @package 		TYPO3
+	 * @subpackage	 	t3users
+	 * @author 			Hannes Bochmann <rene@system25.de>
+	 * @license 		http://www.gnu.org/licenses/lgpl.html
+	 * 					GNU Lesser General Public License, version 3 or later
+	 */
+	class tx_t3users_FrontendUserAuthenticationBase extends tslib_feUserAuth {}
+}
+
+class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase {
 
 	var $beforelastLogin_column = 'beforelastlogin';
 

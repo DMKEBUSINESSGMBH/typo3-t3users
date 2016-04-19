@@ -22,8 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+tx_rnbase::load('tx_rnbase_util_Misc');
 tx_rnbase::load('tx_rnbase_util_DB');
+tx_rnbase::load('tx_rnbase_parameters');
+tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 /**
  * Übernahme von FEUser-Sessions.
@@ -48,7 +50,7 @@ class tx_t3users_util_LoginAsFEUser {
 //		'.chr(10);
 		$ret = '';
 		if(!$feuserid) {
-			$userData = t3lib_div::_GP('hijack');
+			$userData = tx_rnbase_parameters::getPostOrGetParameter('hijack');
 			if(is_array($userData))
 				list($feuserid, ) = each($userData);
 			$feuserid = intval($feuserid);
@@ -101,10 +103,12 @@ class tx_t3users_util_LoginAsFEUser {
 	}
 	private function getNewSessionRecord($sessionId, $userId) {
 
-		if(!is_callable(array('t3lib_userAuth', 'ipLockClause_remoteIPNumber'))) {
+		$abstractUserAuthenticationClass = tx_rnbase_util_Typo3Classes::getAbstractUserAuthenticationClass();
+		$frontendUserAuthenticationClass = tx_rnbase_util_Typo3Classes::getFrontendUserAuthenticationClass();
+		if(!is_callable(array($abstractUserAuthenticationClass, 'ipLockClause_remoteIPNumber'))) {
 			// Ab 4.5 ist die Methode nicht mehr public. Daher den notwendigen
 			// Record anders erstellen
-			$auth = tx_rnbase::makeInstance('tslib_feUserAuth');
+			$auth = tx_rnbase::makeInstance($frontendUserAuthenticationClass);
 			$auth->id = $sessionId;
 			$auth->is_permanent = TRUE;
 			$auth->name = 'fe_typo_user';
@@ -119,8 +123,8 @@ class tx_t3users_util_LoginAsFEUser {
 		return array(
 			'ses_id' => $sessionId,
 			'ses_name' => 'fe_typo_user',
-			'ses_iplock' => t3lib_userAuth::ipLockClause_remoteIPNumber($GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP']),
-			'ses_hashlock' => t3lib_div::md5int(':'.t3lib_div::getIndpEnv('HTTP_USER_AGENT')) , //$this->hashLockClause_getHashInt(),
+			'ses_iplock' => $frontendUserAuthenticationClass::ipLockClause_remoteIPNumber($GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP']),
+			'ses_hashlock' => Tx_Rnbase_Utility_T3General::md5int(':'.tx_rnbase_util_Misc::getIndpEnv('HTTP_USER_AGENT')) , //$this->hashLockClause_getHashInt(),
 			'ses_userid' => $userId,
 			'ses_tstamp' => $GLOBALS['EXEC_TIME']
 		);

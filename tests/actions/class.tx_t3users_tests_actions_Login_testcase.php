@@ -29,9 +29,10 @@
 /**
  * benötigte Klassen einbinden
  */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_t3users_actions_Login');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
+tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
  * tx_t3users_tests_actions_Login_testcase
@@ -105,7 +106,7 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
 	 */
 	public function testHandleNotLoggedInRemovesXssFromRedirectUrl() {
 		$_GET['redirect_url'] =
-			t3lib_div::getIndpEnv('TYPO3_SITE_URL') . "'><script>alert(\"ohoh\");</script>'";
+			tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL') . "'><script>alert(\"ohoh\");</script>'";
 		$loginAction = $this->getAccessibleMock(
 			'tx_t3users_actions_Login',
 			array(
@@ -127,7 +128,7 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
 		$marker = $viewData->offsetGet('markers');
 
 		$this->assertEquals(
-			t3lib_div::getIndpEnv('TYPO3_SITE_URL') . '&#039;&gt;&lt;sc&lt;x&gt;ript&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;&#039;',
+			tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL') . '&#039;&gt;&lt;sc&lt;x&gt;ript&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;&#039;',
 			$marker['redirect_url']
 		);
 	}

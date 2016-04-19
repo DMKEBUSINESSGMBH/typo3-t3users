@@ -32,8 +32,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => 'DMK E-BUSINESS GmbH',
 	'constraints' => array(
 		'depends' => array(
-			'rn_base' => '1.0.0-',
-			'typo3' => '4.5.0-6.2.99',
+			'rn_base' => '1.0.4-',
+			'typo3' => '4.5.0-7.6.99',
 		),
 		'conflicts' => array(
 		),

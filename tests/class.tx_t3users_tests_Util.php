@@ -29,10 +29,11 @@
 /**
  * benötigte Klassen einbinden
  */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_rnbase_cache_Manager');
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 tx_rnbase::load('tx_rnbase_util_Spyc');
+tx_rnbase::load('Tx_Rnbase_Backend_Utility');
 
 /**
  * Statische Hilfsmethoden für Tests
@@ -50,7 +51,7 @@ class tx_t3users_tests_Util {
    * @return string
    */
   public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 't3users') {
-    return t3lib_extMgm::extPath($extKey).$dir.$filename;
+    return tx_rnbase_util_Extensions::extPath($extKey).$dir.$filename;
   }
 
 /**
@@ -58,16 +59,17 @@ class tx_t3users_tests_Util {
    */
   public function getConfigurations(){
     $extKey = 't3users';
-    t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$extKey.'/static/ts/setup.txt">');
+    tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$extKey.'/static/ts/setup.txt">');
 
     tx_rnbase::load('tx_rnbase_configurations');
     tx_rnbase::load('tx_rnbase_util_Misc');
 
     tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
     $GLOBALS['TSFE']->config = array();
-    $cObj = t3lib_div::makeInstance('tslib_cObj');
+    tx_rnbase::load('tx_rnbase_util_Typo3Classes');
+	$cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
 
-    $pageTSconfig = t3lib_BEfunc::getPagesTSconfig(0);
+    $pageTSconfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0);
     $pageTSconfig = $pageTSconfig['plugin.']['tx_'.$extKey.'.'];
     $qualifier = $pageTSconfig['qualifier'] ? $pageTSconfig['qualifier'] : $extKey;
     $configurations = new tx_rnbase_configurations();

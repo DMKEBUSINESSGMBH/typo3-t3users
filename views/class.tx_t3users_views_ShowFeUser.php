@@ -22,9 +22,9 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-if (t3lib_extMgm::isLoaded('dam')) {
-	require_once(t3lib_extMgm::extPath('dam', 'lib/class.tx_dam_media.php'));
+
+if (tx_rnbase_util_Extensions::isLoaded('dam')) {
+	require_once(tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_media.php'));
 // 	tx_rnbase::load('tx_dam_media');
 }
 

@@ -22,13 +22,12 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
+tx_rnbase::load('tx_rnbase_util_Network');
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 tx_rnbase::load('tx_t3users_models_feuser');
-
-
-
+tx_rnbase::load('Tx_Rnbase_Utility_Strings');
+tx_rnbase::load('tx_rnbase_util_Misc');
+tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 /**
  * Controller fuer Loginbox
@@ -50,7 +49,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 */
 	function handleRequest(&$parameters,&$configurations, &$viewData){
 		// Find action: login, logout, forgotPassword
-		$action = t3lib_div::_GP('logintype');
+		$action = tx_rnbase_parameters::getPostOrGetParameter('logintype');
 		$finished = intval($parameters->offsetGet('NK_loginfinished'));
 		if($finished) $action = 'login';
 
@@ -111,7 +110,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		// 3. Sonstiger Fehler: Meldung im FE
 
 		$email = $parameters->offsetGet('NK_requestconfirmation_email');
-		if ($email && t3lib_div::validEmail($email) ) {
+		if ($email && Tx_Rnbase_Utility_Strings::validEmail($email) ) {
 			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
 			$markerArr['your_email'] = $email;
@@ -153,7 +152,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		// 2. Nutzer nicht gefunden: Meldung im FE
 		// 3. Sonstiger Fehler: Meldung im FE
 		$email = $parameters->offsetGet('NK_forgot_email');
-		if ($email && t3lib_div::validEmail($email) ) {
+		if ($email && Tx_Rnbase_Utility_Strings::validEmail($email) ) {
 			$markerArr['your_email'] = $email;
 			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 			$storagePid = $this->getStoragePid($configurations);
@@ -203,20 +202,20 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		else {
 			$statusKey = 'logout';
 			if($markerArr['redirect_url'] == '' && $configurations->get($this->getConfId().'redirectMode') == 'referrer')
-				$markerArr['redirect_url'] = htmlspecialchars(t3lib_div::getIndpEnv('HTTP_REFERER'));
+				$markerArr['redirect_url'] = htmlspecialchars(tx_rnbase_util_Misc::getIndpEnv('HTTP_REFERER'));
 			if($markerArr['redirect_url'] == '' && $configurations->get($this->getConfId().'redirectMode') == 'force')
-				$markerArr['redirect_url'] = htmlspecialchars(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'));
+				$markerArr['redirect_url'] = htmlspecialchars(tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL'));
 		}
 
 		// Wenn explizit eine URL mitgegeben wurde, nutzen wir diese!
-		if(strlen($redirectUrl = t3lib_div::_GP('redirect_url')) && t3lib_div::isOnCurrentHost($redirectUrl)){
+		if(strlen($redirectUrl = tx_rnbase_parameters::getPostOrGetParameter('redirect_url')) && Tx_Rnbase_Utility_T3General::isOnCurrentHost($redirectUrl)){
 			$markerArr['redirect_url'] = $redirectUrl;
 		}
 
 		$markerArr['redirect_url'] = preg_replace("/[&?]logintype=[a-z]+/", '', $markerArr['redirect_url']);
 
-		$markerArr['redirect_url'] = t3lib_div::removeXSS($markerArr['redirect_url']);
-		// t3lib_div::removeXSS könnte Anführungszeichen etc. leer lassen.
+		$markerArr['redirect_url'] = Tx_Rnbase_Utility_Strings::removeXSS($markerArr['redirect_url']);
+		// Tx_Rnbase_Utility_Strings::removeXSS könnte Anführungszeichen etc. leer lassen.
 		// damit könnte die Ausgabe auch beeinflusst werden. daher
 		// htmlspecialchars
 		$markerArr['redirect_url'] = htmlspecialchars($markerArr['redirect_url'], ENT_QUOTES);
@@ -282,8 +281,8 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		// Direkt weiterleiten, wenn redirect_url angegeben
 		// wird bei externen Links, z.B. Newsletter genutzt, die auf geschützte Bereiche verweisen
 		// ist der User bereits eingeloggt, dann tritt dieser Fall in Kraft.
-		elseif(strlen($redirectUrl = t3lib_div::_GP('redirect_url')) && t3lib_div::isOnCurrentHost($redirectUrl)){
-			header('Location: '.t3lib_div::locationHeaderUrl($redirectUrl));
+		elseif(strlen($redirectUrl = tx_rnbase_parameters::getPostOrGetParameter('redirect_url')) && Tx_Rnbase_Utility_T3General::isOnCurrentHost($redirectUrl)){
+			header('Location: ' . tx_rnbase_util_Network::locationHeaderUrl($redirectUrl));
 		}
 		$markerArr['action_uri'] = $this->createPageUri($configurations);
 
@@ -323,9 +322,9 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			$redirect = $configurations->get('loginbox.loginRedirectPage');
 			$redirectMode = $configurations->get($this->getConfId().'redirectMode');
 			if($configurations->get($this->getConfId().'redirectMode') == 'forceRequestUrl')
-				$redirect = htmlspecialchars(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'));
+				$redirect = htmlspecialchars(tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL'));
 			// Wenn explizit eine URL mitgegeben wurde, nutzen wir diese!
-			elseif(strlen($redirectUrl = t3lib_div::_GP('redirect_url')) && t3lib_div::isOnCurrentHost($redirectUrl)){
+			elseif(strlen($redirectUrl = tx_rnbase_parameters::getPostOrGetParameter('redirect_url')) && Tx_Rnbase_Utility_T3General::isOnCurrentHost($redirectUrl)){
 				$redirect = $redirectUrl;
 			}
 
@@ -387,7 +386,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		$redirectMode = $configurations->get($this->getConfId().'redirectMode');
 		if($redirectMode == 'force' || $redirectMode == 'forceRequestUrl') {
 			// Redirect auf aktuelle Seite
-			return t3lib_div::getIndpEnv('TYPO3_REQUEST_URL');
+			return tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL');
 		}
 		$link = $configurations->createLink();
 		$link->initByTS($configurations, $this->getConfId().'actionUrl.', $params);

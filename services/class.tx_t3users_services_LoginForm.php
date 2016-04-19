@@ -22,19 +22,17 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_t3users_search_builder');
 tx_rnbase::load('tx_t3users_exceptions_User');
-
-
+tx_rnbase::load('Tx_Rnbase_Service_Base');
 
 /**
  * Service to extend login form
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_services_LoginForm extends t3lib_svbase {
+class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base {
 
 	/**
 	 * Aufgabe ist es, das Login-Formular so zu erweitern, daß es erfolgreich abgeschickt wird.
@@ -104,7 +102,7 @@ class tx_t3users_services_LoginForm extends t3lib_svbase {
 	 * @param tx_t3users_actions_Login $plugin
 	 */
 	protected function handleMethod_rsa($code, $statusKey, $configurations, $confId, $plugin) {
-		require_once(t3lib_extMgm::extPath('rsaauth') . 'hooks/class.tx_rsaauth_feloginhook.php');
+		require_once(tx_rnbase_util_Extensions::extPath('rsaauth') . 'hooks/class.tx_rsaauth_feloginhook.php');
 		$rsa = tx_rnbase::makeInstance('tx_rsaauth_feloginhook');
 		$result = $rsa->loginFormHook();
 		// Use onSubmit only if not set by Typoscript
@@ -120,9 +118,9 @@ class tx_t3users_services_LoginForm extends t3lib_svbase {
 	 * RSA Authentifizierung ab 6.2.x.
 	 * Aufpassen: bei frühen Versionen (bis Mai 2014) funktioniert dieser Weg noch nicht. In dem
 	 * Fall muss TYPO3 aktualisiert werden.
-	 * 
+	 *
 	 * https://forge.typo3.org/issues/59041
-	 * 
+	 *
 	 * @param stdClass $code
 	 * @param string $statusKey
 	 * @param tx_rnbase_configurations $configurations

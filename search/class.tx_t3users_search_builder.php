@@ -21,10 +21,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
+tx_rnbase::load('tx_rnbase_util_Strings');
 tx_rnbase::load('tx_rnbase_util_SearchBase');
-
 
 /**
  * Mit dem Builder werden haufig auftretende Suchanfragen zusammengebaut
@@ -48,7 +46,7 @@ class tx_t3users_search_builder {
    		$result = true;
   	}
   	if(strlen(trim($pids))) {
-	    $pids = implode(',', t3lib_div::intExplode(',', $pids));
+	    $pids = implode(',', tx_rnbase_util_Strings::intExplode(',', $pids));
   		$joined['value'] = $pids;
    		$joined['cols'] = array('FEUSER.PID');
    		$joined['operator'] = OP_INSET_INT;
@@ -74,7 +72,7 @@ class tx_t3users_search_builder {
   	}
   	return $result;
 	}
-	
+
 }
 
 

@@ -28,7 +28,6 @@
 /**
  * benötigte Klassen einbinden
  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
@@ -43,8 +42,11 @@ class tx_t3users_tests_services_email_testcase extends tx_rnbase_tests_BaseTestC
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
 	protected function setUp() {
-		if (!t3lib_extMgm::isLoaded('mkmailer')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('mkmailer')) {
 			$this->markTestSkipped('mkmailer nicht installiert');
+		}
+		if (!tx_rnbase_util_Extensions::isLoaded('mklib')) {
+			$this->markTestSkipped('mklib nicht installiert');
 		}
 
 		tx_rnbase::load('tx_t3users_services_email');
@@ -61,7 +63,7 @@ class tx_t3users_tests_services_email_testcase extends tx_rnbase_tests_BaseTestC
 	 * @see PHPUnit_Framework_TestCase::tearDown()
 	 */
 	protected function tearDown() {
-		if (t3lib_extMgm::isLoaded('mkmailer'))
+		if (tx_rnbase_util_Extensions::isLoaded('mkmailer'))
 			tx_mklib_tests_Util::restoreExtConf('mkmailer');
 	}
 

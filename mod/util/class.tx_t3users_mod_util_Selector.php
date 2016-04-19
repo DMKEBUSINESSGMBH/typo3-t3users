@@ -25,7 +25,9 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+tx_rnbase::load('Tx_Rnbase_Backend_Utility');
+tx_rnbase::load('tx_rnbase_parameters');
+tx_rnbase::load('tx_rnbase_util_TCA');
 
 /**
  * Die Klasse stellt Auswahlmenus zur Verfügung
@@ -70,7 +72,7 @@ class tx_t3users_mod_util_Selector {
 		$selectedItem = array_key_exists('forcevalue', $aOptions) ? $aOptions['forcevalue'] : $this->getValueFromModuleData($id);
 
 		// Build select box items
-		$aData['selector'] = t3lib_BEfunc::getFuncMenu(
+		$aData['selector'] = Tx_Rnbase_Backend_Utility::getFuncMenu(
 			$pid, 'SET['.$id.']', $selectedItem, $aItems
 		);
 
@@ -90,7 +92,7 @@ class tx_t3users_mod_util_Selector {
 		if(is_array($aOptions['additionalItems'])) {
 			$items = $aOptions['additionalItems'];
 		}
-		t3lib_div::loadTCA($table);
+		tx_rnbase_util_TCA::loadTCA($table);
 		if(is_array($GLOBALS['TCA'][$table]['columns'][$column]['config']['items']))
 			foreach($GLOBALS['TCA'][$table]['columns'][$column]['config']['items'] As $item){
 				$items[$item[1]] = $GLOBALS['LANG']->sL($item[0]);
@@ -123,7 +125,7 @@ class tx_t3users_mod_util_Selector {
 	 */
 	public function getValueFromModuleData($key) {
 		// Fetch selected company trade
-		$modData = t3lib_BEfunc::getModuleData(array ($key => ''),t3lib_div::_GP('SET'),$this->getModule()->getName());
+		$modData = Tx_Rnbase_Backend_Utility::getModuleData(array ($key => ''),tx_rnbase_parameters::getPostOrGetParameter('SET'),$this->getModule()->getName());
 		if (isset($modData[$key])) return $modData[$key];
 		// else
 		return null;

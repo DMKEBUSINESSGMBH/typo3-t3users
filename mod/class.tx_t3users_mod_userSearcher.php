@@ -22,9 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_Misc');
 tx_rnbase::load('tx_rnbase_configurations');
+tx_rnbase::load('tx_rnbase_parameters');
+tx_rnbase::load('Tx_Rnbase_Backend_Utility');
 
 /**
  * Searcher class for fe users.
@@ -47,18 +48,18 @@ class tx_t3users_mod_userSearcher {
 		$this->mod = $mod;
 		$this->formTool = $this->mod->formTool;
 		$this->resultSize = 0;
-    	$this->data = t3lib_div::_GP('searchdata');
+    	$this->data = tx_rnbase_parameters::getPostOrGetParameter('searchdata');
 
 		$this->bAllowNonAdmins = tx_rnbase_configurations::getExtensionCfgValue('t3users', 'fullModuleForNonAdmins');
 
     if(!isset($options['nopersist'])) {
     	$searchData = array ('termfeuser' => '', 'hiddenfeuser' => '', 'pagemode' => '','uidfeuser' => '');
-    	$oldSettings = t3lib_BEfunc::getModuleData($searchData, false,$this->mod->MCONF['name'] );
+    	$oldSettings = Tx_Rnbase_Backend_Utility::getModuleData($searchData, false,$this->mod->MCONF['name'] );
     	if($this->data['termfeuser'] != $oldSettings['termfeuser'])
     		$this->data['uidfeuser'] = '';
     	if(strlen($this->data['uidfeuser']) && $this->data['uidfeuser'] != $oldSettings['uidfeuser'])
     		$this->data['termfeuser'] = '';
-    	$this->SEARCH_SETTINGS = t3lib_BEfunc::getModuleData(
+    	$this->SEARCH_SETTINGS = Tx_Rnbase_Backend_Utility::getModuleData(
     															$searchData,$this->data,$this->mod->MCONF['name'] );
     }
 		else
@@ -69,7 +70,7 @@ class tx_t3users_mod_userSearcher {
 	 * @return boolean
 	 */
 	function hasSearched() {
-		return t3lib_div::_GP($this->searchButtonName) != false;
+		return tx_rnbase_parameters::getPostOrGetParameter($this->searchButtonName) != false;
 	}
 	/**
 	 * Liefert das Suchformular

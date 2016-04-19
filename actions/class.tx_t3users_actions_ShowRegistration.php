@@ -28,8 +28,8 @@ tx_rnbase::load('tx_t3users_models_feuser');
 tx_rnbase::load('Tx_Rnbase_Utility_Strings');
 tx_rnbase::load('tx_rnbase_util_Files');
 tx_rnbase::load('tx_rnbase_util_Templates');
-
-
+tx_rnbase::load('tx_rnbase_util_Network');
+tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
  * Controller für die Neuregistrierung
@@ -97,7 +97,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 	    // Zusätzlich Parameter für Finished setzen
 	    $link->parameters(array('NK_saved' => '1', 'NK_reguser' => $uid));
 	    $redirect_url = $link->makeUrl(false);
-	    header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
+	    header('Location: ' . tx_rnbase_util_Network::locationHeaderUrl($redirect_url));
 		}
 	// index.php?id=38&amp;rnuser%5BNK_confirm%5D=5d52036ce724a231ab8d90ab120638db&amp;rnuser%5BNK_uid%5D=4&amp;cHash=c19b590e9c
 
@@ -254,7 +254,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		if ($this->getConfigurations()->getBool($this->getConfId(). 'links.mailconfirm.noAbsurl')) {
 			$markerArray['###'.$linkMarker . 'URL###'] = $link->makeUrl(false);
 		} else {
-			$markerArray['###'.$linkMarker . 'URL###'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
+			$markerArray['###'.$linkMarker . 'URL###'] = tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
 		}
 		$markerArray['###SITENAME###'] = $this->getConfigurations()->get('siteName');
 

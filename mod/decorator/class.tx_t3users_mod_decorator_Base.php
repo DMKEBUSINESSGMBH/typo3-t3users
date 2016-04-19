@@ -30,6 +30,7 @@
  * benötigte Klassen einbinden
  */
 tx_rnbase::load('tx_rnbase_mod_IDecorator');
+tx_rnbase::load('tx_rnbase_util_TCA');
 
 /**
  * Diese Klasse ist für die Darstellung von Elementen im Backend verantwortlich.
@@ -127,7 +128,7 @@ class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
 					$ret .= $this->getFormTool()->createEditLink($item->getTableName(), $item->getUid(), $bTitle);
 					break;
 				case 'hide':
-					$sHiddenColumn = tx_mklib_util_TCA::getEnableColumn($item->getTableName(), 'disabled', 'hidden');
+					$sHiddenColumn = tx_rnbase_util_TCA::getEnableColumn($item->getTableName(), 'disabled', 'hidden');
 					$ret .= $this->getFormTool()->createHideLink($item->getTableName(), $item->getUid(), $item->record[$sHiddenColumn]);
 					break;
 				case 'remove':
