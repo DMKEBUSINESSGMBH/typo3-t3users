@@ -52,7 +52,13 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base {
 		if($method == 'auto') {
 			$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 			if($usrSrv->useRSA()) {
-				$method = tx_rnbase_util_TYPO3::isTYPO62OrHigher() ? 'rsa62' : 'rsa';
+				if (tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
+					$method = 'rsa7';
+				} elseif (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+					$method = 'rsa62';
+				} else {
+					$method = 'rsa';
+				}
 			}
 			elseif($usrSrv->useMD5()) {
 				$method = 'md5';
@@ -136,6 +142,13 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base {
 		// return TYPO3FrontendLoginFormRsaEncryption.submitForm(this, TYPO3FrontendLoginFormRsaEncryptionPublicKeyUrl);
 		// Diese ist entsprechend im JS-Code per Typoscript eingestellt. Wenn da wieder etwas umgestellt wird, müssen
 		// wir das ggf. dynamisch im JS-Code unterbringen. Also austauschen in $code.
+	}
+
+	/**
+	 * @see handleMethod_rsa62
+	 */
+	protected function handleMethod_rsa7($code, $statusKey, $configurations, $confId, $plugin) {
+		$this->handleMethod_rsa62($code, $statusKey, $configurations, $confId, $plugin);
 	}
 }
 

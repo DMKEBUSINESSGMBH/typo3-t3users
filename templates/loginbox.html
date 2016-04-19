@@ -23,10 +23,11 @@ Users online: ###USER_ONLINE###
 
 <form name="logform" id="logform" action="###ACTION_URI###" target="_top" method="post">
   <input type="hidden" id="user" name="user" value="" />
-  <input type="hidden" id="pass" name="pass" value="" /><br />
+  <input type="hidden" data-rsa-encryption="" id="pass" name="pass" value="" /><br />
 	<input type="hidden" name="logintype" value="login" />
 	<input type="hidden" name="pid" value="###STORAGE_PID###" />
 	<input type="hidden" name="redirect_url" value="###REDIRECT_URL###" />
+	<input type="submit" name="submit" style="display:none" id="t3users_login_real_submit"/>
 	###EXTRA_HIDDEN###
 </form>
 
