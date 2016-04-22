@@ -213,6 +213,14 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base {
 				$values = array('password'=> $new_password);
 				$where = 'uid = ' . $feuser->uid;
 				tx_rnbase_util_DB::doUpdate('fe_users', $where, $values, 0);
+			} else {
+				tx_rnbase::load('tx_rnbase_util_Logger');
+				tx_rnbase_util_Logger::warn(
+					'saltedpasswords soll verwendet werden, ist aber für die Verwendung' .
+					'im FE nicht aktiviert. Bitte im Extension Manager bei saltedpasswords' .
+					'die Nutzung im FE aktivieren. Sonst kann kein neues Passwort erstellt werden.',
+					't3users'
+				);
 			}
 		}
 		else {
