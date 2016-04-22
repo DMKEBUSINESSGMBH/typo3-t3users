@@ -300,7 +300,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 * @param array $viewData
 	 * @param tx_t3users_models_feuser $feuser
 	 */
-	protected function handleLoginConfirmed($action, &$parameters,&$configurations, &$viewData, &$feuser){
+	protected function handleLoginConfirmed($action, $parameters,$configurations, &$viewData, $feuser){
 		$finished = intval($parameters->offsetGet('NK_loginfinished'));
 		tx_rnbase_util_Misc::callHook(
 			't3users','beforeLoginConfirmed',
@@ -329,10 +329,16 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			elseif(strlen($redirectUrl = tx_rnbase_parameters::getPostOrGetParameter('redirect_url')) && Tx_Rnbase_Utility_T3General::isOnCurrentHost($redirectUrl)){
 				$redirect = $redirectUrl;
 			}
+			else {
+				// Ziel-Pid in FE-Group suchen
+				$redirect = $this->getLoginPageByGroup($feuser);
+			}
+			// loginfinished is useless for redirect
+			$params = $redirect ? array() : array('NK_loginfinished' => '1');
 
 			$link = $configurations->createLink();
 			// Initialisieren und zusaetzlich Parameter fuer Finished setzen
-			$link->initByTS($configurations, $this->getConfId().'links.loginRedirect.', array('NK_loginfinished' => '1'));
+			$link->initByTS($configurations, $this->getConfId().'links.loginRedirect.', $params);
 			//soll das Formular auf eine bestimmte Seite abgeschickt werden?
 			if ($redirect) {
 				$link->destination($redirect);
@@ -350,6 +356,25 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		$viewData->offsetSet('markers', $markerArr);
 	}
 
+	/**
+	 * Iterate through fegroups and look for the first page in
+	 * field felogin_redirectPid
+	 *
+	 * @param tx_t3users_models_feuser $feuser
+	 * @return pid or null
+	 */
+	protected function getLoginPageByGroup($feuser) {
+		$groups = $feuser->getGroups();
+		if(is_array($groups)) {
+			/* @var $group tx_t3users_models_fegroup */
+			foreach ($groups As $group) {
+				$pid = $group->getProperty('felogin_redirectPid');
+				if($pid)
+					return $pid;
+			}
+		}
+		return NULL;
+	}
 	/**
 	 * Add some common markers
 	 *
