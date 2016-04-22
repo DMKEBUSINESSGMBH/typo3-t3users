@@ -31,7 +31,7 @@
 	},
 	"require" : {
 		"typo3/cms-core" : ">=4.5.0 <=7.6.99",
-		"digedag/rn-base" : ">=1.0.4"
+		"digedag/rn-base" : ">=1.0.5"
 	},
 	"autoload": {
 		"classmap": ["actions/", "controllers/", "exceptions/", "forms/", "hooks/", "mod/", "models/", "receiver/", "search/", "services/", "util/", "views/", "xclasses/"]
