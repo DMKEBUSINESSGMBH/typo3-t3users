@@ -22,9 +22,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'model/class.tx_rnbase_model_base.php');
+
+require_once(tx_rnbase_util_Extensions::extPath('rn_base') . 'model/class.tx_rnbase_model_base.php');
 
 /**
  * Model for fe_user.

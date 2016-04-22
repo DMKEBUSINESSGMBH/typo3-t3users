@@ -29,7 +29,7 @@
 /**
  * benötigte Klassen einbinden
  */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_t3users_actions_EditFeUser');
 tx_rnbase::load('tx_t3users_tests_Util');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');

@@ -22,24 +22,9 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
-/**
- * benötigte Klassen einbinden
- */
-
-unset($MCONF);
-require_once('conf.php');
-require_once($REQUIRE_PATH . 'init.php');
-if (!tx_rnbase_util_TYPO3::isTYPO3VersionOrHigher(6002000)) {
-	require_once($REQUIRE_PATH . 'template.php');
-}
-
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
-$LANG->includeLLFile('EXT:t3users/mod/locallang.xml');
-$BE_USER->modAccess($MCONF,1);	// This checks permissions and exits if the users has no permission for entry.
-	// DEFAULT initialization of a module [END]
-
+$GLOBALS['LANG']->includeLLFile('EXT:t3users/mod/locallang.xml');
+// This checks permissions and exits if the users has no permission for entry.
+$GLOBALS['BE_USER']->modAccess($GLOBALS['MCONF'], 1);
 tx_rnbase::load('tx_rnbase_mod_BaseModule');
 
 /**
@@ -61,7 +46,10 @@ class  tx_t3users_module1 extends tx_rnbase_mod_BaseModule {
 	}
 
 	protected function getFormTag() {
-		return '<form action="index.php?id=' . $this->getPid() . '" method="POST" name="editform" id="editform">';
+		$modUrl = Tx_Rnbase_Backend_Utility::getModuleUrl(
+			'web_txt3usersM1', array('id' => $this->getPid()), ''
+		);
+		return '<form action="' . $modUrl . '" method="POST" name="editform" id="editform">';
 	}
 }
 
@@ -70,11 +58,11 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 }
 
 // Make instance:
-$SOBE = t3lib_div::makeInstance('tx_t3users_module1');
+$SOBE = tx_rnbase::makeInstance('tx_t3users_module1');
 $SOBE->init();
 
 // Include files?
-foreach($SOBE->include_once as $INC_FILE)	include_once($INC_FILE);
+foreach((array) $SOBE->include_once as $INC_FILE)	include_once($INC_FILE);
 
 $SOBE->main();
 $SOBE->printContent();

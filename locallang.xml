@@ -69,7 +69,7 @@ Please confirm your registration by clicking thie following link:
 If you are not able to click directly on the web link to confirm your registration, you can copy and paste the entire link to your web browser.
 </label>
 			<label index="loginbox_header_login_error">Login failed</label>
-			<label index="loginbox_message_login_error">Username or password was wrong wrong!</label>
+			<label index="loginbox_message_login_error">Username or password was wrong!</label>
 			<label index="feuserdetails_nouser">Sorry, no user found...</label>
 			<label index="registration_confirmation_mail">Confirm your registration
 Thank you for your application to become a member of ###SITENAME###.

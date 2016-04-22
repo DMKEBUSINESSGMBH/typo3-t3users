@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+tx_rnbase::load('tx_rnbase_util_Strings');
 tx_rnbase::load('tx_mkmailer_receiver_FeUser');
 /**
  * Implementierung für einen Mailempfänger vom Typ FeUser.
@@ -34,20 +34,20 @@ tx_rnbase::load('tx_mkmailer_receiver_FeUser');
  * adresse zurück gibt statt die aktuelle des users
  */
 class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser {
-	
+
 	public function getValueString() {
 		return is_object($this->obj) ? $this->obj->uid . ',' . (!empty($this->email) ? $this->email : $this->obj->record['email'] ) : '';
 	}
-	
+
 	public function setValueString($value) {
-		$aValues = t3lib_div::trimExplode(',',$value,true);
+		$aValues = tx_rnbase_util_Strings::trimExplode(',',$value,true);
 		tx_rnbase::load('tx_t3users_models_feuser');
 		$this->setFeUser(tx_t3users_models_feuser::getInstance(intval($aValues[0])));
 		//die neue, geänderte Email Adresse im Empfänger setzen damit die
 		//Mail nicht 2 mal verschickt wird an die neue Adresse
 		$this->email = $aValues[1];
 	}
-	
+
 	protected function getEmail() {
 		if(empty($this->email)) return false;
 		//else

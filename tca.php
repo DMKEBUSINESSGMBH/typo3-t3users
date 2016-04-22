@@ -51,6 +51,7 @@ $TCA['tx_t3users_roles'] = array (
 			'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_rights',
 			'config' => Array (
 				'type' => 'select',
+				'renderType' => 'selectMultipleSideBySide',
 				'allowed' => 'tx_t3users_rights',
 				'size' => 10,
 				'autoSizeMax' => 50,

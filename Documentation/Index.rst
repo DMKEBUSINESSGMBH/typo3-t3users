@@ -64,4 +64,5 @@ T3Users
    Introduction/Index
    Developer/Index
    Features/Index
+   Upgrade/Index
    Changelog

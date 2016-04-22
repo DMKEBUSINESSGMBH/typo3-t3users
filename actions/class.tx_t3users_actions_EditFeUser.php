@@ -22,11 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
+tx_rnbase::load('tx_rnbase_util_Network');
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 tx_rnbase::load('tx_t3users_models_feuser');
-
+tx_rnbase::load('tx_rnbase_util_TCA');
 
 /**
  * Controller for edit form of FE-User
@@ -104,7 +103,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 	 * @return tx_a4base_util_Formidable
 	 */
 	private function getEditors($parameters, $configurations, $item) {
-		if(!t3lib_extMgm::isLoaded('mkforms')) {
+		if(!tx_rnbase_util_Extensions::isLoaded('mkforms')) {
 			throw new Exception('mkforms ist nicht installiert, wird aber benötigt für das Bearbeitungsformular');
 		}
 
@@ -131,8 +130,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 		//If enableNonTcaColumns is set: do not eliminate the NonTCA-Enabled columns
 		if(! $this->conf->get($this->getConfId().'enableNonTcaColumns')){
 			//leeres Model bilden um Felder zu löschen die da nicht hingehören
-			tx_rnbase::load('tx_mklib_util_TCA');
-			$params = tx_mklib_util_TCA::eleminateNonTcaColumns($feUser,$params);
+			$params = tx_rnbase_util_TCA::eleminateNonTcaColumns($feUser,$params);
 
 		}
 		//wenn die Option doubleoptin gewählt wurde dann werden die daten noch nicht
@@ -188,7 +186,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC {
 		$link = $this->conf->createLink();
 		$link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id);//fallback
 		$redirect_url = $link->makeUrl(false);
-		header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
+		header('Location: ' . tx_rnbase_util_Network::locationHeaderUrl($redirect_url));
 	}
 
 	function getTemplateName() { return 'feuseredit';}

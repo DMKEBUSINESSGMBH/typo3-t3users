@@ -15,7 +15,7 @@ There are some useful classes shipped with this extension. Here is a small code 
 
 .. code-block:: php
 
-   require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+   
    tx_rnbase::load('tx_t3users_models_feuser);
 
    // Let's get the current fe_user

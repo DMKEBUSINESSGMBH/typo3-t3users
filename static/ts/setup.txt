@@ -90,6 +90,26 @@ plugin.tx_t3users_main {
 		extend {
 			# Art der Erweiterung: none, auto, nomd5, md5, rsa
 			method = auto
+			# ab TYPO3 7 wird das alles durch rsaauth erledigt. Dem Passwortfeld muss lediglich
+			# das Attribut data-rsa-encryption gegeben werden.
+			# der Submit kann nicht mit trgForm.submit() getriggert werden da sonst
+			# nicht der von rsaauth registrierte submit handler ausgeführt wird.
+			rsa7 {
+				onsubmit = superchallenge_password(this);
+				jsCode (
+					function superchallenge_password(form) {
+						var trgForm = document.forms["logform"];
+						if(!trgForm) trgForm = document.getElementById("logform");
+						if(form.pass1.value) {
+							trgForm.user.value = form.user1.value;
+							trgForm.pass.value = form.pass1.value;
+							document.getElementById("t3users_login_real_submit").click();
+						}
+
+						return false;
+					}
+)
+			}
 			rsa62 {
 				onsubmit = superchallenge_password(this);
 				jsCode (

@@ -25,14 +25,15 @@
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_t3users_search_builder');
 tx_rnbase::load('tx_t3users_exceptions_User');
-
+tx_rnbase::load('Tx_Rnbase_Utility_Strings');
+tx_rnbase::load('Tx_Rnbase_Service_Base');
 
 /**
  * Service for accessing user information
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_services_feuser extends t3lib_svbase {
+class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base {
 
 	/**
 	 * Find a user by mail address
@@ -42,7 +43,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @return tx_t3users_models_feuser
 	 */
 	public function getUserByEmail($email, $pids = '') {
-		if (!($email && t3lib_div::validEmail($email)) )
+		if (!($email && Tx_Rnbase_Utility_Strings::validEmail($email)) )
 			return false;
 
 		$fields = array();
@@ -62,7 +63,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @return tx_t3users_models_feuser
 	 */
 	public function getDisabledUserByEmail($email, $pids = ''){
-		if (!($email && t3lib_div::validEmail($email)) )
+		if (!($email && Tx_Rnbase_Utility_Strings::validEmail($email)) )
 			return false;
 
 		$fields = array();
@@ -155,11 +156,12 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 			$newPassword = md5($newPassword);
 		}
 		elseif($this->useSaltedPasswords()) {
-			$this->loadSaltedPasswordUtility();
-			if (tx_saltedpasswords_div::isUsageEnabled()) {
+			$saltedPasswordUtility = $this->getSaltedPasswordUtility();
+
+			if ($saltedPasswordUtility::isUsageEnabled()) {
 				// generate password for db
-				$cconf = tx_saltedpasswords_div::returnExtConf();
-				$objPHPass = t3lib_div::makeInstance($cconf['saltedPWHashingMethod']);
+				$cconf = $saltedPasswordUtility::returnExtConf();
+				$objPHPass = tx_rnbase::makeInstance($cconf['saltedPWHashingMethod']);
 				$newPassword = $objPHPass->getHashedPassword($newPassword);
 			}
 		}
@@ -190,7 +192,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	function createNewPassword($feuser, $defaultLength=5) {
 		$ret = false;
 		if($this->useMD5()) {
-			require_once(t3lib_extMgm::extPath('kb_md5fepw').'class.tx_kbmd5fepw_funcs.php');
+			require_once(tx_rnbase_util_Extensions::extPath('kb_md5fepw').'class.tx_kbmd5fepw_funcs.php');
 			if ($feuser->isValid())	{
 				$new_password = tx_kbmd5fepw_funcs::generatePassword($defaultLength);
 				$values = array('password'=> md5($new_password));
@@ -199,18 +201,26 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 				$ret=$new_password;
 			}
 		} elseif($this->useSaltedPasswords()) {
-			$this->loadSaltedPasswordUtility();
-			if (tx_saltedpasswords_div::isUsageEnabled()) {
+			$saltedPasswordUtility = $this->getSaltedPasswordUtility();
+			if ($saltedPasswordUtility::isUsageEnabled()) {
 				$new_password = $this->generatePassword($defaultLength); 	//generate password
 				$ret = $new_password; // for return in email
 				// generate password for db
-				$cconf = tx_saltedpasswords_div::returnExtConf();
-				$objPHPass = t3lib_div::makeInstance($cconf['saltedPWHashingMethod']);
+				$cconf = $saltedPasswordUtility::returnExtConf();
+				$objPHPass = tx_rnbase::makeInstance($cconf['saltedPWHashingMethod']);
 				$new_password = $objPHPass->getHashedPassword($new_password);
 				// save password to db
 				$values = array('password'=> $new_password);
 				$where = 'uid = ' . $feuser->uid;
 				tx_rnbase_util_DB::doUpdate('fe_users', $where, $values, 0);
+			} else {
+				tx_rnbase::load('tx_rnbase_util_Logger');
+				tx_rnbase_util_Logger::warn(
+					'saltedpasswords soll verwendet werden, ist aber für die Verwendung' .
+					'im FE nicht aktiviert. Bitte im Extension Manager bei saltedpasswords' .
+					'die Nutzung im FE aktivieren. Sonst kann kein neues Passwort erstellt werden.',
+					't3users'
+				);
 			}
 		}
 		else {
@@ -223,21 +233,24 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	}
 
 	/**
-	 *
+	 * @return string
 	 */
-	protected function loadSaltedPasswordUtility() {
+	protected function getSaltedPasswordUtility() {
 		tx_rnbase::load('tx_rnbase_util_TYPO3');
 		// ab 6.2 wird saltedpasswords automatisch geladen
 		if (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-			return;
-		}
-		elseif(tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			require_once t3lib_extMgm::extPath('saltedpasswords') .
+			$utilityClass = 'TYPO3\\CMS\\Saltedpasswords\\Utility\\SaltedPasswordsUtility';
+		} elseif(tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			require_once tx_rnbase_util_Extensions::extPath('saltedpasswords') .
 				'Classes/class.tx_saltedpasswords_div.php';
+			$utilityClass = 'tx_saltedpasswords_div';
 		} else {
-			require_once t3lib_extMgm::extPath('saltedpasswords') .
+			require_once tx_rnbase_util_Extensions::extPath('saltedpasswords') .
 				'classes/class.tx_saltedpasswords_div.php';
+			$utilityClass = 'tx_saltedpasswords_div';
 		}
+
+		return $utilityClass;
 	}
 
 	/**
@@ -299,7 +312,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @return boolean
 	 */
 	function useMD5() {
-		return t3lib_extMgm::isLoaded('kb_md5fepw');
+		return tx_rnbase_util_Extensions::isLoaded('kb_md5fepw');
 	}
 	/**
 	 * Whether or not saltedpasswords is enabled.
@@ -307,7 +320,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @return boolean
 	 */
 	function useSaltedPasswords() {
-		return t3lib_extMgm::isLoaded('saltedpasswords');
+		return tx_rnbase_util_Extensions::isLoaded('saltedpasswords');
 	}
 
 	/**
@@ -316,7 +329,7 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	public function useRSA() {
 		return
 			($GLOBALS['TYPO3_CONF_VARS']['FE']['loginSecurityLevel'] == 'rsa') &&
-			t3lib_extMgm::isLoaded('rsaauth');
+			tx_rnbase_util_Extensions::isLoaded('rsaauth');
 	}
 
 	/**
@@ -383,11 +396,11 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @param string $feGroupUids comma separated group uids
 	 */
 	public function addFeGroups(&$feuser, $feGroupIds) {
-		$feGroupIds = strlen($feGroupIds) ? t3lib_div::intExplode(',', $feGroupIds) : array();
+		$feGroupIds = strlen($feGroupIds) ? Tx_Rnbase_Utility_Strings::intExplode(',', $feGroupIds) : array();
 		if(!count($feGroupIds)) return; // Nothing to do
 
 		$oldFeGroups = $feuser->record['usergroup'];
-		$oldFeGroups = strlen($oldFeGroups) ? t3lib_div::intExplode(',', $oldFeGroups) : array();
+		$oldFeGroups = strlen($oldFeGroups) ? Tx_Rnbase_Utility_Strings::intExplode(',', $oldFeGroups) : array();
 		$oldFeGroupsKeys = array_flip($oldFeGroups);
 		foreach ($feGroupIds as $feGroupId) {
 			if(!array_key_exists($feGroupId, $oldFeGroupsKeys))
@@ -404,12 +417,12 @@ class tx_t3users_services_feuser extends t3lib_svbase {
 	 * @param string $feGroupUids comma separated group uids
 	 */
 	public function removeFeGroup($feuser, $feGroupIds) {
-		$feGroupIds = strlen($feGroupIds) ? t3lib_div::intExplode(',', $feGroupIds) : array();
+		$feGroupIds = strlen($feGroupIds) ? Tx_Rnbase_Utility_Strings::intExplode(',', $feGroupIds) : array();
 		if(!count($feGroupIds)) return; // Nothing to do
 
 		$oldFeGroups = $feuser->record['usergroup'];
 		if(!strlen($oldFeGroups)) return; // Es sind gar keine Gruppen gesetzt
-		$oldFeGroups = t3lib_div::intExplode(',', $oldFeGroups);
+		$oldFeGroups = Tx_Rnbase_Utility_Strings::intExplode(',', $oldFeGroups);
 		$oldFeGroups = array_flip($oldFeGroups);
 		// Jetzt die gelöschten Gruppen entfernen
 		foreach($feGroupIds As $feGroupId) {

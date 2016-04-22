@@ -29,7 +29,7 @@
 /**
  * benötigte Klassen einbinden
  */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_t3users_actions_RenewSession');
 
 /**
@@ -42,13 +42,13 @@ tx_rnbase::load('tx_t3users_actions_RenewSession');
 class tx_t3users_tests_actions_RenewSession_testcase extends tx_phpunit_testcase {
 
 	/**
-	 * 
+	 *
 	 */
 	protected function tearDown() {
 		if(isset($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']))
 			unset($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
@@ -57,18 +57,18 @@ class tx_t3users_tests_actions_RenewSession_testcase extends tx_phpunit_testcase
 			$GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
 			'JavaScript bereits in Header Data gesetzt.'
 		);
-		
+
 		$this->executeAction();
-		
-		$expectedJavaScript = $this->getExpectedJavaScriptWithIntervall();		
-		
+
+		$expectedJavaScript = $this->getExpectedJavaScriptWithIntervall();
+
 		$this->assertEquals(
-			$expectedJavaScript,
-			$GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
+			$this->removeAnyWhitespace($expectedJavaScript),
+			$this->removeAnyWhitespace($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']),
 			'Das Javascript ist nicht wie erwatet'
 		);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
@@ -77,53 +77,54 @@ class tx_t3users_tests_actions_RenewSession_testcase extends tx_phpunit_testcase
 			$GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
 			'JavaScript bereits in Header Data gesetzt.'
 		);
-		
+
 		$configurationsData = array(
 			'renewSession.' => array(
     				'intervallInSeconds' => 400,
 			)
 		);
 		$this->executeAction($configurationsData);
-		
-		$expectedJavaScript = $this->getExpectedJavaScriptWithIntervall(400000);		
-		
+
+		$expectedJavaScript = $this->getExpectedJavaScriptWithIntervall(400000);
+
 		$this->assertEquals(
-			$expectedJavaScript,
-			$GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
+			$this->removeAnyWhitespace($expectedJavaScript),
+			$this->removeAnyWhitespace($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']),
 			'Das Javascript ist nicht wie erwatet'
 		);
 	}
-	
+
 	/**
 	 * @param array $configurationsData
-	 * 
+	 *
 	 * @return void
 	 */
 	private function executeAction(array $configurationsData = array()) {
 		$action = tx_rnbase::makeInstance('tx_t3users_actions_RenewSession');
 		$configurations = tx_t3users_tests_Util::getConfigurations();
 		$parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
-		
+
 		if(!empty($configurationsData)) {
-			$cObj = t3lib_div::makeInstance('tslib_cObj');
+			tx_rnbase::load('tx_rnbase_util_Typo3Classes');
+			$cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
 	    	$configurations->init($configurationsData, $cObj, 't3users', 't3users');
 		}
-		
+
 		$action->execute($parameters,$configurations);
 	}
-	
+
 	/**
 	 * @param integer $intervall
-	 * 
+	 *
 	 * @return string
 	 */
 	private function getExpectedJavaScriptWithIntervall($intervall = 300000) {
-		return 
+		return
 "<script type='text/javascript'>
 	RenewSession = {
 		loadCurrentPage: function(){
 			var xmlhttp;
-			
+
 			// code for IE7+, Firefox, Chrome, Opera, Safari
 			if (window.XMLHttpRequest) {
 			  	xmlhttp=new XMLHttpRequest();
@@ -134,13 +135,21 @@ class tx_t3users_tests_actions_RenewSession_testcase extends tx_phpunit_testcase
 			xmlhttp.open('GET',window.location,true);
 			xmlhttp.send();
 		},
-		
+
 		loadCurrentPageInIntervall: function(intervall) {
-			window.setInterval('RenewSession.loadCurrentPage()', intervall);	
+			window.setInterval('RenewSession.loadCurrentPage()', intervall);
 		}
 	};
 
 	RenewSession.loadCurrentPageInIntervall($intervall);
-</script>";		
+</script>";
+	}
+
+	/**
+	 * @param string $text
+	 * @return string
+	 */
+	private function removeAnyWhitespace($text) {
+		return preg_replace('/\s+/', '', $text);
 	}
 }

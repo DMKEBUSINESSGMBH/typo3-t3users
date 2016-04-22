@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+tx_rnbase::load('Tx_Rnbase_Service_Base');
 tx_rnbase::load('tx_rnbase_util_Templates');
 
 /**
@@ -30,7 +30,7 @@ tx_rnbase::load('tx_rnbase_util_Templates');
  * @author René Nitzsche
  * @author Holger Gebhardt
  */
-class tx_t3users_services_email extends t3lib_svbase {
+class tx_t3users_services_email extends Tx_Rnbase_Service_Base {
 	/**
 	 * Sends newPassword to the feUser
 	 *
@@ -39,7 +39,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 	 * @param tx_rnbase_configurations $configurations
 	 */
 	public function sendNewPassword($feuser, $newPassword, $configurations, $confId = 'loginbox.') {
-		if(t3lib_extMgm::isLoaded('mkmailer')) {
+		if(tx_rnbase_util_Extensions::isLoaded('mkmailer')) {
 			return $this->sendNewPasswordMkMailer($feuser, $newPassword, $configurations, $confId);
 		}
 		return $this->sendNewPasswordSimple($feuser, $newPassword, $configurations, $confId);
@@ -91,7 +91,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 	) {
 		// aus Kompatibilitätsgründen zu alten Projekten muss
 		// der Versand via mkmailer explizit aktiviert werden
-		if(t3lib_extMgm::isLoaded('mkmailer') &&
+		if(tx_rnbase_util_Extensions::isLoaded('mkmailer') &&
 			$configurations->getBool($confId . 'email.useMkmailer')
 		) {
 			return $this->sendResetPasswordMkMailer(
@@ -367,7 +367,7 @@ class tx_t3users_services_email extends t3lib_svbase {
 	 * @param string $confId
 	 */
 	public function sendConfirmLink($feuser, $confirmLink, $configurations, $confId = 'loginbox.') {
-		if(t3lib_extMgm::isLoaded('mkmailer')) {
+		if(tx_rnbase_util_Extensions::isLoaded('mkmailer')) {
 			return $this->sendConfirmLinkMkMailer($feuser, $confirmLink, $configurations, $confId);
 		}
 		return $this->sendConfirmLinkSimple($feuser, $confirmLink, $configurations, $confId);

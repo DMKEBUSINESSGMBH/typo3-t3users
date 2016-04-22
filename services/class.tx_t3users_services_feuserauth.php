@@ -22,10 +22,9 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_configurations');
-tx_rnbase::load('tx_sv_auth');
-
+tx_rnbase::load('Tx_Rnbase_Service_Authentication');
+tx_rnbase::load('Tx_Rnbase_Utility_Strings');
 
 /**
  * Service for accessing user information
@@ -33,13 +32,13 @@ tx_rnbase::load('tx_sv_auth');
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_services_feuserauth extends tx_sv_auth {
+class tx_t3users_services_feuserauth extends Tx_Rnbase_Service_Authentication {
 
 	function initAuth($subType, $loginData, $authInfo, $userauth) {
 		parent::initAuth($subType, $loginData, $authInfo, $userauth);
-		
+
 		if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users','enableLoginByEmail')) &&
-					t3lib_div::validEmail($loginData['uname']) ) {
+					Tx_Rnbase_Utility_Strings::validEmail($loginData['uname']) ) {
 			$this->pObj->username_column = 'email';
 			$this->db_user['username_column'] = 'email';
 		}

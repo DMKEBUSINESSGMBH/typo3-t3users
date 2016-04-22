@@ -12,7 +12,7 @@ $tx_t3users_log = array (
 		'default_sortby' => 'ORDER BY uid desc',
 //		'delete' => 'deleted',
 		'enablecolumns' => array (),
-		'iconfile'          => tx_rnbase_util_Extensions::extRelPath('t3users').'icon_tx_t3users_tables.gif',
+		'iconfile'          => 'EXT:t3users/icon_tx_t3users_tables.gif',
 	),
 	'interface' => array (
 		'showRecordFieldList' => 'type'

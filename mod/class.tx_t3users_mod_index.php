@@ -21,14 +21,10 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 tx_rnbase::load('tx_t3users_util_LoginAsFEUser');
-
-
-
+tx_rnbase::load('Tx_Rnbase_Backend_AbstractFunctionModule');
+tx_rnbase::load('tx_rnbase_mod_Tables');
 
 // Mögliche Icons im BE für die Funktion doc->icons()
 define('ICON_OK', -1);
@@ -42,7 +38,7 @@ define('ICON_FATAL', 3);
  * @author	Rene Nitzsche <dev@dmk-ebusiness.de>
  * @package	TYPO3
  */
-class tx_t3users_mod_index extends t3lib_extobjbase {
+class tx_t3users_mod_index extends Tx_Rnbase_Backend_AbstractFunctionModule {
 
 	/**
 	 * Returns the module menu
@@ -75,11 +71,9 @@ Vorgehen
 --------
 */
 		$this->doc = $this->pObj->doc;
-		$this->doc->tableLayout = $this->getTableLayout();
-		$this->formTool = tx_rnbase::makeInstance('tx_rnbase_util_FormTool');
-		$this->formTool->init($this->doc);
-//		$this->selector = tx_rnbase::makeInstance('tx_t3sportsbet_mod1_selector');
-//		$this->selector->init($this->doc, $this->MCONF);
+		$this->doc->tableLayout = tx_rnbase_mod_Tables::getTableLayout();
+		$this->formTool = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Form_ToolBox');
+		$this->formTool->init($this->doc, $this);
 
 		$content .= tx_t3users_util_LoginAsFEUser::hijackUser();
 
@@ -87,30 +81,6 @@ Vorgehen
 		$content .= $module->handleRequest($this->pObj->id);
 		return $content;
 	}
-
-	/**
-	 * Liefert das Layout für die Infotabelle
-	 *
-	 * @return array
-	 */
-  function getTableLayout() {
-		$layout = Array (
-			'table' => Array('<table class="typo3-dblist" cellspacing="0" cellpadding="0" border="0">', '</table><br/>'),
-			'0' => Array( // Format für 1. Zeile
-					'tr'		=> Array('<tr class="c-headLineTable">','</tr>'),
-					'defCol' => (tx_rnbase_util_TYPO3::isTYPO42OrHigher() ? Array('<td>','</td>') : Array('<td class="c-headLineTable" style="font-weight:bold; color:white;">','</td>'))  // Format für jede Spalte in der 1. Zeile
-			),
-			'defRow' => Array ( // Formate für alle Zeilen
-				'0' => Array('<td valign="top" style="padding:2px 5px;">','</td>'), // Format für 1. Spalte in jeder Zeile
-				'defCol' => Array('<td valign="top" style="padding:0 5px;">','</td>') // Format für jede Spalte in jeder Zeile
-			),
-			'defRowEven' => Array ( // Formate für alle Zeilen
-				'tr'	   => Array('<tr class="db_list_alt">', '</tr>'),
-				'defCol' => Array((tx_rnbase_util_TYPO3::isTYPO42OrHigher() ?'<td style="padding:2px 5px;">' : '<td class="db_list_alt">'),'</td>')
-			)
-		);
-		return $layout;
-  }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php'])	{

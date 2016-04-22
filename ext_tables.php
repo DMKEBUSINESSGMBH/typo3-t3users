@@ -37,7 +37,7 @@ if($enableRoles) {
 			'enablecolumns' => array (
 			),
 			'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath($_EXTKEY).'tca.php',
-			'iconfile'          => tx_rnbase_util_Extensions::extRelPath($_EXTKEY).'icon_tx_t3users_tables.gif',
+			'iconfile'          => 'EXT:t3users/icon_tx_t3users_tables.gif',
 		),
 		'feInterface' => array (
 			'fe_admin_fieldList' => 'name',
@@ -54,7 +54,7 @@ if($enableRoles) {
 			'is_static' => 1,
 			'default_sortby' => 'ORDER BY sign',
 			'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath($_EXTKEY).'tca.php',
-			'iconfile'          => tx_rnbase_util_Extensions::extRelPath($_EXTKEY).'icon_tx_t3users_tables.gif',
+			'iconfile'          => 'EXT:t3users/icon_tx_t3users_tables.gif',
 		),
 		'interface' => array(
 			'showRecordFieldList' => 'sign'
@@ -81,8 +81,8 @@ if(tx_rnbase_util_Extensions::isLoaded('date2cal')) {
 	}
 }
 
-
-t3lib_div::loadTCA('fe_users');
+tx_rnbase::load('tx_rnbase_util_TCA');
+tx_rnbase_util_TCA::loadTCA('fe_users');
 $TCA['fe_users']['columns']['username']['config']['eval'] = 'nospace,uniqueInPid,required';
 
 if($enableRoles) {
@@ -92,6 +92,7 @@ if($enableRoles) {
 				'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users_t3usersroles',
 				'config' => Array (
 					'type' => 'select',
+					'renderType' => 'selectMultipleSideBySide',
 					'allowed' => 'tx_t3users_roles',
 					'size' => 10,
 					'autoSizeMax' => 50,

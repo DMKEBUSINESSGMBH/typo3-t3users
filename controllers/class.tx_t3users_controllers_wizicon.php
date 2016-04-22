@@ -21,46 +21,32 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+tx_rnbase::load('tx_rnbase_util_Wizicon');
 
 /**
  * Class that adds the wizard icon.
  *
  * @author	René Nitzsche <rene[at]system25.de>
  */
-class tx_t3users_controllers_wizicon {
+class tx_t3users_controllers_wizicon extends tx_rnbase_util_Wizicon {
+
 	/**
-	 * Adds the Netfewo plugin wizard icon
-	 *
-	 * @param array Input array with wizard items for plugins
-	 * @return array Modified input array, having the items for Netfewo plugins added.
+	 * @return array
 	 */
-	function proc($wizardItems)	{
-		global $LANG;
-		
-		$LL = $this->includeLocalLang();
-		$wizardItems['plugins_tx_t3users_main'] = array(
-			'icon'=>t3lib_extMgm::extRelPath('t3users').'/ext_icon.gif',
-			'title'=>$LANG->getLLL('plugin.t3users.label',$LL),
-			'description'=>$LANG->getLLL('plugin.t3users.description',$LL),
-			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=tx_t3users_main'
+	protected function getPluginData() {
+		return array(
+			'tx_t3users_main' => array(
+				'icon'        => tx_rnbase_util_Extensions::extRelPath( 't3users' ) . 'ext_icon.gif',
+				'title'       => 'plugin.t3users.label',
+				'description' => 'plugin.t3users.description'
+			)
 		);
-
-		return $wizardItems;
 	}
-	function includeLocalLang()	{
-		$llFile = t3lib_extMgm::extPath('t3users').'locallang_db.xml';
-		if (tx_rnbase_util_TYPO3::isTYPO46OrHigher()) {
-			$llXmlParser = tx_rnbase::makeInstance('t3lib_l10n_parser_Llxml');
-			$LOCAL_LANG =  $llXmlParser->getParsedData($llFile, $GLOBALS['LANG']->lang);
-		}
-		else {
-			$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
-		}
-		return $LOCAL_LANG;
+
+	/**
+	 * @return string
+	 */
+	protected function getLLFile() {
+		return tx_rnbase_util_Extensions::extPath( 't3users' ) . 'locallang_db.xml';
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_wizicon.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_wizicon.php']);
-}
-?>
