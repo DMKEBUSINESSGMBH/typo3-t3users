@@ -72,8 +72,8 @@ Vorgehen
 */
 		$this->doc = $this->pObj->doc;
 		$this->doc->tableLayout = tx_rnbase_mod_Tables::getTableLayout();
-		$this->formTool = tx_rnbase::makeInstance('tx_rnbase_util_FormTool');
-		$this->formTool->init($this->doc);
+		$this->formTool = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Form_ToolBox');
+		$this->formTool->init($this->doc, $this);
 
 		$content .= tx_t3users_util_LoginAsFEUser::hijackUser();
 

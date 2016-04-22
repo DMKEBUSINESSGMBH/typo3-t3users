@@ -43,7 +43,7 @@ class tx_t3users_mod_util_Selector {
 	 */
 	private $mod;
 	/**
-	 * @var 	tx_rnbase_util_FormTool
+	 * @var 	Tx_Rnbase_Backend_Form_ToolBox
 	 */
 	private $formTool;
 
@@ -110,7 +110,7 @@ class tx_t3users_mod_util_Selector {
 	}
 	/**
 	 *
-	 * @return tx_rnbase_util_FormTool
+	 * @return Tx_Rnbase_Backend_Form_ToolBox
 	 */
 	protected function getFormTool() {
 		return $this->getModule()->getFormTool();

@@ -83,7 +83,7 @@ class tx_t3users_mod_LoginLink implements tx_t3users_util_Linker {
 	 * Login as feuser
 	 *
 	 * @param tx_t3users_models_feuser $item
-	 * @param tx_rnbase_util_FormTool $formTool
+	 * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
 	 * @param int $currentPid
 	 * @param array $options
 	 * @return string
