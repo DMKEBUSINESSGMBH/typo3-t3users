@@ -101,6 +101,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 */
 	private function handleRequestConfirmation(&$parameters,&$configurations, &$viewData){
 		$viewData->offsetSet('subpart', '###TEMPLATE_REQUESTCONFIRMATION###');
+		$markerArr = array();
 		$this->setLanguageMarkers($markerArr, $configurations, 'requestconfirmation');
 		$markerArr['action_uri'] = $this->createPageUri($configurations, array('NK_requestconfirmation' => '1'), true);
 		// Is nutzer in request und zwischen im zustand registrierung und voll qualifiziertem login?
@@ -142,7 +143,8 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 * @param tx_rnbase_configurations $configurations
 	 * @param array $viewData
 	 */
-	function handleForgotPass(&$parameters,&$configurations, &$viewData){
+	protected function handleForgotPass(&$parameters,&$configurations, &$viewData){
+		$markerArr = array();
 		$viewData->offsetSet('subpart', '###TEMPLATE_FORGOT###');
 		$this->setLanguageMarkers($markerArr, $configurations, 'forgot');
 		$markerArr['action_uri'] = $this->createPageUri($configurations, array('NK_forgotpass' => '1'), true);
@@ -184,8 +186,9 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 * @param tx_rnbase_configurations $configurations
 	 * @param array $viewData
 	 */
-	function handleNotLoggedIn($action, &$parameters,&$configurations, &$viewData){
+	protected function handleNotLoggedIn($action, &$parameters,&$configurations, &$viewData){
 		$viewData->offsetSet('subpart', '###TEMPLATE_LOGIN###');
+		$markerArr = array();
 
 		if($action == 'login') {
 			$statusKey = 'login_error';
@@ -250,11 +253,11 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 * @param array $viewData
 	 * @param tx_t3users_models_feuser $feuser
 	 */
-	function handleLoggedin($action, &$parameters,&$configurations, &$viewData, &$feuser){
+	protected function handleLoggedin($action, &$parameters,&$configurations, &$viewData, &$feuser){
 		$viewData->offsetSet('subpart', '###TEMPLATE_STATUS###');
+		$markerArr = array();
 		$this->setLanguageMarkers($markerArr, $configurations, 'login');
 		$markerArr['storage_pid'] = $this->getStoragePid($configurations);
-		$params = array();
 		if($parameters->offsetGet('NK_logintype')) { // User want's to logout
 			if(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'trackLogin')) {
 				tx_t3users_util_ServiceRegistry::getLoggingService()->logLogout($feuser->uid);
@@ -297,9 +300,8 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 * @param array $viewData
 	 * @param tx_t3users_models_feuser $feuser
 	 */
-	function handleLoginConfirmed($action, &$parameters,&$configurations, &$viewData, &$feuser){
+	protected function handleLoginConfirmed($action, &$parameters,&$configurations, &$viewData, &$feuser){
 		$finished = intval($parameters->offsetGet('NK_loginfinished'));
-
 		tx_rnbase_util_Misc::callHook(
 			't3users','beforeLoginConfirmed',
 			array(
@@ -321,7 +323,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			// Alternativ we redirect to a configured page
 			$redirect = $configurations->get('loginbox.loginRedirectPage');
 			$redirectMode = $configurations->get($this->getConfId().'redirectMode');
-			if($configurations->get($this->getConfId().'redirectMode') == 'forceRequestUrl')
+			if($redirectMode == 'forceRequestUrl')
 				$redirect = htmlspecialchars(tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL'));
 			// Wenn explizit eine URL mitgegeben wurde, nutzen wir diese!
 			elseif(strlen($redirectUrl = tx_rnbase_parameters::getPostOrGetParameter('redirect_url')) && Tx_Rnbase_Utility_T3General::isOnCurrentHost($redirectUrl)){
@@ -341,6 +343,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			}
 			$link->redirect();
 		}
+		$markerArr = array();
 		$viewData->offsetSet('subpart', '###TEMPLATE_WELCOME###');
 		$this->setLanguageMarkers($markerArr, $configurations, 'welcome');
 
@@ -354,7 +357,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 * @param tx_rnbase_configurations $configurations
 	 * @param string $statusKey
 	 */
-	function setLanguageMarkers(&$markerArr, &$configurations, $statusKey) {
+	protected function setLanguageMarkers(&$markerArr, &$configurations, $statusKey) {
 		$labels = array('username', 'password', 'login', 'logout', 'permalogin', 'forgot_password',
 						'email', 'sendpass', 'register');
 		foreach($labels As $label) {
@@ -372,7 +375,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 		tx_rnbase_util_Misc::callHook('t3users','loginboxmarker',
 			array('markerArr' => &$markerArr, 'conf' => $configurations, 'status' => $statusKey), $this);
 	}
-	function getStoragePid(&$configurations) {
+	protected function getStoragePid(&$configurations) {
 		return $configurations->get('feuserPages');
 	}
 	/**
@@ -382,7 +385,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 * @param array $params
 	 * @param boolean $nocache
 	 */
-	function createPageUri(&$configurations, $params = array(), $nocache = false) {
+	protected function createPageUri(&$configurations, $params = array(), $nocache = false) {
 		$redirectMode = $configurations->get($this->getConfId().'redirectMode');
 		if($redirectMode == 'force' || $redirectMode == 'forceRequestUrl') {
 			// Redirect auf aktuelle Seite
@@ -406,7 +409,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @return string hidden field with challenge value
 	 */
-	function prepareLoginFormOnSubmit(&$markerArr, $statusKey, $configurations, $confId) {
+	protected function prepareLoginFormOnSubmit(&$markerArr, $statusKey, $configurations, $confId) {
 		$code = new stdClass();
 		$code->onsubmit ='';
 		$code->formFields ='';
