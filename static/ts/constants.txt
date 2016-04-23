@@ -12,6 +12,8 @@ plugin.tx_t3users {
 	registrationForm = EXT:t3users/forms/registration.xml
 	# cat=FE User Management (Templates)/feuseredit; type=string;label=HTML Template for editing a feuser
 	feusereditTemplate = EXT:t3users/templates/feuseredit.html
+	# cat=FE User Management (Templates)/resetpassword; type=string;label=HTML Template for password reset
+	resetpasswordTemplate = EXT:t3users/templates/resetpassword.html
 
 	# cat=FE User Management (Misc)/delayInSecondsAfterFailedLogin; type=int+;label=Delay in seconds after failed logins to slow down possible bruteforce attacks
 	delayInSecondsAfterFailedLogin = 0

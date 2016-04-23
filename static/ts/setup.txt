@@ -58,6 +58,7 @@ plugin.tx_t3users_main {
 	feuserdetailsTemplate = {$plugin.tx_t3users.feuserdetailsTemplate}
 	showregistrationTemplate = {$plugin.tx_t3users.registrationTemplate}
 	feusereditTemplate = {$plugin.tx_t3users.feusereditTemplate}
+	resetpasswordTemplate = {$plugin.tx_t3users.resetpasswordTemplate}
 	siteName = {$plugin.tx_t3users.siteName}
 
 	loginbox {
@@ -186,6 +187,10 @@ plugin.tx_t3users_main {
 		}
 	}
 
+	resetpassword {
+		formUrl.useKeepVars = 1
+#		formUrl.useKeepVars.add = action=tx_t3users_actions_ResetPassword
+	}
 	feuserlist {
 		feuser =< lib.t3users.feuser
 
