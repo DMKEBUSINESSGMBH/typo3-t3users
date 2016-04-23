@@ -35,6 +35,8 @@ plugin.tx_t3users {
 	registerPage = 0
 	# cat=FE User Management (Misc)/confirmPage; type=int+;label=PID of page for feuser confirmation from mail link
 	confirmPage = 0
+	# cat=FE User Management (Misc)/resetPasswordPage; type=int+;label=PID of page with reset password plugin for mail link
+	resetPasswordPage = 0
 	# cat=FE User Management (Misc)/doubleOptInPage; type=int+;label=PID of page for confirmation of feuser editing
 	doubleOptInPage = 0
 	# cat=FE User Management (Misc)/feusereditRedirect; type=int+;label=PID of page for redirect after changing data
@@ -59,4 +61,8 @@ plugin.tx_t3users {
 	userGroupAfterConfirmation = 0
 	# cat=FE User Management (Misc)/userpages; type=string;label=Commaseparated list of pages (pid) with feusers (Storage PID)
 	userPages = 0
+
+	# cat=FE User Management (Misc)/resetPasswordMode; type=options[resetpassword,sendpassword];label=Mode for reset password.
+	resetPasswordMode = resetpassword
+
 }

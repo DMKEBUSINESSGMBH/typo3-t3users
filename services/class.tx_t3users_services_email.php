@@ -214,6 +214,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base {
 		$token = '---';
 		$pwLink->label($token);
 		$linkMarker = 'RESETLINK';
+		$markerArray = array();
 		$markerArray['###'.$linkMarker . 'URL###'] = $pwLink->makeUrl(false);
 		$wrappedSubpartArray['###'.$linkMarker . '###'] = explode($token, $pwLink->makeTag());
 		$formatter = $configurations->getFormatter();

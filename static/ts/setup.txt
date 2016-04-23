@@ -61,19 +61,26 @@ plugin.tx_t3users_main {
 	siteName = {$plugin.tx_t3users.siteName}
 
 	loginbox {
-		# TODO: als Konstante mit Auswahlfeld auslagern
 		# sendpassword sollte nie gesetzt werden weil dann das Passwort per Mail
-		# zugesendet wird. Einfach leer lassen und links.resetPassword.pid setzen
-		resetPasswordMode = sendpassword
+		# zugesendet wird. Zusätzlich links.resetPassword.pid setzen
+		resetPasswordMode = {$plugin.tx_t3users.resetPasswordMode}
 		# zusätzliches secret für die erstellung des confirm string
 		#passwordsecret = hb(G)&/GOh
 		# Seite auf welcher ResetPassword Plugin liegt
-		#links.resetPassword.pid =
+		links.resetPassword.pid = {$plugin.tx_t3users.resetPasswordPage}
 		links.resetPassword.absurl = 1
+		links.resetPassword.useKeepVars = 1
+		links.resetPassword.useKeepVars.add = action=tx_t3users_actions_ResetPassword
 		links.forgotpass = 1
 		links.forgotpass.pid = {$plugin.tx_t3users.loginboxPage}
 		links.register.pid = {$plugin.tx_t3users.registerPage}
 		links.confirm.pid = {$plugin.tx_t3users.confirmPage}
+		### die destination kommt aus den parametern und muss nicht gesetzt werden. Allerdings können hier beispielsweise weitere parameter an den link gehängt werden.
+		links.loginRedirect.pid = 0
+
+		# used on password reset
+		emailFrom = {$plugin.tx_t3users.email}
+		emailFromName = {$plugin.tx_t3users.siteName}
 
 		email {
 			### Mail-Versand via mkmailer muss explizit aktiviert werden
@@ -85,8 +92,6 @@ plugin.tx_t3users_main {
 		### wieder ausgegeben wird
 		delayInSecondsAfterFailedLogin = {$plugin.tx_t3users.delayInSecondsAfterFailedLogin}
 
-		### die destination kommt aus den parametern und muss nicht gesetzt werden. Allerdings können hier beispielsweise weitere parameter an den link gehängt werden.
-		links.loginRedirect.pid = 0
 		extend {
 			# Art der Erweiterung: none, auto, nomd5, md5, rsa
 			method = auto
