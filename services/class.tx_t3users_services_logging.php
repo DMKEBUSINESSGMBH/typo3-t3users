@@ -26,6 +26,7 @@ tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_t3users_search_builder');
 tx_rnbase::load('tx_t3users_exceptions_User');
 tx_rnbase::load('Tx_Rnbase_Service_Base');
+tx_rnbase::load('tx_t3users_models_log');
 
 /**
  * Service for logging feuser actions
