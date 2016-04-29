@@ -44,11 +44,10 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC {
 	 */
 	function handleRequest(&$parameters,&$configurations, &$viewData){
 
-		$userSrv = tx_t3users_util_serviceRegistry::getFeUserService();
+		$userSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
 		$fields = array();
 		$options = array('count'=> 1);
-//  	$options['debug'] = 1;
 		$this->initSearch($fields, $options, $parameters, $configurations);
 		$listSize = $userSrv->search($fields, $options);
 		unset($options['count']);
@@ -83,35 +82,35 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC {
 		);
 
 		return null;
-  }
+	}
 
-  /**
-   * Liefert die Anzahl der Ergebnisse pro Seite
-   *
-   * @param array $parameters
-   * @param tx_rnbase_configurations $configurations
-   * @return int
-   */
-  protected function getPageSize(&$parameters, &$configurations) {
-  	return intval($configurations->get('feuserlist.feuser.pagebrowser.limit'));
-  }
-  protected function initSearch(&$fields, &$options, &$parameters, &$configurations) {
-    // Look for static user uid
-    $uids = $configurations->get('feuserlist.staticUsers');
-    if($uids) {
-  		$fields['FEUSER.UID'][OP_IN_INT] = $uids;
-    }
-    else {
-	  	$filter = tx_rnbase_filter_BaseFilter::createFilter(
-  			$parameters, $configurations, $configurations->getViewData(),
-  			$this->getConfId()
-		);
-	  	$filter->init($fields, $options);
-    }
+	/**
+	 * Liefert die Anzahl der Ergebnisse pro Seite
+	 *
+	 * @param array $parameters
+	 * @param tx_rnbase_configurations $configurations
+	 * @return int
+	 */
+	protected function getPageSize(&$parameters, &$configurations) {
+		return intval($configurations->get('feuserlist.feuser.pagebrowser.limit'));
+	}
+	protected function initSearch(&$fields, &$options, &$parameters, &$configurations) {
+		// Look for static user uid
+		$uids = $configurations->get('feuserlist.staticUsers');
+		if($uids) {
+			$fields['FEUSER.UID'][OP_IN_INT] = $uids;
+		}
+		else {
+			$filter = tx_rnbase_filter_BaseFilter::createFilter(
+					$parameters, $configurations, $configurations->getViewData(),
+					$this->getConfId()
+			);
+			$filter->init($fields, $options);
+		}
 
-  	// Freitextsuche
-  	// @TODO freitext suche in eigenen filter auslagern
-  	tx_t3users_search_builder::buildFeUserFreeText($fields, $parameters->offsetGet('searchfeuser'));
+		// Freitextsuche
+		// @TODO freitext suche in eigenen filter auslagern
+		tx_t3users_search_builder::buildFeUserFreeText($fields, $parameters->offsetGet('searchfeuser'));
 	}
 
 	function getTemplateName() { return 'feuserlist';}

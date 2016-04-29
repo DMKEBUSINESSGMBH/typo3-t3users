@@ -23,11 +23,6 @@
 ***************************************************************/
 
 
-if (tx_rnbase_util_Extensions::isLoaded('dam')) {
-	require_once(tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_media.php'));
-// 	tx_rnbase::load('tx_dam_media');
-}
-
 tx_rnbase::load('tx_rnbase_view_Base');
 tx_rnbase::load('tx_rnbase_util_ListBuilder');
 
@@ -59,4 +54,3 @@ class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php'])	{
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php']);
 }
-?>
