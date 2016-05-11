@@ -57,6 +57,7 @@ plugin.tx_t3users_main {
 	feuserlistTemplate = {$plugin.tx_t3users.feuserlistTemplate}
 	feuserdetailsTemplate = {$plugin.tx_t3users.feuserdetailsTemplate}
 	showregistrationTemplate = {$plugin.tx_t3users.registrationTemplate}
+	registrationConfirmTemplate = {$plugin.tx_t3users.registrationConfirmTemplate}
 	feusereditTemplate = {$plugin.tx_t3users.feusereditTemplate}
 	resetpasswordTemplate = {$plugin.tx_t3users.resetpasswordTemplate}
 	siteName = {$plugin.tx_t3users.siteName}
