@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.3
+-----
+
+-   converted documentation to markdown
+
 2.0.2
 -----
 
