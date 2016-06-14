@@ -331,7 +331,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC {
 			}
 			else {
 				// Ziel-Pid in FE-Group suchen
-				$redirect = $this->getLoginPageByGroup($feuser);
+				$redirect = $redirect ? $redirect : $this->getLoginPageByGroup($feuser);
 			}
 			// loginfinished is useless for redirect
 			$params = $redirect ? array() : array('NK_loginfinished' => '1');
