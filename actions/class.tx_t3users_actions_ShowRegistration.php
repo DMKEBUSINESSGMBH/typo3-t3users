@@ -44,9 +44,8 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$this->assertMkforms();
 		$hideForm = false;
 		$viewData->offsetSet('part', 'REGISTER');
-		$confirm = $parameters->offsetGet('NK_confirm');
-		$userUid = $parameters->getInt('NK_uid');
-
+		$confirm = $parameters->get('confirm');
+		$userUid = $parameters->getInt('uid');
 		if($adminReviewMail = $configurations->get($this->getConfId(). 'adminReviewMail')) {
 			if($this->sendAdminReviewMail($userUid, $confirm, $adminReviewMail)) {
 				$viewData->offsetSet('part', 'ADMINREVIEWMAILSENT');
@@ -67,7 +66,6 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 			$options['successgroupsremove'] = $configurations->get('userGroupUponRegistration');
 			$options['configurations'] = $configurations;
 			$options['confid'] = $this->getConfId();
-
 			$confirmed = $usrSrv->confirmUser($feuser, $confirm, $options);
 			if($confirmed) {
 				$viewData->offsetSet('part', 'CONFIRMED');
@@ -129,7 +127,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		$usrSrv->handleUpdate($feuser, array('confirmstring'  => $confirmString));
 		//adminEmail injizieren
 		$feuser->record['email'] = $adminReviewMail;
-		$this->sendConfirmationMail($userUid, $feuser->record);
+		$this->sendConfirmationMail($feuser);
 
 		return true;
 	}
@@ -219,71 +217,34 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC {
 		// FIXME:
 		// In tx_t3users_services_email::sendConfirmLink() macht im
 		// Prinzip dasselbe. Das sollte vereinheitlicht werden
-		$this->sendConfirmationMail($uid, $params);
+		$feuser = tx_t3users_models_feuser::getInstance($uid);
+		$this->sendConfirmationMail($feuser);
 		$this->userDataSaved = true;
 	}
 
 	/**
-	 * @param int $feUserUid
-	 * @param array $feUserData
+	 * @param tx_t3users_models_feuser $feuser
 	 *
 	 * @return void
-	 * @deprecated:  use tx_t3users_services_email::sendConfirmLink() instead
 	 */
-	protected function sendConfirmationMail($feUserUid, array $feUserData) {
-		// Mail schicken
-		$token = md5(microtime());
-		$link = $this->getConfigurations()->createLink();
-		$link->label($token);
-		$confirmPage = $this->getConfigurations()->get($this->getConfId().'links.mailconfirm.pid');
-		$link->destination($confirmPage ? $confirmPage : $GLOBALS['TSFE']->id);
+	protected function sendConfirmationMail($feuser) {
+		$feUserUid = $feuser->getUid();
+		$feUserData = $feuser->getRecord();
+
 		// Zusätzlich Parameter für Finished setzen
-		$link->parameters(array(
-			'NK_confirm' => $feUserData['confirmstring'],
-			'NK_uid' => $feUserUid)
+		$parameters = array(
+				'NK_confirm' => $feUserData['confirmstring'],
+				'NK_uid' => $feUserUid
 		);
 
-		$linkMarker = 'MAILCONFIRM_LINK';
-		$wrappedSubpartArray = array('###'.$linkMarker . '###' => explode($token, $link->makeTag()));
+		// Mail schicken
+		$link = $this->getConfigurations()->createLink();
+		$link->initByTS($this->getConfigurations(), $this->getConfId().'links.mailconfirm.', $parameters);
+		$token = md5(microtime());
+		$link->label($token);
 
-		$markerArray = array();
-		foreach ($feUserData as $key => $value) {
-			$markerArray['###FEUSER_' . strtoupper($key) . '###'] = $value;
-		}
+		tx_t3users_util_ServiceRegistry::getEmailService()->sendConfirmLink($feuser, $link, $this->getConfigurations(), $this->getConfId().'email.');
 
-		if ($this->getConfigurations()->getBool($this->getConfId(). 'links.mailconfirm.noAbsurl')) {
-			$markerArray['###'.$linkMarker . 'URL###'] = $link->makeUrl(false);
-		} else {
-			$markerArray['###'.$linkMarker . 'URL###'] = tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL') . $link->makeUrl(false);
-		}
-		$markerArray['###SITENAME###'] = $this->getConfigurations()->get('siteName');
-
-		$subpartArray = array();
-
-		$userTemplate = $this->getConfigurations()->getLL('registration_confirmation_mail');
-		$userMailContent = $this->parseMailTemplate(
-			$userTemplate, $markerArray, $subpartArray, $wrappedSubpartArray, $feUserData
-		);
-
-		$ccTemplate = $this->getConfigurations()->getLL('registration_confirmation_mail_cc');
-		$ccTemplate = $ccTemplate ? $ccTemplate : $userTemplate;
-		$ccMailContent= $this->parseMailTemplate(
-			$ccTemplate, $markerArray, $subpartArray, $wrappedSubpartArray, $feUserData
-		);
-
-		// Now send mail
-		$userEmail = $feUserData['email'];
-		$from = $this->getConfigurations()->get($this->getConfId(). 'email.from');
-		$fromName = $this->getConfigurations()->get($this->getConfId(). 'email.fromName');
-		$this->getConfigurations()->getCObj()->sendNotifyEmail(
-			$userMailContent, $userEmail, '', $from, $fromName, $userEmail
-		);
-
-		if (($cc = $this->getConfigurations()->get($this->getConfId(). 'email.cc'))) {
-			$this->getConfigurations()->getCObj()->sendNotifyEmail(
-				$ccMailContent, '', $cc, $from, $fromName, $userEmail
-			);
-		}
 	}
 
 	private function parseMailTemplate(

@@ -54,6 +54,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base {
 	private function sendNewPasswordSimple($feuser, $newPassword, $configurations, $confId) {
 		// Mail vorbereiten
 		$template = $configurations->getLL('loginbox_forgot_infomail');
+		$mailMarker = array();
 		$mailMarker['###PASSWORD###'] = $newPassword;
 		$formatter = $configurations->getFormatter();
 		$mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $mailMarker);
@@ -229,6 +230,11 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base {
 		$emailFrom = $configurations->get($confId.'emailFrom');
 		$emailFromName = $configurations->get($confId.'emailFromName');
 
+		$this->sendInstant($mailtext, $mailhtml, $feuser->getEmail(), $emailFrom, $emailFromName);
+
+	}
+
+	private function sendInstant($mailtext, $mailhtml, $emailTo, $emailFrom, $emailFromName, $emailReply) {
 		$parts = explode(LF, $mailtext, 2);		// First line is subject
 		$subject=trim($parts[0]);
 		$mailtext=trim($parts[1]);
@@ -237,19 +243,20 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base {
 			$subject=trim($parts[0]);
 			$mailhtml=trim($parts[1]);
 		}
-
+		/* @var $mail tx_rnbase_util_Mail */
 		$mail = tx_rnbase::makeInstance('tx_rnbase_util_Mail');
 		$mail->setSubject($subject);
 
 		$mail->setFrom($emailFrom, $emailFromName);
-		$mail->setTo($feuser->getEmail());
-		$mail->setTextPart($mailtext);
-		$mail->setHtmlPart($mailhtml);
+		$mail->setTo($emailTo);
+		if($emailReply)
+			$mail->setReplyTo($emailReply);
+		if($mailtext)
+			$mail->setTextPart($mailtext);
+		if($mailhtml)
+			$mail->setHtmlPart($mailhtml);
 		$mail->send();
-
-//		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
 	}
-
 
 	/**
 	 * Sends newPassword to the feUser
@@ -315,7 +322,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base {
 		$link->destination($doubleOptInPage ? $doubleOptInPage : $GLOBALS['TSFE']->id);
 		$link->setAbsUrl(true);
 
-		$markerArray = array();
+		$markerArray = $wrappedSubpartArray = $linkParams = array();
 		//Daten extrahieren
 		//Daten, die geändert werden sollen (also mit Link mitgeschickt werden)
 		foreach($data as $key => $value){
@@ -383,21 +390,70 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base {
 	 */
 	private function sendConfirmLinkSimple($feuser, $confirmLink, $configurations, $confId) {
 		// Mail vorbereiten
-		$template = $configurations->getLL('loginbox_requestconfirmlink_infomail');
-
+		$mailMarker = $mailWrappedSubpart = array();
 		$mailMarker['###CONFIRMLINKURL###'] = $confirmLink->makeUrl();
 		$mailWrappedSubpart['###CONFIRMLINK###'] = explode($confirmLink->getLabel(), $confirmLink->makeTag());
-		$formatter = $configurations->getFormatter();
-		$mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $mailMarker, array(), $mailWrappedSubpart);
 
+		$linkMarker = 'MAILCONFIRM_LINK';
+		$mailWrappedSubpart['###'.$linkMarker . '###'] = $mailWrappedSubpart['###CONFIRMLINK###'];
+		$mailMarker['###'.$linkMarker . 'URL###'] = $mailMarker['###CONFIRMLINKURL###'];
+
+		$mailMarker['###SITENAME###'] = $configurations->get('siteName');
+
+
+		// Template laden
+		$template = $configurations->getLL('registration_confirmation_mail');
+		if(!$template) {
+			// Wenn das Template nicht als Label gesetzt ist, suchen wir eine Templatedatei
+			$templatePath = $configurations->get($confId.'template.file', TRUE);
+			if($templatePath) {
+				$subpart = $configurations->get($confId.'template.subpart', TRUE);
+				$subpart = $subpart ? $subpart : '###CONFIRMATIONMAIL###';
+				$template = trim(tx_rnbase_util_Templates::getSubpartFromFile($templatePath, $subpart));
+			}
+		}
+		$templateHtml = $configurations->getLL('registration_confirmation_mail_html');
+		if(!$templateHtml) {
+			// Wenn das Template nicht als Label gesetzt ist, suchen wir eine Templatedatei
+			$templatePath = $configurations->get($confId.'templatehtml.file', TRUE);
+			if($templatePath) {
+				$subpart = $configurations->get($confId.'templatehtml.subpart', TRUE);
+				$subpart = $subpart ? $subpart : '###CONFIRMATIONMAILHTML###';
+				$templateHtml = trim(tx_rnbase_util_Templates::getSubpartFromFile($templatePath, $subpart));
+			}
+		}
+		$mailtextCC = '';
+		if (($cc = $configurations->get($confId. 'cc'))) {
+			$templateCC = $configurations->getLL('registration_confirmation_mail_cc');
+			$templateCC = $templateCC ? $templateCC : $template;
+		}
+
+		// Links ersetzen
+		$mailtext = '';
+		if($template)
+			$mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $mailMarker, array(), $mailWrappedSubpart);
+		$mailhtml = '';
+		if($templateHtml)
+			$mailhtml = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateHtml, $mailMarker, array(), $mailWrappedSubpart);
+		if($templateCC)
+			$mailtextCC = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateCC, $mailMarker, array(), $mailWrappedSubpart);
+
+		$formatter = $configurations->getFormatter();
 		// Jetzt noch den FeuserMarker
 		$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
-		$mailtext = $marker->parseTemplate($mailtext, $feuser, $formatter, $confId.'feuser.');
-		$emailFrom = $configurations->get($confId.'emailFrom');
-		$emailFromName = $configurations->get($confId.'emailFromName');
-		$emailReply = $configurations->get($confId.'emailReply');
+		if($mailtext)
+			$mailtext = $marker->parseTemplate($mailtext, $feuser, $formatter, $confId.'feuser.');
+		if($mailhtml)
+			$mailhtml = $marker->parseTemplate($mailhtml, $feuser, $formatter, $confId.'feuser.');
+		if($mailtextCC)
+			$mailtextCC = $marker->parseTemplate($mailtextCC, $feuser, $formatter, $confId.'feuser.');
+		$emailFrom = $configurations->get($confId.'from');
+		$emailFromName = $configurations->get($confId.'fromName');
+		$emailReply = $configurations->get($confId.'reply');
 
-		$configurations->getCObj()->sendNotifyEmail($mailtext, $feuser->getEmail(), '', $emailFrom, $emailFromName, $emailReply);
+		$this->sendInstant($mailtext, $mailhtml, $feuser->getEmail(), $emailFrom, $emailFromName, $emailReply);
+		if($cc)
+			$this->sendInstant($mailtext, $mailhtml, $cc, $emailFrom, $emailFromName, $emailReply);
 	}
 
 

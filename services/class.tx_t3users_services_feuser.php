@@ -386,6 +386,12 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base {
 				array('feuser' => $feuser, 'options' => $options), $this);
 			$ret = true;
 		}
+		else {
+			tx_rnbase::load('tx_rnbase_util_Logger');
+			tx_rnbase_util_Logger::notice('confirmation failed for feuser with uid ' . $feuser->getUid(), 't3users',
+				array('submitted' => $confirmString, 'stored' => $feuser->getProperty('confirmstring'))
+			);
+		}
 		return $ret;
 	}
 

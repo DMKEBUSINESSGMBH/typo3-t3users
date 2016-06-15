@@ -60,23 +60,21 @@ Your username is <strong>###FEUSER_USERNAME###</strong>;
 			<label index="loginbox_message_requestconfirmation_notfound">We couldn't find a username for email address '###YOUR_EMAIL###' and so cannot send the confirmation link to you. Probably you misspelled the email address, maybe you even didn't register yet or you've already clicked the confirmation link?</label>
 			<label index="loginbox_header_requestconfirmation_sent">Mail sent</label>
 			<label index="loginbox_message_requestconfirmation_sent">Your confirmation link has now been sent to the email address ###YOUR_EMAIL###.</label>
-			<label index="loginbox_requestconfirmation_infomail">Please confirm your registration
-Hi ###FEUSER_NAME###
-
-Your username is &quot;###FEUSER_USERNAME###&quot;
-Please confirm your registration by clicking thie following link:
-###CONFIRMLINKURL###
-If you are not able to click directly on the web link to confirm your registration, you can copy and paste the entire link to your web browser.
-</label>
 			<label index="loginbox_header_login_error">Login failed</label>
 			<label index="loginbox_message_login_error">Username or password was wrong!</label>
 			<label index="feuserdetails_nouser">Sorry, no user found...</label>
 			<label index="registration_confirmation_mail">Confirm your registration
 Thank you for your application to become a member of ###SITENAME###.
 Everyone is welcome to browse around our website but you will need to confirm your membership to have
-unrestricted access to all areas.
+unrestricted access to all areas. Your username is &quot;###FEUSER_USERNAME###&quot;
 To confirm your membership please click on this link: ###MAILCONFIRM_LINKURL###
 			</label>
+			<label index="registration_confirmation_mail_html"><![CDATA[Confirm your registration
+<p>Thank you for your application to become a member of ###SITENAME###.
+Everyone is welcome to browse around our website but you will need to confirm your membership to have
+unrestricted access to all areas. Your username is <strong>###FEUSER_USERNAME###</strong></p>
+<p>To confirm your membership please ###MAILCONFIRM_LINK###click on this link###MAILCONFIRM_LINK###.</p>
+]]></label>
 			<!-- <label index="registration_confirmation_mail_cc">A user registered
 Username: ###FEUSER_USERNAME###
 UID: ###FEUSER_UID###
@@ -165,25 +163,26 @@ Ihr Nutzername ist <strong>###FEUSER_USERNAME###</strong>;
 			<label index="loginbox_message_requestconfirmation_notfound">Für die angegeben E-Mail-Adresse wurde kein Aktivierungslink angefordert, der noch nicht bestätigt wurde. Aus diesem Grund können wir Ihnen keine E-Mail zusenden. Vielleicht haben Sie Ihre E-Mail-Adresse fehlerhaft eingegeben oder Sie haben sich eventuell noch gar nicht registriert.</label>
 			<label index="loginbox_header_requestconfirmation_sent">Passwort verschickt</label>
 			<label index="loginbox_message_requestconfirmation_sent">Ihr Passwort wurde soeben an die E-Mail-Adresse ###YOUR_EMAIL### geschickt.</label>
-			<label index="loginbox_requestconfirmlink_infomail">Bestätigen Sie bitte Ihre Registrierung
-Hallo ###FEUSER_NAME###
-
-Ihr Anmeldename ist: &quot;###FEUSER_USERNAME###&quot;
-Bitte bestätigen Sie Ihre Anmeldung, indem Sie den folgenden Link klicken:
-###CONFIRMLINKURL###
-Wenn Sie den Link nicht klicken können um Ihre Anmeldung zu vollenden, kopieren Sie ihn bitte und fügen ihn direkt in die Adresszeile Ihres Webbrowsers ein.
-</label>
 			<label index="loginbox_header_login_error">Login fehlgeschlagen</label>
 			<label index="loginbox_message_login_error">Bitte überprüfen Sie Ihren Nutzernamen bzw. das Passwort!</label>
 
 			<label index="feuserdetails_nouser">Es wurde leider kein Nutzer gefunden...</label>
 
 			<label index="registration_confirmation_mail">Bestätigung der Registrierung
-Vielen Dank für dein Interesse an ###SITENAME###.
+Hallo ###FEUSER_NAME###,
+
+vielen Dank für dein Interesse an ###SITENAME###.
 Jeder ist eingeladen sich auf unseren Webseiten zu informieren. Der Zugriff auf alle Bereiche des Portals ist nur registrierten Mitgliedern erlaubt.
 Um deine Mitgliedschaft zu bestätigen, klicke bitte auf den folgenden Link:
 ###MAILCONFIRM_LINKURL###
 			</label>
+			<label index="registration_confirmation_mail_html"><![CDATA[Bestätigung der Registrierung
+<p>Hallo ###FEUSER_NAME###,
+<br/>
+vielen Dank für dein Interesse an ###SITENAME###.</p>
+</p>Jeder ist eingeladen sich auf unseren Webseiten zu informieren. Der Zugriff auf alle Bereiche des Portals ist nur registrierten Mitgliedern erlaubt.
+Um deine Mitgliedschaft zu bestätigen, klicke bitte ###MAILCONFIRM_LINK###auf diesen Link###MAILCONFIRM_LINK###.</p>
+]]></label>
 			<!-- <label index="registration_confirmation_mail_cc">Ein Nutzer hat sich registriert.
 Nutzername: ###FEUSER_USERNAME###
 UID: ###FEUSER_UID###

@@ -210,11 +210,16 @@ plugin.tx_t3users_main {
 	showregistration {
 		links.register.pid = {$plugin.tx_t3users.registerPage}
 		links.mailconfirm.pid = {$plugin.tx_t3users.confirmPage}
+		links.mailconfirm.absurl = 1
 		form = {$plugin.tx_t3users.registrationTemplate}
 		formxml = {$plugin.tx_t3users.registrationForm}
-		email{
+		email {
 			from = {$plugin.tx_t3users.email}
 			fromName = {$plugin.tx_t3users.siteName}
+			# Wenn vorhanden, kommt das Mail-Template aus der Locallang mit dem 
+			# Key registration_confirmation_mail
+			template.file = {$plugin.tx_t3users.registrationTemplate}
+			
 			### es kann auch eine weitere Mail versendet werden beim Versand der Bestätigungsmail.
 			### dafür wird registration_confirmation_mail_cc aus der locallang verwendet, was per default leer ist.
 			### und wenn das leer ist, wird registration_confirmation_mail als template verwendet. somit
