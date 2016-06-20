@@ -1,6 +1,16 @@
 Changelog
 =========
 
+2.0.5
+-----
+
+-   support for html mails in registration process
+
+2.0.4
+-----
+
+-   fixed login redirect from plugin
+
 2.0.3
 -----
 
