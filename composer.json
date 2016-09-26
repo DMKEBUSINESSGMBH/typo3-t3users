@@ -29,11 +29,12 @@
 		"issues": "https://github.com/DMKEBUSINESSGMBH/typo3-t3users"
 	},
 	"replace": {
-		"typo3-ter/t3users": "*"
+		"t3users": "self.version",
+		"typo3-ter/t3users": "self.version"
 	},
 	"require" : {
 		"typo3/cms-core" : ">=4.5.0 <=7.6.99",
-		"digedag/rn-base" : ">=1.0.5"
+		"typo3-ter/rn-base" : ">=1.0.5"
 	},
 	"autoload": {
 		"classmap": ["actions/", "controllers/", "exceptions/", "forms/", "hooks/", "mod/", "models/", "receiver/", "search/", "services/", "util/", "views/", "xclasses/"]
