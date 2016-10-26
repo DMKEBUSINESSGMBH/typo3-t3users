@@ -57,9 +57,13 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
 		$options['confid'] = $this->getConfId();
 
 		$confirmed = $usrSrv->confirmUser($feuser, $confirm, $options);
-		if($confirmed) {
+		if ($confirmed) {
 			$viewData->offsetSet('part', 'CONFIRMED');
 			$viewData->offsetSet('feuser', $feuser);
+			if($configurations->get($this->getConfId(). 'notifyUserAboutConfirmation')) {
+				tx_t3users_util_ServiceRegistry::getEmailService()
+					->sendNotificationAboutConfirmationToFeUser($feuser, $configurations);
+			}
 		}
 		else {
 			$viewData->offsetSet('part', 'CONFIRMFAILED');
