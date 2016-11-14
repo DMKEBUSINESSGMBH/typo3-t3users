@@ -38,9 +38,12 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
 	 * @param tx_rnbase_configurations $configurations
 	 * @param ArrayObject $viewData
 	 */
-	function handleRequest(&$parameters,&$configurations, &$viewData){
+	function handleRequest(&$parameters,&$configurations, &$viewData)
+	{
 		$confirm = $parameters->get('confirm');
-		if(!$confirm) return '<!-- -->';
+		if (!$confirm) {
+			return '<!-- -->';
+		}
 
 		// User wants to be confirmed
 		$userUid = $parameters->getInt('uid');
@@ -51,8 +54,9 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
 
 		// Set config
 		$options = array();
-		$options['successgroupsadd'] = $configurations->get($this->getConfId().'userGroupAfterConfirmation');
-		$options['successgroupsremove'] = $configurations->get($this->getConfId().'userGroupUponRegistration');
+		$options['successgroupsadd'] = $configurations->get($this->getConfId() . 'userGroupAfterConfirmation');
+		$options['successgroupsremove'] = $configurations->get($this->getConfId() . 'userGroupUponRegistration');
+		$options['notifyUserAboutConfirmation'] = $configurations->get($this->getConfId() . 'notifyUserAboutConfirmation');
 		$options['configurations'] = $configurations;
 		$options['confid'] = $this->getConfId();
 
@@ -60,12 +64,7 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
 		if ($confirmed) {
 			$viewData->offsetSet('part', 'CONFIRMED');
 			$viewData->offsetSet('feuser', $feuser);
-			if($configurations->get($this->getConfId(). 'notifyUserAboutConfirmation')) {
-				tx_t3users_util_ServiceRegistry::getEmailService()
-					->sendNotificationAboutConfirmationToFeUser($feuser, $configurations);
-			}
-		}
-		else {
+		} else {
 			$viewData->offsetSet('part', 'CONFIRMFAILED');
 			$viewData->offsetSet('feuser', '');
 		}

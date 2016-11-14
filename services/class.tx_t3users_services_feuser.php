@@ -361,37 +361,52 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base {
 	 * @param string $confirmString
 	 * @return boolean
 	 */
-	public function confirmUser($feuser, $confirmString, &$options = array()) {
+	public function confirmUser($feuser, $confirmString, &$options = array())
+	{
 		$ret = false;
-		if($feuser->record['confirmstring'] == '0') {
+		if ($feuser->record['confirmstring'] == '0') {
 			// is already confirmed, so nothing to do
 			// But maybe the user was manuelly deactivated from the system
 			$ret = intval($feuser->record['disable']) == 0;
-		}
-		elseif($feuser->record['confirmstring'] == $confirmString) {
-			$values = array('disable'=> 0, 'confirmstring' => 0);
-			tx_rnbase_util_Misc::callHook('t3users','srv_feuser_confirmUser_before',
-				array('values' => &$values, 'feuser' => $feuser), $this);
-			$this->updateFeUser($feuser->uid,$values);
+		} elseif ($feuser->record['confirmstring'] == $confirmString) {
+			$values = array('disable' => 0, 'confirmstring' => 0);
+			tx_rnbase_util_Misc::callHook(
+				't3users',
+				'srv_feuser_confirmUser_before',
+				array('values' => &$values, 'feuser' => $feuser),
+				$this
+			);
+			$this->updateFeUser($feuser->uid, $values);
 			$feuser->reset();
 
 			// Müssen FE-Gruppen gesetzt werden
-			if($options['successgroupsadd']) {
+			if ($options['successgroupsadd']) {
 				$this->addFeGroups($feuser, $options['successgroupsadd']);
 			}
-			if($options['successgroupsremove']) {
+			if ($options['successgroupsremove']) {
 				$this->removeFeGroup($feuser, $options['successgroupsremove']);
 			}
-			tx_rnbase_util_Misc::callHook('t3users','srv_feuser_confirmUser_finished',
-				array('feuser' => $feuser, 'options' => $options), $this);
+			if ($options['notifyUserAboutConfirmation']) {
+				tx_t3users_util_ServiceRegistry::getEmailService()
+					->sendNotificationAboutConfirmationToFeUser($feuser, $options['configurations']);
+			}
+			tx_rnbase_util_Misc::callHook(
+				't3users',
+				'srv_feuser_confirmUser_finished',
+				array('feuser' => $feuser, 'options' => $options),
+				$this
+			);
+
 			$ret = true;
-		}
-		else {
+		} else {
 			tx_rnbase::load('tx_rnbase_util_Logger');
-			tx_rnbase_util_Logger::notice('confirmation failed for feuser with uid ' . $feuser->getUid(), 't3users',
+			tx_rnbase_util_Logger::notice(
+				'confirmation failed for feuser with uid ' . $feuser->getUid(),
+				't3users',
 				array('submitted' => $confirmString, 'stored' => $feuser->getProperty('confirmstring'))
 			);
 		}
+
 		return $ret;
 	}
 
