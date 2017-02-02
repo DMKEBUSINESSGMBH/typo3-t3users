@@ -211,7 +211,7 @@ if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users','extendTCA')
 // Plugin anmelden
 ////////////////////////////////
 // Einige Felder ausblenden
-$TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_t3users_main']='layout,select_key,pages';
+$TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_t3users_main']='select_key';
 
 // Das tt_content-Feld pi_flexform einblenden
 $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_t3users_main']='pi_flexform';
@@ -235,6 +235,3 @@ if (TYPO3_MODE=="BE")	{
 		'LLL:EXT:t3users/mod/locallang.xml:tx_t3users_module_name'
 	);
 }
-
-
-?>
