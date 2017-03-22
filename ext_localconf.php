@@ -38,3 +38,9 @@ if (!tx_rnbase_configurations::getExtensionCfgValue($_EXTKEY, 'disableUxFeUserAu
 }
 
 require_once tx_rnbase_util_Extensions::extPath($_EXTKEY, 'services/ext_localconf.php');
+
+// solange das Plugin USER_INT ist, müssen ein paar Parameter für den cHash ausgeschlossen werden
+tx_rnbase::load('Tx_Rnbase_Utility_Cache');
+Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash(array(
+	't3users[NK_forgotpass]',
+));
