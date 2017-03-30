@@ -26,10 +26,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
- * benötigte Klassen einbinden
- */
 tx_rnbase::load('tx_rnbase_mod_IDecorator');
+tx_rnbase::load('tx_rnbase_mod_Util');
 tx_rnbase::load('tx_rnbase_util_TCA');
 
 /**
@@ -88,6 +86,7 @@ class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
 		$cols = array(
 			'edit' => '',
 			'hide' => '',
+			'userswitch' => '',
 		);
 
 		$userIsAdmin = is_object($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER']->isAdmin() : 0;
@@ -120,28 +119,45 @@ class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
 	 * @param 	array 					$options
 	 * @return 	string
 	 */
-	protected function getActions(tx_rnbase_model_base $item, array $options) {
-		$ret = '';
+	protected function getActions(
+		tx_rnbase_model_base $item,
+		array $options
+	) {
+		$ret = array();
 		foreach($options as $sLinkId => $bTitle){
 			switch($sLinkId) {
 				case 'edit':
-					$ret .= $this->getFormTool()->createEditLink($item->getTableName(), $item->getUid(), $bTitle);
+					$ret[] = $this->getFormTool()->createEditLink($item->getTableName(), $item->getUid(), $bTitle);
 					break;
 				case 'hide':
-					$ret .= $this->getFormTool()->createHideLink($item->getTableName(), $item->getUid(), $item->isHidden());
+					$ret[] = $this->getFormTool()->createHideLink($item->getTableName(), $item->getUid(), $item->isHidden());
 					break;
 				case 'remove':
 					//Es wird immer ein Bestätigungsdialog ausgegeben!!! Dieser steht
 					//in der BE-Modul locallang.xml der jeweiligen Extension im Schlüssel
 					//'confirmation_deletion'. (z.B. mkkvbb/mod1/locallang.xml) Soll kein
 					//Bestätigungsdialog ausgegeben werden, dann einfach 'confirmation_deletion' leer lassen
-					$ret .= $this->getFormTool()->createDeleteLink($item->getTableName(), $item->getUid(), $bTitle,array('confirm' => $GLOBALS['LANG']->getLL('confirmation_deletion')));
+					$ret[] = $this->getFormTool()->createDeleteLink($item->getTableName(), $item->getUid(), $bTitle,array('confirm' => $GLOBALS['LANG']->getLL('confirmation_deletion')));
+					break;
+				case 'userswitch':
+					$ret[] = sprintf(
+						'<button name="hijack[%1$d]" value="1" title="Become this user (%2$s)">%3$s</button>',
+						$item->getUid(),
+						$item->getUsername(),
+						tx_rnbase_mod_Util::getSpriteIcon(
+							'actions-system-backend-user-switch'
+						)
+					);
 					break;
 				default:
 					break;
 			}
 		}
-		return $ret;
+
+		return sprintf(
+			'<span class="actionlist">%s</span>',
+			implode (' ', array_filter($ret))
+		);
 	}
 
 	/**

@@ -102,37 +102,40 @@ class tx_t3users_mod_lister_FeUser extends tx_rnbase_mod_base_Lister {
 	 * @param 	tx_t3users_mod_decorator_Base 	$oDecorator
 	 * @return 	array
 	 */
-	protected function getColumns(&$oDecorator = null) {
-		$aDecorator = parent::getColumns($oDecorator);
+	protected function getDecoratorColumns(
+		$oDecorator = null
+	) {
 		$sTableAlias = 'FEUSER.';
+		$aDecorator = array();
 		$aDecorator['uid'] = array(
-				'title' => $aDecorator['uid']['title'],
-				'decorator' => $oDecorator,
-				'sortable' => $sTableAlias
+			'title' => '',
+			'decorator' => $oDecorator,
+			'sortable' => $sTableAlias
 		);
 		$aDecorator['actions'] = array(
-				'title' => 'label_tableheader_actions',
-				'decorator' => $oDecorator,
+			'title' => 'label_tableheader_actions',
+			'decorator' => $oDecorator,
 		);
 		$aDecorator['username'] = array(
-				'title' => 'label_tableheader_username',
-				'decorator' => $oDecorator,
-				'sortable' => $sTableAlias
+			'title' => 'label_tableheader_username',
+			'decorator' => $oDecorator,
+			'sortable' => $sTableAlias
 		);
 		$aDecorator['first_name'] = array(
-				'title' => 'label_tableheader_firstname',
-				'decorator' => $oDecorator,
-				'sortable' => $sTableAlias
+			'title' => 'label_tableheader_firstname',
+			'decorator' => $oDecorator,
+			'sortable' => $sTableAlias
 		);
 		$aDecorator['last_name'] = array(
-				'title' => 'label_tableheader_lastname',
-				'decorator' => $oDecorator,
-				'sortable' => $sTableAlias
+			'title' => 'label_tableheader_lastname',
+			'decorator' => $oDecorator,
+			'sortable' => $sTableAlias
 		);
 		$aDecorator['usergroup'] = array(
-				'title' => 'label_tableheader_usergroup',
-				'decorator' => $oDecorator
+			'title' => 'label_tableheader_usergroup',
+			'decorator' => $oDecorator
 		);
+
 		return $aDecorator;
 	}
 

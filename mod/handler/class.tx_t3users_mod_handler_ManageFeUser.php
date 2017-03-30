@@ -25,11 +25,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
- * benötigte Klassen einbinden
- */
-
-tx_rnbase::load('tx_rnbase_util_Templates');
+tx_rnbase::load('tx_rnbase_mod_IModHandler');
 
 
 /**
@@ -38,7 +34,9 @@ tx_rnbase::load('tx_rnbase_util_Templates');
  * @package tx_t3users
  * @subpackage tx_t3users_mod
  */
-class tx_t3users_mod_handler_ManageFeUser {
+class tx_t3users_mod_handler_ManageFeUser
+	implements tx_rnbase_mod_IModHandler
+{
 
 	/**
 	 * Das aktuelle Modul
@@ -83,7 +81,11 @@ class tx_t3users_mod_handler_ManageFeUser {
 		tx_rnbase_util_Misc::callHook('t3users','mod_feuser_getMoreMarker',
 			array('markerArray' => &$markerArray, 'mod' => $mod), $this);
 
+		$template = tx_t3users_util_LoginAsFEUser::hijackUser() . $template;
+
+		tx_rnbase::load('tx_rnbase_util_Templates');
 		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
+
 		return $out;
 	}
 
@@ -119,7 +121,10 @@ class tx_t3users_mod_handler_ManageFeUser {
 		return '###LABEL_HANDLER_MANAGEFEUSER###';
 	}
 
-	public function handleRequest() {}
+	public function handleRequest(
+		tx_rnbase_mod_IModule $mod
+	) {
+	}
 
 }
 

@@ -48,6 +48,17 @@ class tx_t3users_mod_decorator_FeUser extends tx_t3users_mod_decorator_Base {
 	 * @param 	tx_rnbase_model_base 	$item
 	 */
 	public function format($value, $colName, $record, tx_rnbase_model_base $item) {
+
+		if ($colName === 'uid') {
+			return sprintf(
+				'<span title="UID: %s">%s</span>',
+				$value,
+				tx_rnbase_mod_Util::getSpriteIcon(
+					'status-user-frontend'
+				)
+			);
+		}
+
 		return parent::format($value, $colName, $record, $item);
 	}
 
