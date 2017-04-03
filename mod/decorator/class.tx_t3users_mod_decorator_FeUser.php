@@ -47,19 +47,24 @@ class tx_t3users_mod_decorator_FeUser extends tx_t3users_mod_decorator_Base {
 	 * @param 	array 					$record
 	 * @param 	tx_rnbase_model_base 	$item
 	 */
-	public function format($value, $colName, $record, tx_rnbase_model_base $item) {
+	public function format(
+		$columnValue,
+		$columnName,
+		array $record,
+		\Tx_Rnbase_Domain_Model_DataInterface $entry
+	) {
 
-		if ($colName === 'uid') {
+		if ($columnName === 'uid') {
 			return sprintf(
 				'<span title="UID: %s">%s</span>',
-				$value,
+				$columnValue,
 				tx_rnbase_mod_Util::getSpriteIcon(
 					'status-user-frontend'
 				)
 			);
 		}
 
-		return parent::format($value, $colName, $record, $item);
+		return parent::format($columnValue, $columnName, $record, $entry);
 	}
 
 }
@@ -68,4 +73,3 @@ class tx_t3users_mod_decorator_FeUser extends tx_t3users_mod_decorator_Base {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/decorator/class.tx_t3users_mod_decorator_FeUser.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/decorator/class.tx_t3users_mod_decorator_FeUser.php']);
 }
-?>

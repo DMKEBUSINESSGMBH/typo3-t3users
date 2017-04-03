@@ -32,22 +32,27 @@ require_once(tx_rnbase_util_Extensions::extPath('rn_base') . 'model/class.tx_rnb
 class tx_t3users_models_feuser extends tx_rnbase_model_base {
 
 	private static $instances = array();
+	private $bEnableFieldsOff = false;
 
 	function getTableName(){ return 'fe_users'; }
 
+	function __construct($rowOrUid, $bEnableFieldsOff = false) {
+		$this->bEnableFieldsOff = $bEnableFieldsOff;
+		$this->init($rowOrUid);
+	}
 	function tx_t3users_models_feuser($rowOrUid, $bEnableFieldsOff = false) {
-		$this->init($rowOrUid, $bEnableFieldsOff);
+		$this->bEnableFieldsOff = $bEnableFieldsOff;
+		$this->init($rowOrUid);
 	}
 	/**
 	 * Wir nutzen nicht die initialisierung von rnbase,
 	 * da dort enablefields mit geprüft werden.
 	 * Wir wollen aber auch immer nutzer welche auf disabled stehen.
 	 *
-	 * @param mixed 	$rowOrUid
-	 * @param boolean 	$bEnableFieldsOff
+	 * @param mixed $rowOrUid
 	 */
-	function init($rowOrUid, $bEnableFieldsOff = false) {
-		if(!$bEnableFieldsOff || is_array($rowOrUid)){
+	function init($rowOrUid = null) {
+		if(!$this->bEnableFieldsOff || is_array($rowOrUid)){
 			parent::init($rowOrUid);
 		}
 		else {
@@ -71,8 +76,8 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base {
 	 * @param int $uid
 	 * @return tx_t3users_models_feuser
 	 */
-	static function getInstance($uid) {
-		$uid = intval($uid);
+	static function getInstance($data = null) {
+		$uid = (int) $data;
 		if(!$uid) throw new Exception('No uid for fe_user given!');
 		if(!is_object(self::$instances[$uid])) {
 			self::$instances[$uid] = new tx_t3users_models_feuser($uid, true);

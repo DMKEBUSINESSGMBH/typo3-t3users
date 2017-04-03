@@ -42,8 +42,8 @@ class tx_t3users_models_fegroup extends tx_rnbase_model_base {
    * @param int $uid
    * @return tx_t3users_models_feuser
    */
-  static function getInstance($uid) {
-    $uid = intval($uid);
+  static function getInstance($data = null) {
+    $uid = (int) $data;
     if(!uid) throw new Exception('No uid for fe_group given!');
     if(!is_object(self::$instances[$uid])) {
       self::$instances[$uid] = new tx_t3users_models_fegroup($uid);
@@ -74,4 +74,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_fegroup.php']);
 }
 
-?>

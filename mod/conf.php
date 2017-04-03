@@ -1,5 +1,5 @@
 <?php
-$MCONF['name'] = 'web_txt3usersM1';
+$MCONF['name'] = 'web_T3usersBackend';
 
 $MCONF['access'] = 'user,group';
 $MCONF['script'] = '_DISPATCH';

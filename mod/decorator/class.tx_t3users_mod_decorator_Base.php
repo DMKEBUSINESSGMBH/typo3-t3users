@@ -26,9 +26,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-tx_rnbase::load('tx_rnbase_mod_IDecorator');
+tx_rnbase::load('Tx_Rnbase_Backend_Decorator_BaseDecorator');
 tx_rnbase::load('tx_rnbase_mod_Util');
-tx_rnbase::load('tx_rnbase_util_TCA');
 
 /**
  * Diese Klasse ist für die Darstellung von Elementen im Backend verantwortlich.
@@ -36,17 +35,9 @@ tx_rnbase::load('tx_rnbase_util_TCA');
  * @package tx_t3users
  * @subpackage tx_t3users_mod
  */
-class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
-
-	/**
-	 *
-	 * @param 	tx_rnbase_mod_IModule 	$mod
-	 */
-	public function __construct(tx_rnbase_mod_IModule $mod) {
-		$this->mod = $mod;
-	}
-
-
+class tx_t3users_mod_decorator_Base
+	extends Tx_Rnbase_Backend_Decorator_BaseDecorator
+{
 	/**
 	 *
 	 * @param 	string 					$value
@@ -54,19 +45,24 @@ class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
 	 * @param 	array 					$record
 	 * @param 	tx_rnbase_model_base 	$item
 	 */
-	public function format($value, $colName, $record, tx_rnbase_model_base $item) {
-		$ret = $value;
+	public function format(
+		$columnValue,
+		$columnName,
+		array $record,
+		\Tx_Rnbase_Domain_Model_DataInterface $entry
+	) {
+		$ret = $columnValue;
 
-		switch ($colName) {
+		switch ($columnName) {
 			case 'crdate':
 			case 'tstamp':
 				$ret = strftime('%d.%m.%y %H:%M:%S', intval($ret));
 				break;
 			case 'usergroup':
-				$ret = self::showUsergroups($item, $this->getFormTool());
+				$ret = self::showUsergroups($entry, $this->getFormTool());
 				break;
 			case 'actions':
-				$ret .= $this->getActions($item, $this->getActionOptions($item));
+				$ret .= $this->getActions($entry, $this->getActionOptions($entry));
 				break;
 
 			default:
@@ -159,25 +155,7 @@ class tx_t3users_mod_decorator_Base implements tx_rnbase_mod_IDecorator{
 			implode (' ', array_filter($ret))
 		);
 	}
-
-	/**
-	 * Returns the module
-	 * @return tx_rnbase_mod_IModule
-	 */
-	protected function getModule() {
-		return $this->mod;
-	}
-
-	/**
-	 * Returns an instance of tx_rnbase_mod_IModule
-	 *
-	 * @return 	Tx_Rnbase_Backend_Form_ToolBox
-	 */
-	protected function getFormTool() {
-		return $this->mod->getFormTool();
-	}
 }
-
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/decorator/class.tx_t3users_mod_decorator_Base.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/decorator/class.tx_t3users_mod_decorator_Base.php']);

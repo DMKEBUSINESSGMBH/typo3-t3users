@@ -25,11 +25,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
- * benötigte Klassen einbinden
- */
-
-tx_rnbase::load('tx_rnbase_mod_base_Lister');
+tx_rnbase::load('Tx_Rnbase_Backend_Lister_AbstractLister');
 
 /**
  * Hilfsklassen um nach Landkreisen im BE zu suchen
@@ -37,10 +33,10 @@ tx_rnbase::load('tx_rnbase_mod_base_Lister');
  * @package tx_t3users
  * @subpackage tx_t3users_mod
  */
-class tx_t3users_mod_lister_FeUser extends tx_rnbase_mod_base_Lister {
-	const KEY_HIDDENFLAG = 'hidden';
-
-/**
+class tx_t3users_mod_lister_FeUser
+	extends Tx_Rnbase_Backend_Lister_AbstractLister
+{
+	/**
 	 * Liefert die Funktions-Id
 	 */
 	public function getSearcherId() {
@@ -54,6 +50,17 @@ class tx_t3users_mod_lister_FeUser extends tx_rnbase_mod_base_Lister {
 	 */
 	protected function getService() {
 		return tx_t3users_util_ServiceRegistry::getFeUserService();
+	}
+
+
+	/**
+	 * Returns the repository
+	 *
+	 * @return Tx_Rnbase_Domain_Repository_InterfaceSearch
+	 */
+	protected function getRepository()
+	{
+		return $this->getService();
 	}
 
 	/**
@@ -102,49 +109,50 @@ class tx_t3users_mod_lister_FeUser extends tx_rnbase_mod_base_Lister {
 	 * @param 	tx_t3users_mod_decorator_Base 	$oDecorator
 	 * @return 	array
 	 */
-	protected function getDecoratorColumns(
-		$oDecorator = null
+	protected function addDecoratorColumns(
+		array &$columns
 	) {
 		$sTableAlias = 'FEUSER.';
-		$aDecorator = array();
-		$aDecorator['uid'] = array(
+		$decorator = $this->getDecorator();
+		$columns['uid'] = array(
 			'title' => '',
-			'decorator' => $oDecorator,
+			'decorator' => $decorator,
 			'sortable' => $sTableAlias
 		);
-		$aDecorator['actions'] = array(
+		$columns['actions'] = array(
 			'title' => 'label_tableheader_actions',
-			'decorator' => $oDecorator,
+			'decorator' => $decorator,
 		);
-		$aDecorator['username'] = array(
+		$columns['username'] = array(
 			'title' => 'label_tableheader_username',
-			'decorator' => $oDecorator,
+			'decorator' => $decorator,
 			'sortable' => $sTableAlias
 		);
-		$aDecorator['first_name'] = array(
+		$columns['first_name'] = array(
 			'title' => 'label_tableheader_firstname',
-			'decorator' => $oDecorator,
+			'decorator' => $decorator,
 			'sortable' => $sTableAlias
 		);
-		$aDecorator['last_name'] = array(
+		$columns['last_name'] = array(
 			'title' => 'label_tableheader_lastname',
-			'decorator' => $oDecorator,
+			'decorator' => $decorator,
 			'sortable' => $sTableAlias
 		);
-		$aDecorator['usergroup'] = array(
+		$columns['usergroup'] = array(
 			'title' => 'label_tableheader_usergroup',
-			'decorator' => $oDecorator
+			'decorator' => $decorator
 		);
 
-		return $aDecorator;
+		return $columns;
 	}
 
 	/**
 	 *
 	 * @return tx_rnbase_mod_IDecorator
 	 */
-	protected function createDefaultDecorator() {
-		return tx_rnbase::makeInstance('tx_t3users_mod_decorator_FeUser', $this->getModule());
+	protected function getDecoratorClass()
+	{
+		return 'tx_t3users_mod_decorator_FeUser';
 	}
 
 	/**
@@ -166,4 +174,3 @@ class tx_t3users_mod_lister_FeUser extends tx_rnbase_mod_base_Lister {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/lister/class.tx_t3users_mod_lister_FeUser.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/lister/class.tx_t3users_mod_lister_FeUser.php']);
 }
-?>

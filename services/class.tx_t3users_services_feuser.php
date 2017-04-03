@@ -27,13 +27,16 @@ tx_rnbase::load('tx_t3users_search_builder');
 tx_rnbase::load('tx_t3users_exceptions_User');
 tx_rnbase::load('Tx_Rnbase_Utility_Strings');
 tx_rnbase::load('Tx_Rnbase_Service_Base');
+tx_rnbase::load('Tx_Rnbase_Domain_Repository_InterfaceSearch');
 
 /**
  * Service for accessing user information
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base {
+class tx_t3users_services_feuser
+	extends Tx_Rnbase_Service_Base implements Tx_Rnbase_Domain_Repository_InterfaceSearch
+{
 
 	/**
 	 * Find a user by mail address
@@ -299,9 +302,10 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base {
 	 *
 	 * @param array $fields
 	 * @param array $options
+	 *
 	 * @return array of tx_t3users_models_feuser
 	 */
-	public function search($fields, $options) {
+	public function search(array $fields, array $options) {
 		tx_rnbase::load('tx_rnbase_util_SearchBase');
 		$searcher = tx_rnbase_util_SearchBase::getInstance('tx_t3users_search_feuser');
 		return $searcher->search($fields, $options);

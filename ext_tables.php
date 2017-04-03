@@ -7,19 +7,37 @@ $enableRoles = false;
 if (
 	TYPO3_MODE == 'BE' && tx_rnbase_configurations::getExtensionCfgValue('t3users', 'activateBeModule')
 ) {
-	tx_rnbase_util_Extensions::addModule('web', 'txt3usersM1', '',
-			tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'mod/');
+	// register web_T3usersBackend
+	tx_rnbase::load('tx_t3users_mod_Module');
+	tx_rnbase_util_Extensions::registerModule(
+		't3users',
+		'web',
+		'backend',
+		'bottom',
+		array(
+		),
+		array(
+			'access' => 'user,group',
+			'routeTarget' => 'tx_t3users_mod_Module',
+			'icon' => 'EXT:t3users/mod/moduleicon.gif',
+			'labels' => 'LLL:EXT:t3users/mod/locallang_mod.xml',
+		)
+	);
 
 	/**
 	 * Callcenter Panel
 	 */
-	tx_rnbase_util_Extensions::insertModuleFunction('web_txt3usersM1','tx_t3users_mod_FeUser',
-		tx_rnbase_util_Extensions::extPath($_EXTKEY).'mod/class.tx_t3users_mod_FeUser.php',
+	tx_rnbase_util_Extensions::insertModuleFunction(
+		'web_T3usersBackend',
+		'tx_t3users_mod_FeUser',
+		tx_rnbase_util_Extensions::extPath($_EXTKEY, 'mod/class.tx_t3users_mod_FeUser.php'),
 		'LLL:EXT:t3users/mod/locallang.xml:tx_t3users_module_name'
 	);
 
 	// Einbindung einer PageTSConfig
-	tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$_EXTKEY.'/mod/pageTSconfig.txt">');
+	tx_rnbase_util_Extensions::addPageTSConfig(
+		'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:t3users/mod/pageTSconfig.txt">'
+	);
 }
 
 if($enableRoles) {

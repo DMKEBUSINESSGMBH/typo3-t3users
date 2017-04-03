@@ -22,16 +22,31 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-$GLOBALS['LANG']->includeLLFile('EXT:t3users/mod/locallang.xml');
-// This checks permissions and exits if the users has no permission for entry.
-$GLOBALS['BE_USER']->modAccess($GLOBALS['MCONF'], 1);
 
-// Make instance:
-$SOBE = tx_rnbase::makeInstance('tx_t3users_mod_Module');
-$SOBE->init();
+/**
+ * Backend Modul für t3users
+ *
+ * @author René Nitzsche
+ * @package tx_t3users
+ * @subpackage tx_t3users_mod
+ */
+class  tx_t3users_mod_Module
+	extends tx_rnbase_mod_BaseModule
+{
 
-// Include files?
-foreach((array) $SOBE->include_once as $INC_FILE)	include_once($INC_FILE);
+	/**
+	 * Method to get the extension key
+	 *
+	 * @return	string Extension key
+	 */
+	public function getExtensionKey() {
+		return 't3users';
+	}
 
-$SOBE->main();
-$SOBE->printContent();
+	protected function getFormTag() {
+		$modUrl = Tx_Rnbase_Backend_Utility::getModuleUrl(
+			'web_T3usersBackend', array('id' => $this->getPid()), ''
+		);
+		return '<form action="' . $modUrl . '" method="POST" name="editform" id="editform">';
+	}
+}

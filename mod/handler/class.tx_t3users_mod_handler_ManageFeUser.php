@@ -66,16 +66,12 @@ class tx_t3users_mod_handler_ManageFeUser
 		$formTool = $mod->getFormTool();
 
 		// Hier kommen die Daten für das Mod-Template rein
-		$markerArray['###SEARCHFORM###'] = $lister->getSearchForm();
+		$markerArray = $lister->renderListMarkers();
 		$markerArray['###BUTTON_FEUSER_NEW###'] = $formTool->createNewLink(
 				'fe_users',
 				$mod->id,
 				$GLOBALS['LANG']->getLL('label_add_feuser')
 			);
-		$data = $lister->getResultList();
-		$markerArray['###LIST###'] = $data['table'];
-		$markerArray['###SIZE###'] = $data['totalsize'];
-		$markerArray['###PAGER###'] = $data['pager'];
 
 		// mehr Marker per Hook
 		tx_rnbase_util_Misc::callHook('t3users','mod_feuser_getMoreMarker',

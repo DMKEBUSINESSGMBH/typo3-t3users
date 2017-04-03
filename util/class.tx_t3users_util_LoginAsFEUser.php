@@ -84,13 +84,18 @@ class tx_t3users_util_LoginAsFEUser {
 	 * @param string $fesession
 	 * @param int $feuserid
 	 */
-	function updateFeUserSession($fesessionId, $feuserid) {
-    $where = 'ses_id = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions').'
-							AND fe_sessions.ses_name = \'fe_typo_user\' ';
-    $values = array('ses_userid' => $feuserid , 'ses_tstamp' => $GLOBALS['EXEC_TIME']);
-    tx_rnbase_util_DB::doUpdate('fe_sessions',$where,$values,0);
+	private static function updateFeUserSession($fesessionId, $feuserid)
+	{
+		$where = sprintf(
+			'ses_id = %1$s AND fe_sessions.ses_name = \'fe_typo_user\' ',
+			$GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions')
+		);
+		$values = array('ses_userid' => $feuserid , 'ses_tstamp' => $GLOBALS['EXEC_TIME']);
+		tx_rnbase_util_DB::doUpdate('fe_sessions', $where, $values, 0);
 	}
-	function createFeUserSession($fesessionId, $feuserid) {
+
+	private static function createFeUserSession($fesessionId, $feuserid)
+	{
 		if(!$fesessionId) {
 			// Es muss eine neue FE-Usersession angelegt werden
 			$hash_length = 10;
@@ -99,10 +104,11 @@ class tx_t3users_util_LoginAsFEUser {
 			SetCookie('fe_typo_user', $fesessionId, 0, '/', $cookieDomain ? $cookieDomain : '');
 		}
 		$values = self::getNewSessionRecord($fesessionId, $feuserid);
-    tx_rnbase_util_DB::doInsert('fe_sessions',$values,0);
+		tx_rnbase_util_DB::doInsert('fe_sessions', $values, 0);
 	}
-	private function getNewSessionRecord($sessionId, $userId) {
 
+	private static function getNewSessionRecord($sessionId, $userId)
+	{
 		$abstractUserAuthenticationClass = tx_rnbase_util_Typo3Classes::getAbstractUserAuthenticationClass();
 		$frontendUserAuthenticationClass = tx_rnbase_util_Typo3Classes::getFrontendUserAuthenticationClass();
 		if(!is_callable(array($abstractUserAuthenticationClass, 'ipLockClause_remoteIPNumber'))) {
