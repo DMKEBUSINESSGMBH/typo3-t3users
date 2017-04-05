@@ -44,3 +44,16 @@ tx_rnbase::load('Tx_Rnbase_Utility_Cache');
 Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash(array(
 	't3users[NK_forgotpass]',
 ));
+
+// register wizzard
+tx_rnbase::load('tx_rnbase_util_TYPO3');
+if (tx_rnbase_util_TYPO3::isTYPO80OrHigher()) {
+	Tx_Rnbase_Backend_Utility_Icons::getIconRegistry()->registerIcon(
+		'ext-t3users-wizard-icon',
+		'TYPO3\\CMS\Core\\Imaging\\IconProvider\\BitmapIconProvider',
+		array('source' => 'EXT:t3users/ext_icon.gif')
+	);
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+		'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:t3users/Configuration/TSconfig/ContentElementWizard.txt">'
+	);
+}

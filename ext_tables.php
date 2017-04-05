@@ -240,8 +240,19 @@ tx_rnbase_util_Extensions::addPlugin(Array('LLL:EXT:'.$_EXTKEY.'/locallang_db.ph
 
 tx_rnbase_util_Extensions::addStaticFile($_EXTKEY,'static/ts/', 'FE User Management');
 
-if (TYPO3_MODE=="BE")	{
-	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_t3users_controllers_wizicon'] = tx_rnbase_util_Extensions::extPath($_EXTKEY).'controllers/class.tx_t3users_controllers_wizicon.php';
+if (TYPO3_MODE=="BE") {
+
+	tx_rnbase::load('tx_rnbase_util_TYPO3');
+	if (!tx_rnbase_util_TYPO3::isTYPO80OrHigher()) {
+		tx_rnbase::load('tx_t3users_controllers_wizicon');
+		tx_t3users_controllers_wizicon::addWizicon(
+			'tx_t3users_controllers_wizicon',
+			tx_rnbase_util_Extensions::extPath(
+				't3users',
+				'controllers/class.tx_t3users_controllers_wizicon.php'
+			)
+		);
+	}
 
 	////////////////////////////////
 	// Submodul anmelden
