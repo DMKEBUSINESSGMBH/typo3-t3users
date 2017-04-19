@@ -54,8 +54,17 @@ class tx_t3users_views_ShowRegistration extends tx_rnbase_view_Base {
 		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray);
 		return $out;
 	}
-	function getMainSubpart() {return '###REGISTRATION###';}
 
+
+	/**
+	 * Returns the subpart to use for in template
+	 *
+	 * @return string
+	 */
+	function getMainSubpart(&$viewData)
+	{
+		return '###REGISTRATION###';
+	}
 }
 
 

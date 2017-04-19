@@ -47,8 +47,16 @@ class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base {
     return $out;
   }
 
-  function getMainSubpart() {return '###FEUSER_LIST###';}
 
+	/**
+	 * Returns the subpart to use for in template
+	 *
+	 * @return string
+	 */
+	function getMainSubpart(&$viewData)
+	{
+		return '###FEUSER_LIST###';
+	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php'])	{
