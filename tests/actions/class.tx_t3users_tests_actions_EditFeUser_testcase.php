@@ -26,10 +26,6 @@
  *	This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
- * benötigte Klassen einbinden
- */
-
 tx_rnbase::load('tx_t3users_actions_EditFeUser');
 tx_rnbase::load('tx_t3users_tests_Util');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');

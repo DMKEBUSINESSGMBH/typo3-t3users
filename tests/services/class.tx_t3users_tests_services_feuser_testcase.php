@@ -25,9 +25,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
- * benötigte Klassen einbinden
- */
 tx_rnbase::load('tx_t3users_util_ServiceRegistry');
 tx_rnbase::load('tx_t3users_services_feuser');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');

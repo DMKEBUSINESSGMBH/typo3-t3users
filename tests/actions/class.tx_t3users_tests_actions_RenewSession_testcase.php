@@ -26,10 +26,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
- * benötigte Klassen einbinden
- */
-
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_t3users_actions_RenewSession');
 
 /**
@@ -39,7 +36,7 @@ tx_rnbase::load('tx_t3users_actions_RenewSession');
  * @subpackage tx_t3users
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  */
-class tx_t3users_tests_actions_RenewSession_testcase extends tx_phpunit_testcase {
+class tx_t3users_tests_actions_RenewSession_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	/**
 	 *
