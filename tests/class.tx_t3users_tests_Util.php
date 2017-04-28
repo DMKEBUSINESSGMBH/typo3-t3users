@@ -1,8 +1,8 @@
 <?php
 /**
- * 	@package tx_t3users
- *  @subpackage tx_t3users_tests
- *  @author Hannes Bochmann
+ * @package tx_t3users
+ * @subpackage tx_t3users_tests
+ * @author Hannes Bochmann
  *
  *  Copyright notice
  *
@@ -41,7 +41,8 @@ tx_rnbase::load('Tx_Rnbase_Backend_Utility');
  * @package tx_t3users
  * @subpackage tx_t3users_tests
  */
-class tx_t3users_tests_Util {
+class tx_t3users_tests_Util
+{
 
   /**
    * Liefert eine DateiNamen
@@ -50,55 +51,58 @@ class tx_t3users_tests_Util {
    * @param $extKey
    * @return string
    */
-  public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 't3users') {
-    return tx_rnbase_util_Extensions::extPath($extKey).$dir.$filename;
-  }
+    public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 't3users')
+    {
+        return tx_rnbase_util_Extensions::extPath($extKey).$dir.$filename;
+    }
 
 /**
-   * Ein Basis-Configurations Objekt erstellen
-   */
-  public function getConfigurations(){
-    $extKey = 't3users';
-    tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$extKey.'/static/ts/setup.txt">');
+ * Ein Basis-Configurations Objekt erstellen
+ */
+    public function getConfigurations()
+    {
+        $extKey = 't3users';
+        tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$extKey.'/static/ts/setup.txt">');
 
-    tx_rnbase::load('tx_rnbase_configurations');
-    tx_rnbase::load('tx_rnbase_util_Misc');
+        tx_rnbase::load('tx_rnbase_configurations');
+        tx_rnbase::load('tx_rnbase_util_Misc');
 
-    tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
-    $GLOBALS['TSFE']->config = array();
-    tx_rnbase::load('tx_rnbase_util_Typo3Classes');
-	$cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
+        tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+        $GLOBALS['TSFE']->config = array();
+        tx_rnbase::load('tx_rnbase_util_Typo3Classes');
+        $cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
 
-    $pageTSconfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0);
-    $pageTSconfig = $pageTSconfig['plugin.']['tx_'.$extKey.'.'];
-    $qualifier = $pageTSconfig['qualifier'] ? $pageTSconfig['qualifier'] : $extKey;
-    $configurations = new tx_rnbase_configurations();
-    $configurations->init($pageTSconfig, $cObj, $extKey, $qualifier);
+        $pageTSconfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0);
+        $pageTSconfig = $pageTSconfig['plugin.']['tx_'.$extKey.'.'];
+        $qualifier = $pageTSconfig['qualifier'] ? $pageTSconfig['qualifier'] : $extKey;
+        $configurations = new tx_rnbase_configurations();
+        $configurations->init($pageTSconfig, $cObj, $extKey, $qualifier);
 
-    return $configurations;
-  }
+        return $configurations;
+    }
 
-	/**
-	 * Setzt eine Vaiable in die Extension Konfiguration.
-	 * Achtung im setUp sollte storeExtConf und im tearDown restoreExtConf aufgerufen werden.
-	 * @param string 	$sCfgKey
-	 * @param string 	$sCfgValue
-	 * @param string 	$sExtKey
-	 */
-	public static function setExtConfVar($sCfgKey, $sCfgValue, $sExtKey='t3users'){
-		// aktuelle Konfiguration auslesen
-		$extConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey]);
-		// wenn keine Konfiguration existiert, legen wir eine an.
-		if(!is_array($extConfig)) {
-			$extConfig = array();
-		}
-		// neuen Wert setzen
-		$extConfig[$sCfgKey] = $sCfgValue;
-		// neue Konfiguration zurückschreiben
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey] = serialize($extConfig);
-	}
+    /**
+     * Setzt eine Vaiable in die Extension Konfiguration.
+     * Achtung im setUp sollte storeExtConf und im tearDown restoreExtConf aufgerufen werden.
+     * @param string    $sCfgKey
+     * @param string    $sCfgValue
+     * @param string    $sExtKey
+     */
+    public static function setExtConfVar($sCfgKey, $sCfgValue, $sExtKey = 't3users')
+    {
+        // aktuelle Konfiguration auslesen
+        $extConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey]);
+        // wenn keine Konfiguration existiert, legen wir eine an.
+        if (!is_array($extConfig)) {
+            $extConfig = array();
+        }
+        // neuen Wert setzen
+        $extConfig[$sCfgKey] = $sCfgValue;
+        // neue Konfiguration zurückschreiben
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey] = serialize($extConfig);
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/class.tx_t3users_tests_Util.php']) {
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/class.tx_t3users_tests_Util.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/class.tx_t3users_tests_Util.php']);
 }

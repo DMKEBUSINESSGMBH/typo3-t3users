@@ -24,7 +24,7 @@
 
 
 if (tx_rnbase_util_Extensions::isLoaded('dam')) {
-	require_once(tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_media.php'));
+    require_once(tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_media.php'));
 }
 
 tx_rnbase::load('tx_rnbase_view_Base');
@@ -33,46 +33,46 @@ tx_rnbase::load('tx_rnbase_view_Base');
 /**
  * Viewclass to show a user.
  */
-class tx_t3users_views_EditFeUser extends tx_rnbase_view_Base {
-  /**
-   * Erstellen des Frontend-Outputs
-   */
-	function createOutput($template, &$viewData, &$configurations, &$formatter){
+class tx_t3users_views_EditFeUser extends tx_rnbase_view_Base
+{
+    /**
+     * Erstellen des Frontend-Outputs
+     */
+    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    {
+        $form =& $viewData->offsetGet('form');
+        $markerArray = array();
+        $markerArray['###FORM###'] = $form;
+        $template = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray);
 
-		$form =& $viewData->offsetGet('form');
-		$markerArray = array();
-		$markerArray['###FORM###'] = $form;
-		$template = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray);
+        // Jetzt nochmal den User rendern
+        $feuser =& $viewData->offsetGet('user');
+        $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
 
-		// Jetzt nochmal den User rendern
-		$feuser =& $viewData->offsetGet('user');
-		$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+        $confId = 'feuseredit.feuser.';
+        $out = $marker->parseTemplate($template, $feuser, $formatter, $confId);
 
-		$confId = 'feuseredit.feuser.';
-		$out = $marker->parseTemplate($template, $feuser, $formatter, $confId);
+        $params['confid'] = $confId;
+        $params['marker'] = 'FEUSER';
+        $params['feuser'] = $feuser;
+        tx_rnbase_util_BaseMarker::callModules($template, $markerArray, $subpartArray, $wrappedSubpartArray, $params, $formatter);
+        $out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
-		$params['confid'] = $confId;
-		$params['marker'] = 'FEUSER';
-		$params['feuser'] = $feuser;
-		tx_rnbase_util_BaseMarker::callModules($template, $markerArray, $subpartArray, $wrappedSubpartArray, $params, $formatter);
-		$out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
-
-		return $out;
-	}
+        return $out;
+    }
 
 
-	/**
-	 * Returns the subpart to use for in template
-	 *
-	 * @return string
-	 */
-	function getMainSubpart(&$viewData)
-	{
-		return '###FEUSER_EDIT###';
-	}
+    /**
+     * Returns the subpart to use for in template
+     *
+     * @return string
+     */
+    public function getMainSubpart(&$viewData)
+    {
+        return '###FEUSER_EDIT###';
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_EditFeUser.php'])	{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_EditFeUser.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_EditFeUser.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_EditFeUser.php']);
 }
-?>

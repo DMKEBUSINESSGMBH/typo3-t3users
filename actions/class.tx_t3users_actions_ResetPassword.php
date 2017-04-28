@@ -1,8 +1,8 @@
 <?php
 /**
- * 	@package TYPO3
- *  @subpackage tx_t3users
- *  @author René Nitzsche <dev@dmk-ebusiness.de>
+ * @package TYPO3
+ * @subpackage tx_t3users
+ * @author René Nitzsche <dev@dmk-ebusiness.de>
  *
  *  Copyright notice
  *
@@ -35,74 +35,80 @@ tx_rnbase::load('tx_rnbase_action_BaseIOC');
 /**
  * Reset des Passworts eines Users.
  */
-class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC {
+class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC
+{
 
-	/**
-	 *
-	 * @param tx_rnbase_parameters $parameters
-	 * @param tx_rnbase_configurations $configurations
-	 * @param array $viewData
-	 *
-	 * @return string error msg or null
-	 */
-	protected function handleRequest(&$parameters,&$configurations, &$viewdata){
-		$confirmstring = htmlspecialchars($parameters->get('confirm'));
-		$uid = $parameters->getInt('uid');
-		$viewdata->offsetSet('linkparams', array('confirm'=>$confirmstring, 'uid'=>$uid));
+    /**
+     *
+     * @param tx_rnbase_parameters $parameters
+     * @param tx_rnbase_configurations $configurations
+     * @param array $viewData
+     *
+     * @return string error msg or null
+     */
+    protected function handleRequest(&$parameters, &$configurations, &$viewdata)
+    {
+        $confirmstring = htmlspecialchars($parameters->get('confirm'));
+        $uid = $parameters->getInt('uid');
+        $viewdata->offsetSet('linkparams', array('confirm' => $confirmstring, 'uid' => $uid));
 
-		// Confirm prüfen
-		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
-		$feuser = $usrSrv->getUserForConfirm($uid, $confirmstring);
-		if(!$feuser) {
-			$status = 'CONFIRMFAILED';
-		}
-		else {
-			$status = 'FORM';
-			$pass1 = htmlspecialchars($parameters->get('pass1'));
-			$pass2 = htmlspecialchars($parameters->get('pass2'));
+        // Confirm prüfen
+        $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
+        $feuser = $usrSrv->getUserForConfirm($uid, $confirmstring);
+        if (!$feuser) {
+            $status = 'CONFIRMFAILED';
+        } else {
+            $status = 'FORM';
+            $pass1 = htmlspecialchars($parameters->get('pass1'));
+            $pass2 = htmlspecialchars($parameters->get('pass2'));
 
-			if ($pass1) {
-				$validated = ($pass1 && $pass1 == $pass2);
-				$validationFailureMessage = '###LABEL_WRONG_PASS###';
-				// Hook für weitere Validierungen
-				tx_rnbase_util_Misc::callHook(
-					't3users','resetPassword_ValidatePassword',
-					array(
-						'validated' => &$validated,
-						'validationFailureMessage' => &$validationFailureMessage,
-						'password' => $pass1
-					),
-					$this
-				);
-				if ($validated) {
-					// Speichern
-					$usrSrv->saveNewPassword($feuser, $pass1);
-					// Und TODO: Redirect...
-					$status = 'FINISHED';
-				}
-				else {
-					// Validierung fehlgeschlagen
-					$viewdata->offsetSet('message', $validationFailureMessage);
-				}
-			}
-		}
-		$viewdata->offsetSet('subpart', $status);
-		return '';
-	}
+            if ($pass1) {
+                $validated = ($pass1 && $pass1 == $pass2);
+                $validationFailureMessage = '###LABEL_WRONG_PASS###';
+                // Hook für weitere Validierungen
+                tx_rnbase_util_Misc::callHook(
+                    't3users',
+                    'resetPassword_ValidatePassword',
+                    array(
+                        'validated' => &$validated,
+                        'validationFailureMessage' => &$validationFailureMessage,
+                        'password' => $pass1
+                    ),
+                    $this
+                );
+                if ($validated) {
+                    // Speichern
+                    $usrSrv->saveNewPassword($feuser, $pass1);
+                    // Und TODO: Redirect...
+                    $status = 'FINISHED';
+                } else {
+                    // Validierung fehlgeschlagen
+                    $viewdata->offsetSet('message', $validationFailureMessage);
+                }
+            }
+        }
+        $viewdata->offsetSet('subpart', $status);
 
-	/**
-	 * @return string
-	 */
-	public function getTemplateName() { return 'resetpassword';}
+        return '';
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getViewClassName() { return 'tx_t3users_views_ResetPassword';}
+    /**
+     * @return string
+     */
+    public function getTemplateName()
+    {
+        return 'resetpassword';
+    }
+
+    /**
+     * @return string
+     */
+    public function getViewClassName()
+    {
+        return 'tx_t3users_views_ResetPassword';
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ResetPassword.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ResetPassword.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ResetPassword.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ResetPassword.php']);
 }
-
-?>

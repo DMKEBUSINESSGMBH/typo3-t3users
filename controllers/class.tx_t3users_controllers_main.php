@@ -28,13 +28,12 @@ tx_rnbase::load('tx_rnbase_controller');
 /**
  * Controller
  */
-class tx_t3users_controllers_main extends tx_rnbase_controller {
-  var $extensionKey = 't3users';
-  var $qualifier = 't3users'; // Der Notfall-Qualifier
+class tx_t3users_controllers_main extends tx_rnbase_controller
+{
+    public $extensionKey = 't3users';
+    public $qualifier = 't3users'; // Der Notfall-Qualifier
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php']);
 }
-
-?>

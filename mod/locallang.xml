@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
-	<meta type="array">
-		<type>database</type>
-		<description>Language labels for database tables/fields belonging to extension 't3users'</description>
-	</meta>
-	<data type="array">
-		<languageKey index="default" type="array">
+    <meta type="array">
+        <type>database</type>
+        <description>Language labels for database tables/fields belonging to extension 't3users'</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
 <!-- Module strings -->
-			<label index="tx_t3users_module_name">Manage FE users</label>
-			<label index="msg_search_feuser">Search for fe users</label>
-			<label index="label_info">Info</label>
-			<label index="label_searchterm">Search</label>
-			<label index="label_pagemode_all">All pages</label>
-			<label index="label_pagemode_current">Current page</label>
-			<label index="label_active_user">Active users only</label>
-			<label index="label_hidden_user">Include hidden users</label>
-			<label index="label_uid">UID</label>
-			<label index="label_name">Name</label>
-			<label index="label_lastname">Last name</label>
-			<label index="label_firstname">First name</label>
-			<label index="label_email">Email</label>
-			<label index="label_search4uid">Search for user with uid</label>
-			<label index="label_founduser">found user</label>
-			<label index="label_foundusers">found users</label>
-			<label index="btn_search">Search</label>
+            <label index="tx_t3users_module_name">Manage FE users</label>
+            <label index="msg_search_feuser">Search for fe users</label>
+            <label index="label_info">Info</label>
+            <label index="label_searchterm">Search</label>
+            <label index="label_pagemode_all">All pages</label>
+            <label index="label_pagemode_current">Current page</label>
+            <label index="label_active_user">Active users only</label>
+            <label index="label_hidden_user">Include hidden users</label>
+            <label index="label_uid">UID</label>
+            <label index="label_name">Name</label>
+            <label index="label_lastname">Last name</label>
+            <label index="label_firstname">First name</label>
+            <label index="label_email">Email</label>
+            <label index="label_search4uid">Search for user with uid</label>
+            <label index="label_founduser">found user</label>
+            <label index="label_foundusers">found users</label>
+            <label index="btn_search">Search</label>
 
-			<label index="label_common_start">Requestinfos</label>
-			<label index="label_common_end">Requestinfos</label>
-			<label index="label_common_warning">Warning</label>
-			<label index="label_common_error">Error</label>
-			<label index="label_common_info">Information</label>
-			<label index="label_search_form">Filter</label>
-			<label index="label_buttons">Functions</label>
-			<label index="label_pager">Navigation</label>
-			<label index="label_list">Results</label>
-			<label index="label_search">Free text search:</label>
-			<label index="label_hidden">Hidden entries:</label>
-			<label index="label_button_search">search</label>
-			<label index="label_select_hide_hidden">Hide</label>
-			<label index="label_select_show_hidden">Show</label>
-			<label index="label_list_size">Entries found: </label>
+            <label index="label_common_start">Requestinfos</label>
+            <label index="label_common_end">Requestinfos</label>
+            <label index="label_common_warning">Warning</label>
+            <label index="label_common_error">Error</label>
+            <label index="label_common_info">Information</label>
+            <label index="label_search_form">Filter</label>
+            <label index="label_buttons">Functions</label>
+            <label index="label_pager">Navigation</label>
+            <label index="label_list">Results</label>
+            <label index="label_search">Free text search:</label>
+            <label index="label_hidden">Hidden entries:</label>
+            <label index="label_button_search">search</label>
+            <label index="label_select_hide_hidden">Hide</label>
+            <label index="label_select_show_hidden">Show</label>
+            <label index="label_list_size">Entries found: </label>
 
-			<label index="label_add_feuser">Create new FE-User</label>
-			<label index="label_tableheader_uid">Uid</label>
-			<label index="label_tableheader_actions">Actions</label>
-			<label index="label_tableheader_username">Username</label>
-			<label index="label_tableheader_firstname">Firstname</label>
-			<label index="label_tableheader_lastname">Lastname</label>
-			<label index="label_tableheader_usergroup">Usergroup</label>
+            <label index="label_add_feuser">Create new FE-User</label>
+            <label index="label_tableheader_uid">Uid</label>
+            <label index="label_tableheader_actions">Actions</label>
+            <label index="label_tableheader_username">Username</label>
+            <label index="label_tableheader_firstname">Firstname</label>
+            <label index="label_tableheader_lastname">Lastname</label>
+            <label index="label_tableheader_usergroup">Usergroup</label>
 
-			<label index="label_search">Free text search:</label>
-			<label index="label_hidden">Hidden entries:</label>
-			<label index="label_select_hide_hidden">hide</label>
-			<label index="label_select_show_hidden">show</label>
+            <label index="label_search">Free text search:</label>
+            <label index="label_hidden">Hidden entries:</label>
+            <label index="label_select_hide_hidden">hide</label>
+            <label index="label_select_show_hidden">show</label>
 
-		</languageKey>
-		<languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
 
-			<label index="tx_t3users_module_name">FE-User Verwaltung</label>
-			<label index="msg_search_feuser">Suche nach FE Usern</label>
-			<label index="label_info">Hinweis</label>
-			<label index="label_searchterm">Suche</label>
+            <label index="tx_t3users_module_name">FE-User Verwaltung</label>
+            <label index="msg_search_feuser">Suche nach FE Usern</label>
+            <label index="label_info">Hinweis</label>
+            <label index="label_searchterm">Suche</label>
 
-			<label index="label_add_feuser">neuen FE-Nutzer erstellen</label>
-			<label index="label_tableheader_actions">Aktionen</label>
-			<label index="label_tableheader_firstname">Vorname</label>
-			<label index="label_tableheader_lastname">Nachname</label>
-			<label index="label_tableheader_usergroup">Usergroup</label>
+            <label index="label_add_feuser">neuen FE-Nutzer erstellen</label>
+            <label index="label_tableheader_actions">Aktionen</label>
+            <label index="label_tableheader_firstname">Vorname</label>
+            <label index="label_tableheader_lastname">Nachname</label>
+            <label index="label_tableheader_usergroup">Usergroup</label>
 
-			<label index="label_search">Freitextsuche:</label>
-			<label index="label_hidden">Versteckte Einträge:</label>
-			<label index="label_select_hide_hidden">verstecken</label>
-			<label index="label_select_show_hidden">zeigen</label>
+            <label index="label_search">Freitextsuche:</label>
+            <label index="label_hidden">Versteckte Einträge:</label>
+            <label index="label_select_hide_hidden">verstecken</label>
+            <label index="label_select_show_hidden">zeigen</label>
 
-		</languageKey>
-	</data>
+        </languageKey>
+    </data>
 </T3locallang>

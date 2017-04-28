@@ -31,7 +31,9 @@ $SOBE = tx_rnbase::makeInstance('tx_t3users_mod_Module');
 $SOBE->init();
 
 // Include files?
-foreach((array) $SOBE->include_once as $INC_FILE)	include_once($INC_FILE);
+foreach ((array) $SOBE->include_once as $INC_FILE) {
+    include_once($INC_FILE);
+}
 
 $SOBE->main();
 $SOBE->printContent();

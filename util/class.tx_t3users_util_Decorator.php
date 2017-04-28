@@ -27,92 +27,99 @@ tx_rnbase::load('Tx_Rnbase_Backend_Utility_Icons');
 /**
  * Die Klasse bereitet Objekte für die Darstellung im Backend auf
  */
-class tx_t3users_util_Decorator {
+class tx_t3users_util_Decorator
+{
+    public static function prepareTable($entries, $columns, $formTool, $options)
+    {
+        $arr = array( 0 => array( self::getHeadline($parts, $columns, $options) ));
+        foreach ($entries as $entry) {
+            $record = is_object($entry) ? $entry->record : $entry;
+            $row = array();
+            if (isset($options['checkbox'])) {
+                $checkName = isset($options['checkboxname']) ? $options['checkboxname'] : 'checkEntry';
+                // Check if entry is checkable
+                if (!is_array($options['dontcheck']) || !array_key_exists($record['uid'], $options['dontcheck'])) {
+                    $row[] = $formTool->createCheckbox($checkName.'[]', $record['uid']);
+                } else {
+                    $row[] = '<img'.Tx_Rnbase_Backend_Utility_Icons::skinImg($GLOBALS['BACK_PATH'], 'gfx/zoom2.gif', 'width="11" height="12"').' title="Info: '. $options['dontcheck'][$record['uid']] .'" border="0" alt="" />';
+                }
+            }
+            reset($columns);
+            foreach ($columns as $column => $data) {
+                // Hier erfolgt die Ausgabe der Daten für die Tabelle. Wenn eine method angegeben
+                // wurde, dann muss das Entry als Objekt vorliegen. Es wird dann die entsprechende
+                // Methode aufgerufen. Es kann auch ein Decorator-Objekt gesetzt werden. Dann wird
+                // von diesem die Methode format aufgerufen und der Wert, sowie der Name der aktuellen
+                // Spalte übergeben. Ist nichts gesetzt wird einfach der aktuelle Wert verwendet.
+                if (isset($data['method'])) {
+                    $row[] = call_user_func(array($entry, $data['method']));
+                } elseif (isset($data['decorator'])) {
+                    $decor = $data['decorator'];
+                    $row[] = $decor->format($record[$column], $column, $record, $entry, $formTool);
+                } else {
+                    $row[] = $record[$column];
+                }
+            }
+            if (isset($options['linker'])) {
+                $row[] = self::addLinker($options, $entry, $formTool);
+            }
+            $arr[0][] = $row;
+        }
 
-	static function prepareTable($entries, $columns, $formTool, $options) {
-		$arr = Array( 0 => Array( self::getHeadline($parts, $columns, $options) ));
-		foreach($entries As $entry){
-			$record = is_object($entry) ? $entry->record : $entry;
-			$row = array();
-			if(isset($options['checkbox'])) {
-				$checkName = isset($options['checkboxname']) ? $options['checkboxname'] : 'checkEntry';
-				// Check if entry is checkable
-				if(!is_array($options['dontcheck']) || !array_key_exists($record['uid'], $options['dontcheck']))
-					$row[] = $formTool->createCheckbox($checkName.'[]', $record['uid']);
-				else
-					$row[] = '<img'.Tx_Rnbase_Backend_Utility_Icons::skinImg($GLOBALS['BACK_PATH'],'gfx/zoom2.gif','width="11" height="12"').' title="Info: '. $options['dontcheck'][$record['uid']] .'" border="0" alt="" />';
-			}
-			reset($columns);
-			foreach($columns As $column => $data) {
-				// Hier erfolgt die Ausgabe der Daten für die Tabelle. Wenn eine method angegeben
-				// wurde, dann muss das Entry als Objekt vorliegen. Es wird dann die entsprechende
-				// Methode aufgerufen. Es kann auch ein Decorator-Objekt gesetzt werden. Dann wird
-				// von diesem die Methode format aufgerufen und der Wert, sowie der Name der aktuellen
-				// Spalte übergeben. Ist nichts gesetzt wird einfach der aktuelle Wert verwendet.
-				if(isset($data['method'])) {
-					$row[] = call_user_func(array($entry, $data['method']));
-				}
-				elseif(isset($data['decorator'])) {
-					$decor = $data['decorator'];
-					$row[] = $decor->format($record[$column],$column, $record, $entry, $formTool);
-				}
-				else {
-					$row[] = $record[$column];
-				}
-			}
-			if(isset($options['linker']))
-				$row[] = self::addLinker($options, $entry, $formTool);
-			$arr[0][] = $row;
-		}
-		return $arr;
-	}
+        return $arr;
+    }
 
-	/**
-	 * Liefert die passenden Überschrift für die Tabelle
-	 *
-	 * @param int $parts
-	 * @return array
-	 */
-	static function getHeadline($parts, $columns, $options) {
-		global $LANG;
-		$arr = array();
-		if(isset($options['checkbox'])) {
-			$arr[] = '&nbsp;'; // Spalte für Checkbox
-		}
-		$tableName = isset($options['tablename']) ? $options['tablename'] : '';
-		foreach($columns As $column => $data) {
-			if(intval($data['nocolumn'])) continue;
-			$arr[] = intval($data['notitle']) ? '' :
-					$LANG->getLL((isset($data['title']) ? $data['title'] : $tableName.'_' . $column));
-		}
-		if(isset($options['linker']))
-			$arr[] = $LANG->getLL('label_action');
-		return $arr;
-	}
+    /**
+     * Liefert die passenden Überschrift für die Tabelle
+     *
+     * @param int $parts
+     * @return array
+     */
+    public static function getHeadline($parts, $columns, $options)
+    {
+        global $LANG;
+        $arr = array();
+        if (isset($options['checkbox'])) {
+            $arr[] = '&nbsp;'; // Spalte für Checkbox
+        }
+        $tableName = isset($options['tablename']) ? $options['tablename'] : '';
+        foreach ($columns as $column => $data) {
+            if (intval($data['nocolumn'])) {
+                continue;
+            }
+            $arr[] = intval($data['notitle']) ? '' :
+                    $LANG->getLL((isset($data['title']) ? $data['title'] : $tableName.'_' . $column));
+        }
+        if (isset($options['linker'])) {
+            $arr[] = $LANG->getLL('label_action');
+        }
 
-	static function addLinker($options, $obj, $formTool) {
-		$out = '';
-		if(isset($options['linker'])) {
-			$linkerArr = $options['linker'];
-			if(is_array($linkerArr) && count($linkerArr)) {
-				$currentPid = intval($options['pid']);
-				foreach($linkerArr As $linker) {
-					$out .= $linker->makeLink($obj, $formTool, $currentPid, $options);
-					$out .= $options['linkerimplode'] ? $options['linkerimplode'] : '<br />';
-				}
-			}
-		}
-		return $out;
-	}
+        return $arr;
+    }
+
+    public static function addLinker($options, $obj, $formTool)
+    {
+        $out = '';
+        if (isset($options['linker'])) {
+            $linkerArr = $options['linker'];
+            if (is_array($linkerArr) && count($linkerArr)) {
+                $currentPid = intval($options['pid']);
+                foreach ($linkerArr as $linker) {
+                    $out .= $linker->makeLink($obj, $formTool, $currentPid, $options);
+                    $out .= $options['linkerimplode'] ? $options['linkerimplode'] : '<br />';
+                }
+            }
+        }
+
+        return $out;
+    }
 }
 
-interface tx_t3users_util_Linker {
-	function makeLink($obj, $formTool, $currentPid, $options);
+interface tx_t3users_util_Linker
+{
+    public function makeLink($obj, $formTool, $currentPid, $options);
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_Decorator.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_Decorator.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_Decorator.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_Decorator.php']);
 }
-
-
-?>

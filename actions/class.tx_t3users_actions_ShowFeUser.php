@@ -30,10 +30,10 @@ tx_rnbase::load('tx_t3users_models_feuser');
 
 /**
  * Controller for detailview of FE-User
- *
  */
-class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC {
-	
+class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC
+{
+    
   /**
    *
    *
@@ -42,39 +42,46 @@ class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC {
    * @param array $viewData
    * @return string error msg or null
    */
-  function handleRequest(&$parameters,&$configurations, &$viewData){
-    
-  	$userSrv = tx_t3users_util_serviceRegistry::getFeUserService();
+    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    {
+        $userSrv = tx_t3users_util_serviceRegistry::getFeUserService();
 
-  	// gegenwärtig angemeldeten User ausgeben, wenn Option gesetzt
-  	if ($configurations->getBool('feuserdetails.currentUser', true, false)) {
-	  	$user = $userSrv->getFeUserWithFallback();
-  	}
-  	else {
-	  	// Look for static user uid
-	    $uid = intval($configurations->get('feuserdetails.staticUser'));
-	    if(!$uid)
-	      $uid = intval($parameters->offsetGet('feuserId'));
-	    if(!$uid)
-	      $uid = intval($parameters->offsetGet('NK_feuserId'));
-	    if(!$uid)
-	      return $configurations->getCfgOrLL('feuserdetails.nouser');
-	
-			// Let's get the current fe_user
-		$user = tx_t3users_models_feuser::getInstance($uid);
-  	}
-	$viewData->offsetSet('user', $user);
-    return null;
-  }
+        // gegenwärtig angemeldeten User ausgeben, wenn Option gesetzt
+        if ($configurations->getBool('feuserdetails.currentUser', true, false)) {
+            $user = $userSrv->getFeUserWithFallback();
+        } else {
+            // Look for static user uid
+            $uid = intval($configurations->get('feuserdetails.staticUser'));
+            if (!$uid) {
+                $uid = intval($parameters->offsetGet('feuserId'));
+            }
+            if (!$uid) {
+                $uid = intval($parameters->offsetGet('NK_feuserId'));
+            }
+            if (!$uid) {
+                return $configurations->getCfgOrLL('feuserdetails.nouser');
+            }
+    
+            // Let's get the current fe_user
+            $user = tx_t3users_models_feuser::getInstance($uid);
+        }
+        $viewData->offsetSet('user', $user);
+
+        return null;
+    }
 
   
 
-  function getTemplateName() { return 'feuserdetails';}
-	function getViewClassName() { return 'tx_t3users_views_ShowFeUser';}
+    public function getTemplateName()
+    {
+        return 'feuserdetails';
+    }
+    public function getViewClassName()
+    {
+        return 'tx_t3users_views_ShowFeUser';
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowFeUser.php'])	{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowFeUser.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowFeUser.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowFeUser.php']);
 }
-
-?>

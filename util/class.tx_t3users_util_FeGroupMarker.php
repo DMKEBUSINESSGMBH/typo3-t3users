@@ -30,7 +30,8 @@ require_once(tx_rnbase_util_Extensions::extPath('rn_base') . 'util/class.tx_rnba
 /**
  * Diese Klasse ist für die Erstellung von Markerarrays für FE Group verantwortlich
  */
-class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker {
+class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
+{
   
   /**
    * Initialisiert den Marker Array.
@@ -39,9 +40,10 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker {
    * - hideuploads
    * @param array $options Hinweise an den Marker
    */
-  function tx_t3users_util_FeGroupMarker($options=false){
-  	$this->options = is_array($options) ? $options : array();
-  }
+    public function tx_t3users_util_FeGroupMarker($options = false)
+    {
+        $this->options = is_array($options) ? $options : array();
+    }
 
   /**
    * Initialisiert die Labels für die Profile-Klasse
@@ -49,9 +51,10 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker {
    * @param tx_rnbase_util_FormatUtil $formatter
    * @param array $defaultMarkerArr
    */
-  public function initLabelMarkers(&$formatter, $confId, $defaultMarkerArr = 0, $marker = 'FEGROUP') {
-    return $this->prepareLabelMarkers('tx_t3users_models_fegroup', $formatter, $confId, $defaultMarkerArr, $marker);
-  }
+    public function initLabelMarkers(&$formatter, $confId, $defaultMarkerArr = 0, $marker = 'FEGROUP')
+    {
+        return $this->prepareLabelMarkers('tx_t3users_models_fegroup', $formatter, $confId, $defaultMarkerArr, $marker);
+    }
 
   /**
    * @param string $template das HTML-Template
@@ -62,20 +65,21 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker {
    *        Von diesem String hängen die entsprechenden weiteren Marker ab: ###FEGROUP_TITLE###
    * @return String das geparste Template
    */
-  public function parseTemplate($template, &$fegroup, &$formatter, $confId, $marker = 'FEGROUP') {
-  	if(!is_object($fegroup)) {
-      return '<!-- -->';
+    public function parseTemplate($template, &$fegroup, &$formatter, $confId, $marker = 'FEGROUP')
+    {
+        if (!is_object($fegroup)) {
+            return '<!-- -->';
+        }
+        $markerArray = $formatter->getItemMarkerArrayWrapped($fegroup->record, $confId, 0, $marker.'_', $fegroup->getColumnNames());
+        $wrappedSubpartArray = array();
+        $subpartArray = array();
+        
+        $out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+
+        return $out;
     }
-    $markerArray = $formatter->getItemMarkerArrayWrapped($fegroup->record, $confId , 0, $marker.'_',$fegroup->getColumnNames());
-    $wrappedSubpartArray = array();
-    $subpartArray = array();
-		
-		$out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
-    return $out;
-  }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php'])	{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php']);
 }
-?>

@@ -30,93 +30,102 @@ tx_rnbase::load('tx_t3users_search_builder');
 
 /**
  * Controller für die Listenansicht für FeGruppen
- *
  */
-class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC {
+class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
+{
 
-	/**
-	 *
-	 *
-	 * @param array_object $parameters
-	 * @param tx_rnbase_configurations $configurations
-	 * @param array $viewData
-	 * @return string error msg or null
-	 */
-	function handleRequest(&$parameters,&$configurations, &$viewData){
+    /**
+     *
+     *
+     * @param array_object $parameters
+     * @param tx_rnbase_configurations $configurations
+     * @param array $viewData
+     * @return string error msg or null
+     */
+    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    {
+        $userSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
-		$userSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
+        $fields = array();
+        $options = array('count' => 1);
+        $this->initSearch($fields, $options, $parameters, $configurations);
+        $listSize = $userSrv->search($fields, $options);
+        unset($options['count']);
+        // PageBrowser initialisieren
+        $pageBrowser = tx_rnbase::makeInstance('tx_rnbase_util_PageBrowser', 'feusers');
+        $pageSize = $this->getPageSize($parameters, $configurations);
 
-		$fields = array();
-		$options = array('count'=> 1);
-		$this->initSearch($fields, $options, $parameters, $configurations);
-		$listSize = $userSrv->search($fields, $options);
-		unset($options['count']);
-		// PageBrowser initialisieren
-		$pageBrowser = tx_rnbase::makeInstance('tx_rnbase_util_PageBrowser', 'feusers');
-		$pageSize = $this->getPageSize($parameters, $configurations);
+        //Wurde neu gesucht?
+        if ($parameters->offsetGet('NK_newsearch') || $parameters->offsetGet('newsearch')) {
+            // Der Suchbutton wurde neu gedrückt. Der Pager muss initialisiert werden
+            $pageBrowser->setState(null, $listSize, $pageSize);
+            $configurations->removeKeepVar('newsearch');
+        } else {
+            $pageBrowser->setState($parameters, $listSize, $pageSize);
+        }
+        $limit = $pageBrowser->getState();
+        $options = array_merge($options, $limit);
+        $result = $userSrv->search($fields, $options);
 
-		//Wurde neu gesucht?
-		if($parameters->offsetGet('NK_newsearch') || $parameters->offsetGet('newsearch')) {
-			// Der Suchbutton wurde neu gedrückt. Der Pager muss initialisiert werden
-			$pageBrowser->setState(null, $listSize, $pageSize);
-			$configurations->removeKeepVar('newsearch');
-		}
-		else {
-			$pageBrowser->setState($parameters, $listSize, $pageSize);
-		}
-		$limit = $pageBrowser->getState();
-		$options = array_merge($options, $limit);
-		$result = $userSrv->search($fields, $options);
+        $viewData->offsetSet('userlist', $result);
+        $viewData->offsetSet('pagebrowser', $pageBrowser);
 
-		$viewData->offsetSet('userlist', $result);
-		$viewData->offsetSet('pagebrowser', $pageBrowser);
+        tx_rnbase_util_Misc::callHook(
+            't3users',
+            'actions_ListFeUsers_afterHandleRequest',
+            array(
+                'viewData' => &$viewData,
+                'parameters' => &$parameters,
+                'configurations' => &$configurations,
+            ),
+            $this
+        );
 
-		tx_rnbase_util_Misc::callHook(
-			't3users','actions_ListFeUsers_afterHandleRequest',
-			array(
-				'viewData' => &$viewData,
-				'parameters' => &$parameters,
-				'configurations' => &$configurations,
-			),
-			$this
-		);
+        return null;
+    }
 
-		return null;
-	}
+    /**
+     * Liefert die Anzahl der Ergebnisse pro Seite
+     *
+     * @param array $parameters
+     * @param tx_rnbase_configurations $configurations
+     * @return int
+     */
+    protected function getPageSize(&$parameters, &$configurations)
+    {
+        return intval($configurations->get('feuserlist.feuser.pagebrowser.limit'));
+    }
+    protected function initSearch(&$fields, &$options, &$parameters, &$configurations)
+    {
+        // Look for static user uid
+        $uids = $configurations->get('feuserlist.staticUsers');
+        if ($uids) {
+            $fields['FEUSER.UID'][OP_IN_INT] = $uids;
+        } else {
+            $filter = tx_rnbase_filter_BaseFilter::createFilter(
+                $parameters,
+                $configurations,
+                $configurations->getViewData(),
+                $this->getConfId()
+            );
+            $filter->init($fields, $options);
+        }
 
-	/**
-	 * Liefert die Anzahl der Ergebnisse pro Seite
-	 *
-	 * @param array $parameters
-	 * @param tx_rnbase_configurations $configurations
-	 * @return int
-	 */
-	protected function getPageSize(&$parameters, &$configurations) {
-		return intval($configurations->get('feuserlist.feuser.pagebrowser.limit'));
-	}
-	protected function initSearch(&$fields, &$options, &$parameters, &$configurations) {
-		// Look for static user uid
-		$uids = $configurations->get('feuserlist.staticUsers');
-		if($uids) {
-			$fields['FEUSER.UID'][OP_IN_INT] = $uids;
-		}
-		else {
-			$filter = tx_rnbase_filter_BaseFilter::createFilter(
-					$parameters, $configurations, $configurations->getViewData(),
-					$this->getConfId()
-			);
-			$filter->init($fields, $options);
-		}
+        // Freitextsuche
+        // @TODO freitext suche in eigenen filter auslagern
+        tx_t3users_search_builder::buildFeUserFreeText($fields, $parameters->offsetGet('searchfeuser'));
+    }
 
-		// Freitextsuche
-		// @TODO freitext suche in eigenen filter auslagern
-		tx_t3users_search_builder::buildFeUserFreeText($fields, $parameters->offsetGet('searchfeuser'));
-	}
-
-	function getTemplateName() { return 'feuserlist';}
-	function getViewClassName() { return 'tx_t3users_views_ListFeUsers';}
+    public function getTemplateName()
+    {
+        return 'feuserlist';
+    }
+    public function getViewClassName()
+    {
+        return 'tx_t3users_views_ListFeUsers';
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php'])	{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php']);
 }

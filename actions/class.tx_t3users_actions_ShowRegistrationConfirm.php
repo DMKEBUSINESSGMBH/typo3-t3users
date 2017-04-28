@@ -28,54 +28,58 @@ tx_rnbase::load('tx_t3users_models_feuser');
 
 /**
  * Controller für die Bestätigung einer Neuregistrierung
- *
  */
-class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIOC {
+class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIOC
+{
 
-	/**
-	 *
-	 * @param tx_rnbase_IParameters $parameters
-	 * @param tx_rnbase_configurations $configurations
-	 * @param ArrayObject $viewData
-	 */
-	function handleRequest(&$parameters,&$configurations, &$viewData)
-	{
-		$confirm = $parameters->get('confirm');
-		if (!$confirm) {
-			return '<!-- -->';
-		}
+    /**
+     *
+     * @param tx_rnbase_IParameters $parameters
+     * @param tx_rnbase_configurations $configurations
+     * @param ArrayObject $viewData
+     */
+    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    {
+        $confirm = $parameters->get('confirm');
+        if (!$confirm) {
+            return '<!-- -->';
+        }
 
-		// User wants to be confirmed
-		$userUid = $parameters->getInt('uid');
+        // User wants to be confirmed
+        $userUid = $parameters->getInt('uid');
 
-		// Load instance
-		$feuser = tx_t3users_models_feuser::getInstance($userUid);
-		$usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
+        // Load instance
+        $feuser = tx_t3users_models_feuser::getInstance($userUid);
+        $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
-		// Set config
-		$options = array();
-		$options['successgroupsadd'] = $configurations->get($this->getConfId() . 'userGroupAfterConfirmation');
-		$options['successgroupsremove'] = $configurations->get($this->getConfId() . 'userGroupUponRegistration');
-		$options['notifyUserAboutConfirmation'] = $configurations->get($this->getConfId() . 'notifyUserAboutConfirmation');
-		$options['configurations'] = $configurations;
-		$options['confid'] = $this->getConfId();
+        // Set config
+        $options = array();
+        $options['successgroupsadd'] = $configurations->get($this->getConfId() . 'userGroupAfterConfirmation');
+        $options['successgroupsremove'] = $configurations->get($this->getConfId() . 'userGroupUponRegistration');
+        $options['notifyUserAboutConfirmation'] = $configurations->get($this->getConfId() . 'notifyUserAboutConfirmation');
+        $options['configurations'] = $configurations;
+        $options['confid'] = $this->getConfId();
 
-		$confirmed = $usrSrv->confirmUser($feuser, $confirm, $options);
-		if ($confirmed) {
-			$viewData->offsetSet('part', 'CONFIRMED');
-			$viewData->offsetSet('feuser', $feuser);
-		} else {
-			$viewData->offsetSet('part', 'CONFIRMFAILED');
-			$viewData->offsetSet('feuser', '');
-		}
-	}
+        $confirmed = $usrSrv->confirmUser($feuser, $confirm, $options);
+        if ($confirmed) {
+            $viewData->offsetSet('part', 'CONFIRMED');
+            $viewData->offsetSet('feuser', $feuser);
+        } else {
+            $viewData->offsetSet('part', 'CONFIRMFAILED');
+            $viewData->offsetSet('feuser', '');
+        }
+    }
 
-  function getTemplateName() { return 'registrationConfirm';}
-	function getViewClassName() { return 'tx_t3users_views_ShowRegistrationConfirm';}
+    public function getTemplateName()
+    {
+        return 'registrationConfirm';
+    }
+    public function getViewClassName()
+    {
+        return 'tx_t3users_views_ShowRegistrationConfirm';
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowRegistrationConfirm.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowRegistrationConfirm.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowRegistrationConfirm.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowRegistrationConfirm.php']);
 }
-
-?>

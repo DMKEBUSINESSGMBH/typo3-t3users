@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 
 <T3DataStructure>
-	<meta>
-		<langDisable>1</langDisable>
-	</meta>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
   <sheets>
     <sDEF>
       <ROOT>
@@ -53,7 +53,7 @@
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ShowFeUser</numIndex>
                     <numIndex index="1">tx_t3users_actions_ShowFeUser</numIndex>
                   </numIndex>
-				  <numIndex index="160" type="array">
+                  <numIndex index="160" type="array">
                     <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.RenewSession</numIndex>
                     <numIndex index="1">tx_t3users_actions_RenewSession</numIndex>
                   </numIndex>
@@ -304,150 +304,150 @@
         </TCEforms>
         <type>array</type>
         <el>
-        	<feuseredit.mode>
-				<TCEforms>
-					<exclude>1</exclude>
-					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode</label>
-					<config>
-						<type>select</type>
-						<renderType>selectSingle</renderType>
-		                <items type="array">
-		                  <numIndex index="1" type="array">
-		                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode.normal</numIndex>
-		                    <numIndex index="1">normal</numIndex>
-		                  </numIndex>
-		                  <numIndex index="2" type="array">
-		                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode.check</numIndex>
-		                    <numIndex index="1">check</numIndex>
-		                  </numIndex>
-		                </items>
-		                <maxitems>1</maxitems>
-		                <minitems>1</minitems>
-		                <size>1</size>
-		                <default>normal</default>
-					</config>
-				</TCEforms>
-			</feuseredit.mode>
-        	<feuseredit.enableNonTcaColumns>
-				<TCEforms>
-					<exclude>1</exclude>
-					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.enableNonTcaColumns</label>
-						<config>
-							<type>check</type>
-			                <default>0</default>
-						</config>
-				</TCEforms>
-			</feuseredit.enableNonTcaColumns>
-        	<feuseredit.doubleoptin>
-				<TCEforms>
-					<exclude>1</exclude>
-					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.doubleoptin</label>
-						<config>
-							<type>check</type>
-			                <default>0</default>
-						</config>
-				</TCEforms>
-			</feuseredit.doubleoptin>
-			<feuseredit.doubleoptin.pid>
-				<TCEforms>
-					<exclude>1</exclude>
-					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.doubleoptin.pid</label>
-					<config>
-						<type>input</type>
-						<size>5</size>
-						<max>256</max>
-						<eval>trim</eval>
-						<wizards type="array">
-							<_PADDING type="integer">2</_PADDING>
-                               	<link type="array">
+            <feuseredit.mode>
+                <TCEforms>
+                    <exclude>1</exclude>
+                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode</label>
+                    <config>
+                        <type>select</type>
+                        <renderType>selectSingle</renderType>
+                        <items type="array">
+                          <numIndex index="1" type="array">
+                            <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode.normal</numIndex>
+                            <numIndex index="1">normal</numIndex>
+                          </numIndex>
+                          <numIndex index="2" type="array">
+                            <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode.check</numIndex>
+                            <numIndex index="1">check</numIndex>
+                          </numIndex>
+                        </items>
+                        <maxitems>1</maxitems>
+                        <minitems>1</minitems>
+                        <size>1</size>
+                        <default>normal</default>
+                    </config>
+                </TCEforms>
+            </feuseredit.mode>
+            <feuseredit.enableNonTcaColumns>
+                <TCEforms>
+                    <exclude>1</exclude>
+                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.enableNonTcaColumns</label>
+                        <config>
+                            <type>check</type>
+                            <default>0</default>
+                        </config>
+                </TCEforms>
+            </feuseredit.enableNonTcaColumns>
+            <feuseredit.doubleoptin>
+                <TCEforms>
+                    <exclude>1</exclude>
+                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.doubleoptin</label>
+                        <config>
+                            <type>check</type>
+                            <default>0</default>
+                        </config>
+                </TCEforms>
+            </feuseredit.doubleoptin>
+            <feuseredit.doubleoptin.pid>
+                <TCEforms>
+                    <exclude>1</exclude>
+                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.doubleoptin.pid</label>
+                    <config>
+                        <type>input</type>
+                        <size>5</size>
+                        <max>256</max>
+                        <eval>trim</eval>
+                        <wizards type="array">
+                            <_PADDING type="integer">2</_PADDING>
+                                   <link type="array">
                                    <type>popup</type>
                                    <title>Link</title>
                                    <icon>link_popup.gif</icon>
                                    <script>browse_links.php?mode=wizard</script>
                                    <module><name>wizard_link</name></module>
                                    <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
-                               	</link>
-                           	</wizards>
-					</config>
-				</TCEforms>
-			</feuseredit.doubleoptin.pid>
-			<feuseredit.formxml>
-				<TCEforms>
-					<exclude>1</exclude>
-					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.xml</label>
-					<config>
-						<type>input</type>
-						<size>50</size>
-						<max>256</max>
-						<eval>trim</eval>
-						<wizards type="array">
-							<_PADDING>2</_PADDING>
-							<link type="array">
-								<type>popup</type>
-								<title>Link</title>
-								<icon>link_popup.gif</icon>
-								<script>browse_links.php?mode=wizard&amp;act=file</script>
-								<module><name>wizard_link</name></module>
-								<params type="array">
-									<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
-									<allowedExtensions>xml</allowedExtensions>
-								</params>
-								<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
-							</link>
-						</wizards>
-					</config>
-				</TCEforms>
-			</feuseredit.formxml>
-			<feusereditTemplate>
-				<TCEforms>
-					<exclude>1</exclude>
-					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.template</label>
-					<config>
-						<type>input</type>
-						<size>50</size>
-						<max>256</max>
-						<eval>trim</eval>
-						<wizards type="array">
-							<_PADDING>2</_PADDING>
-							<link type="array">
-								<type>popup</type>
-								<title>Link</title>
-								<icon>link_popup.gif</icon>
-								<script>browse_links.php?mode=wizard&amp;act=file</script>
-								<module><name>wizard_link</name></module>
-								<params type="array">
-									<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
-									<allowedExtensions>html</allowedExtensions>
-								</params>
-								<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
-							</link>
-						</wizards>
-					</config>
-				</TCEforms>
-			</feusereditTemplate>
-			<feuseredit.redirect.pid>
-				<TCEforms>
-					<exclude>1</exclude>
-					<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.redirect.pid</label>
-					<config>
-						<type>input</type>
-						<size>5</size>
-						<max>256</max>
-						<eval>trim</eval>
-						<wizards type="array">
-							<_PADDING type="integer">2</_PADDING>
-                               	<link type="array">
+                                   </link>
+                               </wizards>
+                    </config>
+                </TCEforms>
+            </feuseredit.doubleoptin.pid>
+            <feuseredit.formxml>
+                <TCEforms>
+                    <exclude>1</exclude>
+                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.xml</label>
+                    <config>
+                        <type>input</type>
+                        <size>50</size>
+                        <max>256</max>
+                        <eval>trim</eval>
+                        <wizards type="array">
+                            <_PADDING>2</_PADDING>
+                            <link type="array">
+                                <type>popup</type>
+                                <title>Link</title>
+                                <icon>link_popup.gif</icon>
+                                <script>browse_links.php?mode=wizard&amp;act=file</script>
+                                <module><name>wizard_link</name></module>
+                                <params type="array">
+                                    <blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+                                    <allowedExtensions>xml</allowedExtensions>
+                                </params>
+                                <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+                            </link>
+                        </wizards>
+                    </config>
+                </TCEforms>
+            </feuseredit.formxml>
+            <feusereditTemplate>
+                <TCEforms>
+                    <exclude>1</exclude>
+                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.template</label>
+                    <config>
+                        <type>input</type>
+                        <size>50</size>
+                        <max>256</max>
+                        <eval>trim</eval>
+                        <wizards type="array">
+                            <_PADDING>2</_PADDING>
+                            <link type="array">
+                                <type>popup</type>
+                                <title>Link</title>
+                                <icon>link_popup.gif</icon>
+                                <script>browse_links.php?mode=wizard&amp;act=file</script>
+                                <module><name>wizard_link</name></module>
+                                <params type="array">
+                                    <blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+                                    <allowedExtensions>html</allowedExtensions>
+                                </params>
+                                <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+                            </link>
+                        </wizards>
+                    </config>
+                </TCEforms>
+            </feusereditTemplate>
+            <feuseredit.redirect.pid>
+                <TCEforms>
+                    <exclude>1</exclude>
+                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.redirect.pid</label>
+                    <config>
+                        <type>input</type>
+                        <size>5</size>
+                        <max>256</max>
+                        <eval>trim</eval>
+                        <wizards type="array">
+                            <_PADDING type="integer">2</_PADDING>
+                                   <link type="array">
                                    <type>popup</type>
                                    <title>Link</title>
                                    <icon>link_popup.gif</icon>
                                    <script>browse_links.php?mode=wizard</script>
                                    <module><name>wizard_link</name></module>
                                    <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
-                               	</link>
-                           	</wizards>
-					</config>
-				</TCEforms>
-			</feuseredit.redirect.pid>
+                                   </link>
+                               </wizards>
+                    </config>
+                </TCEforms>
+            </feuseredit.redirect.pid>
         </el>
       </ROOT>
     </s_feuseredit>
@@ -573,26 +573,26 @@
         </el>
       </ROOT>
     </s_renewSession>
-		<s_tssetup>
-			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.TSSetup</sheetTitle>
-				</TCEforms>
-				<type>array</type>
-				<el>
-					<flexformTS>
-						<TCEforms>
-							<exclude>1</exclude>
-							<label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tssetup</label>
-							<config>
-								<type>text</type>
-								<cols>80</cols>
-								<rows>10</rows>
-							</config>
-						</TCEforms>
-					</flexformTS>
-				</el>
-			</ROOT>
-		</s_tssetup>
+        <s_tssetup>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.TSSetup</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <flexformTS>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tssetup</label>
+                            <config>
+                                <type>text</type>
+                                <cols>80</cols>
+                                <rows>10</rows>
+                            </config>
+                        </TCEforms>
+                    </flexformTS>
+                </el>
+            </ROOT>
+        </s_tssetup>
   </sheets>
 </T3DataStructure>

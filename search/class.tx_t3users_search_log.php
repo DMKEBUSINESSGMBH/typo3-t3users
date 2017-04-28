@@ -31,42 +31,55 @@ tx_rnbase::load('tx_rnbase_util_SearchBase');
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_search_log extends tx_rnbase_util_SearchBase {
+class tx_t3users_search_log extends tx_rnbase_util_SearchBase
+{
+    protected function getTableMappings()
+    {
+        $tableMapping['LOG'] = 'tx_t3users_log';
+        $tableMapping['FEUSER'] = 'fe_users';
+        // Hook to append other tables
+        tx_rnbase_util_Misc::callHook(
+            't3users',
+            'search_log_getTableMapping_hook',
+            array('tableMapping' => &$tableMapping),
+            $this
+        );
 
-	protected function getTableMappings() {
-		$tableMapping['LOG'] = 'tx_t3users_log';
-		$tableMapping['FEUSER'] = 'fe_users';
-		// Hook to append other tables
-		tx_rnbase_util_Misc::callHook('t3users','search_log_getTableMapping_hook',
-			array('tableMapping' => &$tableMapping), $this);
-		return $tableMapping;
-	}
-
-  protected function useAliases() {
-  	return true;
-  }
-	protected function getBaseTable() {
-  	return 'tx_t3users_log';
-  }
-  function getWrapperClass() {
-  	return 'tx_t3users_models_log';
-  }
-	
-  protected function getJoins($tableAliases) {
-  	$join = '';
-    if(isset($tableAliases['FEUSER'])) {
-    	$join .= ' JOIN fe_users AS FEUSER ON fe_users.uid = LOG.fe_user';
+        return $tableMapping;
     }
-		// Hook to append other tables
-		tx_rnbase_util_Misc::callHook('t3users','search_log_getJoins_hook',
-			array('join' => &$join, 'tableAliases' => $tableAliases), $this);
-    return $join;
-  }
+
+    protected function useAliases()
+    {
+        return true;
+    }
+    protected function getBaseTable()
+    {
+        return 'tx_t3users_log';
+    }
+    public function getWrapperClass()
+    {
+        return 'tx_t3users_models_log';
+    }
+    
+    protected function getJoins($tableAliases)
+    {
+        $join = '';
+        if (isset($tableAliases['FEUSER'])) {
+            $join .= ' JOIN fe_users AS FEUSER ON fe_users.uid = LOG.fe_user';
+        }
+        // Hook to append other tables
+        tx_rnbase_util_Misc::callHook(
+            't3users',
+            'search_log_getJoins_hook',
+            array('join' => &$join, 'tableAliases' => $tableAliases),
+            $this
+        );
+
+        return $join;
+    }
 }
 
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_feuser.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_feuser.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_feuser.php']);
 }
-
-?>

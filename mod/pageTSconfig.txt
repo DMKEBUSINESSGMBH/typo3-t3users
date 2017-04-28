@@ -1,16 +1,16 @@
 ##############################
-# Achtung: im BE können keine Referenzen verwendet werden. Die Werte also immmer kopieren!!				
+# Achtung: im BE können keine Referenzen verwendet werden. Die Werte also immmer kopieren!!
 ##############################
 mod {
-	t3users {
-		template = EXT:t3users/mod/template.html
-		_cfg {
-			funcmenu.useTabs = 1
-		}
-		feuser {
-			template = EXT:t3users/mod/templates/feusers.html
-			locallang = EXT:t3users/mod/locallang.xml
-			listerclass = tx_t3users_mod_lister_FeUser
-		}
-	}
+    t3users {
+        template = EXT:t3users/mod/template.html
+        _cfg {
+            funcmenu.useTabs = 1
+        }
+        feuser {
+            template = EXT:t3users/mod/templates/feusers.html
+            locallang = EXT:t3users/mod/locallang.xml
+            listerclass = tx_t3users_mod_lister_FeUser
+        }
+    }
 }

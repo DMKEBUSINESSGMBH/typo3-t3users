@@ -32,21 +32,20 @@ tx_rnbase::load('Tx_Rnbase_Utility_Strings');
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_services_feuserauth extends Tx_Rnbase_Service_Authentication {
+class tx_t3users_services_feuserauth extends Tx_Rnbase_Service_Authentication
+{
+    public function initAuth($subType, $loginData, $authInfo, $userauth)
+    {
+        parent::initAuth($subType, $loginData, $authInfo, $userauth);
 
-	function initAuth($subType, $loginData, $authInfo, $userauth) {
-		parent::initAuth($subType, $loginData, $authInfo, $userauth);
-
-		if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users','enableLoginByEmail')) &&
-					Tx_Rnbase_Utility_Strings::validEmail($loginData['uname']) ) {
-			$this->pObj->username_column = 'email';
-			$this->db_user['username_column'] = 'email';
-		}
-	}
+        if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'enableLoginByEmail')) &&
+                    Tx_Rnbase_Utility_Strings::validEmail($loginData['uname'])) {
+            $this->pObj->username_column = 'email';
+            $this->db_user['username_column'] = 'email';
+        }
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuserauth.php']) {
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuserauth.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuserauth.php']);
 }
-
-?>

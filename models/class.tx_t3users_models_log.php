@@ -26,83 +26,94 @@
 tx_rnbase::load('tx_rnbase_model_base');
 tx_rnbase::load('tx_t3users_models_feuser');
 
-interface tx_t3users_models_ILog {
-	/**
-	 * Returns the uid of current feuser
-	 * @return int
-	 */
-	function getFEUserUid();
-	/**
-	 * Returns the type of action. This is a unique type string
-	 * @return string
-	 */
-	function getType();
-	/**
-	 * Returns the uid of a used record.
-	 * @return int
-	 */
-	function getRecUid();
-	/**
-	 * Returns the uid of the used records table.
-	 * @return string
-	 */
-	function getRecTable();
-	/**
-	 * Optional additional data string
-	 * @return string or array
-	 */
-	function getData();
-	/**
-	 * Optional timestamp
-	 * @return string Format: Y-m-d H:i:s
-	 */
-	function getTimeStamp();
+interface tx_t3users_models_ILog
+{
+    /**
+     * Returns the uid of current feuser
+     * @return int
+     */
+    public function getFEUserUid();
+    /**
+     * Returns the type of action. This is a unique type string
+     * @return string
+     */
+    public function getType();
+    /**
+     * Returns the uid of a used record.
+     * @return int
+     */
+    public function getRecUid();
+    /**
+     * Returns the uid of the used records table.
+     * @return string
+     */
+    public function getRecTable();
+    /**
+     * Optional additional data string
+     * @return string or array
+     */
+    public function getData();
+    /**
+     * Optional timestamp
+     * @return string Format: Y-m-d H:i:s
+     */
+    public function getTimeStamp();
 }
 
 
 /**
  * Model for fe_user.
  */
-class tx_t3users_models_log extends tx_rnbase_model_base implements tx_t3users_models_ILog {
-  function getTableName(){return 'tx_t3users_log';}
+class tx_t3users_models_log extends tx_rnbase_model_base implements tx_t3users_models_ILog
+{
+    public function getTableName()
+    {
+        return 'tx_t3users_log';
+    }
 
-	function getFEUserUid() {
-		return $this->record['feuser'];
-	}
-	/**
-	 * Liefert den FEUser
-	 *
-	 * @return tx_t3users_models_feuser
-	 */
-	function getFEUser() {
-		return tx_t3users_models_feuser::getInstance($this->record['feuser']);
-	}
-	/**
-	 * Returns the type of action. This is a unique type string
-	 * @return string
-	 */
-	function getType(){
-		return $this->record['typ'];
-	}
-	function getRecUid(){
-		return intval($this->record['recuid']);
-	}
-	function getRecTable(){
-		return (string) $this->record['rectable'];
-	}
-	function getData(){
-		return $this->record['data'];
-	}
-	/**
-	 * Optional timestamp
-	 * @return string Format: Y-m-d H:i:s
-	 */
-	function getTimeStamp() {
-		return $this->record['tstamp'];
-	}
+    public function getFEUserUid()
+    {
+        return $this->record['feuser'];
+    }
+    /**
+     * Liefert den FEUser
+     *
+     * @return tx_t3users_models_feuser
+     */
+    public function getFEUser()
+    {
+        return tx_t3users_models_feuser::getInstance($this->record['feuser']);
+    }
+    /**
+     * Returns the type of action. This is a unique type string
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->record['typ'];
+    }
+    public function getRecUid()
+    {
+        return intval($this->record['recuid']);
+    }
+    public function getRecTable()
+    {
+        return (string) $this->record['rectable'];
+    }
+    public function getData()
+    {
+        return $this->record['data'];
+    }
+    /**
+     * Optional timestamp
+     * @return string Format: Y-m-d H:i:s
+     */
+    public function getTimeStamp()
+    {
+        return $this->record['tstamp'];
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_log.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_log.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_log.php']);
 }
-?>

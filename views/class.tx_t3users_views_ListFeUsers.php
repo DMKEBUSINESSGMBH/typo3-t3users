@@ -31,34 +31,43 @@ tx_rnbase::load('tx_rnbase_util_ListBuilder');
  * Viewclass to show a list of users.
  * Isn't it tiny! ;-)
  */
-class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base {
-  /**
-   * Erstellen des Frontend-Outputs
-   */
-	function createOutput($template, &$viewData, &$configurations, &$formatter){
+class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base
+{
+    /**
+     * Erstellen des Frontend-Outputs
+     */
+    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    {
 
     // Die ViewData bereitstellen
-    $users =& $viewData->offsetGet('userlist');
-	  $listBuilder = tx_rnbase::makeInstance('tx_rnbase_util_ListBuilder');
+        $users =& $viewData->offsetGet('userlist');
+        $listBuilder = tx_rnbase::makeInstance('tx_rnbase_util_ListBuilder');
 
-    $out = $listBuilder->render($users,
-    								$viewData, $template, 'tx_t3users_util_FeUserMarker',
-    								'feuserlist.feuser.', 'FEUSER', $formatter);
-    return $out;
-  }
+        $out = $listBuilder->render(
+            $users,
+            $viewData,
+            $template,
+            'tx_t3users_util_FeUserMarker',
+            'feuserlist.feuser.',
+            'FEUSER',
+            $formatter
+        );
+
+        return $out;
+    }
 
 
-	/**
-	 * Returns the subpart to use for in template
-	 *
-	 * @return string
-	 */
-	function getMainSubpart(&$viewData)
-	{
-		return '###FEUSER_LIST###';
-	}
+    /**
+     * Returns the subpart to use for in template
+     *
+     * @return string
+     */
+    public function getMainSubpart(&$viewData)
+    {
+        return '###FEUSER_LIST###';
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php'])	{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php']);
 }

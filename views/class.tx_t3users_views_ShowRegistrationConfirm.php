@@ -31,39 +31,41 @@ tx_rnbase::load('tx_rnbase_util_Templates');
 /**
  * Viewklasse für die Anzeige
  */
-class tx_t3users_views_ShowRegistrationConfirm extends tx_rnbase_view_Base {
-	/**
-	 * Erstellen des Frontend-Outputs
-	 * @param string $template
-	 * @param ArrayObject $viewData
-	 */
-	function createOutput($template, &$viewData, &$configurations, &$formatter) {
-		$subpartName = '###PART_'.$viewData->offsetGet('part').'###';
-		$template = $formatter->cObj->getSubpart($template, $subpartName);
+class tx_t3users_views_ShowRegistrationConfirm extends tx_rnbase_view_Base
+{
+    /**
+     * Erstellen des Frontend-Outputs
+     * @param string $template
+     * @param ArrayObject $viewData
+     */
+    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    {
+        $subpartName = '###PART_'.$viewData->offsetGet('part').'###';
+        $template = $formatter->cObj->getSubpart($template, $subpartName);
 
-		if(tx_rnbase_util_BaseMarker::containsMarker($template, 'FEUSER_')) {
-			$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
-	    $template = $marker->parseTemplate($template, $viewData->offsetGet('feuser'), $formatter, $this->getController()->getConfId().'feuser.', 'FEUSER');
-		}
+        if (tx_rnbase_util_BaseMarker::containsMarker($template, 'FEUSER_')) {
+            $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+            $template = $marker->parseTemplate($template, $viewData->offsetGet('feuser'), $formatter, $this->getController()->getConfId().'feuser.', 'FEUSER');
+        }
 
-    $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray);
-    return $out;
-  }
+        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray);
+
+        return $out;
+    }
 
 
-	/**
-	 * Returns the subpart to use for in template
-	 *
-	 * @return string
-	 */
-	function getMainSubpart(&$viewData)
-	{
-		return '###REGISTRATIONCONFIRM###';
-	}
+    /**
+     * Returns the subpart to use for in template
+     *
+     * @return string
+     */
+    public function getMainSubpart(&$viewData)
+    {
+        return '###REGISTRATIONCONFIRM###';
+    }
 }
 
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistrationConfirm.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistrationConfirm.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistrationConfirm.php']);
 }
-?>

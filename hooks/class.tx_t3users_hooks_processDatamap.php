@@ -24,50 +24,50 @@
 
 /**
  * Dieser Hook wird beim Speichern der Werte in die Datenbank aufgerufen.
- *
  */
-class tx_t3users_hooks_processDatamap {
+class tx_t3users_hooks_processDatamap
+{
 
-	/**
-	 *
-	 * @param string $status
-	 * @param string $table
-	 * @param int $id
-	 * @param array $fieldArray
-	 * @param tce_main $tce
-	 */
-	function processDatamap_postProcessFieldArray($status, $table, $id, &$fieldArray, &$tce) {
-		/* If we have an existing calendar event */
-		if ($table == 'fe_users' && count($fieldArray)>1) {
-			if($fieldArray['birthday']){
-				$fieldArray['birthday'] = $this->convertBackendDateToYMD($fieldArray['birthday']);
-			}
-		}
-	}
+    /**
+     *
+     * @param string $status
+     * @param string $table
+     * @param int $id
+     * @param array $fieldArray
+     * @param tce_main $tce
+     */
+    public function processDatamap_postProcessFieldArray($status, $table, $id, &$fieldArray, &$tce)
+    {
+        /* If we have an existing calendar event */
+        if ($table == 'fe_users' && count($fieldArray) > 1) {
+            if ($fieldArray['birthday']) {
+                $fieldArray['birthday'] = $this->convertBackendDateToYMD($fieldArray['birthday']);
+            }
+        }
+    }
   /**
    * Miniulation der Daten vor dem Speichern in die DB
    */
-  function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, &$tcemain)  {
+    public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, &$tcemain)
+    {
+    }
 
-  }
+    /**
+     * Converts a date from the backend (m-d-Y or d-m-Y) into the Y-m-d format.
+     * from ext cal
+     * @param       string      The date to convert.
+     * @return      string      The date in Ymd format.
+     */
+    public function convertBackendDateToYMD($dateString)
+    {
+        $dateArray = explode('-', $dateString);
+        $ymdString = ($GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat'] == '1') ?
+                                    $dateArray[2].'-'.$dateArray[0].'-'.$dateArray[1] : $dateArray[2].'-'.$dateArray[1].'-'.$dateArray[0];
 
-	/**
-	 * Converts a date from the backend (m-d-Y or d-m-Y) into the Y-m-d format.
-	 * from ext cal
-	 * @param		string		The date to convert.
-	 * @return		string		The date in Ymd format.
-	 */
-	function convertBackendDateToYMD($dateString) {
-		$dateArray = explode('-',$dateString);
-		$ymdString = ($GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat'] == '1') ?
-									$dateArray[2].'-'.$dateArray[0].'-'.$dateArray[1] : $dateArray[2].'-'.$dateArray[1].'-'.$dateArray[0];
-
-		return $ymdString;
-	}
+        return $ymdString;
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_processDatamap.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_processDatamap.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_processDatamap.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_processDatamap.php']);
 }
-
-?>

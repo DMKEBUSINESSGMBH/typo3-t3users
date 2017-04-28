@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <formidable version="0.7.0">
-  <meta>        
+  <meta>
     <name>Editing form for feusers</name>
     <form formid="registration"/>
     <debug>false</debug>
-		<displaylabels>true</displaylabels>
-	</meta>
-	<control>
-		<datahandler:DB>
-			<tablename>fe_users</tablename>
-			<keyname>uid</keyname>
-			<process>
-			  <beforeinsertion>
-				  <userobj>
-				  	<extension>this</extension>
-				  	<method>handleBeforeUpdateDB</method>
-				  </userobj>
-			  </beforeinsertion>
-			  <afterinsertion>
-				  <userobj>
-				  	<extension>this</extension>
-				  	<method>handleUpdateDB</method>
-				  </userobj>
-			  </afterinsertion>
-			</process>
-		</datahandler:DB>
+        <displaylabels>true</displaylabels>
+    </meta>
+    <control>
+        <datahandler:DB>
+            <tablename>fe_users</tablename>
+            <keyname>uid</keyname>
+            <process>
+              <beforeinsertion>
+                  <userobj>
+                      <extension>this</extension>
+                      <method>handleBeforeUpdateDB</method>
+                  </userobj>
+              </beforeinsertion>
+              <afterinsertion>
+                  <userobj>
+                      <extension>this</extension>
+                      <method>handleUpdateDB</method>
+                  </userobj>
+              </afterinsertion>
+            </process>
+        </datahandler:DB>
 
-		<!-- renderer:TEMPLATE>
-			<template subpart="###REGISTRATIONFORM###">
-				<errortag>formerrors</errortag>
-				<path>EXT:...html</path>
-			</template>
-		</renderer:TEMPLATE-->
-	  <renderer:STANDARD/>
-	</control>
+        <!-- renderer:TEMPLATE>
+            <template subpart="###REGISTRATIONFORM###">
+                <errortag>formerrors</errortag>
+                <path>EXT:...html</path>
+            </template>
+        </renderer:TEMPLATE-->
+      <renderer:STANDARD/>
+    </control>
 
-	<elements>
-		<renderlet:BOX name="EDITION-BOX">
-			<childs>
+    <elements>
+        <renderlet:BOX name="EDITION-BOX">
+            <childs>
 
-		
-				<renderlet:PASSWORD name="password123">
-					<label>LLL:EXT:t3users/locallang.php:label_form_password</label>
-				</renderlet:PASSWORD>
-		
-				<renderlet:PASSWORD name="password123_confirm">
-					<label>LLL:EXT:t3users/locallang.php:label_form_password_confirm</label>
-					<renderonly>true</renderonly>
-					<confirm>EDITION-BOX__password123</confirm>
-					<validators>
-						<validator:STANDARD>
-							<sameas>
-								<value>EDITION-BOX__password123</value>
-								<message>LLL:EXT:t3users/locallang.php:msg_form_password_sameas</message>
-							</sameas>
-						</validator:STANDARD>
-					</validators>
-				</renderlet:PASSWORD>
-				
-				<renderlet:TEXT name="first_name" label="First name" />
-				<renderlet:TEXT name="last_name" label="last_name" />
-		
-				<renderlet:TEXT name="email" label="Email">
-					<validators>
-						<validator:STANDARD>
-							<required message="Es muss eine Emailadresse angegeben werden."/>
-							<email message="Die Emailadresse ist nicht gültig."/>
-						</validator:STANDARD>
-						<validator:DB>
-							<!-- deleted="TRUE" -> gelöschte Datensätze ausschließen -->
-							<unique 
-								message="Die angegebene Emailadresse wird bereits von einem anderen Mitglied verwendet!"
-								deleted="TRUE" 
-							/>
-						</validator:DB>
-					</validators>
-				</renderlet:TEXT>
-		
-				<renderlet:SUBMIT name="btnsubmit" label="Speichern"/>
-			</childs>			
-		</renderlet:BOX>	
-	</elements>
+
+                <renderlet:PASSWORD name="password123">
+                    <label>LLL:EXT:t3users/locallang.php:label_form_password</label>
+                </renderlet:PASSWORD>
+
+                <renderlet:PASSWORD name="password123_confirm">
+                    <label>LLL:EXT:t3users/locallang.php:label_form_password_confirm</label>
+                    <renderonly>true</renderonly>
+                    <confirm>EDITION-BOX__password123</confirm>
+                    <validators>
+                        <validator:STANDARD>
+                            <sameas>
+                                <value>EDITION-BOX__password123</value>
+                                <message>LLL:EXT:t3users/locallang.php:msg_form_password_sameas</message>
+                            </sameas>
+                        </validator:STANDARD>
+                    </validators>
+                </renderlet:PASSWORD>
+
+                <renderlet:TEXT name="first_name" label="First name" />
+                <renderlet:TEXT name="last_name" label="last_name" />
+
+                <renderlet:TEXT name="email" label="Email">
+                    <validators>
+                        <validator:STANDARD>
+                            <required message="Es muss eine Emailadresse angegeben werden."/>
+                            <email message="Die Emailadresse ist nicht gültig."/>
+                        </validator:STANDARD>
+                        <validator:DB>
+                            <!-- deleted="TRUE" -> gelöschte Datensätze ausschließen -->
+                            <unique
+                                message="Die angegebene Emailadresse wird bereits von einem anderen Mitglied verwendet!"
+                                deleted="TRUE"
+                            />
+                        </validator:DB>
+                    </validators>
+                </renderlet:TEXT>
+
+                <renderlet:SUBMIT name="btnsubmit" label="Speichern"/>
+            </childs>
+        </renderlet:BOX>
+    </elements>
 </formidable>

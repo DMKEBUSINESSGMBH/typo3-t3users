@@ -27,21 +27,19 @@
 
 /**
  * Exception used for problems with feusers
- *
  */
-class tx_t3users_exceptions_User extends Exception {
-	protected $feuser;
-	protected $parent;
-	function __construct($message, &$feuser=null, $parent=null) {
-		parent::__construct($message, 0);
-		$this->feuser = $feuser;
-		$this->parent = $parent;
-	}
-
+class tx_t3users_exceptions_User extends Exception
+{
+    protected $feuser;
+    protected $parent;
+    public function __construct($message, &$feuser = null, $parent = null)
+    {
+        parent::__construct($message, 0);
+        $this->feuser = $feuser;
+        $this->parent = $parent;
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/exceptions/class.tx_t3users_exceptions_User.php'])	{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/exceptions/class.tx_t3users_exceptions_User.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/exceptions/class.tx_t3users_exceptions_User.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/exceptions/class.tx_t3users_exceptions_User.php']);
 }
-
-?>

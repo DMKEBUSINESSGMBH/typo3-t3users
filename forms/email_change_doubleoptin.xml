@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <formidable version="0.7.0">
-  <meta>        
+  <meta>
     <name>Registration form for changing Email with double opt in</name>
     <form formid="editing"/>
     <debug>false</debug>
-		<displaylabels>true</displaylabels>
-	</meta>
-	<control>
-		<datahandler:DB>
-			<tablename>fe_users</tablename>
-			<keyname>uid</keyname>
-			<process>
-			  <beforeinsertion>
-				  <userobj>
-				  	<extension>this</extension>
-				  	<method>handleBeforeUpdateDB</method>
-				  </userobj>
-			  </beforeinsertion>
-			  <afterinsertion>
-				  <userobj>
-				  	<extension>this</extension>
-				  	<method>handleUpdateDB</method>
-				  </userobj>
-			  </afterinsertion>
-			</process>
-		</datahandler:DB>
+        <displaylabels>true</displaylabels>
+    </meta>
+    <control>
+        <datahandler:DB>
+            <tablename>fe_users</tablename>
+            <keyname>uid</keyname>
+            <process>
+              <beforeinsertion>
+                  <userobj>
+                      <extension>this</extension>
+                      <method>handleBeforeUpdateDB</method>
+                  </userobj>
+              </beforeinsertion>
+              <afterinsertion>
+                  <userobj>
+                      <extension>this</extension>
+                      <method>handleUpdateDB</method>
+                  </userobj>
+              </afterinsertion>
+            </process>
+        </datahandler:DB>
 
-		<!-- renderer:TEMPLATE>
-			<template subpart="###REGISTRATIONFORM###">
-				<errortag>formerrors</errortag>
-				<path>EXT:...html</path>
-			</template>
-		</renderer:TEMPLATE-->
-	  <renderer:STANDARD/>
-	</control>
+        <!-- renderer:TEMPLATE>
+            <template subpart="###REGISTRATIONFORM###">
+                <errortag>formerrors</errortag>
+                <path>EXT:...html</path>
+            </template>
+        </renderer:TEMPLATE-->
+      <renderer:STANDARD/>
+    </control>
 
-	<elements>
-		<renderlet:TEXT name="email" label="LLL:EXT:t3users/locallang.xml:label_email">
-			<validators>
-				<validator:STANDARD>
-					<required message="LLL:EXT:t3users/locallang.xml:msg_form_email_required"/>
-					<email message="LLL:EXT:t3users/locallang.xml:msg_form_email_invalid"/>
-				</validator:STANDARD>
-				<validator:DB>
-					<unique>
-						<message>LLL:EXT:t3users/locallang.xml:msg_form_email_unique</message>
-					</unique>
-					<differsfromdb>
-						<message>LLL:EXT:t3users/locallang.xml:msg_form_email_differsfromdb</message>
-						<tablename>fe_users</tablename>
-						<field>username</field>
-					</differsfromdb>
-				</validator:DB>
-			</validators>
-		</renderlet:TEXT>
-		<renderlet:TEXT name="email-confirm" label="LLL:EXT:t3users/locallang.xml:label_email_repeat">
-			<validators>
-				<validator:STANDARD>
-					<sameas>
-						<value>email</value>
-						<message>LLL:EXT:t3users/locallang.xml:msg_form_email_sameas</message>
-					</sameas>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:TEXT>
+    <elements>
+        <renderlet:TEXT name="email" label="LLL:EXT:t3users/locallang.xml:label_email">
+            <validators>
+                <validator:STANDARD>
+                    <required message="LLL:EXT:t3users/locallang.xml:msg_form_email_required"/>
+                    <email message="LLL:EXT:t3users/locallang.xml:msg_form_email_invalid"/>
+                </validator:STANDARD>
+                <validator:DB>
+                    <unique>
+                        <message>LLL:EXT:t3users/locallang.xml:msg_form_email_unique</message>
+                    </unique>
+                    <differsfromdb>
+                        <message>LLL:EXT:t3users/locallang.xml:msg_form_email_differsfromdb</message>
+                        <tablename>fe_users</tablename>
+                        <field>username</field>
+                    </differsfromdb>
+                </validator:DB>
+            </validators>
+        </renderlet:TEXT>
+        <renderlet:TEXT name="email-confirm" label="LLL:EXT:t3users/locallang.xml:label_email_repeat">
+            <validators>
+                <validator:STANDARD>
+                    <sameas>
+                        <value>email</value>
+                        <message>LLL:EXT:t3users/locallang.xml:msg_form_email_sameas</message>
+                    </sameas>
+                </validator:STANDARD>
+            </validators>
+        </renderlet:TEXT>
 
-		<renderlet:SUBMIT name="btnsubmit" label="LLL:EXT:t3users/locallang.xml:label_save"/>
-	</elements>
+        <renderlet:SUBMIT name="btnsubmit" label="LLL:EXT:t3users/locallang.xml:label_save"/>
+    </elements>
 </formidable>

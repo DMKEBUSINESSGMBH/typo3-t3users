@@ -31,73 +31,76 @@ tx_rnbase::load('tx_t3users_util_Decorator');
 /**
  * Show user list.
  */
-class tx_t3users_mod_mUserList {
-	var $mod;
-	public function tx_t3users_mod_mUserList(&$mod) {
-		$this->mod = $mod;
-		$this->doc = $mod->doc;
-	}
-	/**
-	 * Ausführung des Requests
-	 *
-	 * @param int $currPage
-	 * @return string
-	 */
-	public function handleRequest(&$currPage) {
-		global $LANG;
+class tx_t3users_mod_mUserList
+{
+    public $mod;
+    public function tx_t3users_mod_mUserList(&$mod)
+    {
+        $this->mod = $mod;
+        $this->doc = $mod->doc;
+    }
+    /**
+     * Ausführung des Requests
+     *
+     * @param int $currPage
+     * @return string
+     */
+    public function handleRequest(&$currPage)
+    {
+        global $LANG;
 
-		$options = array();
-		if($GLOBALS['BE_USER']->isAdmin())
-			$options['linker'][] = tx_rnbase::makeInstance('tx_t3users_mod_LoginLink');
+        $options = array();
+        if ($GLOBALS['BE_USER']->isAdmin()) {
+            $options['linker'][] = tx_rnbase::makeInstance('tx_t3users_mod_LoginLink');
+        }
 
-		$searcher = $this->getUserSearcher($options);
-		$content .= $this->doc->section($LANG->getLL('msg_search_feuser'),$searcher->getSearchForm(), 0, 1);
-		$content .= $this->doc->spacer(5);
-//		$content .= $this->handleShowMembers();
-//		$content .= $this->handleShowMessenger();
-		$content .= $this->doc->spacer(5);
-		$content .= $searcher->getResultList();
-		$content .= $this->doc->spacer(5);
-		return $content;
+        $searcher = $this->getUserSearcher($options);
+        $content .= $this->doc->section($LANG->getLL('msg_search_feuser'), $searcher->getSearchForm(), 0, 1);
+        $content .= $this->doc->spacer(5);
+        $content .= $this->doc->spacer(5);
+        $content .= $searcher->getResultList();
+        $content .= $this->doc->spacer(5);
 
-		// Anzeige eines Suchformulars
-		// Anzeige einer Liste von Usern
-		return 'Page: ' . $currPage;
-	}
+        return $content;
 
-	/**
-	 * Get a match searcher
-	 *
-	 * @param array $options
-	 * @return tx_t3users_mod_userSearcher
-	 */
-	private function getUserSearcher(&$options) {
-		$searcher = tx_rnbase::makeInstance('tx_t3users_mod_userSearcher', $this->mod, $options);
-		return $searcher;
-	}
+        // Anzeige eines Suchformulars
+        // Anzeige einer Liste von Usern
+        return 'Page: ' . $currPage;
+    }
 
+    /**
+     * Get a match searcher
+     *
+     * @param array $options
+     * @return tx_t3users_mod_userSearcher
+     */
+    private function getUserSearcher(&$options)
+    {
+        $searcher = tx_rnbase::makeInstance('tx_t3users_mod_userSearcher', $this->mod, $options);
+
+        return $searcher;
+    }
 }
 
-class tx_t3users_mod_LoginLink implements tx_t3users_util_Linker {
-	/**
-	 * Login as feuser
-	 *
-	 * @param tx_t3users_models_feuser $item
-	 * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
-	 * @param int $currentPid
-	 * @param array $options
-	 * @return string
-	 */
-	function makeLink($item, $formTool, $currentPid, $options) {
-		$out = $formTool->createSubmit('hijack['.$item->uid.']', 'FE-Anmeldung');
+class tx_t3users_mod_LoginLink implements tx_t3users_util_Linker
+{
+    /**
+     * Login as feuser
+     *
+     * @param tx_t3users_models_feuser $item
+     * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
+     * @param int $currentPid
+     * @param array $options
+     * @return string
+     */
+    public function makeLink($item, $formTool, $currentPid, $options)
+    {
+        $out = $formTool->createSubmit('hijack['.$item->uid.']', 'FE-Anmeldung');
 
-		return $out;
-	}
+        return $out;
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_mUserList.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_mUserList.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_mUserList.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_mUserList.php']);
 }
-
-
-?>

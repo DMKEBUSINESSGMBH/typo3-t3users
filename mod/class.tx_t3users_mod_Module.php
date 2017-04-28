@@ -1,6 +1,5 @@
 <?php
 /**
- *
  *  Copyright notice
  *
  *  (c) 2011 René Nitzsche <dev@dmk-ebusiness.de>
@@ -30,23 +29,27 @@
  * @package tx_t3users
  * @subpackage tx_t3users_mod
  */
-class  tx_t3users_mod_Module
-	extends tx_rnbase_mod_BaseModule
+class tx_t3users_mod_Module extends tx_rnbase_mod_BaseModule
 {
 
-	/**
-	 * Method to get the extension key
-	 *
-	 * @return	string Extension key
-	 */
-	public function getExtensionKey() {
-		return 't3users';
-	}
+    /**
+     * Method to get the extension key
+     *
+     * @return  string Extension key
+     */
+    public function getExtensionKey()
+    {
+        return 't3users';
+    }
 
-	protected function getFormTag() {
-		$modUrl = Tx_Rnbase_Backend_Utility::getModuleUrl(
-			'web_T3usersBackend', array('id' => $this->getPid()), ''
-		);
-		return '<form action="' . $modUrl . '" method="POST" name="editform" id="editform">';
-	}
+    protected function getFormTag()
+    {
+        $modUrl = Tx_Rnbase_Backend_Utility::getModuleUrl(
+            'web_T3usersBackend',
+            array('id' => $this->getPid()),
+            ''
+        );
+
+        return '<form action="' . $modUrl . '" method="POST" name="editform" id="editform">';
+    }
 }

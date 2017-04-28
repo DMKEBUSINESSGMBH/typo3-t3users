@@ -30,45 +30,47 @@ tx_rnbase::load('tx_rnbase_util_Templates');
 /**
  * Viewklasse für die Anzeige
  */
-class tx_t3users_views_ShowRegistration extends tx_rnbase_view_Base {
-	/**
-	 * Erstellen des Frontend-Outputs
-	 */
-	function createOutput($template, &$viewData, &$configurations, &$formatter){
-		$editors =& $viewData->offsetGet('editors');
-		$subpartName = '###PART_'.$viewData->offsetGet('part').'###';
-		$template = tx_rnbase_util_Templates::getSubpart($template, $subpartName);
+class tx_t3users_views_ShowRegistration extends tx_rnbase_view_Base
+{
+    /**
+     * Erstellen des Frontend-Outputs
+     */
+    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    {
+        $editors =& $viewData->offsetGet('editors');
+        $subpartName = '###PART_'.$viewData->offsetGet('part').'###';
+        $template = tx_rnbase_util_Templates::getSubpart($template, $subpartName);
 
-		$feuser = $viewData->offsetGet('confirmed');
-		if(is_object($feuser)) {
-			// Jetzt mit dem FEuser-Marker drüber
-			$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
-			$template = $marker->parseTemplate($template, $feuser, $formatter, $this->getController()->getConfId(). 'feuser.');
-		}
+        $feuser = $viewData->offsetGet('confirmed');
+        if (is_object($feuser)) {
+            // Jetzt mit dem FEuser-Marker drüber
+            $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+            $template = $marker->parseTemplate($template, $feuser, $formatter, $this->getController()->getConfId(). 'feuser.');
+        }
 
-		// Jetzt die Editoren einbinden
-		$markerArray = $subpartArray = array();
-		foreach($editors AS $marker => $editor) {
-			$markerArray['###'.$marker.'###'] = $editor;
-		}
-		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray);
-		return $out;
-	}
+        // Jetzt die Editoren einbinden
+        $markerArray = $subpartArray = array();
+        foreach ($editors as $marker => $editor) {
+            $markerArray['###'.$marker.'###'] = $editor;
+        }
+        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray);
+
+        return $out;
+    }
 
 
-	/**
-	 * Returns the subpart to use for in template
-	 *
-	 * @return string
-	 */
-	function getMainSubpart(&$viewData)
-	{
-		return '###REGISTRATION###';
-	}
+    /**
+     * Returns the subpart to use for in template
+     *
+     * @return string
+     */
+    public function getMainSubpart(&$viewData)
+    {
+        return '###REGISTRATION###';
+    }
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistration.php'])
-{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistration.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistration.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistration.php']);
 }

@@ -26,27 +26,30 @@ tx_rnbase::load('tx_rnbase_util_Wizicon');
 /**
  * Class that adds the wizard icon.
  *
- * @author	René Nitzsche <rene[at]system25.de>
+ * @author  René Nitzsche <rene[at]system25.de>
  */
-class tx_t3users_controllers_wizicon extends tx_rnbase_util_Wizicon {
+class tx_t3users_controllers_wizicon extends tx_rnbase_util_Wizicon
+{
 
-	/**
-	 * @return array
-	 */
-	protected function getPluginData() {
-		return array(
-			'tx_t3users_main' => array(
-				'icon'        => tx_rnbase_util_Extensions::extRelPath( 't3users' ) . 'ext_icon.gif',
-				'title'       => 'plugin.t3users.label',
-				'description' => 'plugin.t3users.description'
-			)
-		);
-	}
+    /**
+     * @return array
+     */
+    protected function getPluginData()
+    {
+        return array(
+            'tx_t3users_main' => array(
+                'icon'        => tx_rnbase_util_Extensions::extRelPath('t3users') . 'ext_icon.gif',
+                'title'       => 'plugin.t3users.label',
+                'description' => 'plugin.t3users.description'
+            )
+        );
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getLLFile() {
-		return tx_rnbase_util_Extensions::extPath( 't3users' ) . 'locallang_db.xml';
-	}
+    /**
+     * @return string
+     */
+    protected function getLLFile()
+    {
+        return tx_rnbase_util_Extensions::extPath('t3users') . 'locallang_db.xml';
+    }
 }

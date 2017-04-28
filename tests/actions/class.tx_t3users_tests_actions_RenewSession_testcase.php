@@ -1,8 +1,8 @@
 <?php
 /**
- * 	@package TYPO3
- *  @subpackage tx_t3users
- *  @author Hannes Bochmann <dev@dmk-ebusiness.de>
+ * @package TYPO3
+ * @subpackage tx_t3users
+ * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  *
  *  Copyright notice
  *
@@ -36,88 +36,95 @@ tx_rnbase::load('tx_t3users_actions_RenewSession');
  * @subpackage tx_t3users
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  */
-class tx_t3users_tests_actions_RenewSession_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_t3users_tests_actions_RenewSession_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 *
-	 */
-	protected function tearDown() {
-		if(isset($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']))
-			unset($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']);
-	}
+    /**
+     *
+     */
+    protected function tearDown()
+    {
+        if (isset($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'])) {
+            unset($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']);
+        }
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testHandleRequestReturnsCorrectJavaScriptWithDefaultIntervall() {
-		$this->assertEmpty(
-			$GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
-			'JavaScript bereits in Header Data gesetzt.'
-		);
+    /**
+     * @group unit
+     */
+    public function testHandleRequestReturnsCorrectJavaScriptWithDefaultIntervall()
+    {
+        $this->assertEmpty(
+            $GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
+            'JavaScript bereits in Header Data gesetzt.'
+        );
 
-		$this->executeAction();
+        $this->executeAction();
 
-		$expectedJavaScript = $this->getExpectedJavaScriptWithIntervall();
+        $expectedJavaScript = $this->getExpectedJavaScriptWithIntervall();
 
-		$this->assertEquals(
-			$this->removeAnyWhitespace($expectedJavaScript),
-			$this->removeAnyWhitespace($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']),
-			'Das Javascript ist nicht wie erwatet'
-		);
-	}
+        $this->assertEquals(
+            $this->removeAnyWhitespace($expectedJavaScript),
+            $this->removeAnyWhitespace($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']),
+            'Das Javascript ist nicht wie erwatet'
+        );
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testHandleRequestReturnsCorrectJavaScriptWithIntervallSetByConfiguration() {
-		$this->assertEmpty(
-			$GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
-			'JavaScript bereits in Header Data gesetzt.'
-		);
+    /**
+     * @group unit
+     */
+    public function testHandleRequestReturnsCorrectJavaScriptWithIntervallSetByConfiguration()
+    {
+        $this->assertEmpty(
+            $GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
+            'JavaScript bereits in Header Data gesetzt.'
+        );
 
-		$configurationsData = array(
-			'renewSession.' => array(
-    				'intervallInSeconds' => 400,
-			)
-		);
-		$this->executeAction($configurationsData);
+        $configurationsData = array(
+            'renewSession.' => array(
+                    'intervallInSeconds' => 400,
+            )
+        );
+        $this->executeAction($configurationsData);
 
-		$expectedJavaScript = $this->getExpectedJavaScriptWithIntervall(400000);
+        $expectedJavaScript = $this->getExpectedJavaScriptWithIntervall(400000);
 
-		$this->assertEquals(
-			$this->removeAnyWhitespace($expectedJavaScript),
-			$this->removeAnyWhitespace($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']),
-			'Das Javascript ist nicht wie erwatet'
-		);
-	}
+        $this->assertEquals(
+            $this->removeAnyWhitespace($expectedJavaScript),
+            $this->removeAnyWhitespace($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']),
+            'Das Javascript ist nicht wie erwatet'
+        );
+    }
 
-	/**
-	 * @param array $configurationsData
-	 *
-	 * @return void
-	 */
-	private function executeAction(array $configurationsData = array()) {
-		$action = tx_rnbase::makeInstance('tx_t3users_actions_RenewSession');
-		$configurations = tx_t3users_tests_Util::getConfigurations();
-		$parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+    /**
+     * @param array $configurationsData
+     *
+     * @return void
+     */
+    private function executeAction(array $configurationsData = array())
+    {
+        $action = tx_rnbase::makeInstance('tx_t3users_actions_RenewSession');
+        $configurations = tx_t3users_tests_Util::getConfigurations();
+        $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
 
-		if(!empty($configurationsData)) {
-			tx_rnbase::load('tx_rnbase_util_Typo3Classes');
-			$cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
-	    	$configurations->init($configurationsData, $cObj, 't3users', 't3users');
-		}
+        if (!empty($configurationsData)) {
+            tx_rnbase::load('tx_rnbase_util_Typo3Classes');
+            $cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
+            $configurations->init($configurationsData, $cObj, 't3users', 't3users');
+        }
 
-		$action->execute($parameters,$configurations);
-	}
+        $action->execute($parameters, $configurations);
+    }
 
-	/**
-	 * @param integer $intervall
-	 *
-	 * @return string
-	 */
-	private function getExpectedJavaScriptWithIntervall($intervall = 300000) {
-		return
-"<script type='text/javascript'>
+    /**
+     * @param integer $intervall
+     *
+     * @return string
+     */
+    private function getExpectedJavaScriptWithIntervall($intervall = 300000)
+    {
+        return
+        "<script type='text/javascript'>
 	RenewSession = {
 		loadCurrentPage: function(){
 			var xmlhttp;
@@ -140,13 +147,14 @@ class tx_t3users_tests_actions_RenewSession_testcase extends tx_rnbase_tests_Bas
 
 	RenewSession.loadCurrentPageInIntervall($intervall);
 </script>";
-	}
+    }
 
-	/**
-	 * @param string $text
-	 * @return string
-	 */
-	private function removeAnyWhitespace($text) {
-		return preg_replace('/\s+/', '', $text);
-	}
+    /**
+     * @param string $text
+     * @return string
+     */
+    private function removeAnyWhitespace($text)
+    {
+        return preg_replace('/\s+/', '', $text);
+    }
 }

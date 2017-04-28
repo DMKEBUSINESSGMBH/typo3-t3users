@@ -29,55 +29,57 @@ tx_rnbase::load('tx_rnbase_util_SearchBase');
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_search_builder {
+class tx_t3users_search_builder
+{
 
-	/**
-	 * Search for feuser by email
-	 *
-	 * @param array $fields
-	 * @param string $teamUids comma separated list of team UIDs
-	 * @return boolean true if condition is set
-	 */
-	static function buildFeuserByEmail(&$fields, $email, $pids = '') {
-		$result = false;
-  	if(strlen(trim($email))) {
-  		$fields['FEUSER.EMAIL'][OP_EQ_NOCASE] = $email;
-   		$result = true;
-   		$result = true;
-  	}
-  	if(strlen(trim($pids))) {
-	    $pids = implode(',', tx_rnbase_util_Strings::intExplode(',', $pids));
-  		$joined['value'] = $pids;
-   		$joined['cols'] = array('FEUSER.PID');
-   		$joined['operator'] = OP_INSET_INT;
-   		$fields[SEARCH_FIELD_JOINED][] = $joined;
-   		$result = true;
-  	}
-  	return $result;
-	}
-	/**
-	 * Freetext search for feusers.
-	 *
-	 * @param array $fields
-	 * @param string $searchword
-	 */
-	static function buildFeUserFreeText(&$fields, $searchword) {
-		$result = false;
-  	if(strlen(trim($searchword))) {
-   		$joined['value'] = trim($searchword);
-   		$joined['cols'] = array('FEUSER.NAME', 'FEUSER.USERNAME');
-   		$joined['operator'] = OP_LIKE;
-   		$fields[SEARCH_FIELD_JOINED][] = $joined;
-   		$result = true;
-  	}
-  	return $result;
-	}
+    /**
+     * Search for feuser by email
+     *
+     * @param array $fields
+     * @param string $teamUids comma separated list of team UIDs
+     * @return bool true if condition is set
+     */
+    public static function buildFeuserByEmail(&$fields, $email, $pids = '')
+    {
+        $result = false;
+        if (strlen(trim($email))) {
+            $fields['FEUSER.EMAIL'][OP_EQ_NOCASE] = $email;
+            $result = true;
+            $result = true;
+        }
+        if (strlen(trim($pids))) {
+            $pids = implode(',', tx_rnbase_util_Strings::intExplode(',', $pids));
+            $joined['value'] = $pids;
+            $joined['cols'] = array('FEUSER.PID');
+            $joined['operator'] = OP_INSET_INT;
+            $fields[SEARCH_FIELD_JOINED][] = $joined;
+            $result = true;
+        }
 
+        return $result;
+    }
+    /**
+     * Freetext search for feusers.
+     *
+     * @param array $fields
+     * @param string $searchword
+     */
+    public static function buildFeUserFreeText(&$fields, $searchword)
+    {
+        $result = false;
+        if (strlen(trim($searchword))) {
+            $joined['value'] = trim($searchword);
+            $joined['cols'] = array('FEUSER.NAME', 'FEUSER.USERNAME');
+            $joined['operator'] = OP_LIKE;
+            $fields[SEARCH_FIELD_JOINED][] = $joined;
+            $result = true;
+        }
+
+        return $result;
+    }
 }
 
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_builder.php']) {
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_builder.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_builder.php']);
 }
-
-?>

@@ -35,55 +35,60 @@ define('ICON_FATAL', 3);
 /**
  * Module extension (addition to function menu)
  *
- * @author	Rene Nitzsche <dev@dmk-ebusiness.de>
- * @package	TYPO3
+ * @author  Rene Nitzsche <dev@dmk-ebusiness.de>
+ * @package     TYPO3
  */
-class tx_t3users_mod_index extends Tx_Rnbase_Backend_AbstractFunctionModule {
+class tx_t3users_mod_index extends Tx_Rnbase_Backend_AbstractFunctionModule
+{
 
-	/**
-	 * Returns the module menu
-	 *
-	 * @return	Array with menuitems
-	 */
-	function modMenu()	{
-	  global $LANG;
-		return Array (
+    /**
+     * Returns the module menu
+     *
+     * @return  Array with menuitems
+     */
+    public function modMenu()
+    {
+        global $LANG;
+
+        return array(
 //      "tx_lmo2cfcleague_modfunc1_check" => "",
-		);
-	}
-	function init(&$pObj, $MCONF) {
-		parent::init($pObj, $MCONF);
-		$this->MCONF = $pObj->MCONF;
-		$this->id = $pObj->id;
-		$GLOBALS['LANG']->includeLLFile('EXT:t3users/mod/locallang.xml');
-	}
+        );
+    }
+    public function init(&$pObj, $MCONF)
+    {
+        parent::init($pObj, $MCONF);
+        $this->MCONF = $pObj->MCONF;
+        $this->id = $pObj->id;
+        $GLOBALS['LANG']->includeLLFile('EXT:t3users/mod/locallang.xml');
+    }
 
-	/**
-	 * Main method of the module
-	 *
-	 * @return	HTML
-	 */
-	function main()	{
-		// Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
-		global $SOBE,$BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS, $IMPORT_FUNC;
+    /**
+     * Main method of the module
+     *
+     * @return  HTML
+     */
+    public function main()
+    {
+        // Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
+        global $SOBE,$BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS, $IMPORT_FUNC;
 /*
 Vorgehen
 --------
 */
-		$this->doc = $this->pObj->doc;
-		$this->doc->tableLayout = tx_rnbase_mod_Tables::getTableLayout();
-		$this->formTool = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Form_ToolBox');
-		$this->formTool->init($this->doc, $this);
+        $this->doc = $this->pObj->doc;
+        $this->doc->tableLayout = tx_rnbase_mod_Tables::getTableLayout();
+        $this->formTool = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Form_ToolBox');
+        $this->formTool->init($this->doc, $this);
 
-		$content .= tx_t3users_util_LoginAsFEUser::hijackUser();
+        $content .= tx_t3users_util_LoginAsFEUser::hijackUser();
 
-		$module = tx_rnbase::makeInstance('tx_t3users_mod_mUserList', $this);
-		$content .= $module->handleRequest($this->pObj->id);
-		return $content;
-	}
+        $module = tx_rnbase::makeInstance('tx_t3users_mod_mUserList', $this);
+        $content .= $module->handleRequest($this->pObj->id);
+
+        return $content;
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php']);
 }
-?>
