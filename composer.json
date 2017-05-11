@@ -1,7 +1,7 @@
 {
     "name": "dmk/t3users",
     "description": "Enhanced frontend user management for TYPO3. User registration, login and management in a single extension.",
-"version" : "2.0.10",
+    "version": "3.0.0",
     "type": "typo3-cms-extension",
     "keywords": [
         "TYPO3 CMS",
@@ -39,8 +39,8 @@
         "typo3-ter/t3users": "self.version"
     },
     "require": {
-        "typo3/cms-core": ">=4.5.0 <=8.7.99",
-        "typo3-ter/rn-base": ">=1.2.6"
+        "typo3/cms": "~4.5 || ~6.2 || ~7.6 || ~8.7",
+        "digedag/rn-base": ">=1.4"
     },
     "autoload": {
         "classmap": [
