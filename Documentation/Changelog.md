@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.0.1
+-----
+
+-   Initial TYPO3 8.7 LTS Support
+
 2.0.5
 -----
 
