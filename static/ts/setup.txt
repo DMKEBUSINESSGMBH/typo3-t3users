@@ -170,19 +170,9 @@ plugin.tx_t3users_main {
             }
             nomd5 {
                 onsubmit = superchallenge_password(this)
-                jsCode (
-                    function superchallenge_password(form) {
                 // Non-md5-version
-                        trgForm = document.forms["logform"];
-                        if(!trgForm) trgForm = document.getElementById("logform");
-                        var pass = form.pass1.value;
-                        if (pass) {
-                            trgForm.user.value = form.user1.value;
-                            trgForm.pass.value = form.pass1.value;
-                            trgForm.submit();
-                        }
-                        return false;
-                        }
+                jsCode (
+function superchallenge_password(form) {trgForm = document.forms["logform"];if(!trgForm) trgForm = document.getElementById("logform");var pass = form.pass1.value;if (pass) {trgForm.user.value = form.user1.value;trgForm.pass.value = form.pass1.value;trgForm.submit();}return false;}
 )
             }
         }
