@@ -168,7 +168,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
         $pid = Tx_Rnbase_Utility_Strings::intExplode(',', $this->getConfigurations()->get('feuserPages'));
         $params['pid'] = (is_array($pid) && count($pid)) ? $pid[0] : 0;
         $params['disable'] = 1;
-        $params['tstamp'] = time();
+        $params['tstamp'] = $GLOBALS['EXEC_TIME'];
         $params['crdate'] = $params['tstamp'];
         $groupId = intval($this->getConfigurations()->get('userGroupUponRegistration'));
         $params['usergroup'] = $groupId;

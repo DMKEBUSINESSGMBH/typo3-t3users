@@ -643,7 +643,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
                 't3users',
                 array('feuser' => $feUser->getUid(),'stored timeout' => $feUser->record['confirmtimeout'],
                 'stored timeout2' => $timeout,
-                'submitted' => time())
+                'submitted' => $GLOBALS['EXEC_TIME'])
             );
 
             return null;

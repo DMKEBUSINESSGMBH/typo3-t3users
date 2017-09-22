@@ -160,7 +160,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
             unset($params);
             $params['confirmstring'] = $confirmString;
         } else {
-            $params['tstamp'] = time();
+            $params['tstamp'] = $GLOBALS['EXEC_TIME'];
             $params['name'] = trim($params['first_name'] . ' ' .$params['last_name']);
             if ($params['password123']) {
                 $params['password'] = $params['password123'];
