@@ -68,8 +68,10 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
     public function start()
     {
 
+        // TYPO3 8 or higher expect fieldname instead integer
+        // https://github.com/TYPO3/TYPO3.CMS/commit/38f938207aebac724786613737d5fadb5af8e7af
         // Set auto timeout to lifetime, if lifetime set
-        if (intval($this->lifetime) > 0) {
+        if (!tx_rnbase_util_TYPO3::isTYPO80OrHigher() && intval($this->lifetime) > 0) {
             $this->auth_timeout_field = $this->lifetime;
         }
 
