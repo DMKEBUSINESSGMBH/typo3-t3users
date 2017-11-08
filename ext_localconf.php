@@ -43,6 +43,7 @@ require_once tx_rnbase_util_Extensions::extPath($_EXTKEY, 'services/ext_localcon
 tx_rnbase::load('Tx_Rnbase_Utility_Cache');
 Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash(array(
     't3users[NK_forgotpass]',
+    'logintype'
 ));
 
 // register wizzard
