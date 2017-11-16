@@ -256,7 +256,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         $this->sendInstant($mailtext, $mailhtml, $feuser->getEmail(), $emailFrom, $emailFromName);
     }
 
-    private function sendInstant($mailtext, $mailhtml, $emailTo, $emailFrom, $emailFromName, $emailReply)
+    private function sendInstant($mailtext, $mailhtml, $emailTo, $emailFrom, $emailFromName, $emailReply = null)
     {
         $parts = explode(LF, $mailtext, 2);        // First line is subject
         $subject = trim($parts[0]);
