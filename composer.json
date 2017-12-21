@@ -1,7 +1,7 @@
 {
     "name": "dmk/t3users",
     "description": "Enhanced frontend user management for TYPO3. User registration, login and management in a single extension.",
-    "version": "3.0.6",
+"version" : "v3.0.7",
     "type": "typo3-cms-extension",
     "keywords": [
         "TYPO3 CMS",
