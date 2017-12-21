@@ -128,7 +128,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
         $usrSrv->handleUpdate($feuser, array('confirmstring'  => $confirmString));
         //adminEmail injizieren
         $feuser->record['email'] = $adminReviewMail;
-        $this->sendConfirmationMail($feuser);
+        $this->sendConfirmationMail($feuser, true);
 
         return true;
     }
@@ -234,7 +234,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
      *
      * @return void
      */
-    protected function sendConfirmationMail($feuser)
+    protected function sendConfirmationMail($feuser, $isAdminNotification = false)
     {
         $feUserUid = $feuser->getUid();
         $feUserData = $feuser->getRecord();
@@ -251,7 +251,12 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
         $token = md5(microtime());
         $link->label($token);
 
-        tx_t3users_util_ServiceRegistry::getEmailService()->sendConfirmLink($feuser, $link, $this->getConfigurations(), $this->getConfId().'email.');
+        tx_t3users_util_ServiceRegistry::getEmailService()->sendConfirmLink(
+            $feuser,
+            $link,
+            $this->getConfigurations(),
+            $this->getConfId() . ($isAdminNotification ? 'admin' : '') . 'email.'
+        );
     }
 
     private function parseMailTemplate(

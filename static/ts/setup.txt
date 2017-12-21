@@ -215,7 +215,13 @@ function superchallenge_password(form) {trgForm = document.forms["logform"];if(!
             ### und wenn das leer ist, wird registration_confirmation_mail als template verwendet. somit
             ### sind wir abwärtskompatibel. den Empfänger in cc konfigurieren
             #cc =
+            mkmailerTemplateKey = t3users_sendconfirmlink
         }
+        adminemail <.email
+        adminemail.mkmailerTemplateKey = t3users_sendAdminConfirmLink
+
+
+
         ### ist das gesetzt, wird der Nutzer bei confirmation nicht freigeschaltet
         ### sondern eine neue confirmation an den Admin geschickt.
         ### es sollte also immer eine Seite für die Bestätigung geben, auf der das

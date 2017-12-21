@@ -511,13 +511,15 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         // $emailFromName = $this->configurations->get('loginbox.emailFromName');
         // $emailReply = $this->configurations->get('loginbox.emailReply');
 
+        $templateKey = $configurations->get($confId . 'mkmailerTemplateKey');
+        $templateKey = $templateKey ?: 't3users_sendconfirmlink';
         tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
         $mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
-        $templateObj = $mailSrv->getTemplate('t3users_sendconfirmlink');
+        $templateObj = $mailSrv->getTemplate($templateKey);
 
         $markerArray = array();
         $wrappedSubpartArray = array();
-        $markerArray['###CONFIRMLINKURL###'] = $confirmLink->makeUrl();
+        $markerArray['###CONFIRMLINKURL###'] = $confirmLink->makeUrl(false);
         $wrappedSubpartArray['###CONFIRMLINK###'] = explode($confirmLink->getLabel(), $confirmLink->makeTag());
 
         tx_rnbase::load('tx_rnbase_util_Templates');
