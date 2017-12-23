@@ -243,7 +243,7 @@ function superchallenge_password(form) {trgForm = document.forms["logform"];if(!
     }
 
     feuseredit {
-        formxml = EXT:t3users/forms/feuser_edit.xml
+        formxml = EXT:t3users/Resources/Private/Forms/feuser_edit.xml
         doubleoptin = 0
         doubleoptin.pid = {$plugin.tx_t3users.doubleOptInPage}
 
@@ -253,6 +253,8 @@ function superchallenge_password(form) {trgForm = document.forms["logform"];if(!
 
         ### Non-TCA-Fields nicht ignorieren (like deleted, hidden)
         #enableNonTcaColumns = 1
+        formconfig {
+        }
     }
 
 

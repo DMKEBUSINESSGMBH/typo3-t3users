@@ -11,7 +11,7 @@ plugin.tx_t3users {
     # cat=FE User Management (Templates)/registration; type=string;label=HTML Template for feuser registration view
     registrationTemplate = EXT:t3users/templates/registration.html
     # cat=FE User Management (Templates)/registrationform; type=string;label=XML for feuser registration form
-    registrationForm = EXT:t3users/forms/registration.xml
+    registrationForm = EXT:t3users/Resources/Private/Forms/registration.xml
     # cat=FE User Management (Templates)/feuseredit; type=string;label=HTML Template for editing a feuser
     feusereditTemplate = EXT:t3users/templates/feuseredit.html
     # cat=FE User Management (Templates)/resetpassword; type=string;label=HTML Template for password reset

@@ -75,7 +75,7 @@ or copy this link to your browser: ###MAILCONFIRM_LINKURL###
 Form XML
 --------
 
-The XML file is configured through TypoScript in the path *plugin.tx\_t3users\_main.feuseredit.formxml* or in the plugin and has to be a [mkforms](http://typo3.org/extensions/repository/view/mkforms) XML file. The default one (EXT:t3users/forms/feuser\_edit.xml) looks like this:
+The XML file is configured through TypoScript in the path *plugin.tx\_t3users\_main.feuseredit.formxml* or in the plugin and has to be a [mkforms](http://typo3.org/extensions/repository/view/mkforms) XML file. The default one (EXT:t3users/Resources/Private/Forms/feuser\_edit.xml) looks like this:
 
 ~~~~ {.sourceCode .xml}
 <?xml version="1.0" encoding="UTF-8"?>

@@ -36,7 +36,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
     /**
      * Erstmal nur das eigene Profil bearbeiten
      *
-     * @param tx_rnbase_IParameter $parameters
+     * @param tx_rnbase_IParameters $parameters
      * @param tx_rnbase_configurations $configurations
      * @param array $viewData
      * @return string error msg or null
@@ -107,8 +107,8 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
      *
      * @param array $parameters
      * @param tx_rnbase_configurations $configurations
-     * @param tx_a4base_models_organisation $org
-     * @return tx_a4base_util_Formidable
+     * @param tx_t3users_models_feuser $item
+     * @return tx_mkforms_forms_IForm
      */
     private function getEditors($parameters, $configurations, $item)
     {
@@ -123,7 +123,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
         $this->editItem = $item;
         $itemUid = ($this->editItem) ? $this->editItem->getUid() : 0;
 
-        $this->form->init($this, $formXml, $itemUid/*, $this->config*/);
+        $this->form->init($this, $formXml, $itemUid, $configurations, $this->getConfId().'formconfig.');
 
         return $this->form;
     }
@@ -132,7 +132,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
      * Modify user before update to db
      *
      * @param array $params
-     * @param tx_mkameos_util_Ameos $form
+     * @param tx_mkforms_forms_IForm $form
      */
     public function handleBeforeUpdateDB($params, $form)
     {

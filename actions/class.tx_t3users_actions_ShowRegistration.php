@@ -149,7 +149,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
         tx_rnbase::load('tx_mkforms_forms_Factory');
         $regForm = tx_mkforms_forms_Factory::createForm('registration');
         $xmlfile = $configurations->get($this->getConfId(). 'formxml');
-        $xmlfile = $xmlfile ? $xmlfile : tx_rnbase_util_Extensions::extPath('t3users') . '/forms/registration.xml';
+        $xmlfile = $xmlfile ? $xmlfile : tx_rnbase_util_Extensions::extPath('t3users') . 'Resources/Private/Forms/registration.xml';
         $regForm->init($this, $xmlfile, false, $configurations, $this->getConfId());
         $editors['FORM'] = $regForm->render();
 

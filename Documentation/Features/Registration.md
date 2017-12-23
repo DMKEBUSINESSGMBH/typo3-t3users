@@ -102,7 +102,7 @@ Alternative global path: *lib.t3users.feuser*
 Form XML
 --------
 
-The XML file is configured through TypoScript in the path *plugin.tx\_t3users.showregistration.formxml* and is usually a [mkforms](http://typo3.org/extensions/repository/view/mkforms) XML file. The default one (EXT:t3users/forms/registration.xml) looks like this:
+The XML file is configured through TypoScript in the path *plugin.tx\_t3users.showregistration.formxml* and is usually a [mkforms](http://typo3.org/extensions/repository/view/mkforms) XML file. The default one (EXT:t3users/Resources/Private/Forms/registration.xml) looks like this:
 
 ~~~~ {.sourceCode .xml}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -225,7 +225,7 @@ Form Template
 
 The template file is configured through TypoScript in the constants path *plugin.tx\_t3users.registrationTemplate* or in the setup path *plugin.tx\_t3users.registrationTemplate*
 
-It can have at least two main subparts for the registration and the registration confirmation. Those main subparts again can have several subparts which should be self-explanatory. The default one (EXT:t3users/templates/registration.xml) looks like this. You can also use label markers like "\#\#\#LABEL\_MYLABEL\#\#\# from the locallang file. Note that the marker has to start with "\#\#\#LABEL\_...'
+It can have at least two main subparts for the registration and the registration confirmation. Those main subparts again can have several subparts which should be self-explanatory. The default one (EXT:t3users/Resources/Private/Forms/registration.xml) looks like this. You can also use label markers like "\#\#\#LABEL\_MYLABEL\#\#\# from the locallang file. Note that the marker has to start with "\#\#\#LABEL\_...'
 
 ~~~~ {.sourceCode .html}
 <h2>Template for the Registration</h2>

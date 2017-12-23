@@ -83,9 +83,21 @@ UID: ###FEUSER_UID###
 
 
 
-            <label index="label_form_username">Username</label>
-            <label index="label_form_password">Password</label>
-            <label index="label_form_password_confirm">Confirm Password</label>
+            <label index="LABEL_form_username">Username</label>
+            <label index="LABEL_form_password">Password</label>
+            <label index="LABEL_form_password_confirm">Confirm Password</label>
+            <label index="LABEL_form_firstname">First name</label>
+            <label index="LABEL_form_lastname">Last name</label>
+            <label index="LABEL_form_email">Email address</label>
+            <label index="LABEL_form_gender">Gender</label>
+            <label index="LABEL_form_gender_mr">Mr.</label>
+            <label index="LABEL_form_gender_mrs">Mrs.</label>
+            <label index="LABEL_form_birthdate">Date of birth</label>
+            <label index="LABEL_form_address">Street</label>
+            <label index="LABEL_form_zip">Postal code</label>
+            <label index="LABEL_form_city">City</label>
+            
+            <label index="LABEL_btn_save">Save</label>
 
             <label index="msg_form_password_required">Password is required</label>
             <label index="msg_form_password_sameas">Password and confirm don't match</label>
@@ -188,9 +200,21 @@ Nutzername: ###FEUSER_USERNAME###
 UID: ###FEUSER_UID###
             </label>
             -->
-            <label index="label_form_username">Nutzername</label>
-            <label index="label_form_password">Passwort</label>
-            <label index="label_form_password_confirm">Passwort bestätigen</label>
+            <label index="LABEL_form_username">Nutzername</label>
+            <label index="LABEL_form_password">Passwort</label>
+            <label index="LABEL_form_password_confirm">Passwort bestätigen</label>
+            <label index="LABEL_form_firstname">Vorname</label>
+            <label index="LABEL_form_lastname">Nachname</label>
+            <label index="LABEL_form_email">Emailadresse</label>
+            <label index="LABEL_form_gender">Anrede</label>
+            <label index="LABEL_form_gender_mr">Herr</label>
+            <label index="LABEL_form_gender_mrs">Frau</label>
+            <label index="LABEL_form_birthdate">Geburtstag</label>
+            <label index="LABEL_form_address">Straße</label>
+            <label index="LABEL_form_zip">PLZ</label>
+            <label index="LABEL_form_city">Stadt</label>
+
+            <label index="LABEL_btn_save">Speichern</label>
 
             <label index="msg_form_password_required">Bitte geben Sie ein Passwort ein!</label>
             <label index="msg_form_password_sameas">Die eingegebenen Passwörter stimmen nicht überein!</label>
