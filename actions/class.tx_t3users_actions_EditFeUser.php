@@ -32,6 +32,8 @@ tx_rnbase::load('tx_rnbase_util_TCA');
  */
 class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
 {
+    /** @var Tx_Rnbase_Configuration_Processor */
+    protected $configurations;
 
     /**
      * Erstmal nur das eigene Profil bearbeiten
@@ -43,13 +45,13 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
      */
     public function handleRequest(&$parameters, &$configurations, &$viewData)
     {
-        $this->conf =& $configurations;
+        $this->configurations = $configurations;
         //Bei Modus "check" werden die Daten aus der Url in die DB geschrieben (wenn
         //möglich). Ansonsten wird ganz normal die Form geparsed.
         // @TODO das ist sehr gefährlich. Im Formular könnten Daten validiert wurden sein
         // und dann im Link geändert werden. Die Daten sollten nicht im Link übertragen werden
         // sondern in einem eigenen Feld etc. in der DB zwischengespeichert werden.
-        if ($this->conf->get($this->getConfId().'mode') == 'check') {
+        if ($this->configurations->get($this->getConfId().'mode') == 'check') {
             //uid und confirmstring sind nicht in tca weshalb wir sie
             //fest auslesen müssen
             $uid = $parameters->offsetGet('NK_uid');
@@ -136,16 +138,17 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
      */
     public function handleBeforeUpdateDB($params, $form)
     {
+        $newPassword = $params['password123'];
         $feUser = tx_t3users_models_feuser::getCurrent();
         //If enableNonTcaColumns is set: do not eliminate the NonTCA-Enabled columns
-        if (! $this->conf->get($this->getConfId().'enableNonTcaColumns')) {
+        if (! $this->configurations->get($this->getConfId().'enableNonTcaColumns')) {
             //leeres Model bilden um Felder zu löschen die da nicht hingehören
             $params = tx_rnbase_util_TCA::eleminateNonTcaColumns($feUser, $params);
         }
         //wenn die Option doubleoptin gewählt wurde dann werden die daten noch nicht
         //gespeichert sondern mit einem confirmstring per email verschickt und
         //erst bei der Bestätigung in die DB geschrieben
-        if ($this->conf->get($this->getConfId().'doubleoptin')) {
+        if ($this->configurations->get($this->getConfId().'doubleoptin')) {
             //Zusätzlich Parameter setzen
             //Bestätigungscode generieren
             $params['confirmstring'] = md5(uniqid());
@@ -154,7 +157,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
             $params['username'] = $params['email'];
             //Mail schicken
             $emailService = tx_t3users_util_ServiceRegistry::getEmailService();
-            $emailService->sendEditedData($feUser, $params, $this->conf, $this->getConfId());
+            $emailService->sendEditedData($feUser, $params, $this->configurations, $this->getConfId());
             //alles außer confirmstring löschen damit nur dieser in die db wandert
             $confirmString = $params['confirmstring'];
             unset($params);
@@ -162,11 +165,9 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
         } else {
             $params['tstamp'] = $GLOBALS['EXEC_TIME'];
             $params['name'] = trim($params['first_name'] . ' ' .$params['last_name']);
-            if ($params['password123']) {
-                $params['password'] = $params['password123'];
+            if ($newPassword) {
                 $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
-                $params['password'] = $usrSrv->encryptPassword($params['password123']);
-                unset($params['password123']);
+                $params['password'] = $usrSrv->encryptPassword($newPassword);
             }
         }
 
@@ -192,8 +193,8 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
         );
 
         // Wohin soll umgeleitet werden?
-        $redirect = $this->conf->get($this->getConfId().'redirect.pid');
-        $link = $this->conf->createLink();
+        $redirect = $this->configurations->get($this->getConfId().'redirect.pid');
+        $link = $this->configurations->createLink();
         $link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id);//fallback
         $redirect_url = $link->makeUrl(false);
         header('Location: ' . tx_rnbase_util_Network::locationHeaderUrl($redirect_url));
@@ -207,8 +208,4 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
     {
         return 'tx_t3users_views_EditFeUser';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_EditFeUser.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_EditFeUser.php']);
 }
