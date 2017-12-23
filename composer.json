@@ -47,7 +47,6 @@
             "actions/",
             "controllers/",
             "exceptions/",
-            "forms/",
             "hooks/",
             "mod/",
             "models/",
