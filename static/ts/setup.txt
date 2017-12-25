@@ -3,7 +3,7 @@ includeLibs.tx_t3users_controllers_main = EXT:t3users/controllers/class.tx_t3use
 
 
 plugin.tx_t3users_main                = USER_INT
-plugin.tx_t3users_main.flexform       = flexform_main.xml
+plugin.tx_t3users_main.flexform       = Configuration/Flexform/flexform_main.xml
 plugin.tx_t3users_main.userFunc       = tx_t3users_controllers_main->main
 plugin.tx_t3users_main.defaultAction  = tx_t3users_actions_Login
 plugin.tx_t3users_main.qualifier      = t3users
