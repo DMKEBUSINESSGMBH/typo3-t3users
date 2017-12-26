@@ -40,59 +40,11 @@
             <childs>
 
 
-                <renderlet:PASSWORD name="password123" label="LABEL_form_password">
-                </renderlet:PASSWORD>
+				<includeXml path="EXT:t3users/Resources/Private/Forms/Include/account_fields.xml" xPath="/formidable/elements/box_password_req/" />
 
-                <renderlet:PASSWORD name="password123_confirm" label="LABEL_form_password_confirm">
-                    <renderonly>true</renderonly>
-                    <confirm>EDITION-BOX__password123</confirm>
-                    <validators>
-                        <validator:STANDARD>
-                            <sameas>
-                                <value>EDITION-BOX__password123</value>
-                                <message>LLL:EXT:t3users/locallang.php:msg_form_password_sameas</message>
-                            </sameas>
-                        </validator:STANDARD>
-                    </validators>
-                </renderlet:PASSWORD>
-
-                <renderlet:RADIOBUTTON name="gender" label="LABEL_form_gender">
-                	<data>
-                		<items>
-                			<item caption="LABEL_form_gender_mr" value="0"/>
-                			<item caption="LABEL_form_gender_mrs" value="1"/>
-                		</items>
-                	</data>
-                </renderlet:RADIOBUTTON>
-
-                <renderlet:TEXT name="first_name" label="LABEL_form_firstname" />
-                <renderlet:TEXT name="last_name" label="LABEL_form_lastname" />
-
-                <renderlet:DATE name="date_of_birth" label="LABEL_form_birthdate">
-                    <data>
-                        <datetime format="%d.%m.%Y" allowmanualedition="true" />
-                    </data>
-                </renderlet:DATE>
-
-                <renderlet:TEXT name="address" label="LABEL_form_address" />
-                <renderlet:TEXT name="zip" label="LABEL_form_zip" />
-                <renderlet:TEXT name="city" label="LABEL_form_city" />
-
-                <renderlet:TEXT name="email" label="LABEL_form_email">
-                    <validators>
-                        <validator:STANDARD>
-                            <required message="Es muss eine Emailadresse angegeben werden."/>
-                            <email message="Die Emailadresse ist nicht gültig."/>
-                        </validator:STANDARD>
-                        <validator:DB>
-                            <!-- deleted="TRUE" -> gelöschte Datensätze ausschließen -->
-                            <unique
-                                message="Die angegebene Emailadresse wird bereits von einem anderen Mitglied verwendet!"
-                                deleted="TRUE"
-                            />
-                        </validator:DB>
-                    </validators>
-                </renderlet:TEXT>
+				<includeXml path="EXT:t3users/Resources/Private/Forms/Include/account_fields.xml" xPath="/formidable/elements/box_user/" />
+				<includeXml path="EXT:t3users/Resources/Private/Forms/Include/account_fields.xml" xPath="/formidable/elements/box_address/" />
+				<includeXml path="EXT:t3users/Resources/Private/Forms/Include/account_fields.xml" xPath="/formidable/elements/box_email/" />
 
                 <renderlet:SUBMIT name="btnsubmit" label="LABEL_btn_save"/>
             </childs>

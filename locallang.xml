@@ -99,15 +99,15 @@ UID: ###FEUSER_UID###
             
             <label index="LABEL_btn_save">Save</label>
 
-            <label index="msg_form_password_required">Password is required</label>
-            <label index="msg_form_password_sameas">Password and confirm don't match</label>
-            <label index="msg_form_username_required">Username is required</label>
-            <label index="msg_form_username_unique">Username already exists. Please choose another one.</label>
-            <label index="msg_form_email_required">Email is required</label>
-            <label index="msg_form_email_invalid">Email is invalid</label>
-            <label index="msg_form_email_unique">Email already exists. Please choose another one.</label>
-            <label index="msg_form_email_sameas">The entered emails don't match.</label>
-            <label index="msg_form_email_differsfromdb">The new email must differ from the old one.</label>
+            <label index="LABEL_msg_form_password_required">Password is required</label>
+            <label index="LABEL_msg_form_password_sameas">Password and confirm don't match</label>
+            <label index="LABEL_msg_form_username_required">Username is required</label>
+            <label index="LABEL_msg_form_username_unique">Username already exists. Please choose another one.</label>
+            <label index="LABEL_msg_form_email_required">Email is required</label>
+            <label index="LABEL_msg_form_email_invalid">Email is invalid</label>
+            <label index="LABEL_msg_form_email_unique">Email already exists. Please choose another one.</label>
+            <label index="LABEL_msg_form_email_sameas">The entered emails don't match.</label>
+            <label index="LABEL_msg_form_email_differsfromdb">The new email must differ from the old one.</label>
 
             <label index="msg_change_success">Data changed successfully. You may now log in with the new data.</label>
             <label index="msg_change_error">There was an error. Data couldn't be changed.</label>
@@ -216,15 +216,15 @@ UID: ###FEUSER_UID###
 
             <label index="LABEL_btn_save">Speichern</label>
 
-            <label index="msg_form_password_required">Bitte geben Sie ein Passwort ein!</label>
-            <label index="msg_form_password_sameas">Die eingegebenen Passwörter stimmen nicht überein!</label>
-            <label index="msg_form_username_required">Bitte geben Sie einen Nutzernamen ein!</label>
-            <label index="msg_form_username_unique">Dieser Nutzername existiert bereits, bitte wählen Sie einen anderen!</label>
-            <label index="msg_form_email_required">Bitte geben Sie eine E-Mail an.</label>
-            <label index="msg_form_email_invalid">Die E-Mail ist nicht valide.</label>
-            <label index="msg_form_email_unique">Diese E-Mail wird bereits verwendet, bitte wählen Sie eine andere!</label>
-            <label index="msg_form_email_sameas">Die eingegebenen E-Mails stimmen nicht überein.</label>
-            <label index="msg_form_email_differsfromdb">Die neue E-Mail muss sich von der alten unterscheiden.</label>
+            <label index="LABEL_msg_form_password_required">Bitte geben Sie ein Passwort ein!</label>
+            <label index="LABEL_msg_form_password_sameas">Die eingegebenen Passwörter stimmen nicht überein!</label>
+            <label index="LABEL_msg_form_username_required">Bitte geben Sie einen Nutzernamen ein!</label>
+            <label index="LABEL_msg_form_username_unique">Dieser Nutzername existiert bereits, bitte wählen Sie einen anderen!</label>
+            <label index="LABEL_msg_form_email_required">Bitte geben Sie eine E-Mail an.</label>
+            <label index="LABEL_msg_form_email_invalid">Die E-Mail Adresse entspricht nicht dem gültigen Format.</label>
+            <label index="LABEL_msg_form_email_unique">Diese E-Mail wird bereits verwendet, bitte wählen Sie eine andere!</label>
+            <label index="LABEL_msg_form_email_sameas">Die eingegebenen E-Mails stimmen nicht überein.</label>
+            <label index="LABEL_msg_form_email_differsfromdb">Die neue E-Mail muss sich von der alten unterscheiden.</label>
 
             <label index="msg_change_success">Daten erfolgreich geändert. Sie können sich nun mit den neuen Daten einloggen.</label>
             <label index="msg_change_error">Es ist ein Fehler aufgetreten. Daten konnten nicht geändert werden.</label>

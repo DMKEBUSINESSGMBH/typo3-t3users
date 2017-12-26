@@ -1,0 +1,82 @@
+<formidable version="2.0.296">
+	<elements>
+		<box_password>
+
+			<renderlet:PASSWORD name="password123" label="LABEL_form_password">
+			</renderlet:PASSWORD>
+
+			<renderlet:PASSWORD name="password123_confirm"
+				label="LABEL_form_password_confirm">
+				<renderonly>true</renderonly>
+				<confirm>EDITION-BOX__password123</confirm>
+				<validators>
+					<validator:STANDARD>
+						<required value="true" message="LABEL_msg_form_password_required" />
+						<sameas value="EDITION-BOX__password123" message="LABEL_msg_form_password_sameas" />
+					</validator:STANDARD>
+				</validators>
+			</renderlet:PASSWORD>
+		</box_password>
+
+		<box_password_req>
+			<renderlet:PASSWORD name="password123" label="LABEL_form_password">
+			</renderlet:PASSWORD>
+			<renderlet:PASSWORD name="password123_confirm"
+				label="LABEL_form_password_confirm">
+				<renderonly>true</renderonly>
+				<confirm>EDITION-BOX__password123</confirm>
+				<validators>
+					<validator:STANDARD>
+						<required value="true" message="LABEL_msg_form_password_required" />
+						<sameas value="EDITION-BOX__password123" message="LABEL_msg_form_password_sameas" />
+					</validator:STANDARD>
+				</validators>
+			</renderlet:PASSWORD>
+		</box_password_req>
+
+		<box_user>
+			<renderlet:RADIOBUTTON name="gender" label="LABEL_form_gender">
+				<data>
+					<items>
+						<item caption="LABEL_form_gender_mr" value="0" />
+						<item caption="LABEL_form_gender_mrs" value="1" />
+					</items>
+				</data>
+			</renderlet:RADIOBUTTON>
+
+			<renderlet:TEXT name="first_name" label="LABEL_form_firstname" />
+			<renderlet:TEXT name="last_name" label="LABEL_form_lastname" />
+
+			<renderlet:DATE name="date_of_birth" label="LABEL_form_birthdate">
+				<data>
+					<datetime format="%d.%m.%Y" allowmanualedition="true" />
+				</data>
+			</renderlet:DATE>
+		</box_user>
+		<box_address>
+			<renderlet:TEXT name="address" label="LABEL_form_address" />
+			<renderlet:TEXT name="zip" label="LABEL_form_zip" />
+			<renderlet:TEXT name="city" label="LABEL_form_city" />
+		</box_address>
+
+
+		<box_email>
+            <renderlet:TEXT name="email" label="LABEL_form_email">
+                <validators>
+                    <validator:STANDARD>
+                        <required message="LABEL_msg_form_email_required"/>
+                        <email message="LABEL_msg_form_email_invalid"/>
+                    </validator:STANDARD>
+                    <validator:DB>
+                        <!-- deleted="TRUE" -> gelöschte Datensätze ausschließen -->
+                        <unique
+                            message="LABEL_msg_form_email_unique"
+                            deleted="TRUE"
+                        />
+                    </validator:DB>
+                </validators>
+            </renderlet:TEXT>
+		</box_email>
+
+	</elements>
+</formidable>

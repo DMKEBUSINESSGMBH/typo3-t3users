@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2016 Rene Nitzsche (dev@dmk-ebusiness.de)
+*  (c) 2007-2017 Rene Nitzsche (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -118,29 +118,29 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
     protected function sendAdminReviewMail($userUid, $confirmString, $adminReviewMail)
     {
         $feuser = tx_t3users_models_feuser::getInstance($userUid);
-        if ($confirmString != $feuser->record['confirmstring']) {
+        if ($confirmString != $feuser->getProperty('confirmstring')) {
             return false;
         }
         //else
         $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
         $confirmString = $this->getConfirmString();
-        $feuser->record['confirmstring'] = $confirmString;
-        $usrSrv->handleUpdate($feuser, array('confirmstring'  => $confirmString));
+        $feuser->setProperty('confirmstring', $confirmString);
+        $usrSrv->handleUpdate($feuser, ['confirmstring'  => $confirmString]);
         //adminEmail injizieren
-        $feuser->record['email'] = $adminReviewMail;
+        $feuser->setProperty('email', $adminReviewMail);
         $this->sendConfirmationMail($feuser, true);
 
         return true;
     }
 
     /**
-     *
-     * @param unknown $parameters
-     * @param unknown $configurations
-     * @param unknown $hide
-     * @return string|unknown
+     * 
+     * @param tx_rnbase_IParameters $parameters
+     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param boolean $hide
+     * @return string[]
      */
-    private function getEditors($parameters, $configurations, $hide)
+    protected function getEditors(tx_rnbase_IParameters $parameters, Tx_Rnbase_Configuration_ProcessorInterface $configurations, $hide)
     {
         $editors = array('FORM' => '');
         if ($hide) {
@@ -175,14 +175,16 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
         $params['name'] = trim($params['first_name'] . ' ' .$params['last_name']);
         $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
-        $params['password'] = $usrSrv->encryptPassword($params['password']);
+        $pass = $params[ isset($params['password123']) ? 'password123' : 'password' ];
+        $params['password'] = $usrSrv->encryptPassword($pass);
+        unset($params['password123']);
 
         tx_rnbase_util_Misc::callHook(
             't3users',
             'showRegistration_beforeUpdateDB_hook',
             array(
-                'params' => &$params,
-                'form' => &$form
+                'params' => $params,
+                'form' => $form
             ),
             $this
         );
@@ -214,8 +216,8 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
             't3users',
             'showRegistration_beforeSendConfirmationMail_hook',
             array(
-                'params' => &$params,
-                'form' => &$form,
+                'params' => $params,
+                'form' => $form,
                 'newEntryId' => $uid
             ),
             $this
@@ -234,10 +236,10 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
      *
      * @return void
      */
-    protected function sendConfirmationMail($feuser, $isAdminNotification = false)
+    protected function sendConfirmationMail(tx_t3users_models_feuser $feuser, $isAdminNotification = false)
     {
         $feUserUid = $feuser->getUid();
-        $feUserData = $feuser->getRecord();
+        $feUserData = $feuser->getProperty();
 
         // Zusätzlich Parameter für Finished setzen
         $parameters = array(
@@ -335,8 +337,4 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
     {
         return 'tx_t3users_views_ShowRegistration';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowRegistration.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowRegistration.php']);
 }
