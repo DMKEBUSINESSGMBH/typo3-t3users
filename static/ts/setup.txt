@@ -203,6 +203,11 @@ function superchallenge_password(form) {trgForm = document.forms["logform"];if(!
         links.mailconfirm.absurl = 1
         form = {$plugin.tx_t3users.registrationTemplate}
         formxml = {$plugin.tx_t3users.registrationForm}
+
+        formconfig =< config.tx_mkforms
+        formconfig {
+        }
+
         email {
             from = {$plugin.tx_t3users.email}
             fromName = {$plugin.tx_t3users.siteName}
@@ -253,6 +258,7 @@ function superchallenge_password(form) {trgForm = document.forms["logform"];if(!
 
         ### Non-TCA-Fields nicht ignorieren (like deleted, hidden)
         #enableNonTcaColumns = 1
+        formconfig =< config.tx_mkforms
         formconfig {
         }
     }
