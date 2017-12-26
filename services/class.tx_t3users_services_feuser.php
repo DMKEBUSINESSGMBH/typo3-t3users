@@ -229,9 +229,8 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
                 );
             }
         } elseif ($this->useMD5()) {
-            require_once(tx_rnbase_util_Extensions::extPath('kb_md5fepw').'class.tx_kbmd5fepw_funcs.php');
             if ($feuser->isValid()) {
-                $new_password = tx_kbmd5fepw_funcs::generatePassword($defaultLength);
+                $new_password = $this->generatePassword($defaultLength);
                 $values = array('password' => md5($new_password));
                 $where = 'uid = ' . $feuser->getUid();
                 Tx_Rnbase_Database_Connection::getInstance()->doUpdate('fe_users', $where, $values, 0);
