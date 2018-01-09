@@ -472,12 +472,14 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
             $markerArr['extra_hidden'] = $code->formFields;
         }
 
+        // @TODO can be removed when support for TYPO3 4.5 and md5 is dropped
         if ($code->jsFiles) {
             $GLOBALS['TSFE']->additionalHeaderData['tx_t3users'] .= $code->jsFiles;
         }
 
-        if ($code->jsCode && (strpos($GLOBALS['TSFE']->JSCode, $code->jsCode) === false)) {
-            $GLOBALS['TSFE']->JSCode .= $code->jsCode;
+        if ($code->jsCode) {
+            $pageRenderer = tx_rnbase_util_TYPO3::getPageRenderer();
+            $pageRenderer->addJsFooterInlineCode('t3users_loginBox', $code->jsCode);
         }
     }
 

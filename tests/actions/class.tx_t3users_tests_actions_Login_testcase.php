@@ -100,6 +100,10 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
 
         // error handler zurücksetzen
         restore_error_handler();
+
+        $property = new ReflectionProperty(get_class(tx_rnbase_util_TYPO3::getPageRenderer()), 'jsInline');
+        $property->setAccessible(true);
+        $property->setValue(tx_rnbase_util_TYPO3::getPageRenderer(), array());
     }
 
     /**
@@ -207,5 +211,56 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
             microtime(true) - $startTime,
             'weniger als 1 Sekunde vergangen. sleep scheint nicht aufgerufen worden zu sein.'
         );
+    }
+
+    /**
+     * @group unit
+     */
+    public function testPrepareLoginFormOnSubmitAddsInlineJavaScriptCodeToFooterWithPageRenderer()
+    {
+        $loginAction = tx_rnbase::makeInstance('tx_t3users_actions_Login');
+
+        $configurations = $this->createConfigurations(
+            array('loginbox.' => array('extend.' => array('method' => 'rsa7', 'rsa7.' => array('jsCode' => 'myCode')))),
+            't3users'
+        );
+
+        $markerArray = array();
+        $this->callInaccessibleMethod(
+            array($loginAction, 'prepareLoginFormOnSubmit'),
+            array(&$markerArray, 'whatever', $configurations, 'loginbox.')
+        );
+
+        $pageRenderer = tx_rnbase_util_TYPO3::getPageRenderer();
+        $property = new ReflectionProperty(get_class($pageRenderer), 'jsInline');
+        $property->setAccessible(true);
+        $inlineJavaScriptCode = $property->getValue($pageRenderer);
+        self::assertArrayHasKey('t3users_loginBox', $inlineJavaScriptCode);
+        self::assertEquals('myCode' . LF, $inlineJavaScriptCode['t3users_loginBox']['code']);
+    }
+
+    /**
+     * @group unit
+     */
+    public function testPrepareLoginFormOnSubmitAddsInlineJavaScriptCodeNotToFooterIfNoneGiven()
+    {
+        $loginAction = tx_rnbase::makeInstance('tx_t3users_actions_Login');
+
+        $configurations = $this->createConfigurations(
+            array('loginbox.' => array('extend.' => array('method' => 'rsa7'))),
+            't3users'
+            );
+
+        $markerArray = array();
+        $this->callInaccessibleMethod(
+            array($loginAction, 'prepareLoginFormOnSubmit'),
+            array(&$markerArray, 'whatever', $configurations, 'loginbox.')
+        );
+
+        $pageRenderer = tx_rnbase_util_TYPO3::getPageRenderer();
+        $property = new ReflectionProperty(get_class($pageRenderer), 'jsInline');
+        $property->setAccessible(true);
+        $inlineJavaScriptCode = $property->getValue($pageRenderer);
+        self::assertArrayNotHasKey('t3users_loginBox', $inlineJavaScriptCode);
     }
 }
