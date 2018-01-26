@@ -71,7 +71,7 @@ $TCA['tx_t3users_roles'] = array(
     ),
     'types' => array(
         '0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, name, description,
-            --div--;LLL:EXT:a4base/locallang_db.xml:tx_a4base_organisations.tab_description, rights, owner')
+            --div--;LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles.description, rights, owner')
     ),
     'palettes' => array(
     )
