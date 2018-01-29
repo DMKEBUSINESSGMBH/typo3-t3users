@@ -251,10 +251,12 @@ if (TYPO3_MODE == 'BE') {
     ////////////////////////////////
     // Submodul anmelden
     ////////////////////////////////
-    tx_rnbase_util_Extensions::insertModuleFunction(
-        'web_func',
-        'tx_t3users_mod_index',
-        tx_rnbase_util_Extensions::extPath($_EXTKEY).'mod/class.tx_t3users_mod_index.php',
-        'LLL:EXT:t3users/mod/locallang.xml:tx_t3users_module_name'
-    );
+    if (!tx_rnbase_util_TYPO3::isTYPO80OrHigher()) {
+        tx_rnbase_util_Extensions::insertModuleFunction(
+            'web_func',
+            'tx_t3users_mod_index',
+            tx_rnbase_util_Extensions::extPath($_EXTKEY).'mod/class.tx_t3users_mod_index.php',
+            'LLL:EXT:t3users/mod/locallang.xml:tx_t3users_module_name'
+        );
+    }
 }
