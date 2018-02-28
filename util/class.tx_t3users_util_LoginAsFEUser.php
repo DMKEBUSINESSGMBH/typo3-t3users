@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009 Rene Nitzsche (dev@dmk-ebusiness.de)
+*  (c) 2009-2018 Rene Nitzsche (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -137,17 +137,15 @@ class tx_t3users_util_LoginAsFEUser
      * @param string $fesessionId
      * @return array
      */
-    public function getCurrentFeUserSession($fesessionId)
+    protected static function getCurrentFeUserSession($fesessionId)
     {
-        $options['where'] = 'ses_id = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions').'
-							AND fe_sessions.ses_name = \'fe_typo_user\' ';
+        $options = [
+            'where' => 'ses_id = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions').'
+							AND fe_sessions.ses_name = \'fe_typo_user\' '
+        ];
         $options['enablefieldsoff'] = 1;
-        $result = tx_rnbase_util_DB::doSelect('*', 'fe_sessions', $options, 0);
+        $result = Tx_Rnbase_Database_Connection::getInstance()->doSelect('*', 'fe_sessions', $options, 0);
 
         return count($result) ? $result[0] : false;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_LoginAsFEUser.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_LoginAsFEUser.php']);
 }
