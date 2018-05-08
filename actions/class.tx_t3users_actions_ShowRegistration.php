@@ -134,7 +134,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
     }
 
     /**
-     * 
+     *
      * @param tx_rnbase_IParameters $parameters
      * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
      * @param boolean $hide
@@ -183,7 +183,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
             't3users',
             'showRegistration_beforeUpdateDB_hook',
             array(
-                'params' => $params,
+                'params' => &$params,
                 'form' => $form
             ),
             $this
@@ -216,7 +216,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
             't3users',
             'showRegistration_beforeSendConfirmationMail_hook',
             array(
-                'params' => $params,
+                'params' => &$params,
                 'form' => $form,
                 'newEntryId' => $uid
             ),
