@@ -76,7 +76,7 @@ class tx_t3users_tests_Util
         $pageTSconfig = $pageTSconfig['plugin.']['tx_'.$extKey.'.'];
         $qualifier = $pageTSconfig['qualifier'] ? $pageTSconfig['qualifier'] : $extKey;
         $configurations = new tx_rnbase_configurations();
-        $configurations->init($pageTSconfig, $cObj, $extKey, $qualifier);
+        $configurations->init((array) $pageTSconfig, $cObj, $extKey, $qualifier);
 
         return $configurations;
     }
