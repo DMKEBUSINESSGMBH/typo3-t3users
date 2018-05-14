@@ -137,8 +137,15 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
 
         $marker = $viewData->offsetGet('markers');
 
+        // the removeXss method in rn_base changed
+        if (tx_rnbase_util_TYPO3::isExtMinVersion('rn_base', '1007001')) {
+            $expectedSanitizedString = '&#039;&amp;gt;&amp;lt;script&amp;gt;alert(&amp;quot;ohoh&amp;quot;);&amp;lt;/script&amp;gt;&#039;';
+        } else {
+            $expectedSanitizedString = '&#039;&gt;&lt;sc&lt;x&gt;ript&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;&#039;';
+        }
+
         $this->assertEquals(
-            tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL') . '&#039;&amp;gt;&amp;lt;script&amp;gt;alert(&amp;quot;ohoh&amp;quot;);&amp;lt;/script&amp;gt;&#039;',
+            tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL') . $expectedSanitizedString,
             $marker['redirect_url']
         );
     }
