@@ -73,10 +73,10 @@ class tx_t3users_tests_Util
         $cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
 
         $pageTSconfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0);
-        $pageTSconfig = $pageTSconfig['plugin.']['tx_'.$extKey.'.'];
+        $pageTSconfig = (array) $pageTSconfig['plugin.']['tx_'.$extKey.'.'];
         $qualifier = $pageTSconfig['qualifier'] ? $pageTSconfig['qualifier'] : $extKey;
         $configurations = new tx_rnbase_configurations();
-        $configurations->init((array) $pageTSconfig, $cObj, $extKey, $qualifier);
+        $configurations->init($pageTSconfig, $cObj, $extKey, $qualifier);
 
         return $configurations;
     }
