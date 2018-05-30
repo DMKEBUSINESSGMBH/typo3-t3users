@@ -59,7 +59,7 @@ class tx_t3users_tests_Util
 /**
  * Ein Basis-Configurations Objekt erstellen
  */
-    public function getConfigurations()
+    public static function getConfigurations()
     {
         $extKey = 't3users';
         tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$extKey.'/static/ts/setup.txt">');
