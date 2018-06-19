@@ -125,6 +125,7 @@ The default is EXT:t3users/templates/loginbox.html. It can look like this:
       <input type="hidden" name="logintype" value="login" />
       <input type="hidden" name="pid" value="###STORAGE_PID###" />
       <input type="hidden" name="redirect_url" value="###REDIRECT_URL###" />
+      <input name="permalogin" value="0" type="hidden" id="permaloginHiddenField">
       ###EXTRA_HIDDEN###
    </form>
 
@@ -139,15 +140,12 @@ The default is EXT:t3users/templates/loginbox.html. It can look like this:
                <th><label for="pass1">###LABEL_PASSWORD###</label></th>
                <td><input type="password" id="pass1" name="pass1" value="" /></td>
             </tr>
-            <!--###PERMALOGIN_VALID###-->
             <tr>
-               <th><label for="permalogin">###LABEL_PERMALOGIN###</label></th>
+               <th><label for="permalogin_checkbox">###LABEL_PERMALOGIN###</label></th>
                <td>
-                  <input name="permalogin" value="0" type="hidden" ###PERMALOGIN_HIDDENFIELD_ATTRIBUTES### id="permaloginHiddenField">
-                  <input name="permalogin" value="1" type="checkbox" ###PERMALOGIN_CHECKBOX_ATTRIBUTES### id="permalogin"  onclick="document.getElementById('permaloginHiddenField').disabled = this.checked;" />
+                  <input name="permalogin_checkbox" value="0" type="checkbox" id="permalogin_checkbox"/>
                </td>
             </tr>
-            <!--###PERMALOGIN_VALID###-->
          </tbody>
          <tfoot>
             <tr>

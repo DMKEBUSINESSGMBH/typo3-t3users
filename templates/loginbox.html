@@ -28,6 +28,7 @@ Users online: ###USER_ONLINE###
     <input type="hidden" name="pid" value="###STORAGE_PID###" />
     <input type="hidden" name="redirect_url" value="###REDIRECT_URL###" />
     <input type="submit" name="submit" style="display:none" id="t3users_login_real_submit"/>
+    <input name="permalogin" value="0" type="hidden" id="permaloginHiddenField">
     ###EXTRA_HIDDEN###
 </form>
 
@@ -42,15 +43,15 @@ Users online: ###USER_ONLINE###
                 <th><label for="pass1">###LABEL_PASSWORD###</label></th>
                 <td><input type="password" id="pass1" name="pass1" value="" /></td>
             </tr>
-            <!--###PERMALOGIN_VALID###-->
             <tr>
                 <th><label for="permalogin">###LABEL_PERMALOGIN###</label></th>
                 <td>
-                    <input name="permalogin" value="0" type="hidden" ###PERMALOGIN_HIDDENFIELD_ATTRIBUTES### id="permaloginHiddenField">
-                    <input name="permalogin" value="1" type="checkbox" ###PERMALOGIN_CHECKBOX_ATTRIBUTES### id="permalogin"  onclick="document.getElementById('permaloginHiddenField').disabled = this.checked;" />
+                    <input
+                        name="permalogin_checkbox" value="0"
+                        type="checkbox" id="permalogin_checkbox"
+                    />
                 </td>
             </tr>
-            <!--###PERMALOGIN_VALID###-->
         </tbody>
         <tfoot>
              <tr>

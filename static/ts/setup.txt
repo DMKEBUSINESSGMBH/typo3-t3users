@@ -65,6 +65,10 @@ plugin.tx_t3users_main {
     loginbox {
         toUserInt = 1
 
+        includeJSLibs {
+            t3UsersLoginBox = EXT:t3users/Resources/Public/Javascript/LoginBox.js
+        }
+
         # sendpassword sollte nie gesetzt werden weil dann das Passwort per Mail
         # zugesendet wird. Zusätzlich links.resetPassword.pid setzen
         resetPasswordMode = {$plugin.tx_t3users.resetPasswordMode}
