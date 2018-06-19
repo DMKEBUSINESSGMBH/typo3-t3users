@@ -1,3 +1,4 @@
+// @todo refactor so we don't have to deal how to add events
 function t3UsersAddEvent(obj, type, fn) {
     if (obj.addEventListener) {
         obj.addEventListener(type, fn, false);
