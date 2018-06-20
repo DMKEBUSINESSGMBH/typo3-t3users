@@ -107,6 +107,14 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      *      pids provides the users in a PID
      *      count (true = number of users) (false = array with user-objects)
      * @return int / array
+     * @todo since TYPO3 8.7 the session backend can be in Redis and not the database, so
+     * accessing FESESSION.* might have no effect
+     * @todo why is only session timeout considered? Should fe_users.is_online not
+     * be checked against $GLOBALS['TYPO3_CONF_VARS']['FE']['lifetime'] instead
+     * of $GLOBALS['TYPO3_CONF_VARS']['FE']['sessionDataLifetime']? Best would be to use
+     * FrontendUserAuthentication->sessionTimeout as value as this respects the fallback
+     * to 6000 seconds
+     * @todo is it neccessary to check the fe_sessions table at all? Is it to get anonymous users/sessions?
      */
     public function getOnlineUsers($options = null)
     {
@@ -137,6 +145,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      *
      * @param int $feUserId
      * @return int
+     * @todo see todos of $this->getOnlineUsers()
      */
     public function isUserOnline($feUserId)
     {
@@ -176,7 +185,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         }
         elseif ($this->useMD5()) {
             $newPassword = md5($newPassword);
-        } 
+        }
 
         return $newPassword;
     }
