@@ -115,6 +115,11 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      * FrontendUserAuthentication->sessionTimeout as value as this respects the fallback
      * to 6000 seconds
      * @todo is it neccessary to check the fe_sessions table at all? Is it to get anonymous users/sessions?
+     * @todo respect permalogin. When checking fe_users.is_online it is relevant if the user is
+     * logged in permantly. Because if $GLOBALS['TYPO3_CONF_VARS']['FE']['lifetime'] has a high value and
+     * $GLOBALS['TYPO3_CONF_VARS']['FE']['permalogin'] is set to "0" users without permalogin loosing
+     * there session when the close the browser. That should be considered because otherwise they
+     * would could as logged in users.
      */
     public function getOnlineUsers($options = null)
     {
