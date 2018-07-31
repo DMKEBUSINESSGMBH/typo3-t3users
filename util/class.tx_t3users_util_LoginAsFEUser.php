@@ -67,10 +67,10 @@ class tx_t3users_util_LoginAsFEUser
             self::createFeUserSession($fesession, $feuserid);
         }
         $ret .= '
-		<script>
-		window.open("'.$redirectUrl.'");
-		</script>
-		';
+        <script>
+        window.open("'.$redirectUrl.'");
+        </script>
+        ';
 
         return $ret;
     }
@@ -82,10 +82,9 @@ class tx_t3users_util_LoginAsFEUser
      */
     private static function updateFeUserSession($fesessionId, $feuserid)
     {
-        $where = sprintf(
-            'ses_id = %1$s AND fe_sessions.ses_name = \'fe_typo_user\' ',
-            $GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions')
-        );
+        $where = 'ses_id = %1$s';
+        $where .= tx_rnbase_util_TYPO3::isTYPO87OrHigher() ? '' : ' AND fe_sessions.ses_name = \'fe_typo_user\' ';
+        $where = sprintf($where, $GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions'));
         $values = array('ses_userid' => $feuserid , 'ses_tstamp' => $GLOBALS['EXEC_TIME']);
         tx_rnbase_util_DB::doUpdate('fe_sessions', $where, $values, 0);
     }
@@ -122,14 +121,19 @@ class tx_t3users_util_LoginAsFEUser
             return $auth->getNewSessionRecord($tempUser);
         }
 
-        return array(
+        $record = array(
             'ses_id' => $sessionId,
-            'ses_name' => 'fe_typo_user',
             'ses_iplock' => $frontendUserAuthenticationClass::ipLockClause_remoteIPNumber($GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP']),
             'ses_hashlock' => Tx_Rnbase_Utility_T3General::md5int(':'.tx_rnbase_util_Misc::getIndpEnv('HTTP_USER_AGENT')) , //$this->hashLockClause_getHashInt(),
             'ses_userid' => $userId,
             'ses_tstamp' => $GLOBALS['EXEC_TIME']
         );
+
+        if (!tx_rnbase_util_TYPO3::isTYPO87OrHigher()) {
+            $record['ses_name'] = 'fe_typo_user';
+        }
+
+        return $record;
     }
 
     /**
@@ -139,10 +143,9 @@ class tx_t3users_util_LoginAsFEUser
      */
     protected static function getCurrentFeUserSession($fesessionId)
     {
-        $options = [
-            'where' => 'ses_id = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions').'
-							AND fe_sessions.ses_name = \'fe_typo_user\' '
-        ];
+        $where = 'ses_id = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions');
+        $where .= tx_rnbase_util_TYPO3::isTYPO87OrHigher() ? '' : ' AND fe_sessions.ses_name = \'fe_typo_user\' ';
+        $options = ['where' => $where];
         $options['enablefieldsoff'] = 1;
         $result = Tx_Rnbase_Database_Connection::getInstance()->doSelect('*', 'fe_sessions', $options, 0);
 
