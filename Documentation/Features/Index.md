@@ -15,6 +15,14 @@ The TCA can be extended with additional fields. This option adds new fields like
 
 This option adds a new field (beforelastlogin) to feusers. It is filled with the lastlogin timestamp before the lastlogin field was updated at any login! So you can check for example if the user was logged in for the first time. You just have to activate it in the path in useBeforelastLogin.
 
+**server-side FE session timeout before TYPO3 9**
+Backported the option to configure $GLOBALS['TYPO3_CONF_VARS']['FE']['sessionTimeout'] before TYPO3 9.
+@see https://docs.typo3.org/typo3cms/extensions/core/Changelog/9.0/Feature-78695-SetTheSessionTimeoutForFrontendUsers.html
+
+The only thing you have to do is to configure $GLOBALS['TYPO3_CONF_VARS']['FE']['sessionTimeout'] like you would in TYPO3 9. Since TYPO3 9 t3users will no longer take care of this configuration and let the core handle everything.
+
+Hint: You should put the configuration into AdditionalConfiguration.php as this option is unknown to older TYPO3 versions and would be removed when TYPO3 writes the LocalConfiguration.php.
+
 [Registration](Registration.md)
 
 [Login](Login.md)

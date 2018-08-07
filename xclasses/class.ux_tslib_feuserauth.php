@@ -67,18 +67,33 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
      */
     public function start()
     {
+        $sessionTimeoutField = $this->getSessionTimeoutFieldByTypo3Version();
+
+        // backport of TYPO3 9.x feature to have a server-side FE session timeout
+        // @see https://docs.typo3.org/typo3cms/extensions/core/Changelog/9.0/Feature-78695-SetTheSessionTimeoutForFrontendUsers.html
+        if (!tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
+            $this->$sessionTimeoutField = (int)$GLOBALS['TYPO3_CONF_VARS']['FE']['sessionTimeout'];
+        }
 
         // TYPO3 8 or higher expect fieldname instead integer
         // https://github.com/TYPO3/TYPO3.CMS/commit/38f938207aebac724786613737d5fadb5af8e7af
         // Set auto timeout to lifetime, if lifetime set
         if (intval($this->lifetime) > 0) {
-            $sessionTimeoutField = (tx_rnbase_util_TYPO3::isTYPO80OrHigher())
-                ? 'sessionTimeout'
-                : 'auth_timeout_field';
+
             $this->$sessionTimeoutField = $this->lifetime;
         }
 
         parent::start();
+    }
+
+    /**
+     * @return string
+     */
+    public function getSessionTimeoutFieldByTypo3Version()
+    {
+        return  (tx_rnbase_util_TYPO3::isTYPO80OrHigher())
+                ? 'sessionTimeout'
+                : 'auth_timeout_field';;
     }
 
     /**
