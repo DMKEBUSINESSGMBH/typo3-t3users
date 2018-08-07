@@ -72,7 +72,7 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
         // backport of TYPO3 9.x feature to have a server-side FE session timeout
         // @see https://docs.typo3.org/typo3cms/extensions/core/Changelog/9.0/Feature-78695-SetTheSessionTimeoutForFrontendUsers.html
         // @todo can be removed when support for TYPO3 < 9 is dropped
-        if (!tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
+        if (!tx_rnbase_util_TYPO3::isTYPO3VersionOrHigher(9000000)) {
             $this->$sessionTimeoutField = (int)$GLOBALS['TYPO3_CONF_VARS']['FE']['sessionTimeout'];
         }
 
