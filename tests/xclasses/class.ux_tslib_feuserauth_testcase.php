@@ -80,10 +80,11 @@ class ux_tslib_feuserauth_testcase extends tx_rnbase_tests_BaseTestCase
 
     /**
      * @group unit
+     * @todo can be removed when support for TYPO3 < 9 is dropped
      */
     public function testSessionTimeoutIsConfigurable()
     {
-        if (tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
+        if (tx_rnbase_util_TYPO3::isTYPO3VersionOrHigher(9000000)) {
             self::markTestSkipped('Only relevant before TYPO3 9.x');
         }
 
