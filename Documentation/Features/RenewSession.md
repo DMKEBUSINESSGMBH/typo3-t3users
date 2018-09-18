@@ -5,7 +5,7 @@ Sometimes it's neccessary to prevent an automatic logout as long as a user is on
 
 This action does nothing more than executing an ajax call to the current site, which means basically a site refresh in the background.
 
-The intervall for the refresh can be configured in the tab renew session in the flexform or through TypoScript. Please note that the flexform config as precedence. Default is 300 seconds (5 minutes).
+The intervall for the refresh can be configured in the tab renew session in the flexform or through TypoScript. Please note that the flexform config has precedence. Default is 300 seconds (5 minutes).
 
 ~~~~ {.sourceCode .ts}
 plugin.tx_t3users_main.renewSession.intervallInSeconds = 300
