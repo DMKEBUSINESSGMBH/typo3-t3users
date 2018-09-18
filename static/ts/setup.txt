@@ -282,10 +282,7 @@ function superchallenge_password(form) {trgForm = document.forms["logform"];if(!
     #  handleForgotPassMethodName = handleForgotPass
     #}
 
-    renewSession {
-        intervallInSeconds = 300
-        toUserInt = 1
-    }
+    renewSession.intervallInSeconds = 300
 
     registrationConfirm.toUserInt = 1
 }
