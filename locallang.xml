@@ -27,10 +27,10 @@
 
             <label index="loginbox_header_forgot">You forgot your password?</label>
             <label index="loginbox_message_forgot">Please enter the email address by which you registered your user account. Then press &quot;Send password&quot; and your password will immediately be emailed to you. Make sure to spell your email address correctly.</label>
-            <label index="loginbox_header_forgot_notfound">User not found</label>
-            <label index="loginbox_message_forgot_notfound">We couldn't find a username for email address '###YOUR_EMAIL###' and so cannot send the password to you. Probably you misspelled the email address or maybe you even didn't register yet?</label>
+            <label index="loginbox_header_forgot_notfound">Password sent</label>
+            <label index="loginbox_message_forgot_notfound">If an account is linked to the mentioned email address ###YOUR_EMAIL###, a new password has been sent to this address. You may need to check your spam folder.</label>
             <label index="loginbox_header_forgot_sent">Password sent</label>
-            <label index="loginbox_message_forgot_sent">Your password has now been sent to the email address ###YOUR_EMAIL###.</label>
+            <label index="loginbox_message_forgot_sent">If an account is linked to the mentioned email address ###YOUR_EMAIL###, a new password has been sent to this address. You may need to check your spam folder.</label>
             <label index="loginbox_forgot_infomail">Your password
 Hi ###FEUSER_NAME###
 
@@ -56,10 +56,10 @@ Your username is <strong>###FEUSER_USERNAME###</strong>;
 ]]></label>
             <label index="loginbox_header_requestconfirmation">You want to request the confirmation mail?</label>
             <label index="loginbox_message_requestconfirmation">Please enter the email address by which you registered your user account. Then press &quot;Send confirmation mail&quot; and the confirmation link will immediately be emailed to you. Make sure to spell your email address correctly.</label>
-            <label index="loginbox_header_requestconfirmation_notfound">User not found</label>
-            <label index="loginbox_message_requestconfirmation_notfound">We couldn't find a username for email address '###YOUR_EMAIL###' and so cannot send the confirmation link to you. Probably you misspelled the email address, maybe you even didn't register yet or you've already clicked the confirmation link?</label>
+            <label index="loginbox_header_requestconfirmation_notfound">Mail sent</label>
+            <label index="loginbox_message_requestconfirmation_notfound">If an account is linked to the mentioned email address ###YOUR_EMAIL###, a confirmation link has been sent to this address. You may need to check your spam folder.</label>
             <label index="loginbox_header_requestconfirmation_sent">Mail sent</label>
-            <label index="loginbox_message_requestconfirmation_sent">Your confirmation link has now been sent to the email address ###YOUR_EMAIL###.</label>
+            <label index="loginbox_message_requestconfirmation_sent">If an account is linked to the mentioned email address ###YOUR_EMAIL###, a confirmation link has been sent to this address. You may need to check your spam folder.</label>
             <label index="loginbox_header_login_error">Login failed</label>
             <label index="loginbox_message_login_error">Username or password was wrong!</label>
             <label index="feuserdetails_nouser">Sorry, no user found...</label>
@@ -142,10 +142,10 @@ UID: ###FEUSER_UID###
 
             <label index="loginbox_header_forgot">Sie haben Ihr Passwort vergessen</label>
             <label index="loginbox_message_forgot">Bitte geben Sie die E-Mail-Adresse ein, mit der Sie sich registriert haben. Anschließend klicken Sie auf "Passwort senden" und Ihr Passwort wird Ihnen umgehend zugesendet. Achten Sie auf die korrekte Schreibweise Ihrer E-Mail-Adresse.</label>
-            <label index="loginbox_header_forgot_notfound">Nutzername konnte nicht gefunden werden</label>
-            <label index="loginbox_message_forgot_notfound">Wir konnten keine mit dem angegeben Benutzernamen verknüpfte E-Mail-Adresse finden. Aus diesem Grund können wir Ihnen kein Passwort zusenden. Vielleicht haben Sie Ihre E-Mail-Adresse fehlerhaft eingegeben oder Sie haben sich eventuell noch gar nicht registriert.</label>
+            <label index="loginbox_header_forgot_notfound">Passwort verschickt</label>
+            <label index="loginbox_message_forgot_notfound">Sofern mit der genannten E-Mail-Adresse ###YOUR_EMAIL### ein Konto verknüpft ist, wurde ein neues Passwort an diese Adresse verschickt. Prüfen Sie bitte ggf. auch Ihren Spam-Ordner.</label>
             <label index="loginbox_header_forgot_sent">Passwort verschickt</label>
-            <label index="loginbox_message_forgot_sent">Ihr Passwort wurde soeben an die E-Mail-Adresse ###YOUR_EMAIL### geschickt.</label>
+            <label index="loginbox_message_forgot_sent">Sofern mit der genannten E-Mail-Adresse ###YOUR_EMAIL### ein Konto verknüpft ist, wurde ein neues Passwort an diese Adresse verschickt. Prüfen Sie bitte ggf. auch Ihren Spam-Ordner.</label>
             <label index="loginbox_forgot_infomail">Ihr neues Passwort
 Hallo ###FEUSER_NAME###
 
@@ -171,10 +171,10 @@ Ihr Nutzername ist <strong>###FEUSER_USERNAME###</strong>;
 ]]></label>
             <label index="loginbox_header_requestconfirmation">Sie wollen die E-Mail mit dem Bestätigungslink zugesendet bekommen?</label>
             <label index="loginbox_message_requestconfirmation">Bitte geben Sie die E-Mail Adresse ein, mit der sich registriert haben. Anschließend klicken Sie auf "Passwort senden" und Ihr Passwort wird Ihnen umgehend zugesendet. Achten Sie auf die korrekte Schreibweise Ihrer E-Mail-Adresse.</label>
-            <label index="loginbox_header_requestconfirmation_notfound">Nutzer nicht gefunden</label>
-            <label index="loginbox_message_requestconfirmation_notfound">Für die angegeben E-Mail-Adresse wurde kein Aktivierungslink angefordert, der noch nicht bestätigt wurde. Aus diesem Grund können wir Ihnen keine E-Mail zusenden. Vielleicht haben Sie Ihre E-Mail-Adresse fehlerhaft eingegeben oder Sie haben sich eventuell noch gar nicht registriert.</label>
+            <label index="loginbox_header_requestconfirmation_notfound">Passwort verschickt</label>
+            <label index="loginbox_message_requestconfirmation_notfound">Sofern mit der genannten E-Mail-Adresse ###YOUR_EMAIL### ein Konto verknüpft ist, wurde eine E-Mail zum Bestätigen der Anmeldung an diese Adresse verschickt. Prüfen Sie bitte ggf. auch Ihren Spam-Ordner.</label>
             <label index="loginbox_header_requestconfirmation_sent">Passwort verschickt</label>
-            <label index="loginbox_message_requestconfirmation_sent">Ihr Passwort wurde soeben an die E-Mail-Adresse ###YOUR_EMAIL### geschickt.</label>
+            <label index="loginbox_message_requestconfirmation_sent">Sofern mit der genannten E-Mail-Adresse ###YOUR_EMAIL### ein Konto verknüpft ist, wurde eine E-Mail zum Bestätigen der Anmeldung an diese Adresse verschickt. Prüfen Sie bitte ggf. auch Ihren Spam-Ordner.</label>
             <label index="loginbox_header_login_error">Login fehlgeschlagen</label>
             <label index="loginbox_message_login_error">Bitte überprüfen Sie Ihren Nutzernamen bzw. das Passwort!</label>
 
