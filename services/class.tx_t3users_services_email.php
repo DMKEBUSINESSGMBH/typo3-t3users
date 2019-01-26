@@ -41,8 +41,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      */
     public function sendNewPassword($feuser, $newPassword, $configurations, $confId = 'loginbox.')
     {
-        if (tx_rnbase_util_Extensions::isLoaded('mkmailer') &&
-            $configurations->getBool($confId . 'email.useMkmailer')) {
+        if ($this->useMkMailer($configurations, $confId . 'email.')) {
             return $this->sendNewPasswordMkMailer($feuser, $newPassword, $configurations, $confId);
         }
 
@@ -84,6 +83,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         $mail->setTextPart($mailtext);
         $mail->send();
     }
+
     /**
      *
      * @param tx_t3users_models_feuser $feuser
@@ -99,9 +99,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     ) {
         // aus Kompatibilitätsgründen zu alten Projekten muss
         // der Versand via mkmailer explizit aktiviert werden
-        if (tx_rnbase_util_Extensions::isLoaded('mkmailer') &&
-            $configurations->getBool($confId . 'email.useMkmailer')
-        ) {
+        if ($this->useMkMailer($configurations, $confId . 'email.')) {
             return $this->sendResetPasswordMkMailer(
                 $feuser,
                 $pwLink,
@@ -410,7 +408,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      */
     public function sendConfirmLink($feuser, $confirmLink, $configurations, $confId = 'loginbox.')
     {
-        if (tx_rnbase_util_Extensions::isLoaded('mkmailer')) {
+        if ($this->useMkMailer($configurations, $confId . 'email.')) {
             return $this->sendConfirmLinkMkMailer($feuser, $confirmLink, $configurations, $confId);
         }
 
@@ -611,5 +609,17 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
 
         return tx_mkmailer_util_ServiceRegistry::getMailService();
+    }
+
+    /**
+     * Whether or not use mkmailer for email processing
+     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param string $confId there should be an option "useMkmailer" below this confId
+     * @return boolean
+     */
+    private function useMkMailer($configurations, $confId)
+    {
+        return tx_rnbase_util_Extensions::isLoaded('mkmailer') &&
+        $configurations->getBool($confId . 'useMkmailer');
     }
 }
