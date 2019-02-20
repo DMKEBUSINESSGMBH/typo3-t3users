@@ -230,6 +230,7 @@ function superchallenge_password(form) {trgForm = document.forms["logform"];if(!
             ### und wenn das leer ist, wird registration_confirmation_mail als template verwendet. somit
             ### sind wir abwärtskompatibel. den Empfänger in cc konfigurieren
             #cc =
+            useMkmailer = 0
             mkmailerTemplateKey = t3users_sendconfirmlink
         }
         adminemail <.email

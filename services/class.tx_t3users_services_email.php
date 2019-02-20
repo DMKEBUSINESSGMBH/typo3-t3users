@@ -619,7 +619,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      */
     private function useMkMailer($configurations, $confId)
     {
-        return tx_rnbase_util_Extensions::isLoaded('mkmailer') &&
-        $configurations->getBool($confId . 'useMkmailer');
+        return  tx_rnbase_util_Extensions::isLoaded('mkmailer')
+                && $configurations->getBool($confId . 'useMkmailer');
     }
 }
