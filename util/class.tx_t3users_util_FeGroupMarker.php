@@ -40,7 +40,7 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
    * - hideuploads
    * @param array $options Hinweise an den Marker
    */
-    public function tx_t3users_util_FeGroupMarker($options = false)
+    public function __construct($options = false)
     {
         $this->options = is_array($options) ? $options : array();
     }
