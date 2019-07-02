@@ -173,6 +173,42 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
         if ($this->options['pid']) {
             $fields['FEUSER.pid'][OP_EQ_INT] = $this->options['pid'];
         }
+
+        // mehr Filter per Hook
+        tx_rnbase_util_Misc::callHook(
+            't3users',
+            'mod_feuser_addFieldsAndOptions',
+            array(
+                'fields' => &$fields,
+                'options' => &$options,
+                'filter' => $this->getFilter(),
+            ),
+            $this
+        );
+    }
+
+    /**
+     * Liefert die Daten für das Basis-Suchformular damit
+     * das Html gebaut werden kann
+     *
+     * @return array
+     */
+    protected function getSearchFormData()
+    {
+        $data = parent::getSearchFormData();
+        // mehr Filter per Hook
+        tx_rnbase_util_Misc::callHook(
+            't3users',
+            'mod_feuser_addSearchFormData',
+            array(
+                'data' => &$data,
+                'module' => $this->getModule(),
+                'filter' => $this->getFilter(),
+            ),
+            $this
+        );
+
+        return $data;
     }
 }
 
