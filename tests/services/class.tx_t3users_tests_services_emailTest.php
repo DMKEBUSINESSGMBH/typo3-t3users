@@ -32,7 +32,7 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @subpackage tx_t3users_tests_services
  * @author Hannes Bochmann
  */
-class tx_t3users_tests_services_email_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
 {
 
     /**

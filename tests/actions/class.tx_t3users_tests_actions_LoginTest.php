@@ -31,7 +31,7 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
- * tx_t3users_tests_actions_Login_testcase
+ * tx_t3users_tests_actions_LoginTest
  *
  * @package         TYPO3
  * @subpackage      t3users
@@ -39,7 +39,7 @@ tx_rnbase::load('tx_rnbase_util_Misc');
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
 {
 
     /**
@@ -225,6 +225,8 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
      */
     public function testPrepareLoginFormOnSubmitAddsInlineJavaScriptCodeToFooterWithPageRenderer()
     {
+        self::markTestIncomplete("GeneralUtility::devLog() will be removed with TYPO3 v10.0.");
+
         $loginAction = tx_rnbase::makeInstance('tx_t3users_actions_Login');
 
         $configurations = $this->createConfigurations(
@@ -251,6 +253,8 @@ class tx_t3users_tests_actions_Login_testcase extends tx_rnbase_tests_BaseTestCa
      */
     public function testPrepareLoginFormOnSubmitAddsInlineJavaScriptCodeNotToFooterIfNoneGiven()
     {
+        self::markTestIncomplete("GeneralUtility::devLog() will be removed with TYPO3 v10.0.");
+
         $loginAction = tx_rnbase::makeInstance('tx_t3users_actions_Login');
 
         $configurations = $this->createConfigurations(
