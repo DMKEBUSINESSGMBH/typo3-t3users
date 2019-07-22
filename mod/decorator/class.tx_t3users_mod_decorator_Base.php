@@ -140,7 +140,7 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
                     break;
                 case 'userswitch':
                     $ret[] = sprintf(
-                        '<button name="hijack[%1$d]" value="1" title="Become this user (%2$s)">%3$s</button>',
+                        '<button class="btn btn-default btn-sm" name="hijack[%1$d]" value="1" title="Become this user (%2$s)">%3$s</button>',
                         $item->getUid(),
                         $item->getUsername(),
                         tx_rnbase_mod_Util::getSpriteIcon(

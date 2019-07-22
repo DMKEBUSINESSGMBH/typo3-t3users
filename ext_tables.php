@@ -20,7 +20,7 @@ if (TYPO3_MODE == 'BE' && tx_rnbase_configurations::getExtensionCfgValue('t3user
         array(
             'access' => 'user,group',
             'routeTarget' => 'tx_t3users_mod_Module',
-            'icon' => 'EXT:t3users/mod/moduleicon.gif',
+            'icon' => 'EXT:t3users/mod/moduleicon.png',
             'labels' => 'LLL:EXT:t3users/mod/locallang_mod.xml',
         )
     );
