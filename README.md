@@ -1,6 +1,11 @@
 t3users
 =======
 
+[![Latest Stable Version](https://img.shields.io/packagist/v/dmk/t3users.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/t3users)
+[![Total Downloads](https://img.shields.io/packagist/dt/dmk/t3users.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/t3users)
+[![Build Status](https://img.shields.io/travis/DMKEBUSINESSGMBH/typo3-t3users.svg?maxAge=3600&style=flat-square)](https://travis-ci.org/DMKEBUSINESSGMBH/typo3-t3users)
+[![License](https://img.shields.io/packagist/l/dmk/t3users.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/t3users)
+
 What does it do?
 ----------------
 
