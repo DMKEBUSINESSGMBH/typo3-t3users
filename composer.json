@@ -35,7 +35,6 @@
         "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-t3users"
     },
     "replace": {
-        "t3users": "self.version",
         "typo3-ter/t3users": "self.version"
     },
     "require": {
@@ -77,6 +76,7 @@
     "extra": {
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "extension-key": "t3users",
             "web-dir": ".Build/Web"
         }
     }
