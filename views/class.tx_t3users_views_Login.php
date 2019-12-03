@@ -73,9 +73,9 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base
             array()
         );
 
-        $out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
         // We do it twice, since some marker contain other markers
-        $out = $formatter->cObj->substituteMarkerArrayCached($out, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($out, $markerArray, $subpartArray, $wrappedSubpartArray);
 
         if (is_object($feuser)) {
             // Jetzt mit dem FEuser-Marker drüber
