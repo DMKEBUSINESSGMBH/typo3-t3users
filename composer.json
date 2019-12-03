@@ -42,7 +42,7 @@
         "digedag/rn-base": ">=1.10"
     },
     "require-dev": {
-        "nimut/testing-framework": "^4.0"
+        "nimut/testing-framework": "^1.1 || ^2.0 || ^4.0"
     },
     "autoload": {
         "classmap": [
