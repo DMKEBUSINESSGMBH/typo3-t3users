@@ -39,7 +39,7 @@
     },
     "require": {
         "typo3/cms-core": "^6.2 || ^7.6 || ^8.7 || ^9.5",
-        "digedag/rn-base": ">=1.4"
+        "digedag/rn-base": ">=1.10"
     },
     "require-dev": {
         "nimut/testing-framework": "^4.0"
@@ -74,6 +74,9 @@
         ]
     },
     "extra": {
+        "branch-alias": {
+            "dev-compatibility/typo3v9": "9.0.x-dev"
+        },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "extension-key": "t3users",
