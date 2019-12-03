@@ -31,7 +31,7 @@ if (TYPO3_MODE == 'BE' && tx_rnbase_configurations::getExtensionCfgValue('t3user
     tx_rnbase_util_Extensions::insertModuleFunction(
         'web_T3usersBackend',
         'tx_t3users_mod_FeUser',
-        tx_rnbase_util_Extensions::extPath($_EXTKEY, 'mod/class.tx_t3users_mod_FeUser.php'),
+        tx_rnbase_util_Extensions::extPath('t3users', 'mod/class.tx_t3users_mod_FeUser.php'),
         'LLL:EXT:t3users/mod/locallang.xml:tx_t3users_module_name'
     );
 
@@ -54,7 +54,7 @@ if ($enableRoles) {
             'delete' => 'deleted',
             'enablecolumns' => array(
             ),
-            'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath($_EXTKEY).'tca.php',
+            'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath('t3users', 'tca.php'),
             'iconfile'          => 'EXT:t3users/icon_tx_t3users_tables.gif',
         ),
         'feInterface' => array(
@@ -71,7 +71,7 @@ if ($enableRoles) {
             'rootLevel' => 1,
             'is_static' => 1,
             'default_sortby' => 'ORDER BY sign',
-            'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath($_EXTKEY).'tca.php',
+            'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath('t3users', 'tca.php'),
             'iconfile'          => 'EXT:t3users/icon_tx_t3users_tables.gif',
         ),
         'interface' => array(
@@ -80,11 +80,10 @@ if ($enableRoles) {
     );
 }
 
-
 if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
     // TCA registration for 4.5
-    $TCA['tx_t3users_log'] = require tx_rnbase_util_Extensions::extPath('t3users') . 'Configuration/TCA/tx_t3users_log.php';
-    require tx_rnbase_util_Extensions::extPath('t3users') . 'Configuration/TCA/Overrides/fe_users.php';
+    $TCA['tx_t3users_log'] = require tx_rnbase_util_Extensions::extPath('t3users', 'Configuration/TCA/tx_t3users_log.php');
+    require tx_rnbase_util_Extensions::extPath('t3users', 'Configuration/TCA/Overrides/fe_users.php');
 }
 
 ////////////////////////////////
@@ -96,11 +95,18 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_t3users_main'] =
 // Das tt_content-Feld pi_flexform einblenden
 $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_t3users_main'] = 'pi_flexform';
 
-tx_rnbase_util_Extensions::addPiFlexFormValue('tx_t3users_main', 'FILE:EXT:'.$_EXTKEY.'/Configuration/Flexform/flexform_main.xml');
-tx_rnbase_util_Extensions::addPlugin(array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.t3users.label','tx_t3users_main'));
+tx_rnbase_util_Extensions::addPiFlexFormValue(
+    'tx_t3users_main',
+    'FILE:EXT:t3users/Configuration/Flexform/flexform_main.xml'
+);
+tx_rnbase_util_Extensions::addPlugin(
+    array('LLL:EXT:t3users/locallang_db.php:plugin.t3users.label', 'tx_t3users_main'),
+    'list_type',
+    't3users'
+);
 
 
-tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'static/ts/', 'FE User Management');
+tx_rnbase_util_Extensions::addStaticFile('t3users', 'static/ts/', 'FE User Management');
 
 if (TYPO3_MODE == 'BE') {
     tx_rnbase::load('tx_rnbase_util_TYPO3');
@@ -122,7 +128,7 @@ if (TYPO3_MODE == 'BE') {
         tx_rnbase_util_Extensions::insertModuleFunction(
             'web_func',
             'tx_t3users_mod_index',
-            tx_rnbase_util_Extensions::extPath($_EXTKEY).'mod/class.tx_t3users_mod_index.php',
+            tx_rnbase_util_Extensions::extPath('t3users', 'mod/class.tx_t3users_mod_index.php'),
             'LLL:EXT:t3users/mod/locallang.xml:tx_t3users_module_name'
         );
     }
