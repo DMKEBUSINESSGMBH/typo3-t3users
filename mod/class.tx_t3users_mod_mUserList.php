@@ -22,11 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 tx_rnbase::load('tx_rnbase_util_Misc');
 tx_rnbase::load('tx_t3users_util_Decorator');
-
-
 
 /**
  * Show user list.
@@ -34,7 +31,8 @@ tx_rnbase::load('tx_t3users_util_Decorator');
 class tx_t3users_mod_mUserList
 {
     public $mod;
-    public function tx_t3users_mod_mUserList(&$mod)
+
+    public function __construct(&$mod)
     {
         $this->mod = $mod;
         $this->doc = $mod->doc;
