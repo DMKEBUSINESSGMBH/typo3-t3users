@@ -39,7 +39,7 @@
     },
     "require": {
         "typo3/cms-core": "^6.2 || ^7.6 || ^8.7 || ^9.5",
-        "digedag/rn-base": ">=1.10 && <=1.10.9"
+        "digedag/rn-base": ">=1.10 <=1.10.9"
     },
     "require-dev": {
         "nimut/testing-framework": "^1.1 || ^2.0 || ^4.0"
