@@ -43,9 +43,9 @@ before_script:
 script:
   - >
     echo;
-    echo "Running unit tests";
-    .Build/bin/phpunit -c phpunit.xml.dist --coverage-text --coverage-clover=.Build/coverage.clover
-  - >
-    echo;
     echo "Running php lint";
     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
+  - >
+    echo;
+    echo "Running unit tests";
+    .Build/bin/phpunit -c phpunit.xml.dist --coverage-text --coverage-clover=.Build/coverage.clover
