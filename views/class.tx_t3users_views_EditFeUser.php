@@ -43,7 +43,7 @@ class tx_t3users_views_EditFeUser extends tx_rnbase_view_Base
         $form =& $viewData->offsetGet('form');
         $markerArray = array();
         $markerArray['###FORM###'] = $form;
-        $template = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray);
+        $template = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
 
         // Jetzt nochmal den User rendern
         $feuser =& $viewData->offsetGet('user');
@@ -56,7 +56,7 @@ class tx_t3users_views_EditFeUser extends tx_rnbase_view_Base
         $params['marker'] = 'FEUSER';
         $params['feuser'] = $feuser;
         tx_rnbase_util_BaseMarker::callModules($template, $markerArray, $subpartArray, $wrappedSubpartArray, $params, $formatter);
-        $out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
         return $out;
     }

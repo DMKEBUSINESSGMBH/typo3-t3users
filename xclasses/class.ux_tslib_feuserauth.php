@@ -111,9 +111,11 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
             && intval(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'useBeforelastLogin'))
             ) {
             $tempuser[$this->beforelastLogin_column] = $tempuser[$this->lastLogin_column];
-            $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+
+            $connection = Tx_Rnbase_Database_Connection::getInstance();
+            $connection->doUpdate(
                 $this->user_table,
-                $this->userid_column.'='.$GLOBALS['TYPO3_DB']->fullQuoteStr($tempuser[$this->userid_column], $this->user_table),
+                $this->userid_column.'='.$connection->fullQuoteStr($tempuser[$this->userid_column], $this->user_table),
                 array($this->beforelastLogin_column => $tempuser[$this->lastLogin_column])
             );
         }

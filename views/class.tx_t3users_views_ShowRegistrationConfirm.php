@@ -35,22 +35,24 @@ class tx_t3users_views_ShowRegistrationConfirm extends tx_rnbase_view_Base
 {
     /**
      * Erstellen des Frontend-Outputs
+     *
      * @param string $template
      * @param ArrayObject $viewData
+     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param tx_rnbase_util_FormatUtil $formatter
+     * @return string
      */
     public function createOutput($template, &$viewData, &$configurations, &$formatter)
     {
         $subpartName = '###PART_'.$viewData->offsetGet('part').'###';
-        $template = $formatter->cObj->getSubpart($template, $subpartName);
+        $template = tx_rnbase_util_Templates::getSubpart($template, $subpartName);
 
         if (tx_rnbase_util_BaseMarker::containsMarker($template, 'FEUSER_')) {
             $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
             $template = $marker->parseTemplate($template, $viewData->offsetGet('feuser'), $formatter, $this->getController()->getConfId().'feuser.', 'FEUSER');
         }
 
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray);
-
-        return $out;
+        return $template;
     }
 
 

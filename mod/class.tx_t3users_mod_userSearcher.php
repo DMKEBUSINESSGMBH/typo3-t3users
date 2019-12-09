@@ -40,7 +40,7 @@ class tx_t3users_mod_userSearcher
     private $SEARCH_SETTINGS;
     private $bAllowNonAdmins;
 
-    public function tx_t3users_mod_userSearcher(&$mod, $options = array())
+    public function __construct(&$mod, $options = array())
     {
         $this->init($mod, $options);
     }

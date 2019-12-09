@@ -74,7 +74,7 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
         $wrappedSubpartArray = array();
         $subpartArray = array();
         
-        $out = $formatter->cObj->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
         return $out;
     }
