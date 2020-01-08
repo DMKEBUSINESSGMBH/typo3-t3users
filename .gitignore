@@ -1,4 +1,13 @@
-.buildpath
-.settings
-.project
+### travis builds
+/.Build
+/var
+composer.lock
+.php_cs.cache
 
+### eclipse files
+/.buildpath
+/.project
+/.settings
+
+###ignore backups
+*.bak
