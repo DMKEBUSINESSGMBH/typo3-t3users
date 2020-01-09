@@ -105,10 +105,10 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
      */
     public function createUserSession($tempuser)
     {
-        tx_rnbase::load('tx_rnbase_configurations');
+        tx_rnbase::load('Sys25\\RnBase\\Configuration\\Processor');
         if ($this->lastLogin_column
             && $this->beforelastLogin_column
-            && intval(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'useBeforelastLogin'))
+            && intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'useBeforelastLogin'))
             ) {
             $tempuser[$this->beforelastLogin_column] = $tempuser[$this->lastLogin_column];
 

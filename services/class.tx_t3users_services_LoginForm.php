@@ -88,7 +88,7 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
      * Prepare form for usage with kb_md5fepw extension.
      * @param stdClass $code
      * @param string $statusKey
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string $confId
      * @param tx_t3users_actions_Login $plugin
      */
@@ -109,7 +109,7 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
      * Prepare form for usage with rsa security level.
      * @param stdClass $code
      * @param string $statusKey
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string $confId
      * @param tx_t3users_actions_Login $plugin
      */
@@ -137,7 +137,7 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
      *
      * @param stdClass $code
      * @param string $statusKey
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string $confId
      * @param tx_t3users_actions_Login $plugin
      */

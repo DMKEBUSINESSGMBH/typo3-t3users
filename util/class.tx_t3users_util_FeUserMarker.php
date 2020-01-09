@@ -170,14 +170,14 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
      * Führt vor dem parsen Änderungen am Model durch.
      *
      * @param Tx_Rnbase_Domain_Model_DomainInterface $item
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string $confId
      *
      * @return void
      */
     protected function prepareItem(
         Tx_Rnbase_Domain_Model_DataInterface $item,
-        Tx_Rnbase_Configuration_ProcessorInterface $configurations,
+        \Sys25\RnBase\Configuration\ProcessorInterface $configurations,
         $confId
     ) {
         $item->setIsCurrentUser(

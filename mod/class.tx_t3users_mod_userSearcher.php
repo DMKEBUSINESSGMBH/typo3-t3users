@@ -23,7 +23,7 @@
 ***************************************************************/
 
 tx_rnbase::load('tx_rnbase_util_Misc');
-tx_rnbase::load('tx_rnbase_configurations');
+tx_rnbase::load('Sys25\\RnBase\\Configuration\\Processor');
 tx_rnbase::load('tx_rnbase_parameters');
 tx_rnbase::load('Tx_Rnbase_Backend_Utility');
 
@@ -53,7 +53,7 @@ class tx_t3users_mod_userSearcher
         $this->resultSize = 0;
         $this->data = tx_rnbase_parameters::getPostOrGetParameter('searchdata');
 
-        $this->bAllowNonAdmins = tx_rnbase_configurations::getExtensionCfgValue('t3users', 'fullModuleForNonAdmins');
+        $this->bAllowNonAdmins = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'fullModuleForNonAdmins');
 
         if (!isset($options['nopersist'])) {
             $searchData = array('termfeuser' => '', 'hiddenfeuser' => '', 'pagemode' => '','uidfeuser' => '');
@@ -182,7 +182,7 @@ class tx_t3users_mod_userSearcher
         $columns['username'] = array('title' => 'label_tableheader_username', 'decorator' => $decor);
         $columns['usergroup'] = array('title' => 'label_tableheader_usergroup', 'decorator' => $decor);
         $columns['name'] = array('title' => 'label_name');
-        if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'extendTCA'))) {
+        if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'extendTCA'))) {
             $columns['first_name'] = array('title' => 'label_firstname');
             $columns['last_name'] = array('title' => 'label_lastname');
         }

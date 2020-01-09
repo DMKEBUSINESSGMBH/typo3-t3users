@@ -37,7 +37,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feuser
      * @param string $newPassword
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      */
     public function sendNewPassword($feuser, $newPassword, $configurations, $confId = 'loginbox.')
     {
@@ -52,7 +52,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feuser
      * @param string $newPassword
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      */
     private function sendNewPasswordSimple($feuser, $newPassword, $configurations, $confId)
     {
@@ -88,7 +88,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $pwLink
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param string $confId
      */
     public function sendResetPassword(
@@ -121,7 +121,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $pwLink
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param string $confId
      */
     private function sendResetPasswordMkmailer(
@@ -225,7 +225,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $pwLink
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      */
     private function sendResetPasswordSimple($feuser, $pwLink, $configurations, $confId)
     {
@@ -290,7 +290,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feuser
      * @param string $newPassword
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      */
     private function sendNewPasswordMkMailer($feuser, $newPassword, $configurations, $confId)
     {
@@ -336,7 +336,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feUser
      * @param array $data
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      */
     public function sendEditedData($feUser, $data, $configurations, $confId = 'feuseredit.')
     {
@@ -403,7 +403,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $confirmLink
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param string $confId
      */
     public function sendConfirmLink($feuser, $confirmLink, $configurations, $confId = 'loginbox.')
@@ -419,7 +419,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $confirmLink
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param string $confId
      */
     private function sendConfirmLinkSimple($feuser, $confirmLink, $configurations, $confId)
@@ -504,7 +504,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $confirmLink
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param string $confId
      */
     private function sendConfirmLinkMkMailer($feuser, $confirmLink, $configurations, $confId)
@@ -552,7 +552,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
 
     /**
      * @param tx_t3users_models_feuser $feuser
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param string $confId
      *
      * Beispiel Mailtemplate:
@@ -563,7 +563,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      */
     public function sendNotificationAboutConfirmationToFeUser(
         tx_t3users_models_feuser $feuser,
-        Tx_Rnbase_Configuration_ProcessorInterface $configurations,
+        \Sys25\RnBase\Configuration\ProcessorInterface $configurations,
         $confId = 'showregistration.'
     ) {
         $mailSrv = $this->getMkMailerMailService();
@@ -613,7 +613,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
 
     /**
      * Whether or not use mkmailer for email processing
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param string $confId there should be an option "useMkmailer" below this confId
      * @return boolean
      */

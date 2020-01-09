@@ -35,7 +35,7 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
     /**
      *
      * @param \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param ArrayObject $viewData
      */
     public function handleRequest(&$parameters, &$configurations, &$viewData)

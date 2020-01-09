@@ -43,7 +43,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      * 4. Show Status (if logged in)
      *
      * @param array_object $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      * @return string error msg or null
      */
@@ -98,7 +98,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      * Send confirmation mail to user
      *
      * @param array_object $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      */
     private function handleRequestConfirmation(&$parameters, &$configurations, &$viewData)
@@ -142,7 +142,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      * Send new password to user
      *
      * @param array_object $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      */
     protected function handleForgotPass(&$parameters, &$configurations, &$viewData)
@@ -185,7 +185,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      *
      * @param string $action
      * @param array_object $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      */
     protected function handleNotLoggedIn($action, &$parameters, &$configurations, &$viewData)
@@ -253,7 +253,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      *
      * @param string $action
      * @param array_object $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      * @param tx_t3users_models_feuser $feuser
      */
@@ -264,7 +264,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
         $this->setLanguageMarkers($markerArr, $configurations, 'login');
         $markerArr['storage_pid'] = $this->getStoragePid($configurations);
         if ($parameters->offsetGet('NK_logintype')) { // User want's to logout
-            if (tx_rnbase_configurations::getExtensionCfgValue('t3users', 'trackLogin')) {
+            if (\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'trackLogin')) {
                 tx_t3users_util_ServiceRegistry::getLoggingService()->logLogout($feuser->uid);
             }
             // Redirect with logout
@@ -300,7 +300,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      *
      * @param string $action
      * @param array_object $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      * @param tx_t3users_models_feuser $feuser
      */
@@ -322,7 +322,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
         );
 
         if (!$finished) {
-            if (tx_rnbase_configurations::getExtensionCfgValue('t3users', 'trackLogin')) {
+            if (\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'trackLogin')) {
                 tx_t3users_util_ServiceRegistry::getLoggingService()->logLogin($feuser->uid);
             }
             // Redirect to same page to avoid forced logout
@@ -387,7 +387,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      * Add some common markers
      *
      * @param array $markerArr
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string $statusKey
      */
     protected function setLanguageMarkers(&$markerArr, &$configurations, $statusKey)
@@ -419,7 +419,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
     }
     /**
      * Erstellt die URL für das Formular
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $params
      * @param bool $nocache
      */

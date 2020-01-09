@@ -38,7 +38,7 @@ class tx_t3users_views_ShowRegistrationConfirm extends tx_rnbase_view_Base
      *
      * @param string $template
      * @param ArrayObject $viewData
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param tx_rnbase_util_FormatUtil $formatter
      * @return string
      */

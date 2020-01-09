@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_configurations');
+tx_rnbase::load('Sys25\\RnBase\\Configuration\\Processor');
 tx_rnbase::load('Tx_Rnbase_Service_Authentication');
 tx_rnbase::load('Tx_Rnbase_Utility_Strings');
 
@@ -38,7 +38,7 @@ class tx_t3users_services_feuserauth extends Tx_Rnbase_Service_Authentication
     {
         parent::initAuth($subType, $loginData, $authInfo, $userauth);
 
-        if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'enableLoginByEmail')) &&
+        if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'enableLoginByEmail')) &&
                     Tx_Rnbase_Utility_Strings::validEmail($loginData['uname'])) {
             $this->pObj->username_column = 'email';
             $this->db_user['username_column'] = 'email';

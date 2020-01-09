@@ -48,7 +48,7 @@ class tx_t3users_actions_RenewSession extends tx_rnbase_action_BaseIOC
      * um ein automatisches Logout von TYPO3 zu verhindern.
      *
      * @param tx_rnbase_parameters $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      *
      * @return string error msg or null

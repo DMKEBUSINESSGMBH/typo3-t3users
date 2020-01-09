@@ -41,7 +41,7 @@ class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC
     /**
      *
      * @param tx_rnbase_parameters $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      *
      * @return string error msg or null

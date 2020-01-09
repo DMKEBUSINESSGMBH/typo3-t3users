@@ -38,7 +38,7 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
      *
      *
      * @param array_object $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      * @return string error msg or null
      */
@@ -88,7 +88,7 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
      * Liefert die Anzahl der Ergebnisse pro Seite
      *
      * @param array $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @return int
      */
     protected function getPageSize(&$parameters, &$configurations)

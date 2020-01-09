@@ -42,7 +42,7 @@ class tx_t3users_views_ResetPassword extends tx_rnbase_view_Base
      *
      * @param string $template
      * @param arrayobject $viewData
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param tx_rnbase_util_FormatUtil $formatter
      * @return string
      */
@@ -71,7 +71,7 @@ class tx_t3users_views_ResetPassword extends tx_rnbase_view_Base
 
     /**
      *
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      */
     protected function createPageUri($configurations, $params = array())
     {

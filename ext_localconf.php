@@ -4,8 +4,8 @@ defined('TYPO3_MODE') || die('Access denied.');
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'tx_t3users_hooks_processDatamap';
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getMainFieldsClass'][] = 'tx_t3users_hooks_getMainFields';
 
-tx_rnbase::load('tx_rnbase_configurations');
-if (!tx_rnbase_configurations::getExtensionCfgValue($_EXTKEY, 'disableUxFeUserAuth')) {
+tx_rnbase::load('Sys25\\RnBase\\Configuration\\Processor');
+if (!\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue($_EXTKEY, 'disableUxFeUserAuth')) {
     // Anpassung tslib_feuserauth
     // kann schon durch autoloading da sein aber auch eine andere Klasse sein
     // als die von t3users

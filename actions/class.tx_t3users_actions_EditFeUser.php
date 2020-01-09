@@ -32,14 +32,14 @@ tx_rnbase::load('tx_rnbase_util_TCA');
  */
 class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
 {
-    /** @var Tx_Rnbase_Configuration_Processor */
+    /** @var \Sys25\RnBase\Configuration\Processor */
     protected $configurations;
 
     /**
      * Erstmal nur das eigene Profil bearbeiten
      *
      * @param \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
      * @return string error msg or null
      */
@@ -108,7 +108,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
      * Liefert den Editor
      *
      * @param array $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param tx_t3users_models_feuser $item
      * @return tx_mkforms_forms_IForm
      */

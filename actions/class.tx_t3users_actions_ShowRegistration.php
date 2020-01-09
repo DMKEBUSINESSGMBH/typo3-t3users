@@ -136,7 +136,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
     /**
      *
      * @param \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters
-     * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param boolean $hide
      * @return string[]
      */

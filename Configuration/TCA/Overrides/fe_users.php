@@ -49,7 +49,7 @@ if (tx_rnbase_util_Extensions::isLoaded('date2cal')) {
     }
 }
 
-if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'extendTCA'))) {
+if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'extendTCA'))) {
     $feUsersExtendedFields = array(
         'gender' => array(
             'exclude' => 0,
@@ -119,7 +119,7 @@ if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'extendTCA'
         }
     }
 }
-if (intval(tx_rnbase_configurations::getExtensionCfgValue('t3users', 'extendTCA'))) {
+if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'extendTCA'))) {
     tx_rnbase_util_Extensions::addTCAcolumns('fe_users', array(
         'lastlogin' => array(
             'label' => 'LLL:EXT:lang/locallang_general.php:LGL.lastlogin',

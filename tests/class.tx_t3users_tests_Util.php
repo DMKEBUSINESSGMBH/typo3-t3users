@@ -64,7 +64,7 @@ class tx_t3users_tests_Util
         $extKey = 't3users';
         tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$extKey.'/static/ts/setup.txt">');
 
-        tx_rnbase::load('tx_rnbase_configurations');
+        tx_rnbase::load('Sys25\\RnBase\\Configuration\\Processor');
         tx_rnbase::load('tx_rnbase_util_Misc');
 
         tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
@@ -75,7 +75,7 @@ class tx_t3users_tests_Util
         $pageTSconfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0);
         $pageTSconfig = (array) $pageTSconfig['plugin.']['tx_'.$extKey.'.'];
         $qualifier = $pageTSconfig['qualifier'] ? $pageTSconfig['qualifier'] : $extKey;
-        $configurations = new tx_rnbase_configurations();
+        $configurations = new \Sys25\RnBase\Configuration\Processor();
         $configurations->init($pageTSconfig, $cObj, $extKey, $qualifier);
 
         return $configurations;

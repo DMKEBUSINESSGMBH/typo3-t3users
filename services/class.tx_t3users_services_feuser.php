@@ -572,7 +572,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     /**
      *
      * @param tx_t3users_models_feuser $feUser
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      */
     public function handleForgotPass_old($feuser, $configurations, $confId)
     {
@@ -585,7 +585,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      * Email mit Änderungslink verschicken.
      *
      * @param tx_t3users_models_feuser $feuser
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      */
     public function handleForgotPass($feuser, $configurations, $confId)
     {
@@ -669,7 +669,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     /**
      *
      * @param tx_t3users_models_feuser $feUser
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string $confId
      */
     public function handleRequestConfirmation($feuser, $configurations, $confId)

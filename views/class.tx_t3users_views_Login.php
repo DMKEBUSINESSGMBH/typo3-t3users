@@ -40,7 +40,7 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base
      *
      * @param string $template
      * @param arrayobject $viewData
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param tx_rnbase_util_FormatUtil $formatter
      * @return string
      */

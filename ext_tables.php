@@ -6,7 +6,7 @@ if (!defined('TYPO3_MODE')) {
 $enableRoles = false;
 
 // Backend Modul einbinden
-if (TYPO3_MODE == 'BE' && tx_rnbase_configurations::getExtensionCfgValue('t3users', 'activateBeModule')
+if (TYPO3_MODE == 'BE' && \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'activateBeModule')
 ) {
     // register web_T3usersBackend
     tx_rnbase::load('tx_t3users_mod_Module');
