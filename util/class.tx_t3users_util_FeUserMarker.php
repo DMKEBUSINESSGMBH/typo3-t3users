@@ -177,7 +177,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
      */
     protected function prepareItem(
         Tx_Rnbase_Domain_Model_DataInterface $item,
-        \Sys25\RnBase\Configuration\ProcessorInterface $configurations,
+        Tx_Rnbase_Configuration_ProcessorInterface $configurations,
         $confId
     ) {
         $item->setIsCurrentUser(
