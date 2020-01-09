@@ -135,13 +135,16 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
 
     /**
      *
-     * @param tx_rnbase_IParameters $parameters
+     * @param \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters
      * @param Tx_Rnbase_Configuration_ProcessorInterface $configurations
      * @param boolean $hide
      * @return string[]
      */
-    protected function getEditors(tx_rnbase_IParameters $parameters, Tx_Rnbase_Configuration_ProcessorInterface $configurations, $hide)
-    {
+    protected function getEditors(
+        \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters,
+        \Sys25\RnBase\Configuration\ConfigurationInterface $configurations,
+        $hide
+    ) {
         $editors = array('FORM' => '');
         if ($hide) {
             return $editors;

@@ -38,7 +38,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
     /**
      * Erstmal nur das eigene Profil bearbeiten
      *
-     * @param tx_rnbase_IParameters $parameters
+     * @param \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters
      * @param tx_rnbase_configurations $configurations
      * @param array $viewData
      * @return string error msg or null
