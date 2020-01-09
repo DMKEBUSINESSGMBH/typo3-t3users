@@ -40,8 +40,6 @@ before_install:
 
 before_script:
   - composer require typo3/minimal="$TYPO3_VERSION"
-  # use rn_base in dev master temporary
-  - composer require digedag/rn-base=dev-master
   # Restore composer.json
   - git checkout composer.json
   - export TYPO3_PATH_WEB=$PWD/.Build/Web
