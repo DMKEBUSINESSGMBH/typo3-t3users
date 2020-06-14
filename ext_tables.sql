@@ -2,7 +2,7 @@
 CREATE TABLE tx_t3users_log (
     uid int(11) NOT NULL auto_increment,
     pid int(11) NOT NULL default '0',
-    tstamp datetime DEFAULT '0000-00-00 00:00:00',
+    tstamp datetime DEFAULT NULL,
     typ varchar(50) DEFAULT '' NOT NULL,
     feuser int(11) DEFAULT '0' NOT NULL,
     beuser int(11) DEFAULT '0' NOT NULL,
@@ -19,10 +19,10 @@ CREATE TABLE fe_users (
     gender tinyint(4) DEFAULT '0' NOT NULL,
     first_name varchar(60) DEFAULT '' NOT NULL,
     last_name varchar(60) DEFAULT '' NOT NULL,
-    birthday date DEFAULT '0000-00-00',
+    birthday date DEFAULT NULL,
     confirmstring varchar(60) DEFAULT '' NOT NULL,
-    confirmtimeout datetime DEFAULT '0000-00-00 00:00:00',
-    t3usersroles int(11) DEFAULT '0' NOT NULL,
+    confirmtimeout datetime DEFAULT NULL,
+#    t3usersroles int(11) DEFAULT '0' NOT NULL,
     beforelastlogin int(11) unsigned DEFAULT '0' NOT NULL
 );
 

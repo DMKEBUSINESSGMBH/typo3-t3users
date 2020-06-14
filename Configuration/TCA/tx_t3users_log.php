@@ -3,22 +3,22 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$tx_t3users_log = array(
-    'ctrl' => array(
+$tx_t3users_log = [
+    'ctrl' => [
         'title'     => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log',
         'label'     => 'typ',
         'rootLevel' => 1,
         'default_sortby' => 'ORDER BY uid desc',
-        'enablecolumns' => array(),
+        'enablecolumns' => [],
         'iconfile'          => 'EXT:t3users/icon_tx_t3users_tables.gif',
-    ),
-    'interface' => array(
+    ],
+    'interface' => [
         'showRecordFieldList' => 'type'
-    ),
-    'feInterface' => array(
+    ],
+    'feInterface' => [
         'fe_admin_fieldList' => 'name',
-    ),
-    'columns' => array(
+    ],
+    'columns' => [
         'typ' => array(
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_typ',
             'config' => array(
@@ -69,12 +69,15 @@ $tx_t3users_log = array(
                 'type' => 'none',
             )
         ),
-    ),
-    'types' => array(
-        '0' => array('showitem' => 'typ,tstamp,feuser,beuser,recuid,rectable,data')
-    ),
-    'palettes' => array(
-    )
-);
+    ],
+    'types' => [
+        '0' => ['showitem' => 'typ,tstamp,feuser,beuser,recuid,rectable,data']
+    ],
+    'palettes' => []
+];
+
+if (\Sys25\RnBase\Utility\TYPO3::isTYPO104OrHigher()) {
+    unset($tx_t3users_log['interface']['showRecordFieldList']);
+}
 
 return $tx_t3users_log;
