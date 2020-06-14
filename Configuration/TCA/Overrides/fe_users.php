@@ -30,11 +30,15 @@ if ($enableRoles) {
     $GLOBALS['TCA']['fe_users']['types']['0']['showitem'] = str_replace(', starttime', ',t3usersroles, starttime', $GLOBALS['TCA']['fe_users']['types']['0']['showitem']);
 }
 
-tx_rnbase_util_Extensions::addTCAcolumns('fe_users', array(
+tx_rnbase_util_Extensions::addTCAcolumns('fe_users', [
     // don't display in BE, but define it in TCA so that this column is included in fe_user-Model!
-    'confirmstring' => array(),
-    'confirmtimeout' => array(),
-));
+    'confirmstring' => [
+        'type' => 'none',
+    ],
+    'confirmtimeout' => [
+        'type' => 'none',
+    ],
+]);
 
 /* If date2cal is loaded, include it as a wizard */
 $date2CalTCA = array();
@@ -120,16 +124,17 @@ if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users'
     }
 }
 if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'extendTCA'))) {
-    tx_rnbase_util_Extensions::addTCAcolumns('fe_users', array(
-        'lastlogin' => array(
+    tx_rnbase_util_Extensions::addTCAcolumns('fe_users', [
+        'lastlogin' => [
             'label' => 'LLL:EXT:lang/locallang_general.php:LGL.lastlogin',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'readOnly' => '1',
                 'size' => '12',
                 'eval' => 'datetime',
                 'default' => 0,
-            )
-        ),
-    ));
+            ]
+        ],
+    ]);
 }
