@@ -1,7 +1,5 @@
 <?php
 /**
- * @package TYPO3
- * @subpackage tx_t3users
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  *
  *  Copyright notice
@@ -25,23 +23,16 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_t3users_actions_RenewSession');
 
 /**
- * Testfälle für tx_t3users_actions_RenewSession
+ * Testfälle für tx_t3users_actions_RenewSession.
  *
- * @package TYPO3
- * @subpackage tx_t3users
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  */
 class tx_t3users_tests_actions_RenewSessionTest extends tx_rnbase_tests_BaseTestCase
 {
-
-    /**
-     *
-     */
     protected function tearDown()
     {
         if (isset($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'])) {
@@ -80,11 +71,11 @@ class tx_t3users_tests_actions_RenewSessionTest extends tx_rnbase_tests_BaseTest
             'JavaScript bereits in Header Data gesetzt.'
         );
 
-        $configurationsData = array(
-            'renewSession.' => array(
+        $configurationsData = [
+            'renewSession.' => [
                     'intervallInSeconds' => 400,
-            )
-        );
+            ],
+        ];
         $this->executeAction($configurationsData);
 
         $expectedJavaScript = $this->getExpectedJavaScriptWithIntervall(400000);
@@ -101,7 +92,7 @@ class tx_t3users_tests_actions_RenewSessionTest extends tx_rnbase_tests_BaseTest
      *
      * @return void
      */
-    private function executeAction(array $configurationsData = array())
+    private function executeAction(array $configurationsData = [])
     {
         self::markTestIncomplete("Error: Class 'tx_t3users_tests_Util' not found");
 
@@ -119,7 +110,7 @@ class tx_t3users_tests_actions_RenewSessionTest extends tx_rnbase_tests_BaseTest
     }
 
     /**
-     * @param integer $intervall
+     * @param int $intervall
      *
      * @return string
      */
@@ -153,6 +144,7 @@ class tx_t3users_tests_actions_RenewSessionTest extends tx_rnbase_tests_BaseTest
 
     /**
      * @param string $text
+     *
      * @return string
      */
     private function removeAnyWhitespace($text)

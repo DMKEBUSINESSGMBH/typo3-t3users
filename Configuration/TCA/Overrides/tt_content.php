@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3_MODE') or die();
+defined('TYPO3_MODE') or exit();
 
 call_user_func(function () {
     $extKey = 't3users';

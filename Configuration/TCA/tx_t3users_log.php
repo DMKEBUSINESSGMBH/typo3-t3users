@@ -1,79 +1,80 @@
 <?php
+
 if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
+    exit('Access denied.');
 }
 
 $tx_t3users_log = [
     'ctrl' => [
-        'title'     => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log',
-        'label'     => 'typ',
+        'title' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log',
+        'label' => 'typ',
         'rootLevel' => 1,
         'default_sortby' => 'ORDER BY uid desc',
         'enablecolumns' => [],
-        'iconfile'          => 'EXT:t3users/icon_tx_t3users_tables.gif',
+        'iconfile' => 'EXT:t3users/icon_tx_t3users_tables.gif',
     ],
     'interface' => [
-        'showRecordFieldList' => 'type'
+        'showRecordFieldList' => 'type',
     ],
     'feInterface' => [
         'fe_admin_fieldList' => 'name',
     ],
     'columns' => [
-        'typ' => array(
+        'typ' => [
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_typ',
-            'config' => array(
+            'config' => [
                 'type' => 'none',
-            )
-        ),
-        'tstamp' => array(
+            ],
+        ],
+        'tstamp' => [
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_tstamp',
-            'config' => array(
+            'config' => [
                 'type' => 'none',
-            )
-        ),
-        'beuser' => array(
+            ],
+        ],
+        'beuser' => [
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_beuser',
-            'config' => array(
+            'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
                 'allowed' => 'be_users',
                 'size' => 1,
                 'readOnly' => 1,
-            )
-        ),
-        'feuser' => array(
+            ],
+        ],
+        'feuser' => [
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_feuser',
-            'config' => array(
+            'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
                 'allowed' => 'fe_users',
                 'size' => 1,
                 'readOnly' => 1,
-            )
-        ),
-        'recuid' => array(
+            ],
+        ],
+        'recuid' => [
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_recuid',
-            'config' => array(
+            'config' => [
                 'type' => 'none',
-            )
-        ),
-        'rectable' => array(
+            ],
+        ],
+        'rectable' => [
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_rectable',
-            'config' => array(
+            'config' => [
                 'type' => 'none',
-            )
-        ),
-        'data' => array(
+            ],
+        ],
+        'data' => [
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_data',
-            'config' => array(
+            'config' => [
                 'type' => 'none',
-            )
-        ),
+            ],
+        ],
     ],
     'types' => [
-        '0' => ['showitem' => 'typ,tstamp,feuser,beuser,recuid,rectable,data']
+        '0' => ['showitem' => 'typ,tstamp,feuser,beuser,recuid,rectable,data'],
     ],
-    'palettes' => []
+    'palettes' => [],
 ];
 
 if (\Sys25\RnBase\Utility\TYPO3::isTYPO104OrHigher()) {

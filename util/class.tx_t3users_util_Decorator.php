@@ -25,23 +25,23 @@
 tx_rnbase::load('Tx_Rnbase_Backend_Utility_Icons');
 
 /**
- * Die Klasse bereitet Objekte für die Darstellung im Backend auf
+ * Die Klasse bereitet Objekte für die Darstellung im Backend auf.
  */
 class tx_t3users_util_Decorator
 {
     public static function prepareTable($entries, $columns, $formTool, $options)
     {
-        $arr = array( 0 => array( self::getHeadline($parts, $columns, $options) ));
+        $arr = [0 => [self::getHeadline($parts, $columns, $options)]];
         foreach ($entries as $entry) {
             $record = is_object($entry) ? $entry->record : $entry;
-            $row = array();
+            $row = [];
             if (isset($options['checkbox'])) {
                 $checkName = isset($options['checkboxname']) ? $options['checkboxname'] : 'checkEntry';
                 // Check if entry is checkable
                 if (!is_array($options['dontcheck']) || !array_key_exists($record['uid'], $options['dontcheck'])) {
                     $row[] = $formTool->createCheckbox($checkName.'[]', $record['uid']);
                 } else {
-                    $row[] = '<img'.Tx_Rnbase_Backend_Utility_Icons::skinImg($GLOBALS['BACK_PATH'], 'gfx/zoom2.gif', 'width="11" height="12"').' title="Info: '. $options['dontcheck'][$record['uid']] .'" border="0" alt="" />';
+                    $row[] = '<img'.Tx_Rnbase_Backend_Utility_Icons::skinImg($GLOBALS['BACK_PATH'], 'gfx/zoom2.gif', 'width="11" height="12"').' title="Info: '.$options['dontcheck'][$record['uid']].'" border="0" alt="" />';
                 }
             }
             reset($columns);
@@ -52,7 +52,7 @@ class tx_t3users_util_Decorator
                 // von diesem die Methode format aufgerufen und der Wert, sowie der Name der aktuellen
                 // Spalte übergeben. Ist nichts gesetzt wird einfach der aktuelle Wert verwendet.
                 if (isset($data['method'])) {
-                    $row[] = call_user_func(array($entry, $data['method']));
+                    $row[] = call_user_func([$entry, $data['method']]);
                 } elseif (isset($data['decorator'])) {
                     $decor = $data['decorator'];
                     $row[] = $decor->format($record[$column], $column, $record, $entry, $formTool);
@@ -70,15 +70,16 @@ class tx_t3users_util_Decorator
     }
 
     /**
-     * Liefert die passenden Überschrift für die Tabelle
+     * Liefert die passenden Überschrift für die Tabelle.
      *
      * @param int $parts
+     *
      * @return array
      */
     public static function getHeadline($parts, $columns, $options)
     {
         global $LANG;
-        $arr = array();
+        $arr = [];
         if (isset($options['checkbox'])) {
             $arr[] = '&nbsp;'; // Spalte für Checkbox
         }
@@ -88,7 +89,7 @@ class tx_t3users_util_Decorator
                 continue;
             }
             $arr[] = intval($data['notitle']) ? '' :
-                    $LANG->getLL((isset($data['title']) ? $data['title'] : $tableName.'_' . $column));
+                    $LANG->getLL((isset($data['title']) ? $data['title'] : $tableName.'_'.$column));
         }
         if (isset($options['linker'])) {
             $arr[] = $LANG->getLL('label_action');
@@ -121,5 +122,5 @@ interface tx_t3users_util_Linker
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_Decorator.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_Decorator.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_Decorator.php'];
 }

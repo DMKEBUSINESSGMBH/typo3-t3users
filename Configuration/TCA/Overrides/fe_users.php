@@ -5,11 +5,11 @@ tx_rnbase_util_TCA::loadTCA('fe_users');
 $GLOBALS['TCA']['fe_users']['columns']['username']['config']['eval'] = 'nospace,uniqueInPid,required';
 
 if ($enableRoles) {
-    tx_rnbase_util_Extensions::addTCAcolumns('fe_users', array(
-        't3usersroles' => array(
+    tx_rnbase_util_Extensions::addTCAcolumns('fe_users', [
+        't3usersroles' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users_t3usersroles',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'allowed' => 'tx_t3users_roles',
@@ -21,12 +21,12 @@ if ($enableRoles) {
                 'MM' => 'tx_t3users_role2owner_mm',
                 'MM_foreign_select' => 1,
                 'MM_opposite_field' => 'owner',
-                'MM_match_fields' => array(
+                'MM_match_fields' => [
                     'tablenames' => 'fe_users',
-                ),
-            )
-        ),
-    ));
+                ],
+            ],
+        ],
+    ]);
     $GLOBALS['TCA']['fe_users']['types']['0']['showitem'] = str_replace(', starttime', ',t3usersroles, starttime', $GLOBALS['TCA']['fe_users']['types']['0']['showitem']);
 }
 
@@ -41,73 +41,73 @@ tx_rnbase_util_Extensions::addTCAcolumns('fe_users', [
 ]);
 
 /* If date2cal is loaded, include it as a wizard */
-$date2CalTCA = array();
+$date2CalTCA = [];
 if (tx_rnbase_util_Extensions::isLoaded('date2cal')) {
-    $date2CalTCA = array(
+    $date2CalTCA = [
         'type' => 'userFunc',
         'userFunc' => 'EXT:date2cal/class.tx_date2cal_wizard.php:tx_date2cal_wizard->renderWizard',
         'evalValue' => 'date',
-    );
+    ];
     if (@is_dir(tx_rnbase_util_Extensions::extPath('date2cal').'/src')) {
         $date2CalTCA['userFunc'] = 'EXT:date2cal/src/class.tx_date2cal_wizard.php:tx_date2cal_wizard->renderWizard';
     }
 }
 
 if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'extendTCA'))) {
-    $feUsersExtendedFields = array(
-        'gender' => array(
+    $feUsersExtendedFields = [
+        'gender' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.gender',
-            'config' => array(
+            'config' => [
                 'type' => 'radio',
-                'items' => array(
-                    array('LLL:EXT:t3users/locallang_db.xml:fe_users_gender_mr', '0'),
-                    array('LLL:EXT:t3users/locallang_db.xml:fe_users_gender_ms', '1'),
-                ),
-            )
-        ),
-        'birthday' => array(
+                'items' => [
+                    ['LLL:EXT:t3users/locallang_db.xml:fe_users_gender_mr', '0'],
+                    ['LLL:EXT:t3users/locallang_db.xml:fe_users_gender_ms', '1'],
+                ],
+            ],
+        ],
+        'birthday' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.birthday',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => '12',
                 'max' => '10',
                 'default' => '00-00-0000',
-                'wizards' => array(
-                    'calendar' => $date2CalTCA
-                )
-            )
-        ),
-    );
+                'wizards' => [
+                    'calendar' => $date2CalTCA,
+                ],
+            ],
+        ],
+    ];
     // ab TYPO3 6.2 sind die Namensfelder direkt im Core enthalten
     if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
         $feUsersExtendedFields = array_merge(
             $feUsersExtendedFields,
-            array(
-                'first_name' => array(
+            [
+                'first_name' => [
                     'exclude' => 0,
                     'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.first_name',
-                    'config' => array(
+                    'config' => [
                         'type' => 'input',
                         'size' => '20',
                         'max' => '50',
                         'eval' => 'trim',
-                        'default' => ''
-                    )
-                ),
-                'last_name' => array(
+                        'default' => '',
+                    ],
+                ],
+                'last_name' => [
                     'exclude' => 0,
                     'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.last_name',
-                    'config' => array(
+                    'config' => [
                         'type' => 'input',
                         'size' => '20',
                         'max' => '50',
                         'eval' => 'trim',
-                        'default' => ''
-                    )
-                )
-            )
+                        'default' => '',
+                    ],
+                ],
+            ]
             );
     }
 
@@ -134,7 +134,7 @@ if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users'
                 'size' => '12',
                 'eval' => 'datetime',
                 'default' => 0,
-            ]
+            ],
         ],
     ]);
 }

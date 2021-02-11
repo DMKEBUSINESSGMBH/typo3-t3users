@@ -26,14 +26,15 @@ tx_rnbase::load('Tx_Rnbase_Service_Base');
 tx_rnbase::load('tx_rnbase_util_Templates');
 
 /**
- * Service to send emails
+ * Service to send emails.
+ *
  * @author René Nitzsche
  * @author Holger Gebhardt
  */
 class tx_t3users_services_email extends Tx_Rnbase_Service_Base
 {
     /**
-     * Sends newPassword to the feUser
+     * Sends newPassword to the feUser.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param string $newPassword
@@ -41,14 +42,15 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      */
     public function sendNewPassword($feuser, $newPassword, $configurations, $confId = 'loginbox.')
     {
-        if ($this->useMkMailer($configurations, $confId . 'email.')) {
+        if ($this->useMkMailer($configurations, $confId.'email.')) {
             return $this->sendNewPasswordMkMailer($feuser, $newPassword, $configurations, $confId);
         }
 
         return $this->sendNewPasswordSimple($feuser, $newPassword, $configurations, $confId);
     }
+
     /**
-     * Sends newPassword to the feUser
+     * Sends newPassword to the feUser.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param string $newPassword
@@ -58,7 +60,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     {
         // Mail vorbereiten
         $template = $configurations->getLL('loginbox_forgot_infomail');
-        $mailMarker = array();
+        $mailMarker = [];
         $mailMarker['###PASSWORD###'] = $newPassword;
         $formatter = $configurations->getFormatter();
         $mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $mailMarker);
@@ -85,7 +87,6 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     }
 
     /**
-     *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $pwLink
      * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
@@ -99,7 +100,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     ) {
         // aus Kompatibilitätsgründen zu alten Projekten muss
         // der Versand via mkmailer explizit aktiviert werden
-        if ($this->useMkMailer($configurations, $confId . 'email.')) {
+        if ($this->useMkMailer($configurations, $confId.'email.')) {
             return $this->sendResetPasswordMkMailer(
                 $feuser,
                 $pwLink,
@@ -117,7 +118,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     }
 
     /**
-     * Sends a password reset link to the feUser via mkmailer
+     * Sends a password reset link to the feUser via mkmailer.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $pwLink
@@ -130,9 +131,8 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         $configurations,
         $confId
     ) {
-
         // Das E-Mail-Template holen
-        $templatekey = $configurations->get($confId . 'resetpassword.mailtemplate');
+        $templatekey = $configurations->get($confId.'resetpassword.mailtemplate');
         $templatekey = empty($templatekey) ? 't3users_resetPassword' : $templatekey;
         tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
         $templateObj = tx_mkmailer_util_ServiceRegistry::getMailService()
@@ -148,9 +148,9 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
 
         // Einen E-Mail-Job anlegen.
         /* @var $job tx_mkmailer_mail_MailJob */
-        $job  = tx_rnbase::makeInstance(
+        $job = tx_rnbase::makeInstance(
             'tx_mkmailer_mail_MailJob',
-            array($receiver),
+            [$receiver],
             $templateObj
         );
 
@@ -160,14 +160,14 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         $itemName = $configurations->get($confId.'item') ?
             $configurations->get($confId.'item') : 'feuser';
 
-        $markerArray = $subpartArray = $wrappedSubpartArray = array();
+        $markerArray = $subpartArray = $wrappedSubpartArray = [];
 
         // Daten rendern
         $token = '---';
         $pwLink->label($token);
         $linkMarker = 'RESETLINK';
-        $markerArray['###'.$linkMarker . 'URL###'] = $pwLink->makeUrl(false);
-        $wrappedSubpartArray['###'.$linkMarker . '###'] =
+        $markerArray['###'.$linkMarker.'URL###'] = $pwLink->makeUrl(false);
+        $wrappedSubpartArray['###'.$linkMarker.'###'] =
             explode($token, $pwLink->makeTag());
         $formatter = $configurations->getFormatter();
         $mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached(
@@ -221,7 +221,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     }
 
     /**
-     * Sends a password reset link to the feUser
+     * Sends a password reset link to the feUser.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $pwLink
@@ -232,15 +232,15 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         // Mail vorbereiten
         $template = $configurations->getLL('loginbox_reset_infomail');
         $templateHtml = trim($configurations->getLL('loginbox_reset_infomail_html'));
-        $subpartArray = array();
-        $wrappedSubpartArray = array();
+        $subpartArray = [];
+        $wrappedSubpartArray = [];
 
         $token = '---';
         $pwLink->label($token);
         $linkMarker = 'RESETLINK';
-        $markerArray = array();
-        $markerArray['###'.$linkMarker . 'URL###'] = $pwLink->makeUrl(false);
-        $wrappedSubpartArray['###'.$linkMarker . '###'] = explode($token, $pwLink->makeTag());
+        $markerArray = [];
+        $markerArray['###'.$linkMarker.'URL###'] = $pwLink->makeUrl(false);
+        $wrappedSubpartArray['###'.$linkMarker.'###'] = explode($token, $pwLink->makeTag());
         $formatter = $configurations->getFormatter();
         $mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
         if ($templateHtml) {
@@ -286,7 +286,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     }
 
     /**
-     * Sends newPassword to the feUser
+     * Sends newPassword to the feUser.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param string $newPassword
@@ -303,7 +303,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         $mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
         $templateObj = $mailSrv->getTemplate('t3users_sendnewpassword');
 
-        $markerArray = array();
+        $markerArray = [];
         $markerArray['###PASSWORD###'] = $newPassword;
         $wrappedSubpartArray = $subpartArray = [];
 
@@ -332,7 +332,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     }
 
     /**
-     * Send edited feUser data to his email for confirmation
+     * Send edited feUser data to his email for confirmation.
      *
      * @param tx_t3users_models_feuser $feUser
      * @param array $data
@@ -352,7 +352,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         $link->destination($doubleOptInPage ? $doubleOptInPage : $GLOBALS['TSFE']->id);
         $link->setAbsUrl(true);
 
-        $markerArray = $wrappedSubpartArray = $linkParams = array();
+        $markerArray = $wrappedSubpartArray = $linkParams = [];
         //Daten extrahieren
         //Daten, die geändert werden sollen (also mit Link mitgeschickt werden)
         foreach ($data as $key => $value) {
@@ -362,10 +362,10 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         $link->parameters($linkParams);
 
         $linkMarker = 'MAILCONFIRM_LINK';
-        $wrappedSubpartArray['###'.$linkMarker . '###'] = explode($token, $link->makeTag());
+        $wrappedSubpartArray['###'.$linkMarker.'###'] = explode($token, $link->makeTag());
 
         $markerArray = $data;
-        $markerArray['###'.$linkMarker . 'URL###'] = $link->makeUrl(false);
+        $markerArray['###'.$linkMarker.'URL###'] = $link->makeUrl(false);
         $subpartArray = [];
 
         tx_rnbase::load('tx_rnbase_util_Templates');
@@ -399,7 +399,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     }
 
     /**
-     * Sends confirmLink to the feUser
+     * Sends confirmLink to the feUser.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $confirmLink
@@ -408,14 +408,15 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
      */
     public function sendConfirmLink($feuser, $confirmLink, $configurations, $confId = 'loginbox.')
     {
-        if ($this->useMkMailer($configurations, $confId . 'email.')) {
+        if ($this->useMkMailer($configurations, $confId.'email.')) {
             return $this->sendConfirmLinkMkMailer($feuser, $confirmLink, $configurations, $confId);
         }
 
         return $this->sendConfirmLinkSimple($feuser, $confirmLink, $configurations, $confId);
     }
+
     /**
-     * Sends newPassword to the feUser
+     * Sends newPassword to the feUser.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $confirmLink
@@ -425,16 +426,15 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     private function sendConfirmLinkSimple($feuser, $confirmLink, $configurations, $confId)
     {
         // Mail vorbereiten
-        $mailMarker = $mailWrappedSubpart = array();
+        $mailMarker = $mailWrappedSubpart = [];
         $mailMarker['###CONFIRMLINKURL###'] = $confirmLink->makeUrl();
         $mailWrappedSubpart['###CONFIRMLINK###'] = explode($confirmLink->getLabel(), $confirmLink->makeTag());
 
         $linkMarker = 'MAILCONFIRM_LINK';
-        $mailWrappedSubpart['###'.$linkMarker . '###'] = $mailWrappedSubpart['###CONFIRMLINK###'];
-        $mailMarker['###'.$linkMarker . 'URL###'] = $mailMarker['###CONFIRMLINKURL###'];
+        $mailWrappedSubpart['###'.$linkMarker.'###'] = $mailWrappedSubpart['###CONFIRMLINK###'];
+        $mailMarker['###'.$linkMarker.'URL###'] = $mailMarker['###CONFIRMLINKURL###'];
 
         $mailMarker['###SITENAME###'] = $configurations->get('siteName');
-
 
         // Template laden
         $template = $configurations->getLL('registration_confirmation_mail');
@@ -458,7 +458,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
             }
         }
         $mailtextCC = '';
-        if (($cc = $configurations->get($confId. 'cc'))) {
+        if (($cc = $configurations->get($confId.'cc'))) {
             $templateCC = $configurations->getLL('registration_confirmation_mail_cc');
             $templateCC = $templateCC ? $templateCC : $template;
         }
@@ -466,14 +466,14 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         // Links ersetzen
         $mailtext = '';
         if ($template) {
-            $mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $mailMarker, array(), $mailWrappedSubpart);
+            $mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $mailMarker, [], $mailWrappedSubpart);
         }
         $mailhtml = '';
         if ($templateHtml) {
-            $mailhtml = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateHtml, $mailMarker, array(), $mailWrappedSubpart);
+            $mailhtml = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateHtml, $mailMarker, [], $mailWrappedSubpart);
         }
         if ($templateCC) {
-            $mailtextCC = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateCC, $mailMarker, array(), $mailWrappedSubpart);
+            $mailtextCC = tx_rnbase_util_Templates::substituteMarkerArrayCached($templateCC, $mailMarker, [], $mailWrappedSubpart);
         }
 
         $formatter = $configurations->getFormatter();
@@ -498,9 +498,8 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         }
     }
 
-
     /**
-     * Sends newPassword to the feUser
+     * Sends newPassword to the feUser.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param tx_rnbase_util_Link $confirmLink
@@ -514,7 +513,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
         // $emailFromName = $this->configurations->get('loginbox.emailFromName');
         // $emailReply = $this->configurations->get('loginbox.emailReply');
 
-        $templateKey = $configurations->get($confId . 'mkmailerTemplateKey');
+        $templateKey = $configurations->get($confId.'mkmailerTemplateKey');
         $templateKey = $templateKey ?: 't3users_sendconfirmlink';
         tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
         $mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
@@ -612,14 +611,16 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
     }
 
     /**
-     * Whether or not use mkmailer for email processing
+     * Whether or not use mkmailer for email processing.
+     *
      * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param string $confId there should be an option "useMkmailer" below this confId
-     * @return boolean
+     *
+     * @return bool
      */
     private function useMkMailer($configurations, $confId)
     {
-        return  tx_rnbase_util_Extensions::isLoaded('mkmailer')
-                && $configurations->getBool($confId . 'useMkmailer');
+        return tx_rnbase_util_Extensions::isLoaded('mkmailer')
+                && $configurations->getBool($confId.'useMkmailer');
     }
 }

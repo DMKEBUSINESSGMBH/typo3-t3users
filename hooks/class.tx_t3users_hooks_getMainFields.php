@@ -22,18 +22,17 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 /**
- * Prepare field before output in tce form
+ * Prepare field before output in tce form.
  */
 class tx_t3users_hooks_getMainFields
 {
     public function getMainFields_preProcess($table, &$row, $tceform)
     {
-        if ($table == 'fe_users') {
+        if ('fe_users' == $table) {
             if (!strstr($row['uid'], 'NEW')) {
                 tx_rnbase::load('tx_rnbase_util_DB');
-                $row['birthday'] = ($GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat'] == '1') ?
+                $row['birthday'] = ('1' == $GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat']) ?
                                     tx_rnbase_util_DB::date_mysql2mdY($row['birthday']) :
                                     tx_rnbase_util_DB::date_mysql2dmY($row['birthday']);
             }
@@ -42,5 +41,5 @@ class tx_t3users_hooks_getMainFields
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_getMainFields.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_getMainFields.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_getMainFields.php'];
 }

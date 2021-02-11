@@ -1,39 +1,40 @@
 <?php
+
 if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
+    exit('Access denied.');
 }
 
-$TCA['tx_t3users_roles'] = array(
+$TCA['tx_t3users_roles'] = [
     'ctrl' => $TCA['tx_t3users_roles']['ctrl'],
-    'interface' => array(
-        'showRecordFieldList' => 'name,description'
-    ),
+    'interface' => [
+        'showRecordFieldList' => 'name,description',
+    ],
     'feInterface' => $TCA['tx_t3users_roles']['feInterface'],
-    'columns' => array(
-        'name' => array(
+    'columns' => [
+        'name' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles.name',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '150',
                 'eval' => 'required',
-            )
-        ),
-        'description' => array(
+            ],
+        ],
+        'description' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles.description',
-            'config' => array(
+            'config' => [
                 'type' => 'text',
                 'cols' => '40',
                 'rows' => '10',
-            )
-        ),
+            ],
+        ],
 
-        'owner' => array( // LOCAL MM-Field
+        'owner' => [ // LOCAL MM-Field
             'exclude' => 1,
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles.owner',
-            'config' => array(
+            'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
                 'allowed' => 'feusers,fegroups',
@@ -42,16 +43,16 @@ $TCA['tx_t3users_roles'] = array(
                 'minitems' => 0,
                 'maxitems' => 100,
                 'MM' => 'tx_t3users_role2owner_mm',
-                'MM_match_fields' => array(
+                'MM_match_fields' => [
                     'tablenames' => 'tx_t3users_role2owner_mm',
-                ),
-            )
-        ),
+                ],
+            ],
+        ],
 
-        'rights' => array( // FOREIGN MM-Field
+        'rights' => [ // FOREIGN MM-Field
             'exclude' => 1,
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_rights',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'allowed' => 'tx_t3users_rights',
@@ -63,53 +64,52 @@ $TCA['tx_t3users_roles'] = array(
                 'MM' => 'tx_t3users_right2role_mm',
                 'MM_foreign_select' => 1,
                 'MM_opposite_field' => 'roles',
-                'MM_match_fields' => array(
+                'MM_match_fields' => [
                     'tablenames' => 'tx_t3users_rights',
-                ),
-            )
-        ),
-    ),
-    'types' => array(
-        '0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, name, description,
-            --div--;LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles.description, rights, owner')
-    ),
-    'palettes' => array(
-    )
-);
+                ],
+            ],
+        ],
+    ],
+    'types' => [
+        '0' => ['showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, name, description,
+            --div--;LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles.description, rights, owner'],
+    ],
+    'palettes' => [
+    ],
+];
 
-
-$TCA['tx_t3users_rights'] = array(
+$TCA['tx_t3users_rights'] = [
     'ctrl' => $TCA['tx_t3users_rights']['ctrl'],
-    'interface' => array(
-        'showRecordFieldList' => 'sign,description'
-    ),
-    'columns' => array(
-        'sign' => array(
+    'interface' => [
+        'showRecordFieldList' => 'sign,description',
+    ],
+    'columns' => [
+        'sign' => [
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_rights.sign',
             'exclude' => '0',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => '7',
                 'max' => '7',
                 'eval' => 'int',
-                'default' => '0'
-            )
-        ),
-        'description' => array(
+                'default' => '0',
+            ],
+        ],
+        'description' => [
             'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles.description',
             'exclude' => '0',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => '7',
                 'max' => '7',
                 'eval' => 'int',
-                'default' => '0'
-            )
-        )
-    ),
-    'types' => array(
-        '1' => array(
-            'showitem' => 'sign,description'
-        )
-    ),
-);
+                'default' => '0',
+            ],
+        ],
+    ],
+    'types' => [
+        '1' => [
+            'showitem' => 'sign,description',
+        ],
+    ],
+];

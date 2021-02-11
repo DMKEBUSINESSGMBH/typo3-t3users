@@ -22,32 +22,28 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 tx_rnbase::load('tx_rnbase_filter_BaseFilter');
 tx_rnbase::load('tx_t3users_search_builder');
 
-
 /**
- * Controller für die Listenansicht für FeGruppen
+ * Controller für die Listenansicht für FeGruppen.
  */
 class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
 {
-
     /**
-     *
-     *
      * @param array_object $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
+     *
      * @return string error msg or null
      */
     public function handleRequest(&$parameters, &$configurations, &$viewData)
     {
         $userSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
-        $fields = array();
-        $options = array('count' => 1);
+        $fields = [];
+        $options = ['count' => 1];
         $this->initSearch($fields, $options, $parameters, $configurations);
         $listSize = $userSrv->search($fields, $options);
         unset($options['count']);
@@ -73,11 +69,11 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
         tx_rnbase_util_Misc::callHook(
             't3users',
             'actions_ListFeUsers_afterHandleRequest',
-            array(
+            [
                 'viewData' => &$viewData,
                 'parameters' => &$parameters,
                 'configurations' => &$configurations,
-            ),
+            ],
             $this
         );
 
@@ -85,16 +81,18 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
     }
 
     /**
-     * Liefert die Anzahl der Ergebnisse pro Seite
+     * Liefert die Anzahl der Ergebnisse pro Seite.
      *
      * @param array $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
+     *
      * @return int
      */
     protected function getPageSize(&$parameters, &$configurations)
     {
         return intval($configurations->get('feuserlist.feuser.pagebrowser.limit'));
     }
+
     protected function initSearch(&$fields, &$options, &$parameters, &$configurations)
     {
         // Look for static user uid
@@ -120,6 +118,7 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
     {
         return 'feuserlist';
     }
+
     public function getViewClassName()
     {
         return 'tx_t3users_views_ListFeUsers';
@@ -127,5 +126,5 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php'];
 }

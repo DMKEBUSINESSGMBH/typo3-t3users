@@ -27,9 +27,7 @@
  */
 class tx_t3users_hooks_processDatamap
 {
-
     /**
-     *
      * @param string $status
      * @param string $table
      * @param int $id
@@ -39,29 +37,32 @@ class tx_t3users_hooks_processDatamap
     public function processDatamap_postProcessFieldArray($status, $table, $id, &$fieldArray, &$tce)
     {
         /* If we have an existing calendar event */
-        if ($table == 'fe_users' && count($fieldArray) > 1) {
+        if ('fe_users' == $table && count($fieldArray) > 1) {
             if ($fieldArray['birthday']) {
                 $fieldArray['birthday'] = $this->convertBackendDateToYMD($fieldArray['birthday']);
             }
         }
     }
-  /**
-   * Miniulation der Daten vor dem Speichern in die DB
-   */
+
+    /**
+     * Miniulation der Daten vor dem Speichern in die DB.
+     */
     public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, &$tcemain)
     {
     }
 
     /**
      * Converts a date from the backend (m-d-Y or d-m-Y) into the Y-m-d format.
-     * from ext cal
-     * @param       string      The date to convert.
-     * @return      string      The date in Ymd format.
+     * from ext cal.
+     *
+     * @param       string      the date to convert
+     *
+     * @return      string      the date in Ymd format
      */
     public function convertBackendDateToYMD($dateString)
     {
         $dateArray = explode('-', $dateString);
-        $ymdString = ($GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat'] == '1') ?
+        $ymdString = ('1' == $GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat']) ?
                                     $dateArray[2].'-'.$dateArray[0].'-'.$dateArray[1] : $dateArray[2].'-'.$dateArray[1].'-'.$dateArray[0];
 
         return $ymdString;
@@ -69,5 +70,5 @@ class tx_t3users_hooks_processDatamap
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_processDatamap.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_processDatamap.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_processDatamap.php'];
 }

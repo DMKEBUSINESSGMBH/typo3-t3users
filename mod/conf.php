@@ -1,4 +1,5 @@
 <?php
+
 $MCONF['name'] = 'web_T3usersBackend';
 
 $MCONF['access'] = 'user,group';

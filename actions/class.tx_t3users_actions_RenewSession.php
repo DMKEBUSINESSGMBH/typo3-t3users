@@ -1,7 +1,5 @@
 <?php
 /**
- * @package TYPO3
- * @subpackage tx_t3users
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  *
  *  Copyright notice
@@ -26,7 +24,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
+/*
  * benötigte Klassen einbinden
  */
 
@@ -36,13 +34,10 @@ tx_rnbase::load('tx_rnbase_action_BaseIOC');
  * per Ajax aktuelle Seite in einem bestimmten Intervall aufrufen
  * um ein automatisches Logout von TYPO3 zu verhindern.
  *
- * @package TYPO3
- * @subpackage tx_t3users
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  */
 class tx_t3users_actions_RenewSession extends tx_rnbase_action_BaseIOC
 {
-
     /**
      * per Ajax aktuelle Seite in einem bestimmten Intervall aufrufen
      * um ein automatisches Logout von TYPO3 zu verhindern.
@@ -57,11 +52,11 @@ class tx_t3users_actions_RenewSession extends tx_rnbase_action_BaseIOC
     {
         $intervallInSeconds =
             $configurations->get($this->getConfId().'intervallInSeconds');
-            
+
         $intervallInSeconds = $intervallInSeconds ? $intervallInSeconds : 300;
-        
+
         $intervallInMilliSeconds = $intervallInSeconds * 1000;
-        
+
         $GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'] =
         "<script type='text/javascript'>
 	RenewSession = {
@@ -86,7 +81,7 @@ class tx_t3users_actions_RenewSession extends tx_rnbase_action_BaseIOC
 
 	RenewSession.loadCurrentPageInIntervall($intervallInMilliSeconds);
 </script>";
-        
+
         // wir brauchen kein template parsing
         return '&nbsp;';
     }
@@ -109,5 +104,5 @@ class tx_t3users_actions_RenewSession extends tx_rnbase_action_BaseIOC
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_Login.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_Login.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_Login.php'];
 }

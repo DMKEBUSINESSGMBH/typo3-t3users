@@ -22,25 +22,22 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 tx_rnbase::load('tx_rnbase_view_Base');
 tx_rnbase::load('tx_rnbase_util_ListBuilder');
 
-
 /**
  * Viewclass to show a list of users.
- * Isn't it tiny! ;-)
+ * Isn't it tiny! ;-).
  */
 class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base
 {
     /**
-     * Erstellen des Frontend-Outputs
+     * Erstellen des Frontend-Outputs.
      */
     public function createOutput($template, &$viewData, &$configurations, &$formatter)
     {
-
-    // Die ViewData bereitstellen
-        $users =& $viewData->offsetGet('userlist');
+        // Die ViewData bereitstellen
+        $users = &$viewData->offsetGet('userlist');
         $listBuilder = tx_rnbase::makeInstance('tx_rnbase_util_ListBuilder');
 
         $out = $listBuilder->render(
@@ -56,9 +53,8 @@ class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base
         return $out;
     }
 
-
     /**
-     * Returns the subpart to use for in template
+     * Returns the subpart to use for in template.
      *
      * @return string
      */
@@ -69,5 +65,5 @@ class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php'];
 }

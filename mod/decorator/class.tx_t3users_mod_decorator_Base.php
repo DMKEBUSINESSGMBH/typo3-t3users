@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_t3users
- * @subpackage tx_t3users_mod
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -25,20 +23,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
 tx_rnbase::load('Tx_Rnbase_Backend_Decorator_BaseDecorator');
 tx_rnbase::load('tx_rnbase_mod_Util');
 
 /**
  * Diese Klasse ist für die Darstellung von Elementen im Backend verantwortlich.
- *
- * @package tx_t3users
- * @subpackage tx_t3users_mod
  */
 class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDecorator
 {
     /**
-     *
      * @param   string                  $value
      * @param   string                  $colName
      * @param   array                   $record
@@ -73,17 +66,19 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
     }
 
     /**
-     * Liefert die möglichen Optionen für die actions
+     * Liefert die möglichen Optionen für die actions.
+     *
      * @param tx_rnbase_model_base $item
+     *
      * @return array
      */
     protected function getActionOptions($item = null)
     {
-        $cols = array(
+        $cols = [
             'edit' => '',
             'hide' => '',
             'userswitch' => '',
-        );
+        ];
 
         $userIsAdmin = is_object($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER']->isAdmin() : 0;
         //admins dürfen auch löschen
@@ -98,10 +93,10 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
     {
         $ret = '';
         $srv = tx_t3users_util_ServiceRegistry::getFeUserService();
-        $items = array();
+        $items = [];
         $groups = $srv->getFeGroups($feuser);
         foreach ($groups as $group) {
-            $items[] = '<li>'.$group->getTitle().' '. $formTool->createEditLink('fe_groups', $group->getUid(), '').'</li>';
+            $items[] = '<li>'.$group->getTitle().' '.$formTool->createEditLink('fe_groups', $group->getUid(), '').'</li>';
         }
         if (!empty($items)) {
             $ret = '<ul class="usergroup">'.implode('', $items).'</ul>';
@@ -116,13 +111,14 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
      *
      * @param   tx_rnbase_model_base    $item
      * @param   array                   $options
+     *
      * @return  string
      */
     protected function getActions(
         tx_rnbase_model_base $item,
         array $options
     ) {
-        $ret = array();
+        $ret = [];
         foreach ($options as $sLinkId => $bTitle) {
             switch ($sLinkId) {
                 case 'edit':
@@ -136,7 +132,7 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
                     //in der BE-Modul locallang.xml der jeweiligen Extension im Schlüssel
                     //'confirmation_deletion'. (z.B. mkkvbb/mod1/locallang.xml) Soll kein
                     //Bestätigungsdialog ausgegeben werden, dann einfach 'confirmation_deletion' leer lassen
-                    $ret[] = $this->getFormTool()->createDeleteLink($item->getTableName(), $item->getUid(), $bTitle, array('confirm' => $GLOBALS['LANG']->getLL('confirmation_deletion')));
+                    $ret[] = $this->getFormTool()->createDeleteLink($item->getTableName(), $item->getUid(), $bTitle, ['confirm' => $GLOBALS['LANG']->getLL('confirmation_deletion')]);
                     break;
                 case 'userswitch':
                     $ret[] = sprintf(
@@ -161,5 +157,5 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/decorator/class.tx_t3users_mod_decorator_Base.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/decorator/class.tx_t3users_mod_decorator_Base.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/decorator/class.tx_t3users_mod_decorator_Base.php'];
 }

@@ -28,13 +28,12 @@ tx_rnbase::load('tx_t3users_exceptions_User');
 tx_rnbase::load('Tx_Rnbase_Service_Base');
 
 /**
- * Service to extend login form
+ * Service to extend login form.
  *
  * @author Rene Nitzsche
  */
 class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
 {
-
     /**
      * Aufgabe ist es, das Login-Formular so zu erweitern, daß es erfolgreich abgeschickt wird.
      * Dazu muss eine onSubmit Funktion geliefert werden. Zusätzlich sind für die Verschlüsselung
@@ -42,17 +41,18 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
      *
      * @param stdClass $code
      * @param tx_t3users_actions_Login $plugin
+     *
      * @return array
      */
     public function extendLoginForm($code, $statusKey, $configurations, $confId, $plugin)
     {
         // Einfachste Form ist ohne alles
         $method = strtolower($configurations->get($confId.'extend.method'));
-        if ($method == 'none') {
+        if ('none' == $method) {
             return;
         }
 
-        if ($method == 'auto') {
+        if ('auto' == $method) {
             $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
             if ($usrSrv->useRSA()) {
                 if (tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
@@ -69,9 +69,8 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
             }
         }
 
-
         $data = $configurations->get($confId.'extend.'.$method.'.');
-        $keys = array('formFields', 'jsFiles', 'jsCode', 'onsubmit');
+        $keys = ['formFields', 'jsFiles', 'jsCode', 'onsubmit'];
         foreach ($keys as $key) {
             if (isset($data[$key])) {
                 $code->$key = $data[$key];
@@ -86,6 +85,7 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
 
     /**
      * Prepare form for usage with kb_md5fepw extension.
+     *
      * @param stdClass $code
      * @param string $statusKey
      * @param \Sys25\RnBase\Configuration\Processor $configurations
@@ -97,7 +97,7 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
         $code->jsFiles = '<script language="JavaScript" type="text/javascript" src="typo3/md5.js"></script>';
         $chal_val = md5(time().getmypid().uniqid());
         tx_rnbase::load('tx_rnbase_util_DB');
-        tx_rnbase_util_DB::doInsert('tx_kbmd5fepw_challenge', array('challenge' => $chal_val, 'tstamp' => time()), 0);
+        tx_rnbase_util_DB::doInsert('tx_kbmd5fepw_challenge', ['challenge' => $chal_val, 'tstamp' => time()], 0);
 
         $code->formFields = '<input type="hidden" name="challenge" value="'.$chal_val.'">';
         if (!$code->onsubmit) {
@@ -107,6 +107,7 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
 
     /**
      * Prepare form for usage with rsa security level.
+     *
      * @param stdClass $code
      * @param string $statusKey
      * @param \Sys25\RnBase\Configuration\Processor $configurations
@@ -115,7 +116,7 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
      */
     protected function handleMethod_rsa($code, $statusKey, $configurations, $confId, $plugin)
     {
-        require_once(tx_rnbase_util_Extensions::extPath('rsaauth') . 'hooks/class.tx_rsaauth_feloginhook.php');
+        require_once tx_rnbase_util_Extensions::extPath('rsaauth').'hooks/class.tx_rsaauth_feloginhook.php';
         $rsa = tx_rnbase::makeInstance('tx_rsaauth_feloginhook');
         $result = $rsa->loginFormHook();
         // Use onSubmit only if not set by Typoscript
@@ -128,6 +129,7 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
         $code->formFields = strstr($mixedCode, '<input');
         $code->jsFiles = strstr($mixedCode, '<input', true);
     }
+
     /**
      * RSA Authentifizierung ab 6.2.x.
      * Aufpassen: bei frühen Versionen (bis Mai 2014) funktioniert dieser Weg noch nicht. In dem
@@ -162,7 +164,6 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_LoginForm.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_LoginForm.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_LoginForm.php'];
 }

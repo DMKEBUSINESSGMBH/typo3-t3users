@@ -1,42 +1,14 @@
 <?php
-/**
- * @package tx_t3users
- * @subpackage tx_t3users_mod
- *
- *  Copyright notice
- *
- *  (c) 2011 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- */
 
 tx_rnbase::load('Tx_Rnbase_Backend_Lister_AbstractLister');
 
 /**
- * Hilfsklassen um nach Landkreisen im BE zu suchen
- *
- * @package tx_t3users
- * @subpackage tx_t3users_mod
+ * Hilfsklassen um nach Landkreisen im BE zu suchen.
  */
 class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractLister
 {
     /**
-     * Liefert die Funktions-Id
+     * Liefert die Funktions-Id.
      */
     public function getSearcherId()
     {
@@ -53,9 +25,8 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
         return tx_t3users_util_ServiceRegistry::getFeUserService();
     }
 
-
     /**
-     * Returns the repository
+     * Returns the repository.
      *
      * @return Tx_Rnbase_Domain_Repository_InterfaceSearch
      */
@@ -65,7 +36,8 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
     }
 
     /**
-     * Returns the complete search form
+     * Returns the complete search form.
+     *
      * @return  string
      */
     protected function addMoreFields(&$data, &$options)
@@ -81,9 +53,8 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
         return $out;
     }
 
-
     /**
-     * Der Selector wird erst erzeugt, wenn er benötigt wird
+     * Der Selector wird erst erzeugt, wenn er benötigt wird.
      *
      * @return  tx_t3users_mod_util_Selector
      */
@@ -98,20 +69,23 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_t3users_mod_searcher_abstractBase::getSearchColumns()
      */
     protected function getSearchColumns()
     {
-        return array('FEUSER.uid', 'FEUSER.username', 'FEUSER.first_name',
+        return ['FEUSER.uid', 'FEUSER.username', 'FEUSER.first_name',
                 'FEUSER.last_name', 'FEUSER.email', 'FEUSER.address',
                 'FEUSER.zip', 'FEUSER.company', 'FEUSER.www',
-                'FEUSER.telephone', 'FEUSER.city');
+                'FEUSER.telephone', 'FEUSER.city', ];
     }
 
     /**
      * Liefert die Spalten für den Decorator.
+     *
      * @param   tx_t3users_mod_decorator_Base   $oDecorator
+     *
      * @return  array
      */
     protected function addDecoratorColumns(
@@ -119,40 +93,39 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
     ) {
         $sTableAlias = 'FEUSER.';
         $decorator = $this->getDecorator();
-        $columns['uid'] = array(
+        $columns['uid'] = [
             'title' => '',
             'decorator' => $decorator,
-            'sortable' => $sTableAlias
-        );
-        $columns['actions'] = array(
+            'sortable' => $sTableAlias,
+        ];
+        $columns['actions'] = [
             'title' => 'label_tableheader_actions',
             'decorator' => $decorator,
-        );
-        $columns['username'] = array(
+        ];
+        $columns['username'] = [
             'title' => 'label_tableheader_username',
             'decorator' => $decorator,
-            'sortable' => $sTableAlias
-        );
-        $columns['first_name'] = array(
+            'sortable' => $sTableAlias,
+        ];
+        $columns['first_name'] = [
             'title' => 'label_tableheader_firstname',
             'decorator' => $decorator,
-            'sortable' => $sTableAlias
-        );
-        $columns['last_name'] = array(
+            'sortable' => $sTableAlias,
+        ];
+        $columns['last_name'] = [
             'title' => 'label_tableheader_lastname',
             'decorator' => $decorator,
-            'sortable' => $sTableAlias
-        );
-        $columns['usergroup'] = array(
+            'sortable' => $sTableAlias,
+        ];
+        $columns['usergroup'] = [
             'title' => 'label_tableheader_usergroup',
-            'decorator' => $decorator
-        );
+            'decorator' => $decorator,
+        ];
 
         return $columns;
     }
 
     /**
-     *
      * @return tx_rnbase_mod_IDecorator
      */
     protected function getDecoratorClass()
@@ -178,18 +151,18 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
         tx_rnbase_util_Misc::callHook(
             't3users',
             'mod_feuser_addFieldsAndOptions',
-            array(
+            [
                 'fields' => &$fields,
                 'options' => &$options,
                 'filter' => $this->getFilter(),
-            ),
+            ],
             $this
         );
     }
 
     /**
      * Liefert die Daten für das Basis-Suchformular damit
-     * das Html gebaut werden kann
+     * das Html gebaut werden kann.
      *
      * @return array
      */
@@ -200,11 +173,11 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
         tx_rnbase_util_Misc::callHook(
             't3users',
             'mod_feuser_addSearchFormData',
-            array(
+            [
                 'data' => &$data,
                 'module' => $this->getModule(),
                 'filter' => $this->getFilter(),
-            ),
+            ],
             $this
         );
 
@@ -213,5 +186,5 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/lister/class.tx_t3users_mod_lister_FeUser.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/lister/class.tx_t3users_mod_lister_FeUser.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/lister/class.tx_t3users_mod_lister_FeUser.php'];
 }

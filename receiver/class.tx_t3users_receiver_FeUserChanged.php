@@ -31,13 +31,13 @@ tx_rnbase::load('tx_mkmailer_receiver_FeUser');
  * geänderte adresse drin steht aber der receiver der mail nun eine
  * neue adresse hat. ergo wird die mail nochmals verschickt.
  * also brauchen wir einen eigen receiver der immer die ursprüngliche
- * adresse zurück gibt statt die aktuelle des users
+ * adresse zurück gibt statt die aktuelle des users.
  */
 class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser
 {
     public function getValueString()
     {
-        return is_object($this->obj) ? $this->obj->uid . ',' . (!empty($this->email) ? $this->email : $this->obj->record['email']) : '';
+        return is_object($this->obj) ? $this->obj->uid.','.(!empty($this->email) ? $this->email : $this->obj->record['email']) : '';
     }
 
     public function setValueString($value)
@@ -61,5 +61,5 @@ class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/receiver/class.tx_t3users_receiver_FeUserChanged.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/receiver/class.tx_t3users_receiver_FeUserChanged.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/receiver/class.tx_t3users_receiver_FeUserChanged.php'];
 }

@@ -1,42 +1,15 @@
 <?php
-/**
- * @package tx_t3users
- * @subpackage tx_t3users_tests_services
- *
- *  Copyright notice
- *
- *  (c) 2011 DMK E-BUSINESS GmbH
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- */
 
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
- * @package tx_t3users
- * @subpackage tx_t3users_tests_services
  * @author Hannes Bochmann
  */
 class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -58,7 +31,8 @@ class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -93,12 +67,12 @@ class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
             ->method('getTemplate')
             ->with('t3users_send_confirmation_notification')
             ->will($this->returnValue(
-                tx_rnbase::makeInstance('tx_mkmailer_models_Template', array())
+                tx_rnbase::makeInstance('tx_mkmailer_models_Template', [])
             ));
 
         $this->getMailServiceMock($mkMailerMailService)->sendNotificationAboutConfirmationToFeUser(
-            tx_rnbase::makeInstance('tx_t3users_models_feuser', array()),
-            $this->createConfigurations(array(), 't3users')
+            tx_rnbase::makeInstance('tx_t3users_models_feuser', []),
+            $this->createConfigurations([], 't3users')
         );
     }
 
@@ -111,21 +85,21 @@ class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
 
         $templateObj = tx_rnbase::makeInstance(
             'tx_mkmailer_models_Template',
-            array(
+            [
                 'contenttext' => '###FEUSER_NAME###',
                 'contenthtml' => '###FEUSER_NAME### html',
                 'mail_from' => 'typo3site',
                 'mail_cc' => 'gchq',
                 'mail_bcc' => 'nsa',
                 'subject' => 'test mail',
-            )
+            ]
         );
         $mkMailerMailService->expects($this->once())
             ->method('getTemplate')
             ->with('t3users_send_confirmation_notification')
             ->will($this->returnValue($templateObj));
 
-        $feuser = tx_rnbase::makeInstance('tx_t3users_models_feuser', array('name' => 'John Doe'));
+        $feuser = tx_rnbase::makeInstance('tx_t3users_models_feuser', ['name' => 'John Doe']);
         $receiver = tx_rnbase::makeInstance('tx_mkmailer_receiver_FeUser');
         $receiver->setFeUser($feuser);
 
@@ -144,10 +118,9 @@ class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
 
         $this->getMailServiceMock($mkMailerMailService)->sendNotificationAboutConfirmationToFeUser(
             $feuser,
-            $this->createConfigurations(array(), 't3users')
+            $this->createConfigurations([], 't3users')
         );
     }
-
 
     /**
      * @return tx_mkmailer_services_Mail
@@ -156,7 +129,7 @@ class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
     {
         $mkMailerMailService = $this->getMock(
             'tx_mkmailer_services_Mail',
-            array('spoolMailJob','getTemplate')
+            ['spoolMailJob', 'getTemplate']
         );
 
         return $mkMailerMailService;
@@ -169,7 +142,7 @@ class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
     {
         $mailService = $this->getMock(
             'tx_t3users_services_email',
-            array('getMkMailerMailService')
+            ['getMkMailerMailService']
         );
 
         $mailService->expects($this->once())

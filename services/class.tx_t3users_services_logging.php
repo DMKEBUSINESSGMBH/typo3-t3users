@@ -29,34 +29,36 @@ tx_rnbase::load('Tx_Rnbase_Service_Base');
 tx_rnbase::load('tx_t3users_models_log');
 
 /**
- * Service for logging feuser actions
+ * Service for logging feuser actions.
  *
  * @author Rene Nitzsche
  */
 class tx_t3users_services_logging extends Tx_Rnbase_Service_Base
 {
-
     /**
-     * TYPO3 Login of feuser
+     * TYPO3 Login of feuser.
+     *
      * @param int $feuserUid
      */
     public function logLogin($feuserUid)
     {
-        $log = tx_rnbase::makeInstance('tx_t3users_models_log', array('feuser' => $feuserUid, 'typ' => 'LOGIN'));
-        $this->writeLog($log);
-    }
-    /**
-     * TYPO3 Logout of feuser
-     * @param int $feuserUid
-     */
-    public function logLogout($feuserUid)
-    {
-        $log = tx_rnbase::makeInstance('tx_t3users_models_log', array('feuser' => $feuserUid, 'typ' => 'LOGOUT'));
+        $log = tx_rnbase::makeInstance('tx_t3users_models_log', ['feuser' => $feuserUid, 'typ' => 'LOGIN']);
         $this->writeLog($log);
     }
 
     /**
-     * Write a log entry to database
+     * TYPO3 Logout of feuser.
+     *
+     * @param int $feuserUid
+     */
+    public function logLogout($feuserUid)
+    {
+        $log = tx_rnbase::makeInstance('tx_t3users_models_log', ['feuser' => $feuserUid, 'typ' => 'LOGOUT']);
+        $this->writeLog($log);
+    }
+
+    /**
+     * Write a log entry to database.
      *
      * @param tx_t3users_models_ILog $log
      */
@@ -64,7 +66,7 @@ class tx_t3users_services_logging extends Tx_Rnbase_Service_Base
     {
         $row['tstamp'] = $log->getTimeStamp() ? $log->getTimeStamp() : date('Y-m-d H:i:s', time());
         $row['feuser'] = $log->getFEUserUid();
-        if (intval($row['feuser']) == 0) {
+        if (0 == intval($row['feuser'])) {
             // Prüfen, ob aktuell ein User vorhanden ist
             $feuser = tx_t3users_models_feuser::getCurrent();
             $row['feuser'] = is_object($feuser) ? $feuser->getUid() : 0;
@@ -83,10 +85,11 @@ class tx_t3users_services_logging extends Tx_Rnbase_Service_Base
     }
 
     /**
-     * Search database for teams
+     * Search database for teams.
      *
      * @param array $fields
      * @param array $options
+     *
      * @return array of tx_t3users_models_feuser
      */
     public function search($fields, $options)
@@ -99,7 +102,6 @@ class tx_t3users_services_logging extends Tx_Rnbase_Service_Base
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_logging.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_logging.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_logging.php'];
 }

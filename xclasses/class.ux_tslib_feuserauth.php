@@ -25,12 +25,10 @@
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
     /**
-     * tx_t3users_FrontendUserAuthenticationBase
+     * tx_t3users_FrontendUserAuthenticationBase.
      *
      * Wrapper für TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication seit TYPO3 6.x
      *
-     * @package         TYPO3
-     * @subpackage      t3users
      * @author          Hannes Bochmann <rene@system25.de>
      * @license         http://www.gnu.org/licenses/lgpl.html
      *                  GNU Lesser General Public License, version 3 or later
@@ -40,12 +38,10 @@ if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
     }
 } else {
     /**
-     * tx_t3users_FrontendUserAuthenticationBase
+     * tx_t3users_FrontendUserAuthenticationBase.
      *
      * Wrapper für tslib_feUserAuth bis TYPO3 6.x
      *
-     * @package         TYPO3
-     * @subpackage      t3users
      * @author          Hannes Bochmann <rene@system25.de>
      * @license         http://www.gnu.org/licenses/lgpl.html
      *                  GNU Lesser General Public License, version 3 or later
@@ -60,9 +56,10 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
     public $beforelastLogin_column = 'beforelastlogin';
 
     /**
-     * Starts a user session
+     * Starts a user session.
      *
      * @return  void
+     *
      * @see tslib_feUserAuth::start()
      */
     public function start()
@@ -73,7 +70,7 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
         // @see https://docs.typo3.org/typo3cms/extensions/core/Changelog/9.0/Feature-78695-SetTheSessionTimeoutForFrontendUsers.html
         // @todo can be removed when support for TYPO3 < 9 is dropped
         if (!tx_rnbase_util_TYPO3::isTYPO3VersionOrHigher(9000000)) {
-            $this->$sessionTimeoutField = (int)$GLOBALS['TYPO3_CONF_VARS']['FE']['sessionTimeout'];
+            $this->$sessionTimeoutField = (int) $GLOBALS['TYPO3_CONF_VARS']['FE']['sessionTimeout'];
         }
 
         // TYPO3 8 or higher expect fieldname instead integer
@@ -91,9 +88,9 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
      */
     public function getSessionTimeoutFieldByTypo3Version()
     {
-        return  (tx_rnbase_util_TYPO3::isTYPO80OrHigher())
+        return (tx_rnbase_util_TYPO3::isTYPO80OrHigher())
                 ? 'sessionTimeout'
-                : 'auth_timeout_field';;
+                : 'auth_timeout_field';
     }
 
     /**
@@ -101,6 +98,7 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
      * Than create a user session record.
      *
      * @param   array       user data array
+     *
      * @return  void
      */
     public function createUserSession($tempuser)
@@ -116,7 +114,7 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
             $connection->doUpdate(
                 $this->user_table,
                 $this->userid_column.'='.$connection->fullQuoteStr($tempuser[$this->userid_column], $this->user_table),
-                array($this->beforelastLogin_column => $tempuser[$this->lastLogin_column])
+                [$this->beforelastLogin_column => $tempuser[$this->lastLogin_column]]
             );
         }
 
@@ -125,5 +123,5 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/xclasses/class.ux_tslib_feuserauth.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/xclasses/class.ux_tslib_feuserauth.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/xclasses/class.ux_tslib_feuserauth.php'];
 }

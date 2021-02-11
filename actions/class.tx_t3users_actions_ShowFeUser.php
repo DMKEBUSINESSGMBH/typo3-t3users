@@ -22,26 +22,21 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 tx_rnbase::load('tx_t3users_models_feuser');
 
-
 /**
- * Controller for detailview of FE-User
+ * Controller for detailview of FE-User.
  */
 class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC
 {
-    
-  /**
-   *
-   *
-   * @param array_object $parameters
-   * @param \Sys25\RnBase\Configuration\Processor $configurations
-   * @param array $viewData
-   * @return string error msg or null
-   */
+    /**
+     * @param array_object $parameters
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param array $viewData
+     *
+     * @return string error msg or null
+     */
     public function handleRequest(&$parameters, &$configurations, &$viewData)
     {
         $userSrv = tx_t3users_util_serviceRegistry::getFeUserService();
@@ -61,7 +56,7 @@ class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC
             if (!$uid) {
                 return $configurations->getCfgOrLL('feuserdetails.nouser');
             }
-    
+
             // Let's get the current fe_user
             $user = tx_t3users_models_feuser::getInstance($uid);
         }
@@ -70,12 +65,11 @@ class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC
         return null;
     }
 
-  
-
     public function getTemplateName()
     {
         return 'feuserdetails';
     }
+
     public function getViewClassName()
     {
         return 'tx_t3users_views_ShowFeUser';
@@ -83,5 +77,5 @@ class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowFeUser.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowFeUser.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowFeUser.php'];
 }

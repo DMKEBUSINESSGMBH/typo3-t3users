@@ -22,21 +22,15 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-
-
 tx_rnbase::load('tx_rnbase_view_Base');
 tx_rnbase::load('tx_rnbase_util_BaseMarker');
 tx_rnbase::load('tx_rnbase_util_Templates');
 
-
-
 /**
- * Viewklasse für die Darstellung der Loginbox
+ * Viewklasse für die Darstellung der Loginbox.
  */
 class tx_t3users_views_ResetPassword extends tx_rnbase_view_Base
 {
-
     /**
      * Enter description here...
      *
@@ -44,6 +38,7 @@ class tx_t3users_views_ResetPassword extends tx_rnbase_view_Base
      * @param arrayobject $viewData
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param tx_rnbase_util_FormatUtil $formatter
+     *
      * @return string
      */
     public function createOutput($template, &$viewData, &$configurations, &$formatter)
@@ -53,7 +48,7 @@ class tx_t3users_views_ResetPassword extends tx_rnbase_view_Base
         $subpart = $viewData->offsetGet('subpart');
         $linkParams = $viewData->offsetGet('linkparams');
 
-        $markers = array();
+        $markers = [];
         $markers['message'] = $viewData->offsetGet('message');
         $markerArray = $formatter->getItemMarkerArrayWrapped($markers, $this->getController()->getConfId().'marker.', 0, '');
 
@@ -70,10 +65,9 @@ class tx_t3users_views_ResetPassword extends tx_rnbase_view_Base
     }
 
     /**
-     *
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      */
-    protected function createPageUri($configurations, $params = array())
+    protected function createPageUri($configurations, $params = [])
     {
         $link = $configurations->createLink();
         $link->initByTS($configurations, $this->getController()->getConfId().'formUrl.', $params);
@@ -95,7 +89,6 @@ class tx_t3users_views_ResetPassword extends tx_rnbase_view_Base
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ResetPassword.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ResetPassword.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ResetPassword.php'];
 }

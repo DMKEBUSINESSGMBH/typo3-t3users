@@ -1,20 +1,18 @@
 <?php
 /**
- * Backend Modul
- * @package tx_t3users
- * @subpackage tx_t3users_mod
+ * Backend Modul.
  */
 
-/**
+/*
  * alle benötigten Klassen einbinden etc.
  */
 if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
+    exit('Access denied.');
 }
 if (TYPO3_MODE == 'BE') {
-    tx_rnbase_util_Extensions::addModule('web', 'txt3usersM1', 'top', tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'mod/');
+    tx_rnbase_util_Extensions::addModule('web', 'txt3usersM1', 'top', tx_rnbase_util_Extensions::extPath($_EXTKEY).'mod/');
 
-    /**
+    /*
      * Callcenter Panel
      */
     tx_rnbase_util_Extensions::insertModuleFunction(

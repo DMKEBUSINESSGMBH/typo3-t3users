@@ -22,12 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 tx_rnbase::load('tx_t3users_mod_decorator_Base');
 
-
 /**
- * Diese Klasse ist für die Darstellung von FEUsern im Backend verantwortlich
+ * Diese Klasse ist für die Darstellung von FEUsern im Backend verantwortlich.
  */
 class tx_t3users_util_FEUserDecorator
 {
@@ -43,10 +41,10 @@ class tx_t3users_util_FEUserDecorator
                 break;
             case 'username':
                 $ret = $entry->isDisabled() ? '<s>'.$value.'</s>' : $value;
-                $ret .= ' ' . $formTool->createEditLink('fe_users', $record['uid'], '');
+                $ret .= ' '.$formTool->createEditLink('fe_users', $record['uid'], '');
                 if ($entry->getEmail()) {
                     global $LANG;
-                    $ret .= '<br />'.$LANG->getLL('label_email').': <a href="mailto:' . $entry->getEmail() .'">'.$entry->getEmail().'</a>';
+                    $ret .= '<br />'.$LANG->getLL('label_email').': <a href="mailto:'.$entry->getEmail().'">'.$entry->getEmail().'</a>';
                 }
                 break;
         }
@@ -56,5 +54,5 @@ class tx_t3users_util_FEUserDecorator
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FEUserDecorator.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FEUserDecorator.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FEUserDecorator.php'];
 }

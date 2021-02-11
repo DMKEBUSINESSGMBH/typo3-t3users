@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_t3users
- * @subpackage tx_t3users_tests_actions
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -25,22 +23,19 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
 tx_rnbase::load('tx_t3users_actions_EditFeUser');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
- * Testfälle für tx_t3users_actions_EditFeUser
+ * Testfälle für tx_t3users_actions_EditFeUser.
  *
  * @author hbochmann
- * @package tx_t3users
- * @subpackage tx_t3users_tests_actions
  */
 class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     public function setUp()
@@ -59,7 +54,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
      */
     public function testGetFeUserService()
     {
-        self::markTestIncomplete("GeneralUtility::devLog() will be removed with TYPO3 v10.0.");
+        self::markTestIncomplete('GeneralUtility::devLog() will be removed with TYPO3 v10.0.');
 
         self::assertInstanceOf(
             'tx_t3users_services_feuser',
@@ -80,7 +75,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
         $uid,
         $confirmString
     ) {
-        self::markTestIncomplete("Uncaught require(typo3-t3users/.Build/Web/typo3conf/LocalConfiguration.php");
+        self::markTestIncomplete('Uncaught require(typo3-t3users/.Build/Web/typo3conf/LocalConfiguration.php');
 
         $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
         $parameters->offsetSet('NK_uid', $uid);
@@ -92,16 +87,15 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
     }
 
     /**
-     *
      * @return multitype:multitype:number string
      */
     public function dataProviderUidAndConfirmstringParameter()
     {
-        return array(
-            array(0, ''),
-            array(0, '123'),
-            array(123, ''),
-        );
+        return [
+            [0, ''],
+            [0, '123'],
+            [123, ''],
+        ];
     }
 
     /**
@@ -113,8 +107,8 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
         $parameters->offsetSet('NK_uid', 123);
         $parameters->offsetSet('NK_confirmstring', 'abc');
 
-        $expectedParameters = array('confirmstring' => '');
-        $feUserService = $this->getMock('tx_t3users_services_feuser', array('updateFeUserByConfirmstring'));
+        $expectedParameters = ['confirmstring' => ''];
+        $feUserService = $this->getMock('tx_t3users_services_feuser', ['updateFeUserByConfirmstring']);
         $feUserService->expects(self::once())
             ->method('updateFeUserByConfirmstring')
             ->with(123, 'abc', $expectedParameters);
@@ -132,8 +126,8 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
         $parameters->offsetSet('NK_confirmstring', 'abc');
         $parameters->offsetSet('NK_city', 'def');
 
-        $expectedParameters = array('confirmstring' => '', 'city' => 'def');
-        $feUserService = $this->getMock('tx_t3users_services_feuser', array('updateFeUserByConfirmstring'));
+        $expectedParameters = ['confirmstring' => '', 'city' => 'def'];
+        $feUserService = $this->getMock('tx_t3users_services_feuser', ['updateFeUserByConfirmstring']);
         $feUserService->expects(self::once())
             ->method('updateFeUserByConfirmstring')
             ->with(123, 'abc', $expectedParameters);
@@ -151,8 +145,8 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
         $parameters->offsetSet('NK_confirmstring', 'abc');
         $parameters->offsetSet('NK_email', 'def');
 
-        $expectedParameters = array('confirmstring' => '', 'email' => 'def', 'username' => 'def');
-        $feUserService = $this->getMock('tx_t3users_services_feuser', array('updateFeUserByConfirmstring'));
+        $expectedParameters = ['confirmstring' => '', 'email' => 'def', 'username' => 'def'];
+        $feUserService = $this->getMock('tx_t3users_services_feuser', ['updateFeUserByConfirmstring']);
         $feUserService->expects(self::once())
             ->method('updateFeUserByConfirmstring')
             ->with(123, 'abc', $expectedParameters);
@@ -169,7 +163,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
         $parameters->offsetSet('NK_uid', 123);
         $parameters->offsetSet('NK_confirmstring', 'abc');
 
-        $feUserService = $this->getMock('tx_t3users_services_feuser', array('updateFeUserByConfirmstring'));
+        $feUserService = $this->getMock('tx_t3users_services_feuser', ['updateFeUserByConfirmstring']);
         $feUserService->expects(self::once())
             ->method('updateFeUserByConfirmstring')
             ->will(self::returnValue(true));
@@ -189,7 +183,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
         $parameters->offsetSet('NK_uid', 123);
         $parameters->offsetSet('NK_confirmstring', 'abc');
 
-        $feUserService = $this->getMock('tx_t3users_services_feuser', array('updateFeUserByConfirmstring'));
+        $feUserService = $this->getMock('tx_t3users_services_feuser', ['updateFeUserByConfirmstring']);
         $feUserService->expects(self::once())
             ->method('updateFeUserByConfirmstring')
             ->will(self::returnValue(false));
@@ -210,19 +204,19 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
         tx_rnbase_parameters $parameters,
         tx_t3users_services_feuser $feUserService = null
     ) {
-        $configurationArray = array('feuseredit.' => array(
+        $configurationArray = ['feuseredit.' => [
                 'mode' => 'check',
-            )
-        );
+            ],
+        ];
         $configurations = $this->createConfigurations($configurationArray, 't3users', $parameters);
         $viewData = $configurations->getViewData();
 
         $action = $this->getMock(
             'tx_t3users_actions_EditFeUser',
-            array('getFeUserService')
+            ['getFeUserService']
         );
 
-        if ($feUserService === null) {
+        if (null === $feUserService) {
             $action->expects(self::never())
                 ->method('getFeUserService');
         } else {
@@ -231,7 +225,8 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
                 ->will(self::returnValue($feUserService));
         }
 
-        self::markTestIncomplete("Invalid argument supplied for foreach()");
+        self::markTestIncomplete('Invalid argument supplied for foreach()');
+
         return $action->handleRequest($parameters, $configurations, $viewData);
     }
 }

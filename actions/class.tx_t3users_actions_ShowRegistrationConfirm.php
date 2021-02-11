@@ -25,15 +25,12 @@
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 tx_rnbase::load('tx_t3users_models_feuser');
 
-
 /**
- * Controller für die Bestätigung einer Neuregistrierung
+ * Controller für die Bestätigung einer Neuregistrierung.
  */
 class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIOC
 {
-
     /**
-     *
      * @param \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param ArrayObject $viewData
@@ -53,10 +50,10 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
         $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
         // Set config
-        $options = array();
-        $options['successgroupsadd'] = $configurations->get($this->getConfId() . 'userGroupAfterConfirmation');
-        $options['successgroupsremove'] = $configurations->get($this->getConfId() . 'userGroupUponRegistration');
-        $options['notifyUserAboutConfirmation'] = $configurations->get($this->getConfId() . 'notifyUserAboutConfirmation');
+        $options = [];
+        $options['successgroupsadd'] = $configurations->get($this->getConfId().'userGroupAfterConfirmation');
+        $options['successgroupsremove'] = $configurations->get($this->getConfId().'userGroupUponRegistration');
+        $options['notifyUserAboutConfirmation'] = $configurations->get($this->getConfId().'notifyUserAboutConfirmation');
         $options['configurations'] = $configurations;
         $options['confid'] = $this->getConfId();
 
@@ -74,6 +71,7 @@ class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIO
     {
         return 'registrationConfirm';
     }
+
     public function getViewClassName()
     {
         return 'tx_t3users_views_ShowRegistrationConfirm';

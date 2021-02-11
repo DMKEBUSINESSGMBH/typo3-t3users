@@ -28,7 +28,7 @@ tx_rnbase::load('tx_t3users_models_feuser');
 tx_rnbase::load('tx_rnbase_util_TCA');
 
 /**
- * Controller for edit form of FE-User
+ * Controller for edit form of FE-User.
  */
 class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
 {
@@ -36,11 +36,12 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
     protected $configurations;
 
     /**
-     * Erstmal nur das eigene Profil bearbeiten
+     * Erstmal nur das eigene Profil bearbeiten.
      *
      * @param \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
+     *
      * @return string error msg or null
      */
     public function handleRequest(&$parameters, &$configurations, &$viewData)
@@ -51,7 +52,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
         // @TODO das ist sehr gefährlich. Im Formular könnten Daten validiert wurden sein
         // und dann im Link geändert werden. Die Daten sollten nicht im Link übertragen werden
         // sondern in einem eigenen Feld etc. in der DB zwischengespeichert werden.
-        if ($this->configurations->get($this->getConfId().'mode') == 'check') {
+        if ('check' == $this->configurations->get($this->getConfId().'mode')) {
             //uid und confirmstring sind nicht in tca weshalb wir sie
             //fest auslesen müssen
             $uid = $parameters->offsetGet('NK_uid');
@@ -62,7 +63,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
             }
 
             //leeres Model um alle DB Felder auszulesen
-            $feUser = tx_rnbase::makeInstance('tx_t3users_models_feuser', array('uid' => 0));
+            $feUser = tx_rnbase::makeInstance('tx_t3users_models_feuser', ['uid' => 0]);
 
             //für jedes Feld in der DB prüfen ob ein Wert übermittelt wurde
             foreach ($feUser->getColumnNames() as $cols) {
@@ -105,11 +106,12 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
     }
 
     /**
-     * Liefert den Editor
+     * Liefert den Editor.
      *
      * @param array $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param tx_t3users_models_feuser $item
+     *
      * @return tx_mkforms_forms_IForm
      */
     private function getEditors($parameters, $configurations, $item)
@@ -131,7 +133,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
     }
 
     /**
-     * Modify user before update to db
+     * Modify user before update to db.
      *
      * @param array $params
      * @param tx_mkforms_forms_IForm $form
@@ -141,7 +143,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
         $newPassword = $params['password123'];
         $feUser = tx_t3users_models_feuser::getCurrent();
         //If enableNonTcaColumns is set: do not eliminate the NonTCA-Enabled columns
-        if (! $this->configurations->get($this->getConfId().'enableNonTcaColumns')) {
+        if (!$this->configurations->get($this->getConfId().'enableNonTcaColumns')) {
             //leeres Model bilden um Felder zu löschen die da nicht hingehören
             $params = tx_rnbase_util_TCA::eleminateNonTcaColumns($feUser, $params);
         }
@@ -164,7 +166,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
             $params['confirmstring'] = $confirmString;
         } else {
             $params['tstamp'] = $GLOBALS['EXEC_TIME'];
-            $params['name'] = trim($params['first_name'] . ' ' .$params['last_name']);
+            $params['name'] = trim($params['first_name'].' '.$params['last_name']);
             if ($newPassword) {
                 $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
                 $params['password'] = $usrSrv->encryptPassword($newPassword);
@@ -185,25 +187,26 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
         tx_rnbase_util_Misc::callHook(
             't3users',
             'editFeUser_handleUpdateDB_hook',
-            array(
+            [
                 'params' => &$params,
                 'form' => &$form,
-            ),
+            ],
             $this
         );
 
         // Wohin soll umgeleitet werden?
         $redirect = $this->configurations->get($this->getConfId().'redirect.pid');
         $link = $this->configurations->createLink();
-        $link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id);//fallback
+        $link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id); //fallback
         $redirect_url = $link->makeUrl(false);
-        header('Location: ' . tx_rnbase_util_Network::locationHeaderUrl($redirect_url));
+        header('Location: '.tx_rnbase_util_Network::locationHeaderUrl($redirect_url));
     }
 
     public function getTemplateName()
     {
         return 'feuseredit';
     }
+
     public function getViewClassName()
     {
         return 'tx_t3users_views_EditFeUser';

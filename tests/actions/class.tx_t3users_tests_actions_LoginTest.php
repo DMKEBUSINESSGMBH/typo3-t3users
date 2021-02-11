@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_t3users
- * @subpackage tx_t3users_tests_actions
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -25,25 +23,22 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
 tx_rnbase::load('tx_t3users_actions_Login');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
- * tx_t3users_tests_actions_LoginTest
+ * tx_t3users_tests_actions_LoginTest.
  *
- * @package         TYPO3
- * @subpackage      t3users
  * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -64,24 +59,23 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
          *
          * Wir gehen also erst mal den Weg, den Fehler abzufangen.
          */
-        set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+        set_error_handler([__CLASS__, 'errorHandler'], E_WARNING);
     }
 
     /**
-     *
-     * @param integer $errno
+     * @param int $errno
      * @param string $errstr
      * @param string $errfile
-     * @param integer $errline
+     * @param int $errline
      * @param array $errcontext
      */
     public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
     {
-        $ignoreMsg = array(
+        $ignoreMsg = [
             'Cannot modify header information - headers already sent by',
-        );
+        ];
         foreach ($ignoreMsg as $msg) {
-            if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== false) {
+            if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && false !== strpos($errstr, $ignoreMsg)) {
                 // Don't execute PHP internal error handler
                 return false;
             }
@@ -91,7 +85,8 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -103,7 +98,7 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
 
         $property = new ReflectionProperty(get_class(tx_rnbase_util_TYPO3::getPageRenderer()), 'jsInline');
         $property->setAccessible(true);
-        $property->setValue(tx_rnbase_util_TYPO3::getPageRenderer(), array());
+        $property->setValue(tx_rnbase_util_TYPO3::getPageRenderer(), []);
     }
 
     /**
@@ -112,18 +107,18 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
     public function testHandleNotLoggedInRemovesXssFromRedirectUrl()
     {
         $_GET['redirect_url'] =
-            tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL') . "'><script>alert(\"ohoh\");</script>'";
+            tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL')."'><script>alert(\"ohoh\");</script>'";
         $loginAction = $this->getAccessibleMock(
             'tx_t3users_actions_Login',
-            array(
+            [
                 'prepareLoginFormOnSubmit', 'setLanguageMarkers',
-                'getStoragePid', 'createPageUri'
-            )
+                'getStoragePid', 'createPageUri',
+            ]
         );
 
         $parameters = null;
-        $configurations = $this->createConfigurations(array(), 't3users');
-        $viewData = new ArrayObject(array());
+        $configurations = $this->createConfigurations([], 't3users');
+        $viewData = new ArrayObject([]);
         $action = 'login';
         $loginAction->setConfigurations($configurations);
 
@@ -145,7 +140,7 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
         }
 
         $this->assertEquals(
-            tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL') . $expectedSanitizedString,
+            tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL').$expectedSanitizedString,
             $marker['redirect_url']
         );
     }
@@ -157,15 +152,15 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
     {
         $loginAction = $this->getAccessibleMock(
             'tx_t3users_actions_Login',
-            array(
+            [
                 'prepareLoginFormOnSubmit', 'setLanguageMarkers',
-                'getStoragePid', 'createPageUri'
-            )
+                'getStoragePid', 'createPageUri',
+            ]
         );
 
         $parameters = null;
-        $configurations = $this->createConfigurations(array(), 't3users');
-        $viewData = new ArrayObject(array());
+        $configurations = $this->createConfigurations([], 't3users');
+        $viewData = new ArrayObject([]);
         $action = 'login';
         $loginAction->setConfigurations($configurations);
 
@@ -191,17 +186,17 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
     {
         $loginAction = $this->getAccessibleMock(
             'tx_t3users_actions_Login',
-            array(
+            [
                 'prepareLoginFormOnSubmit', 'setLanguageMarkers',
-                'getStoragePid', 'createPageUri'
-            )
+                'getStoragePid', 'createPageUri',
+            ]
         );
 
         $parameters = null;
-        $configurations = $this->createConfigurations(array(
-            'loginbox.' => array('delayInSecondsAfterFailedLogin' => 1)
-        ), 't3users');
-        $viewData = new ArrayObject(array());
+        $configurations = $this->createConfigurations([
+            'loginbox.' => ['delayInSecondsAfterFailedLogin' => 1],
+        ], 't3users');
+        $viewData = new ArrayObject([]);
         $action = 'login';
         $loginAction->setConfigurations($configurations);
 
@@ -225,19 +220,19 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testPrepareLoginFormOnSubmitAddsInlineJavaScriptCodeToFooterWithPageRenderer()
     {
-        self::markTestIncomplete("GeneralUtility::devLog() will be removed with TYPO3 v10.0.");
+        self::markTestIncomplete('GeneralUtility::devLog() will be removed with TYPO3 v10.0.');
 
         $loginAction = tx_rnbase::makeInstance('tx_t3users_actions_Login');
 
         $configurations = $this->createConfigurations(
-            array('loginbox.' => array('extend.' => array('method' => 'rsa7', 'rsa7.' => array('jsCode' => 'myCode')))),
+            ['loginbox.' => ['extend.' => ['method' => 'rsa7', 'rsa7.' => ['jsCode' => 'myCode']]]],
             't3users'
         );
 
-        $markerArray = array();
+        $markerArray = [];
         $this->callInaccessibleMethod(
-            array($loginAction, 'prepareLoginFormOnSubmit'),
-            array(&$markerArray, 'whatever', $configurations, 'loginbox.')
+            [$loginAction, 'prepareLoginFormOnSubmit'],
+            [&$markerArray, 'whatever', $configurations, 'loginbox.']
         );
 
         $pageRenderer = tx_rnbase_util_TYPO3::getPageRenderer();
@@ -245,7 +240,7 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
         $property->setAccessible(true);
         $inlineJavaScriptCode = $property->getValue($pageRenderer);
         self::assertArrayHasKey('t3users_loginBox', $inlineJavaScriptCode);
-        self::assertEquals('myCode' . LF, $inlineJavaScriptCode['t3users_loginBox']['code']);
+        self::assertEquals('myCode'.LF, $inlineJavaScriptCode['t3users_loginBox']['code']);
     }
 
     /**
@@ -253,19 +248,19 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testPrepareLoginFormOnSubmitAddsInlineJavaScriptCodeNotToFooterIfNoneGiven()
     {
-        self::markTestIncomplete("GeneralUtility::devLog() will be removed with TYPO3 v10.0.");
+        self::markTestIncomplete('GeneralUtility::devLog() will be removed with TYPO3 v10.0.');
 
         $loginAction = tx_rnbase::makeInstance('tx_t3users_actions_Login');
 
         $configurations = $this->createConfigurations(
-            array('loginbox.' => array('extend.' => array('method' => 'rsa7'))),
+            ['loginbox.' => ['extend.' => ['method' => 'rsa7']]],
             't3users'
             );
 
-        $markerArray = array();
+        $markerArray = [];
         $this->callInaccessibleMethod(
-            array($loginAction, 'prepareLoginFormOnSubmit'),
-            array(&$markerArray, 'whatever', $configurations, 'loginbox.')
+            [$loginAction, 'prepareLoginFormOnSubmit'],
+            [&$markerArray, 'whatever', $configurations, 'loginbox.']
         );
 
         $pageRenderer = tx_rnbase_util_TYPO3::getPageRenderer();

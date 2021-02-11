@@ -37,17 +37,19 @@ class tx_t3users_mod_mUserList
         $this->mod = $mod;
         $this->doc = $mod->doc;
     }
+
     /**
-     * Ausführung des Requests
+     * Ausführung des Requests.
      *
      * @param int $currPage
+     *
      * @return string
      */
     public function handleRequest(&$currPage)
     {
         global $LANG;
 
-        $options = array();
+        $options = [];
         if ($GLOBALS['BE_USER']->isAdmin()) {
             $options['linker'][] = tx_rnbase::makeInstance('tx_t3users_mod_LoginLink');
         }
@@ -63,13 +65,14 @@ class tx_t3users_mod_mUserList
 
         // Anzeige eines Suchformulars
         // Anzeige einer Liste von Usern
-        return 'Page: ' . $currPage;
+        return 'Page: '.$currPage;
     }
 
     /**
-     * Get a match searcher
+     * Get a match searcher.
      *
      * @param array $options
+     *
      * @return tx_t3users_mod_userSearcher
      */
     private function getUserSearcher(&$options)
@@ -83,12 +86,13 @@ class tx_t3users_mod_mUserList
 class tx_t3users_mod_LoginLink implements tx_t3users_util_Linker
 {
     /**
-     * Login as feuser
+     * Login as feuser.
      *
      * @param tx_t3users_models_feuser $item
      * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
      * @param int $currentPid
      * @param array $options
+     *
      * @return string
      */
     public function makeLink($item, $formTool, $currentPid, $options)
@@ -100,5 +104,5 @@ class tx_t3users_mod_LoginLink implements tx_t3users_util_Linker
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_mUserList.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_mUserList.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_mUserList.php'];
 }

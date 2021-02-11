@@ -25,12 +25,9 @@
 tx_rnbase::load('tx_rnbase_util_SimpleMarker');
 tx_rnbase::load('Tx_Rnbase_Frontend_Marker_Utility');
 
-
 /**
  * Repository to handle companies.
  *
- * @package TYPO3
- * @subpackage tx_t3users
  * @author Rene Nitzscher
  * @author Michael Wagner
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -42,16 +39,17 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
      * Initialisiert den Marker Array.
      * Optionen:
      * - hideregistrations
-     * - hideuploads
+     * - hideuploads.
+     *
      * @param array $options Hinweise an den Marker
      */
     public function __construct($options = false)
     {
-        $this->options = is_array($options) ? $options : array();
+        $this->options = is_array($options) ? $options : [];
     }
 
     /**
-     * Initialisiert die Labels für die Profile-Klasse
+     * Initialisiert die Labels für die Profile-Klasse.
      *
      * @param tx_rnbase_util_FormatUtil $formatter
      * @param string $confId
@@ -66,14 +64,16 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
     }
 
     /**
-     * Parses the template
+     * Parses the template.
+     *
      * @param string $template The HTML-Template
-     * @param NULL|tx_t3users_models_feuser $feuser The fe user
+     * @param tx_t3users_models_feuser|null $feuser The fe user
      * @param tx_rnbase_util_FormatUtil $formatter The Formatte to use
      * @param string $confId Pfad der TS-Config des Objekt, z.B. 'listView.event.'
      * @param string $marker Name des Markers für ein Object, z.B. FEUSER
      *        Von diesem String hängen die entsprechenden weiteren Marker ab: ###FEUSER_NAME###
-     * @return String das geparste Template
+     *
+     * @return string das geparste Template
      */
 
     /**
@@ -82,7 +82,8 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
      * @param tx_rnbase_util_FormatUtil $formatter der zu verwendente Formatter
      * @param string $confId Pfad der TS-Config
      * @param string $marker Name des Markers
-     * @return String das geparste Template
+     *
+     * @return string das geparste Template
      */
     public function parseTemplate($template, &$feuser, &$formatter, $confId, $marker = 'FEUSER')
     {
@@ -92,13 +93,13 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
         tx_rnbase_util_Misc::callHook(
             't3users',
             'feuserMarker_initRecord',
-            array(
+            [
                 'item' => &$feuser,
                 'template' => &$template,
                 'confid' => $confId,
                 'marker' => $marker,
-                'formatter' => $formatter
-            ),
+                'formatter' => $formatter,
+            ],
             $this
         );
 
@@ -114,12 +115,12 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
             $feuser->getRecord(),
             $confId,
             $ignore,
-            $marker . '_',
+            $marker.'_',
             $feuser->getColumnNames()
         );
 
         // subparts erzeugen
-        $wrappedSubpartArray = $subpartArray = array();
+        $wrappedSubpartArray = $subpartArray = [];
         $this->prepareSubparts(
             $wrappedSubpartArray,
             $subpartArray,
@@ -143,8 +144,8 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
         );
 
         // Gruppen hinzufügen
-        if ($this->containsMarker($template, $marker . '_FEGROUPS')) {
-            $template = $this->_addGroups($template, $feuser, $formatter, $confId . 'group.', $marker . '_FEGROUP');
+        if ($this->containsMarker($template, $marker.'_FEGROUPS')) {
+            $template = $this->_addGroups($template, $feuser, $formatter, $confId.'group.', $marker.'_FEGROUP');
         }
 
         // das Template rendern
@@ -153,13 +154,13 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
         tx_rnbase_util_Misc::callHook(
             't3users',
             'feuserMarker_afterSubst',
-            array(
+            [
                 'item' => &$feuser,
                 'template' => &$out,
                 'confid' => $confId,
                 'marker' => $marker,
-                'formatter' => $formatter
-            ),
+                'formatter' => $formatter,
+            ],
             $this
         );
 
@@ -214,8 +215,9 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
 
         return $out;
     }
+
     /**
-     * Links vorbereiten
+     * Links vorbereiten.
      *
      * @param tx_t3users_models_feuser $profile
      * @param string $marker
@@ -236,14 +238,14 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
     ) {
         parent::prepareLinks($feuser, $marker, $markerArray, $subpartArray, $wrappedSubpartArray, $confId, $formatter, $template);
         if ($feuser->isDetailsEnabled()) {
-            $this->initLink($markerArray, $subpartArray, $wrappedSubpartArray, $formatter, $confId, 'details', $marker, array('feuserId' => $feuser->uid), $template);
+            $this->initLink($markerArray, $subpartArray, $wrappedSubpartArray, $formatter, $confId, 'details', $marker, ['feuserId' => $feuser->uid], $template);
         } else {
-            $linkMarker = $marker . '_' . strtoupper('details').'LINK';
+            $linkMarker = $marker.'_'.strtoupper('details').'LINK';
             $this->disableLink($markerArray, $subpartArray, $wrappedSubpartArray, $linkMarker, false);
         }
     }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeUserMarker.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeUserMarker.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeUserMarker.php'];
 }

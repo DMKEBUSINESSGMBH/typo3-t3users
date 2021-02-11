@@ -30,6 +30,7 @@ tx_rnbase::load('Tx_Rnbase_Backend_Utility');
 /**
  * Searcher class for fe users.
  * Wird im Function-Modul verwendet.
+ *
  * @deprecated TODO: convert mod_lister_FeUser instead!
  */
 class tx_t3users_mod_userSearcher
@@ -40,7 +41,7 @@ class tx_t3users_mod_userSearcher
     private $SEARCH_SETTINGS;
     private $bAllowNonAdmins;
 
-    public function __construct(&$mod, $options = array())
+    public function __construct(&$mod, $options = [])
     {
         $this->init($mod, $options);
     }
@@ -56,7 +57,7 @@ class tx_t3users_mod_userSearcher
         $this->bAllowNonAdmins = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'fullModuleForNonAdmins');
 
         if (!isset($options['nopersist'])) {
-            $searchData = array('termfeuser' => '', 'hiddenfeuser' => '', 'pagemode' => '','uidfeuser' => '');
+            $searchData = ['termfeuser' => '', 'hiddenfeuser' => '', 'pagemode' => '', 'uidfeuser' => ''];
             $oldSettings = Tx_Rnbase_Backend_Utility::getModuleData($searchData, false, $this->mod->MCONF['name']);
             if ($this->data['termfeuser'] != $oldSettings['termfeuser']) {
                 $this->data['uidfeuser'] = '';
@@ -73,18 +74,22 @@ class tx_t3users_mod_userSearcher
             $this->SEARCH_SETTINGS = $this->data;
         }
     }
+
     /**
      * Liefert true, wenn im aktuellen Request eine Suchanfrage abgesetzt wurde.
+     *
      * @return bool
      */
     public function hasSearched()
     {
-        return tx_rnbase_parameters::getPostOrGetParameter($this->searchButtonName) != false;
+        return false != tx_rnbase_parameters::getPostOrGetParameter($this->searchButtonName);
     }
+
     /**
-     * Liefert das Suchformular
+     * Liefert das Suchformular.
      *
      * @param string $label Alternatives Label
+     *
      * @return string
      */
     public function getSearchForm($label = '')
@@ -93,21 +98,22 @@ class tx_t3users_mod_userSearcher
         $out = '';
         $out .= (strlen($label) ? $label : $LANG->getLL('label_searchterm')).': ';
         $out .= $this->formTool->createTxtInput('searchdata[termfeuser]', $this->SEARCH_SETTINGS['termfeuser'], 20);
-        $out .= $this->getFormTool()->createSelectSingleByArray('searchdata[hiddenfeuser]', $this->SEARCH_SETTINGS['hiddenfeuser'], array(0 => $LANG->getLL('label_active_user'), 1 => $LANG->getLL('label_hidden_user')));
+        $out .= $this->getFormTool()->createSelectSingleByArray('searchdata[hiddenfeuser]', $this->SEARCH_SETTINGS['hiddenfeuser'], [0 => $LANG->getLL('label_active_user'), 1 => $LANG->getLL('label_hidden_user')]);
 
         if ($GLOBALS['BE_USER']->isAdmin() || $this->bAllowNonAdmins) {
-            $out .= $this->getFormTool()->createSelectSingleByArray('searchdata[pagemode]', $this->SEARCH_SETTINGS['pagemode'], array(1 => $LANG->getLL('label_pagemode_all'), 0 => $LANG->getLL('label_pagemode_current')));
+            $out .= $this->getFormTool()->createSelectSingleByArray('searchdata[pagemode]', $this->SEARCH_SETTINGS['pagemode'], [1 => $LANG->getLL('label_pagemode_all'), 0 => $LANG->getLL('label_pagemode_current')]);
         }
         if ($GLOBALS['BE_USER']->isAdmin() || $this->bAllowNonAdmins) {
             $out .= '&nbsp;'.$LANG->getLL('label_uid').': '.$this->formTool->createTxtInput('searchdata[uidfeuser]', $this->SEARCH_SETTINGS['uidfeuser'], 5);
         }
         // Den Update-Button einfügen
-        $out .= '<input type="submit" name="' . $this->searchButtonName . '" value="'.$LANG->getLL('btn_search').'" />';
+        $out .= '<input type="submit" name="'.$this->searchButtonName.'" value="'.$LANG->getLL('btn_search').'" />';
         // Jetzt noch zusätzlichen JavaScriptcode für Buttons auf der Seite
         $out .= $this->formTool->getJSCode($this->mod->id);
 
         return $out;
     }
+
     public function getResultList()
     {
         global $LANG;
@@ -123,7 +129,7 @@ class tx_t3users_mod_userSearcher
             $item = tx_t3users_models_feuser::getInstance($searchuid);
             if ($item->isValid()) {
                 $items[] = $item;
-                $label = $LANG->getLL('label_search4uid').' ' . $searchuid;
+                $label = $LANG->getLL('label_search4uid').' '.$searchuid;
             }
         } elseif (strlen($searchterm) > 0 || true) {
             $searchhidden = intval($this->SEARCH_SETTINGS['hiddenfeuser']) > 0;
@@ -134,12 +140,13 @@ class tx_t3users_mod_userSearcher
             $pager->setOptions($options);
             unset($options['count']);
             $items = $this->searchFEUser($searchterm, $searchhidden, $pagemode, $options);
-            $label = $this->resultSize .' '. (($this->resultSize == 1) ? $LANG->getLL('label_founduser') : $LANG->getLL('label_foundusers'));
+            $label = $this->resultSize.' '.((1 == $this->resultSize) ? $LANG->getLL('label_founduser') : $LANG->getLL('label_foundusers'));
         }
         $this->showFEUser($content, $label, $items, $pager);
 
         return $content;
     }
+
     /**
      * Liefert die Anzahl der gefunden Mitglieder.
      * Funktioniert natürlich erst, nachdem die Ergebnisliste abgerufen wurde.
@@ -151,15 +158,15 @@ class tx_t3users_mod_userSearcher
         return $this->resultSize;
     }
 
-    public function searchFEUser($searchterm, $searchhidden, $pagemode, $options = array())
+    public function searchFEUser($searchterm, $searchhidden, $pagemode, $options = [])
     {
         tx_rnbase::load('tx_t3users_search_builder');
-        $fields = array();
-        $options['orderby'] = array('FEUSER.USERNAME' => 'asc');
+        $fields = [];
+        $options['orderby'] = ['FEUSER.USERNAME' => 'asc'];
         if (!$searchhidden) {
             $options['enablefieldsfe'] = 1;
         }
-        if ($pagemode == 0) {
+        if (0 == $pagemode) {
             // Aktuelle Seite
             $fields['FEUSER.PID'][OP_EQ_INT] = $this->mod->pObj->id;
         }
@@ -178,25 +185,26 @@ class tx_t3users_mod_userSearcher
     {
         tx_rnbase::load('tx_t3users_util_Decorator');
         $decor = tx_rnbase::makeInstance('tx_t3users_util_FEUserDecorator');
-        $columns['uid'] = array('title' => 'label_uid');
-        $columns['username'] = array('title' => 'label_tableheader_username', 'decorator' => $decor);
-        $columns['usergroup'] = array('title' => 'label_tableheader_usergroup', 'decorator' => $decor);
-        $columns['name'] = array('title' => 'label_name');
+        $columns['uid'] = ['title' => 'label_uid'];
+        $columns['username'] = ['title' => 'label_tableheader_username', 'decorator' => $decor];
+        $columns['usergroup'] = ['title' => 'label_tableheader_usergroup', 'decorator' => $decor];
+        $columns['name'] = ['title' => 'label_name'];
         if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'extendTCA'))) {
-            $columns['first_name'] = array('title' => 'label_firstname');
-            $columns['last_name'] = array('title' => 'label_lastname');
+            $columns['first_name'] = ['title' => 'label_firstname'];
+            $columns['last_name'] = ['title' => 'label_lastname'];
         }
 
         if ($items) {
             $arr = tx_t3users_util_Decorator::prepareTable($items, $columns, $this->formTool, $this->options);
             $pagerData = $pager->render();
-            $out .= '<div class="pager">' . $pagerData['limits'] . ' - ' .$pagerData['pages'] .'</div>';
+            $out .= '<div class="pager">'.$pagerData['limits'].' - '.$pagerData['pages'].'</div>';
             $out .= $this->mod->doc->table($arr[0]);
         }
         $content .= $this->mod->doc->section($headline.':', $out, 0, 1, ICON_INFO);
     }
+
     /**
-     * Liefert das FormTool
+     * Liefert das FormTool.
      *
      * @return tx_dsagbase_mod1_formtool
      */
@@ -207,5 +215,5 @@ class tx_t3users_mod_userSearcher
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_userSearcher.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_userSearcher.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_userSearcher.php'];
 }

@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-
 tx_rnbase::load('tx_rnbase_model_base');
 
 /**
@@ -31,21 +29,21 @@ tx_rnbase::load('tx_rnbase_model_base');
  */
 class tx_t3users_models_fegroup extends tx_rnbase_model_base
 {
-    private static $instances = array();
-
+    private static $instances = [];
 
     public function getTableName()
     {
         return 'fe_groups';
     }
 
-  /**
-   * Liefert die Instance mit der übergebenen UID. Die Daten werden gecached, so daß
-   * bei zwei Anfragen für die selbe UID nur ein DB Zugriff erfolgt.
-   *
-   * @param int $uid
-   * @return tx_t3users_models_feuser
-   */
+    /**
+     * Liefert die Instance mit der übergebenen UID. Die Daten werden gecached, so daß
+     * bei zwei Anfragen für die selbe UID nur ein DB Zugriff erfolgt.
+     *
+     * @param int $uid
+     *
+     * @return tx_t3users_models_feuser
+     */
     public static function getInstance($data = null)
     {
         $uid = (int) $data;
@@ -59,22 +57,23 @@ class tx_t3users_models_fegroup extends tx_rnbase_model_base
         return self::$instances[$uid];
     }
 
-  /**
-   * Returns all users of this group
-   *
-   * @return array[tx_t3users_models_feuser]
-   */
+    /**
+     * Returns all users of this group.
+     *
+     * @return array[tx_t3users_models_feuser]
+     */
     public function getUsers()
     {
         $srv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
         return $srv->getFeUser($this->uid);
     }
-  /**
-   * Returns the group name
-   *
-   * @return string
-   */
+
+    /**
+     * Returns the group name.
+     *
+     * @return string
+     */
     public function getTitle()
     {
         return $this->record['title'];
@@ -82,5 +81,5 @@ class tx_t3users_models_fegroup extends tx_rnbase_model_base
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_fegroup.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_fegroup.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_fegroup.php'];
 }

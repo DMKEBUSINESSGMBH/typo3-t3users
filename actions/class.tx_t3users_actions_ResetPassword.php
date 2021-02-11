@@ -1,7 +1,5 @@
 <?php
 /**
- * @package TYPO3
- * @subpackage tx_t3users
  * @author René Nitzsche <dev@dmk-ebusiness.de>
  *
  *  Copyright notice
@@ -26,7 +24,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
+/*
  * benötigte Klassen einbinden
  */
 
@@ -37,9 +35,7 @@ tx_rnbase::load('tx_rnbase_action_BaseIOC');
  */
 class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC
 {
-
     /**
-     *
      * @param tx_rnbase_parameters $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param array $viewData
@@ -50,7 +46,7 @@ class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC
     {
         $confirmstring = htmlspecialchars($parameters->get('confirm'));
         $uid = $parameters->getInt('uid');
-        $viewdata->offsetSet('linkparams', array('confirm' => $confirmstring, 'uid' => $uid));
+        $viewdata->offsetSet('linkparams', ['confirm' => $confirmstring, 'uid' => $uid]);
 
         // Confirm prüfen
         $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
@@ -69,11 +65,11 @@ class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC
                 tx_rnbase_util_Misc::callHook(
                     't3users',
                     'resetPassword_ValidatePassword',
-                    array(
+                    [
                         'validated' => &$validated,
                         'validationFailureMessage' => &$validationFailureMessage,
-                        'password' => $pass1
-                    ),
+                        'password' => $pass1,
+                    ],
                     $this
                 );
                 if ($validated) {
@@ -110,5 +106,5 @@ class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ResetPassword.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ResetPassword.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ResetPassword.php'];
 }

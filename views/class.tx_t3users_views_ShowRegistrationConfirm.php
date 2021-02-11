@@ -22,24 +22,22 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-
-
 tx_rnbase::load('tx_rnbase_view_Base');
 tx_rnbase::load('tx_rnbase_util_Templates');
 
 /**
- * Viewklasse für die Anzeige
+ * Viewklasse für die Anzeige.
  */
 class tx_t3users_views_ShowRegistrationConfirm extends tx_rnbase_view_Base
 {
     /**
-     * Erstellen des Frontend-Outputs
+     * Erstellen des Frontend-Outputs.
      *
      * @param string $template
      * @param ArrayObject $viewData
      * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
      * @param tx_rnbase_util_FormatUtil $formatter
+     *
      * @return string
      */
     public function createOutput($template, &$viewData, &$configurations, &$formatter)
@@ -55,9 +53,8 @@ class tx_t3users_views_ShowRegistrationConfirm extends tx_rnbase_view_Base
         return $template;
     }
 
-
     /**
-     * Returns the subpart to use for in template
+     * Returns the subpart to use for in template.
      *
      * @return string
      */
@@ -67,7 +64,6 @@ class tx_t3users_views_ShowRegistrationConfirm extends tx_rnbase_view_Base
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistrationConfirm.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistrationConfirm.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistrationConfirm.php'];
 }

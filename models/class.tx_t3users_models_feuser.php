@@ -22,16 +22,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
-
-require_once(tx_rnbase_util_Extensions::extPath('rn_base') . 'model/class.tx_rnbase_model_base.php');
+require_once tx_rnbase_util_Extensions::extPath('rn_base').'model/class.tx_rnbase_model_base.php';
 
 /**
  * Model for fe_user.
  */
 class tx_t3users_models_feuser extends tx_rnbase_model_base
 {
-    private static $instances = array();
+    private static $instances = [];
     private $bEnableFieldsOff = false;
 
     public function getTableName()
@@ -44,11 +42,13 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
         $this->bEnableFieldsOff = $bEnableFieldsOff;
         $this->init($rowOrUid);
     }
+
     public function tx_t3users_models_feuser($rowOrUid, $bEnableFieldsOff = false)
     {
         $this->bEnableFieldsOff = $bEnableFieldsOff;
         $this->init($rowOrUid);
     }
+
     /**
      * Wir nutzen nicht die initialisierung von rnbase,
      * da dort enablefields mit geprüft werden.
@@ -63,14 +63,14 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
         } else {
             $this->uid = $rowOrUid;
             if ($this->getTableName()) {
-                $options = array();
+                $options = [];
                 $options['where'] = 'uid='.intval($this->uid);
                 $options['enablefieldsoff'] = true;
                 $result = tx_rnbase_util_DB::doSelect('*', $this->getTableName(), $options);
-                $this->record =  count($result) > 0 ? $result[0] : array('uid' => $rowOrUid);
+                $this->record = count($result) > 0 ? $result[0] : ['uid' => $rowOrUid];
             }
             // Der Record sollte immer ein Array sein
-            $this->record = is_array($this->record) ? $this->record : array();
+            $this->record = is_array($this->record) ? $this->record : [];
         }
     }
 
@@ -79,6 +79,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
      * bei zwei Anfragen für die selbe UID nur ein DB Zugriff erfolgt.
      *
      * @param int $uid
+     *
      * @return tx_t3users_models_feuser
      */
     public static function getInstance($data = null)
@@ -97,7 +98,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
     /**
      * Löscht die Instanz mit der Uid
      * Eigentlich nur für Tests gut aber auch wenn der User geändert wurde
-     * und neu geladen werden muss
+     * und neu geladen werden muss.
      *
      * @TODO Sobald mind. PHP 5.3 auf so gut wie allen System installiert ist,
      * kann man das Feature backupStaticVariables von PHPUnit nutzen und brauch
@@ -118,8 +119,10 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
     {
         self::$instances[$uid] = null;
     }
+
     /**
-     * Liefert die Instanz des aktuell angemeldeten Users oder false
+     * Liefert die Instanz des aktuell angemeldeten Users oder false.
+     *
      * @return tx_t3users_models_feuser
      */
     public static function getCurrent()
@@ -129,8 +132,9 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
 
         return intval($userId) ? self::getInstance($userId) : false;
     }
+
     /**
-     * Returns all usergroups
+     * Returns all usergroups.
      *
      * @return array of tx_t3users_models_fegroup or empty array
      */
@@ -140,8 +144,9 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
 
         return $usrSrv->getFeGroups($this);
     }
+
     /**
-     * Whether or not user details should be shown
+     * Whether or not user details should be shown.
      *
      * @return bool
      */
@@ -149,16 +154,20 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
     {
         return true;
     }
+
     /**
-     * Whether or not user is disabled in FE
+     * Whether or not user is disabled in FE.
+     *
      * @return bool
      */
     public function isDisabled()
     {
         return intval($this->record['disable']) > 0;
     }
+
     /**
-     * Returns the users email address
+     * Returns the users email address.
+     *
      * @return string
      */
     public function getEmail()
@@ -167,7 +176,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
     }
 
     /**
-     * Whether or not user has an active session
+     * Whether or not user has an active session.
      */
     public function isSessionActive()
     {
@@ -175,13 +184,14 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
     }
 
     /**
-     * Prüft ob der User der gegebenen Gruppe angehört
+     * Prüft ob der User der gegebenen Gruppe angehört.
+     *
      * @param int $groupUid
      */
     public function isInGroup($groupUid)
     {
         foreach ($this->getGroups() as $value) {
-            $groups[$value->getUid()] = $value->getUid();//alle Gruppen IDs sammeln
+            $groups[$value->getUid()] = $value->getUid(); //alle Gruppen IDs sammeln
         }
 
         return isset($groups[$groupUid]);
@@ -197,5 +207,5 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_feuser.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_feuser.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_feuser.php'];
 }

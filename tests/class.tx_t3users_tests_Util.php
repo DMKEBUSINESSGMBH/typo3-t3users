@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_t3users
- * @subpackage tx_t3users_tests
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -26,7 +24,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
+/*
  * benötigte Klassen einbinden
  */
 
@@ -36,29 +34,27 @@ tx_rnbase::load('tx_rnbase_util_Spyc');
 tx_rnbase::load('Tx_Rnbase_Backend_Utility');
 
 /**
- * Statische Hilfsmethoden für Tests
- *
- * @package tx_t3users
- * @subpackage tx_t3users_tests
+ * Statische Hilfsmethoden für Tests.
  */
 class tx_t3users_tests_Util
 {
-
-  /**
-   * Liefert eine DateiNamen
-   * @param $filename
-   * @param $dir
-   * @param $extKey
-   * @return string
-   */
+    /**
+     * Liefert eine DateiNamen.
+     *
+     * @param $filename
+     * @param $dir
+     * @param $extKey
+     *
+     * @return string
+     */
     public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 't3users')
     {
         return tx_rnbase_util_Extensions::extPath($extKey).$dir.$filename;
     }
 
-/**
- * Ein Basis-Configurations Objekt erstellen
- */
+    /**
+     * Ein Basis-Configurations Objekt erstellen.
+     */
     public static function getConfigurations()
     {
         $extKey = 't3users';
@@ -68,7 +64,7 @@ class tx_t3users_tests_Util
         tx_rnbase::load('tx_rnbase_util_Misc');
 
         tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
-        $GLOBALS['TSFE']->config = array();
+        $GLOBALS['TSFE']->config = [];
         tx_rnbase::load('tx_rnbase_util_Typo3Classes');
         $cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
 
@@ -84,6 +80,7 @@ class tx_t3users_tests_Util
     /**
      * Setzt eine Vaiable in die Extension Konfiguration.
      * Achtung im setUp sollte storeExtConf und im tearDown restoreExtConf aufgerufen werden.
+     *
      * @param string    $sCfgKey
      * @param string    $sCfgValue
      * @param string    $sExtKey
@@ -94,7 +91,7 @@ class tx_t3users_tests_Util
         $extConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey]);
         // wenn keine Konfiguration existiert, legen wir eine an.
         if (!is_array($extConfig)) {
-            $extConfig = array();
+            $extConfig = [];
         }
         // neuen Wert setzen
         $extConfig[$sCfgKey] = $sCfgValue;
@@ -104,5 +101,5 @@ class tx_t3users_tests_Util
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/class.tx_t3users_tests_Util.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/class.tx_t3users_tests_Util.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/class.tx_t3users_tests_Util.php'];
 }

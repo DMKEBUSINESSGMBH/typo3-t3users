@@ -22,58 +22,56 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-require_once(tx_rnbase_util_Extensions::extPath('rn_base') . 'util/class.tx_rnbase_util_BaseMarker.php');
-
-
+require_once tx_rnbase_util_Extensions::extPath('rn_base').'util/class.tx_rnbase_util_BaseMarker.php';
 
 /**
- * Diese Klasse ist für die Erstellung von Markerarrays für FE Group verantwortlich
+ * Diese Klasse ist für die Erstellung von Markerarrays für FE Group verantwortlich.
  */
 class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
 {
-  
-  /**
-   * Initialisiert den Marker Array.
-   * Optionen:
-   * - hideregistrations
-   * - hideuploads
-   * @param array $options Hinweise an den Marker
-   */
+    /**
+     * Initialisiert den Marker Array.
+     * Optionen:
+     * - hideregistrations
+     * - hideuploads.
+     *
+     * @param array $options Hinweise an den Marker
+     */
     public function __construct($options = false)
     {
-        $this->options = is_array($options) ? $options : array();
+        $this->options = is_array($options) ? $options : [];
     }
 
-  /**
-   * Initialisiert die Labels für die Profile-Klasse
-   *
-   * @param tx_rnbase_util_FormatUtil $formatter
-   * @param array $defaultMarkerArr
-   */
+    /**
+     * Initialisiert die Labels für die Profile-Klasse.
+     *
+     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param array $defaultMarkerArr
+     */
     public function initLabelMarkers(&$formatter, $confId, $defaultMarkerArr = 0, $marker = 'FEGROUP')
     {
         return $this->prepareLabelMarkers('tx_t3users_models_fegroup', $formatter, $confId, $defaultMarkerArr, $marker);
     }
 
-  /**
-   * @param string $template das HTML-Template
-   * @param tx_t3users_models_fegroup $fegroup The fe group
-   * @param $formatter der zu verwendente Formatter
-   * @param string $confId Pfad der TS-Config des Objekt, z.B. 'listView.event.'
-   * @param $marker Name des Markers für ein Object, z.B. FEUSER
-   *        Von diesem String hängen die entsprechenden weiteren Marker ab: ###FEGROUP_TITLE###
-   * @return String das geparste Template
-   */
+    /**
+     * @param string $template das HTML-Template
+     * @param tx_t3users_models_fegroup $fegroup The fe group
+     * @param $formatter der zu verwendente Formatter
+     * @param string $confId Pfad der TS-Config des Objekt, z.B. 'listView.event.'
+     * @param $marker Name des Markers für ein Object, z.B. FEUSER
+     *        Von diesem String hängen die entsprechenden weiteren Marker ab: ###FEGROUP_TITLE###
+     *
+     * @return string das geparste Template
+     */
     public function parseTemplate($template, &$fegroup, &$formatter, $confId, $marker = 'FEGROUP')
     {
         if (!is_object($fegroup)) {
             return '<!-- -->';
         }
         $markerArray = $formatter->getItemMarkerArrayWrapped($fegroup->record, $confId, 0, $marker.'_', $fegroup->getColumnNames());
-        $wrappedSubpartArray = array();
-        $subpartArray = array();
-        
+        $wrappedSubpartArray = [];
+        $subpartArray = [];
+
         $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
         return $out;
@@ -81,5 +79,5 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php'];
 }

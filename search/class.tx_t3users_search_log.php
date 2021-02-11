@@ -21,13 +21,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  ***************************************************************/
 
-
-
 tx_rnbase::load('tx_rnbase_util_SearchBase');
 
-
 /**
- * Class to search logging records from database
+ * Class to search logging records from database.
  *
  * @author Rene Nitzsche
  */
@@ -41,7 +38,7 @@ class tx_t3users_search_log extends tx_rnbase_util_SearchBase
         tx_rnbase_util_Misc::callHook(
             't3users',
             'search_log_getTableMapping_hook',
-            array('tableMapping' => &$tableMapping),
+            ['tableMapping' => &$tableMapping],
             $this
         );
 
@@ -52,15 +49,17 @@ class tx_t3users_search_log extends tx_rnbase_util_SearchBase
     {
         return true;
     }
+
     protected function getBaseTable()
     {
         return 'tx_t3users_log';
     }
+
     public function getWrapperClass()
     {
         return 'tx_t3users_models_log';
     }
-    
+
     protected function getJoins($tableAliases)
     {
         $join = '';
@@ -71,7 +70,7 @@ class tx_t3users_search_log extends tx_rnbase_util_SearchBase
         tx_rnbase_util_Misc::callHook(
             't3users',
             'search_log_getJoins_hook',
-            array('join' => &$join, 'tableAliases' => $tableAliases),
+            ['join' => &$join, 'tableAliases' => $tableAliases],
             $this
         );
 
@@ -79,7 +78,6 @@ class tx_t3users_search_log extends tx_rnbase_util_SearchBase
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_feuser.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_feuser.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_feuser.php'];
 }

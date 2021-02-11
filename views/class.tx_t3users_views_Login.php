@@ -22,19 +22,14 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-
-
 tx_rnbase::load('tx_rnbase_view_Base');
 tx_rnbase::load('tx_rnbase_util_BaseMarker');
 
-
 /**
- * Viewklasse für die Darstellung der Loginbox
+ * Viewklasse für die Darstellung der Loginbox.
  */
 class tx_t3users_views_Login extends tx_rnbase_view_Base
 {
-
     /**
      * Enter description here...
      *
@@ -42,6 +37,7 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base
      * @param arrayobject $viewData
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param tx_rnbase_util_FormatUtil $formatter
+     *
      * @return string
      */
     public function createOutput($template, &$viewData, &$configurations, &$formatter)
@@ -59,7 +55,7 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base
             'loginbox.',
             'forgotpass',
             'LOGINBOX',
-            array('NK_forgotpass' => '1')
+            ['NK_forgotpass' => '1']
         );
         // Register-Link
         tx_rnbase_util_BaseMarker::initLink(
@@ -70,7 +66,7 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base
             'loginbox.',
             'register',
             'LOGINBOX',
-            array()
+            []
         );
 
         $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
@@ -86,20 +82,19 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base
         return $out;
     }
 
-  /**
-   * Subpart der im HTML-Template geladen werden soll. Dieser wird der Methode
-   * createOutput automatisch als $template übergeben.
-   *
-   * @return string
-   */
+    /**
+     * Subpart der im HTML-Template geladen werden soll. Dieser wird der Methode
+     * createOutput automatisch als $template übergeben.
+     *
+     * @return string
+     */
     public function getMainSubpart(&$viewData)
     {
         return $viewData->offsetGet('subpart');
-    //      return '###LOGINBOX###';
+        //      return '###LOGINBOX###';
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_Login.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_Login.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_Login.php'];
 }

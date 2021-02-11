@@ -1,7 +1,6 @@
 <?php
 /**
- *
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2011 René Nitzsche <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -32,7 +31,7 @@ $SOBE->init();
 
 // Include files?
 foreach ((array) $SOBE->include_once as $INC_FILE) {
-    include_once($INC_FILE);
+    include_once $INC_FILE;
 }
 
 $SOBE->main();

@@ -30,18 +30,18 @@ tx_rnbase::load('Tx_Rnbase_Service_Base');
 tx_rnbase::load('Tx_Rnbase_Domain_Repository_InterfaceSearch');
 
 /**
- * Service for accessing user information
+ * Service for accessing user information.
  *
  * @author Rene Nitzsche
  */
 class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rnbase_Domain_Repository_InterfaceSearch
 {
-
     /**
-     * Find a user by mail address
+     * Find a user by mail address.
      *
      * @param string $email
      * @param string $pids
+     *
      * @return tx_t3users_models_feuser
      */
     public function getUserByEmail($email, $pids = '')
@@ -50,8 +50,8 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             return false;
         }
 
-        $fields = array();
-        $options = array();
+        $fields = [];
+        $options = [];
         tx_t3users_search_builder::buildFeuserByEmail($fields, $email, $pids);
         $feusers = $this->search($fields, $options);
 
@@ -59,10 +59,11 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     }
 
     /**
-     * Find a disabled user by mail address
+     * Find a disabled user by mail address.
      *
      * @param string $email
      * @param string $pids
+     *
      * @return tx_t3users_models_feuser
      */
     public function getDisabledUserByEmail($email, $pids = '')
@@ -71,8 +72,8 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             return false;
         }
 
-        $fields = array();
-        $options = array();
+        $fields = [];
+        $options = [];
 
         $options['limit'] = 1;
         // Würde es nicht auch enablefieldsbe tun?
@@ -88,9 +89,10 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     }
 
     /**
-     * Get FE user session lifetime
+     * Get FE user session lifetime.
      *
      * @return int
+     *
      * @see tslib_feUserAuth->start()
      */
     public function getSessionLifeTime()
@@ -103,10 +105,13 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     /**
      * Get the number of users or user-objects currently online
      * This is possible only, if extension DBAL is active.
+     *
      * @param array $config
      *      pids provides the users in a PID
      *      count (true = number of users) (false = array with user-objects)
+     *
      * @return int / array
+     *
      * @todo since TYPO3 8.7 the session backend can be in Redis and not the database, so
      * accessing FESESSION.* might have no effect
      * @todo why is only session timeout considered? Should fe_users.is_online not
@@ -128,14 +133,14 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         }
         $timeout = $this->getSessionLifeTime();
         if (!is_array($options)) {
-            $options = array(
+            $options = [
                     'pids' => $options,
                     // ursprünglich lieferte die Methode nur die Anzahl der Nutzer
-                    'count' => true
-            );
+                    'count' => true,
+            ];
         }
         $options['distinct'] = 1;
-        $fields = array();
+        $fields = [];
         $fields['FESESSION.ses_userid'][OP_GT_INT] = 0;
         if (!empty($options['pids'])) {
             $fields['FEUSER.pid'][OP_IN_INT] = $options['pids'];
@@ -146,18 +151,20 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     }
 
     /**
-     * Check if given user is online
+     * Check if given user is online.
      *
      * @param int $feUserId
+     *
      * @return int
+     *
      * @todo see todos of $this->getOnlineUsers()
      */
     public function isUserOnline($feUserId)
     {
         $timeout = $this->getSessionLifeTime();
-        $from = array('fe_sessions JOIN fe_users ON (ses_userid=uid)', 'fe_sessions');
+        $from = ['fe_sessions JOIN fe_users ON (ses_userid=uid)', 'fe_sessions'];
 
-        $options = array('where' => 'fe_users.uid = ' . intval($feUserId));
+        $options = ['where' => 'fe_users.uid = '.intval($feUserId)];
 
         if ($timeout) {
             $options['where'] .= ' AND (ses_tstamp+'.$timeout.' > unix_timestamp() OR is_online+'.$timeout.' > unix_timestamp())';
@@ -174,6 +181,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      * if an encrpyption method is actived.
      *
      * @param string $newPassword plaintext password
+     *
      * @return string $newPassword encrypted password
      */
     public function encryptPassword($newPassword)
@@ -187,8 +195,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
                 $objPHPass = tx_rnbase::makeInstance($cconf['saltedPWHashingMethod']);
                 $newPassword = $objPHPass->getHashedPassword($newPassword);
             }
-        }
-        elseif ($this->useMD5()) {
+        } elseif ($this->useMD5()) {
             $newPassword = md5($newPassword);
         }
 
@@ -198,6 +205,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     /**
      * Save the given plaintext password to database. The password is encrypted
      * if an encrpyption method is actived.
+     *
      * @param tx_t3users_models_feuser $feuser
      * @param string $newPassword plaintext password
      */
@@ -205,16 +213,18 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     {
         $newPassword = $this->encryptPassword($newPassword);
         // save password to db
-        $values = array('password' => $newPassword);
-        $where = 'uid = ' . $feuser->getUid();
+        $values = ['password' => $newPassword];
+        $where = 'uid = '.$feuser->getUid();
         Tx_Rnbase_Database_Connection::getInstance()->doUpdate('fe_users', $where, $values, 0);
     }
+
     /**
      * Set a new randomized password for user if md5 encyption is enabled. Otherwise
      * this methode simply retrieves the existing user password!
      *
      * @param tx_t3users_models_feuser $feuser
      * @param int $defaultLength
+     *
      * @return string the new uncrypted password or false
      */
     public function createNewPassword($feuser, $defaultLength = 5)
@@ -230,14 +240,14 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
                 $objPHPass = tx_rnbase::makeInstance($cconf['saltedPWHashingMethod']);
                 $new_password = $objPHPass->getHashedPassword($new_password);
                 // save password to db
-                $values = array('password' => $new_password);
-                $where = 'uid = ' . $feuser->getUid();
+                $values = ['password' => $new_password];
+                $where = 'uid = '.$feuser->getUid();
                 Tx_Rnbase_Database_Connection::getInstance()->doUpdate('fe_users', $where, $values, 0);
             } else {
                 tx_rnbase::load('tx_rnbase_util_Logger');
                 tx_rnbase_util_Logger::warn(
-                    'saltedpasswords soll verwendet werden, ist aber für die Verwendung' .
-                    'im FE nicht aktiviert. Bitte im Extension Manager bei saltedpasswords' .
+                    'saltedpasswords soll verwendet werden, ist aber für die Verwendung'.
+                    'im FE nicht aktiviert. Bitte im Extension Manager bei saltedpasswords'.
                     'die Nutzung im FE aktivieren. Sonst kann kein neues Passwort erstellt werden.',
                     't3users'
                 );
@@ -245,8 +255,8 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         } elseif ($this->useMD5()) {
             if ($feuser->isValid()) {
                 $new_password = $this->generatePassword($defaultLength);
-                $values = array('password' => md5($new_password));
-                $where = 'uid = ' . $feuser->getUid();
+                $values = ['password' => md5($new_password)];
+                $where = 'uid = '.$feuser->getUid();
                 Tx_Rnbase_Database_Connection::getInstance()->doUpdate('fe_users', $where, $values, 0);
                 $ret = $new_password;
             }
@@ -270,11 +280,11 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         if (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
             $utilityClass = 'TYPO3\\CMS\\Saltedpasswords\\Utility\\SaltedPasswordsUtility';
         } elseif (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-            require_once tx_rnbase_util_Extensions::extPath('saltedpasswords') .
+            require_once tx_rnbase_util_Extensions::extPath('saltedpasswords').
                 'Classes/class.tx_saltedpasswords_div.php';
             $utilityClass = 'tx_saltedpasswords_div';
         } else {
-            require_once tx_rnbase_util_Extensions::extPath('saltedpasswords') .
+            require_once tx_rnbase_util_Extensions::extPath('saltedpasswords').
                 'classes/class.tx_saltedpasswords_div.php';
             $utilityClass = 'tx_saltedpasswords_div';
         }
@@ -283,29 +293,30 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     }
 
     /**
-     * Returns all fegroups of a feuser
+     * Returns all fegroups of a feuser.
      *
      * @param tx_t3users_models_feuser $feuser
+     *
      * @return tx_t3users_models_fegroup[]
      */
     public function getFeGroups($feuser)
     {
         if (!$feuser->getProperty('usergroup')) {
-            return array();
+            return [];
         }
 
         $from = 'fe_groups';
-        $options = array(
-            'where' => 'uid IN (' . trim($feuser->getProperty('usergroup'), ',') . ') ',
+        $options = [
+            'where' => 'uid IN ('.trim($feuser->getProperty('usergroup'), ',').') ',
             'wrapperclass' => 'tx_t3users_models_fegroup',
-            'orderby' => 'title'
-        );
+            'orderby' => 'title',
+        ];
 
         return $this->getRnBaseDbUtil()->doSelect('*', $from, $options, 0);
     }
 
     /**
-     * für tests
+     * für tests.
      *
      * @return Tx_Rnbase_Database_Connection
      */
@@ -315,19 +326,20 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     }
 
     /**
-     * Returns all users of given fe_groups
+     * Returns all users of given fe_groups.
      *
      * @param string $groupIds commaseparated UIDs of fe groups
      */
     public function getFeUser($groupIds)
     {
         $fields['FEUSER.USERGROUP'][OP_INSET_INT] = $groupIds;
-        $options = array();
+        $options = [];
 
         return $this->search($fields, $options);
     }
+
     /**
-     * Search database for teams
+     * Search database for teams.
      *
      * @param array $fields
      * @param array $options
@@ -341,6 +353,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
 
         return $searcher->search($fields, $options);
     }
+
     /**
      * Whether or not md5 encryption is enabled.
      *
@@ -350,6 +363,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     {
         return tx_rnbase_util_Extensions::isLoaded('kb_md5fepw');
     }
+
     /**
      * Whether or not saltedpasswords is enabled.
      *
@@ -366,14 +380,15 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     public function useRSA()
     {
         return
-            ($GLOBALS['TYPO3_CONF_VARS']['FE']['loginSecurityLevel'] == 'rsa') &&
+            ('rsa' == $GLOBALS['TYPO3_CONF_VARS']['FE']['loginSecurityLevel']) &&
             tx_rnbase_util_Extensions::isLoaded('rsaauth');
     }
 
     /**
-     * Generates a new password
+     * Generates a new password.
      *
      * @param int $len
+     *
      * @return string
      */
     private static function generatePassword($len)
@@ -389,7 +404,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             if ($new != $last) {
                 $pw .= $new;
                 $last = $new;
-                $i++;
+                ++$i;
             }
         }
 
@@ -401,21 +416,22 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      *
      * @param tx_t3users_models_feuser $feuser
      * @param string $confirmString
+     *
      * @return bool
      */
-    public function confirmUser($feuser, $confirmString, &$options = array())
+    public function confirmUser($feuser, $confirmString, &$options = [])
     {
         $ret = false;
-        if ($feuser->getProperty('confirmstring') == '0') {
+        if ('0' == $feuser->getProperty('confirmstring')) {
             // is already confirmed, so nothing to do
             // But maybe the user was manuelly deactivated from the system
-            $ret = intval($feuser->getProperty('disable')) == 0;
+            $ret = 0 == intval($feuser->getProperty('disable'));
         } elseif ($feuser->getProperty('confirmstring') == $confirmString) {
-            $values = array('disable' => 0, 'confirmstring' => 0);
+            $values = ['disable' => 0, 'confirmstring' => 0];
             tx_rnbase_util_Misc::callHook(
                 't3users',
                 'srv_feuser_confirmUser_before',
-                array('values' => &$values, 'feuser' => $feuser),
+                ['values' => &$values, 'feuser' => $feuser],
                 $this
             );
             $this->updateFeUser($feuser->getUid(), $values);
@@ -435,7 +451,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             tx_rnbase_util_Misc::callHook(
                 't3users',
                 'srv_feuser_confirmUser_finished',
-                array('feuser' => $feuser, 'options' => $options),
+                ['feuser' => $feuser, 'options' => $options],
                 $this
             );
 
@@ -443,9 +459,9 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         } else {
             tx_rnbase::load('tx_rnbase_util_Logger');
             tx_rnbase_util_Logger::notice(
-                'confirmation failed for feuser with uid ' . $feuser->getUid(),
+                'confirmation failed for feuser with uid '.$feuser->getUid(),
                 't3users',
-                array('submitted' => $confirmString, 'stored' => $feuser->getProperty('confirmstring'))
+                ['submitted' => $confirmString, 'stored' => $feuser->getProperty('confirmstring')]
             );
         }
 
@@ -453,20 +469,20 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     }
 
     /**
-     * Add all given group UIDs from FE User
+     * Add all given group UIDs from FE User.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param string $feGroupUids comma separated group uids
      */
     public function addFeGroups(&$feuser, $feGroupIds)
     {
-        $feGroupIds = strlen($feGroupIds) ? Tx_Rnbase_Utility_Strings::intExplode(',', $feGroupIds) : array();
+        $feGroupIds = strlen($feGroupIds) ? Tx_Rnbase_Utility_Strings::intExplode(',', $feGroupIds) : [];
         if (!count($feGroupIds)) {
             return;
         } // Nothing to do
 
         $oldFeGroups = $feuser->getProperty('usergroup');
-        $oldFeGroups = strlen($oldFeGroups) ? Tx_Rnbase_Utility_Strings::intExplode(',', $oldFeGroups) : array();
+        $oldFeGroups = strlen($oldFeGroups) ? Tx_Rnbase_Utility_Strings::intExplode(',', $oldFeGroups) : [];
         $oldFeGroupsKeys = array_flip($oldFeGroups);
         foreach ($feGroupIds as $feGroupId) {
             if (!array_key_exists($feGroupId, $oldFeGroupsKeys)) {
@@ -474,18 +490,19 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             } // Nur einfügen, wenn noch nicht vorhanden
         }
         $oldFeGroups = implode(',', $oldFeGroups);
-        $this->updateFeUser($feuser->getUid(), array('usergroup' => $oldFeGroups));
+        $this->updateFeUser($feuser->getUid(), ['usergroup' => $oldFeGroups]);
         $feuser->setProperty('usergroup', $oldFeGroups);
     }
+
     /**
-     * Remove all given group UIDs from FE User
+     * Remove all given group UIDs from FE User.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param string $feGroupUids comma separated group uids
      */
     public function removeFeGroup($feuser, $feGroupIds)
     {
-        $feGroupIds = strlen($feGroupIds) ? Tx_Rnbase_Utility_Strings::intExplode(',', $feGroupIds) : array();
+        $feGroupIds = strlen($feGroupIds) ? Tx_Rnbase_Utility_Strings::intExplode(',', $feGroupIds) : [];
         if (!count($feGroupIds)) {
             return;
         } // Nothing to do
@@ -509,15 +526,18 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         } else {
             $oldFeGroups = '';
         }
-        $this->updateFeUser($feuser->getUid(), array('usergroup' => $oldFeGroups));
+        $this->updateFeUser($feuser->getUid(), ['usergroup' => $oldFeGroups]);
         $feuser->setProperty('usergroup', $oldFeGroups);
     }
+
     /**
-     * Update user data in database
+     * Update user data in database.
      *
      * @param int $uid
      * @param array $values
+     *
      * @return bool
+     *
      * @throws tx_t3users_exceptions_User
      */
     protected function updateFeUser($uid, $values)
@@ -526,17 +546,19 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         if (!$uid) {
             throw new tx_t3users_exceptions_User('No user id given!');
         }
-        $where = 'uid = ' . $uid;
+        $where = 'uid = '.$uid;
 
         return Tx_Rnbase_Database_Connection::getInstance()->doUpdate('fe_users', $where, $values, 0);
     }
 
     /**
-     * Update user data in database
+     * Update user data in database.
      *
      * @param tx_t3users_models_feuser $feuser
      * @param array $values
+     *
      * @return bool
+     *
      * @throws tx_t3users_exceptions_User
      */
     public function handleUpdate(tx_t3users_models_feuser $feuser, array $values)
@@ -547,11 +569,13 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     }
 
     /**
-     * Update user data in database
+     * Update user data in database.
      *
      * @param int $uid
      * @param array $values
+     *
      * @return bool
+     *
      * @throws tx_t3users_exceptions_User
      */
     public function updateFeUserByConfirmstring($uid, $confirmString, $data)
@@ -564,13 +588,12 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             throw new tx_t3users_exceptions_User('No confirmstring given!');
         }
 
-        $where = 'uid = ' . $uid . ' AND confirmstring = \'' . $confirmString . '\'';
+        $where = 'uid = '.$uid.' AND confirmstring = \''.$confirmString.'\'';
 
         return $this->getRnBaseDbUtil()->doUpdate('fe_users', $where, $data, 0);
     }
 
     /**
-     *
      * @param tx_t3users_models_feuser $feUser
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      */
@@ -589,7 +612,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      */
     public function handleForgotPass($feuser, $configurations, $confId)
     {
-        if ($configurations->get($confId.'resetPasswordMode') == 'sendpassword') {
+        if ('sendpassword' == $configurations->get($confId.'resetPasswordMode')) {
             $this->handleForgotPass_old($feuser, $configurations, $confId);
 
             return;
@@ -601,31 +624,33 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
 
         // Wir benötigen ein Hash und ein Ablaufdatum
         tx_rnbase::load('tx_rnbase_util_Dates');
-        $data = array(
-            'confirmtimeout' => tx_rnbase_util_Dates::datetime_tstamp2mysql(strtotime('+2 days'))
-        );
+        $data = [
+            'confirmtimeout' => tx_rnbase_util_Dates::datetime_tstamp2mysql(strtotime('+2 days')),
+        ];
         $secret = $configurations->get($confId.'passwordsecret');
         $data['confirmstring'] = md5($data['confirmtimeout'].$secret.$feuser->getUid());
 
-        $where = 'uid = ' . $feuser->getUid();
+        $where = 'uid = '.$feuser->getUid();
         Tx_Rnbase_Database_Connection::getInstance()->doUpdate('fe_users', $where, $data, 0);
         // Und jetzt eine Mail mit dem Link senden
         $pwLink = $configurations->createLink();
         $pwLink->label(md5(microtime()));
         $pwLink->initByTS(
             $configurations,
-            $confId . 'links.resetPassword.',
-            array('NK_confirm' => $data['confirmstring'], 'NK_uid' => $feuser->getUid())
+            $confId.'links.resetPassword.',
+            ['NK_confirm' => $data['confirmstring'], 'NK_uid' => $feuser->getUid()]
         );
         $emailService = tx_t3users_util_ServiceRegistry::getEmailService();
         $emailService->sendResetPassword($feuser, $pwLink, $configurations, $confId);
     }
+
     /**
      * Prüft die Gültigkeit eines Confirm-Strings und liefert in diesem Fall die Instanz
      * des feusers.
      *
      * @param int $uid
      * @param string $confirmstring
+     *
      * @return tx_t3users_models_feuser
      */
     public function getUserForConfirm($uid, $confirmstring)
@@ -642,7 +667,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             tx_rnbase_util_Logger::info(
                 'Password reset failed on invalid confirmstring',
                 't3users',
-                array('feuser' => $feUser->getUid(),'stored confirm' => $feUser->record['confirmstring'], 'submitted' => $confirmstring)
+                ['feuser' => $feUser->getUid(), 'stored confirm' => $feUser->record['confirmstring'], 'submitted' => $confirmstring]
             );
 
             return null;
@@ -655,9 +680,9 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             tx_rnbase_util_Logger::info(
                 'Password reset failed on timeout',
                 't3users',
-                array('feuser' => $feUser->getUid(),'stored timeout' => $feUser->getProperty('confirmtimeout'),
+                ['feuser' => $feUser->getUid(), 'stored timeout' => $feUser->getProperty('confirmtimeout'),
                 'stored timeout2' => $timeout,
-                'submitted' => $GLOBALS['EXEC_TIME'])
+                'submitted' => $GLOBALS['EXEC_TIME'], ]
             );
 
             return null;
@@ -667,7 +692,6 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     }
 
     /**
-     *
      * @param tx_t3users_models_feuser $feUser
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string $confId
@@ -681,8 +705,8 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         $confirmationLink->label($token);
         $confirmationLink->initByTS(
             $configurations,
-            $confId . 'links.confirm.',
-            array('NK_confirm' => $feuser->record['confirmstring'], 'NK_uid' => $feuser->getUid())
+            $confId.'links.confirm.',
+            ['NK_confirm' => $feuser->record['confirmstring'], 'NK_uid' => $feuser->getUid()]
         );
         // Eine nicht absolute URL macht einfach keinen Sinn in einer E-Mail
         $confirmationLink->setAbsUrl(true);
@@ -703,11 +727,13 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         $vars[$key] = &$value;
         $GLOBALS['TSFE']->fe_user->setKey('ses', $extKey, $vars);
     }
+
     /**
-     * Returns a session value
+     * Returns a session value.
      *
      * @param string $key key of session value
      * @param string $extKey optional
+     *
      * @return mixed or null
      */
     public function getSessionValue($key, $extKey = 't3users_common')
@@ -720,8 +746,9 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
 
         return null;
     }
+
     /**
-     * Removes a session value
+     * Removes a session value.
      *
      * @param string $key key of session value
      * @param string $extKey optional
@@ -739,14 +766,15 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      * Deaktiviert einen Nutzer und entwertet die E-Mail-Adresse.
      *
      * @param tx_t3users_models_feuser $feuser
+     *
      * @return tx_t3users_models_feuser
      */
     public function userDisable($feuser)
     {
-        $values = array(
+        $values = [
             'email' => $this->emailDisable($feuser->getEmail()),
             'disable' => 1,
-        );
+        ];
         $res = $this->updateFeUser($feuser->getUid(), $values);
         if ($res) {
             $feuser->reset();
@@ -759,9 +787,10 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      * Deaktiviert eine Mailadresse. Dies geschieht indem einfach ein zweites @-Zeichen
      * eingefügt wird. Sollte die Adresse schon deaktiviert sein, dann wird sie ignoriert.
      * test@domain.de => test@@domain.de
-     * test@@domain.de => test@@domain.de
+     * test@@domain.de => test@@domain.de.
      *
      * @param string $email
+     *
      * @return string
      */
     public function emailDisable($email)
@@ -774,11 +803,13 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
 
         return $email;
     }
+
     /**
      * Aktiviert eine Mailadresse, die vorher mit emailDisable() deaktiviert wurde. Es können auch
      * gültige Adressen übergeben werden. Diese werden nicht verändert.
      *
      * @param string $email
+     *
      * @return string
      */
     public function emailEnable($email)
@@ -793,12 +824,13 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     }
 
     /**
-     * Return either the given fe user or the currently logged in one
+     * Return either the given fe user or the currently logged in one.
      *
      * This functionality so often it is worth being to be swapped to this method...
      *
      * @param tx_t3users_models_feuser  $feUser
      * @param bool                      $force  If no FE user was found, throw an exception
+     *
      * @return tx_t3users_models_feuser
      */
     public function getFeUserWithFallback(tx_t3users_models_feuser $feUser = null, $force = true)
@@ -811,9 +843,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             $feUser = tx_t3users_models_feuser::getCurrent();
             if ((empty($feUser) || !$feUser->isValid()) && $force) {
                 // @todo: eigene exception (tx_t3users_exceptions_NotLoggedIn) integrieren, damit diese ordentlich abgefangen werden kann.
-                throw new Exception(
-                    'tx_t3users_services_feuser->getFeUserWithFallback(): No FE user found - nobody logged in?'
-                );
+                throw new Exception('tx_t3users_services_feuser->getFeUserWithFallback(): No FE user found - nobody logged in?');
             }
         }
 
@@ -823,7 +853,9 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     /**
      * @param string $username
      * @param string $password
+     *
      * @return void
+     *
      * @todo es muss entweder $GLOBALS['TSFE']->fe_user->checkPid = FALSE gesetzt werden oder eine pid übergeben
      * werden. ALternativ kann vor dem Aufruf auch selbst $_POST['pid'] gesetzt werden.
      */

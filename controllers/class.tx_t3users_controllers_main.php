@@ -22,11 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 tx_rnbase::load('tx_rnbase_controller');
 
 /**
- * Controller
+ * Controller.
  */
 class tx_t3users_controllers_main extends tx_rnbase_controller
 {
@@ -35,5 +34,5 @@ class tx_t3users_controllers_main extends tx_rnbase_controller
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/controllers/class.tx_t3users_controllers_main.php'];
 }

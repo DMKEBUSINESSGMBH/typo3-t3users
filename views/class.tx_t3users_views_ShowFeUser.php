@@ -22,14 +22,12 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 if (tx_rnbase_util_Extensions::isLoaded('dam')) {
-    require_once(tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_media.php'));
+    require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_media.php');
 }
 
 tx_rnbase::load('tx_rnbase_view_Base');
 tx_rnbase::load('tx_rnbase_util_ListBuilder');
-
 
 /**
  * Viewclass to show a user.
@@ -37,13 +35,12 @@ tx_rnbase::load('tx_rnbase_util_ListBuilder');
 class tx_t3users_views_ShowFeUser extends tx_rnbase_view_Base
 {
     /**
-     * Erstellen des Frontend-Outputs
+     * Erstellen des Frontend-Outputs.
      */
     public function createOutput($template, &$viewData, &$configurations, &$formatter)
     {
-
-    // Die ViewData bereitstellen
-        $feuser =& $viewData->offsetGet('user');
+        // Die ViewData bereitstellen
+        $feuser = &$viewData->offsetGet('user');
         $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
 
         $out = $marker->parseTemplate($template, $feuser, $formatter, 'feuserdetails.feuser.');
@@ -51,9 +48,8 @@ class tx_t3users_views_ShowFeUser extends tx_rnbase_view_Base
         return $out;
     }
 
-
     /**
-     * Returns the subpart to use for in template
+     * Returns the subpart to use for in template.
      *
      * @return string
      */
@@ -64,5 +60,5 @@ class tx_t3users_views_ShowFeUser extends tx_rnbase_view_Base
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowFeUser.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowFeUser.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowFeUser.php'];
 }

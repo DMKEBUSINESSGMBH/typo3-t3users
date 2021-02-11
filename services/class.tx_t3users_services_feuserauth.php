@@ -28,7 +28,7 @@ tx_rnbase::load('Tx_Rnbase_Utility_Strings');
 
 /**
  * Service for accessing user information
- * This service enables authentication by username and email
+ * This service enables authentication by username and email.
  *
  * @author Rene Nitzsche
  */
@@ -47,5 +47,5 @@ class tx_t3users_services_feuserauth extends Tx_Rnbase_Service_Authentication
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuserauth.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuserauth.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_feuserauth.php'];
 }

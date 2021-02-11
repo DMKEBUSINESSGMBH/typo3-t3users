@@ -1,8 +1,8 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
 
+if (!defined('TYPO3_MODE')) {
+    exit('Access denied.');
+}
 
 // Backend Modul einbinden
 if (TYPO3_MODE == 'BE' && \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'activateBeModule')
@@ -22,7 +22,7 @@ if (TYPO3_MODE == 'BE' && \Sys25\RnBase\Configuration\Processor::getExtensionCfg
         ]
     );
 
-    /**
+    /*
      * Callcenter Panel
      */
     tx_rnbase_util_Extensions::insertModuleFunction(
@@ -41,28 +41,28 @@ if (TYPO3_MODE == 'BE' && \Sys25\RnBase\Configuration\Processor::getExtensionCfg
 $enableRoles = false;
 // @todo what is this for? $enableRoles will never be true
 if ($enableRoles) {
-    $TCA['tx_t3users_roles'] = array(
-        'ctrl' => array(
-            'title'     => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles',
-            'label'     => 'name',
-            'tstamp'    => 'tstamp',
-            'crdate'    => 'crdate',
+    $TCA['tx_t3users_roles'] = [
+        'ctrl' => [
+            'title' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_roles',
+            'label' => 'name',
+            'tstamp' => 'tstamp',
+            'crdate' => 'crdate',
             'cruser_id' => 'cruser_id',
             'default_sortby' => 'ORDER BY name',
             'delete' => 'deleted',
-            'enablecolumns' => array(
-            ),
+            'enablecolumns' => [
+            ],
             'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath('t3users', 'tca.php'),
-            'iconfile'          => 'EXT:t3users/icon_tx_t3users_tables.gif',
-        ),
-        'feInterface' => array(
+            'iconfile' => 'EXT:t3users/icon_tx_t3users_tables.gif',
+        ],
+        'feInterface' => [
             'fe_admin_fieldList' => 'name',
-        )
-    );
+        ],
+    ];
 
-    $TCA['tx_t3users_rights'] = array(
-        'ctrl' => array(
-            'title'     => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_rights',
+    $TCA['tx_t3users_rights'] = [
+        'ctrl' => [
+            'title' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_rights',
             'label' => 'sign',
             'readOnly' => 1,    // This should always be true, as it prevents the static data from being altered
             'adminOnly' => 1,
@@ -70,11 +70,10 @@ if ($enableRoles) {
             'is_static' => 1,
             'default_sortby' => 'ORDER BY sign',
             'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath('t3users', 'tca.php'),
-            'iconfile'          => 'EXT:t3users/icon_tx_t3users_tables.gif',
-        ),
-        'interface' => array(
-            'showRecordFieldList' => 'sign'
-        )
-    );
+            'iconfile' => 'EXT:t3users/icon_tx_t3users_tables.gif',
+        ],
+        'interface' => [
+            'showRecordFieldList' => 'sign',
+        ],
+    ];
 }
-
