@@ -41,7 +41,9 @@
         "digedag/rn-base": "^1.12"
     },
     "require-dev": {
-        "nimut/testing-framework": "^1.1 || ^2.0 || ^4.0 || ^5.0"
+        "php-parallel-lint/php-parallel-lint": "^1.2",
+        "nimut/testing-framework": "^1.1 || ^2.0 || ^4.0 || ^5.0",
+        "friendsofphp/php-cs-fixer": "^2.16"
     },
     "autoload": {
         "classmap": [
@@ -70,6 +72,32 @@
         "post-autoload-dump": [
             "mkdir -p .Build/Web/typo3conf/ext/",
             "[ -L .Build/Web/typo3conf/ext/t3users ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/t3users"
+        ],
+        "lint:php": [
+            "[ -e .Build/bin/parallel-lint ] || composer update",
+            ".Build/bin/parallel-lint ./actions ./controllers ./exceptions ./hooks ./mod ./models ./receiver ./search ./services ./tests/ ./util ./views ./xclasses/ ./*.php"
+        ],
+        "lint": [
+            "@lint:php"
+        ],
+        "test:phpcs": [
+            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+            ".Build/bin/php-cs-fixer fix -v --dry-run --diff --diff-format udiff --ansi"
+        ],
+        "test:phpunit": [
+            "[ -e .Build/bin/phpunit ] || composer update --ansi",
+            "export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit -c phpunit.xml.dist --colors=always"
+        ],
+        "test": [
+            "@test:phpcs",
+            "@test:phpunit"
+        ],
+        "fix:phpcs": [
+            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+            ".Build/bin/php-cs-fixer fix -v"
+        ],
+        "fix": [
+            "@fix:phpcs"
         ]
     },
     "extra": {
