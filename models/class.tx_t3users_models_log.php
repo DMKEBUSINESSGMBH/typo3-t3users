@@ -22,9 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_model_base');
-tx_rnbase::load('tx_t3users_models_feuser');
-
 interface tx_t3users_models_ILog
 {
     /**
@@ -82,7 +79,7 @@ class tx_t3users_models_log extends tx_rnbase_model_base implements tx_t3users_m
 
     public function getFEUserUid()
     {
-        return $this->record['feuser'];
+        return $this->getProperty('feuser');
     }
 
     /**
@@ -92,7 +89,7 @@ class tx_t3users_models_log extends tx_rnbase_model_base implements tx_t3users_m
      */
     public function getFEUser()
     {
-        return tx_t3users_models_feuser::getInstance($this->record['feuser']);
+        return tx_t3users_models_feuser::getInstance($this->getProperty('feuser'));
     }
 
     /**
@@ -102,22 +99,22 @@ class tx_t3users_models_log extends tx_rnbase_model_base implements tx_t3users_m
      */
     public function getType()
     {
-        return $this->record['typ'];
+        return $this->getProperty('typ');
     }
 
     public function getRecUid()
     {
-        return intval($this->record['recuid']);
+        return (int) $this->getProperty('recuid');
     }
 
     public function getRecTable()
     {
-        return (string) $this->record['rectable'];
+        return (string) $this->getProperty('rectable');
     }
 
     public function getData()
     {
-        return $this->record['data'];
+        return $this->getProperty('data');
     }
 
     /**
@@ -127,10 +124,6 @@ class tx_t3users_models_log extends tx_rnbase_model_base implements tx_t3users_m
      */
     public function getTimeStamp()
     {
-        return $this->record['tstamp'];
+        return $this->getProperty('tstamp');
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_log.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_log.php'];
 }

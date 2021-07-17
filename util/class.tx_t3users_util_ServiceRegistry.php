@@ -1,4 +1,6 @@
 <?php
+use Sys25\RnBase\Utility\Misc;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -22,8 +24,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_Misc');
-
 /**
  * Zentrale Klasse fuer den Zugriff auf verschiedene Services.
  */
@@ -36,7 +36,7 @@ class tx_t3users_util_ServiceRegistry
      */
     public static function getFeUserService()
     {
-        return tx_rnbase_util_Misc::getService('t3users', 'feuser');
+        return Misc::getService('t3users', 'feuser');
     }
 
     /**
@@ -46,7 +46,7 @@ class tx_t3users_util_ServiceRegistry
      */
     public static function getRegistrationService()
     {
-        return tx_rnbase_util_Misc::getService('t3users', 'registration');
+        return Misc::getService('t3users', 'registration');
     }
 
     /**
@@ -56,7 +56,7 @@ class tx_t3users_util_ServiceRegistry
      */
     public static function getLoggingService()
     {
-        return tx_rnbase_util_Misc::getService('t3users', 'logging');
+        return Misc::getService('t3users', 'logging');
     }
 
     /**
@@ -66,7 +66,7 @@ class tx_t3users_util_ServiceRegistry
      */
     public static function getEmailService()
     {
-        return tx_rnbase_util_Misc::getService('t3users', 'email');
+        return Misc::getService('t3users', 'email');
     }
 
     /**
@@ -76,9 +76,6 @@ class tx_t3users_util_ServiceRegistry
      */
     public static function getLoginFormService()
     {
-        return tx_rnbase_util_Misc::getService('t3users', 'loginform');
+        return Misc::getService('t3users', 'loginform');
     }
-}
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_ServiceRegistry.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_ServiceRegistry.php'];
 }

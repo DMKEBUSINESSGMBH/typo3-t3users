@@ -1,4 +1,7 @@
 <?php
+use Sys25\RnBase\Utility\Misc;
+use Sys25\RnBase\Utility\TYPO3;
+
 /***************************************************************
  * Copyright notice
  *
@@ -21,9 +24,6 @@
  *
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
-tx_rnbase::load('tx_rnbase_util_SimpleMarker');
-tx_rnbase::load('Tx_Rnbase_Frontend_Marker_Utility');
 
 /**
  * Repository to handle companies.
@@ -90,7 +90,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
         if (!is_object($feuser)) {
             $feuser = self::getEmptyInstance('tx_t3users_models_feuser');
         }
-        tx_rnbase_util_Misc::callHook(
+        Misc::callHook(
             't3users',
             'feuserMarker_initRecord',
             [
@@ -151,7 +151,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
         // das Template rendern
         $out = self::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
-        tx_rnbase_util_Misc::callHook(
+        Misc::callHook(
             't3users',
             'feuserMarker_afterSubst',
             [
@@ -182,7 +182,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
         $confId
     ) {
         $item->setIsCurrentUser(
-            $GLOBALS['TSFE']->fe_user->user['uid'] == $item->getUid()
+            TYPO3::getFEUserUID() == $item->getUid()
         );
 
         parent::prepareItem($item, $configurations, $confId);
@@ -244,8 +244,4 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
             $this->disableLink($markerArray, $subpartArray, $wrappedSubpartArray, $linkMarker, false);
         }
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeUserMarker.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeUserMarker.php'];
 }

@@ -1,4 +1,7 @@
 <?php
+use Sys25\RnBase\Database\Connection;
+use Sys25\RnBase\Utility\TYPO3;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -21,8 +24,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
-require_once tx_rnbase_util_Extensions::extPath('rn_base').'model/class.tx_rnbase_model_base.php';
 
 /**
  * Model for fe_user.
@@ -61,16 +62,14 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
         if (!$this->bEnableFieldsOff || is_array($rowOrUid)) {
             parent::init($rowOrUid);
         } else {
-            $this->uid = $rowOrUid;
+            $this->setUid($rowOrUid);
             if ($this->getTableName()) {
                 $options = [];
-                $options['where'] = 'uid='.intval($this->uid);
+                $options['where'] = 'uid='.intval($this->getUid());
                 $options['enablefieldsoff'] = true;
-                $result = tx_rnbase_util_DB::doSelect('*', $this->getTableName(), $options);
-                $this->record = count($result) > 0 ? $result[0] : ['uid' => $rowOrUid];
+                $result = Connection::getInstance()->doSelect('*', $this->getTableName(), $options);
+                $this->setProperty(count($result) > 0 ? $result[0] : ['uid' => $rowOrUid]);
             }
-            // Der Record sollte immer ein Array sein
-            $this->record = is_array($this->record) ? $this->record : [];
         }
     }
 
@@ -127,9 +126,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
      */
     public static function getCurrent()
     {
-        global $TSFE;
-        $userId = $TSFE->fe_user->user['uid'];
-
+        $userId = TYPO3::getFEUserUID();
         return intval($userId) ? self::getInstance($userId) : false;
     }
 
@@ -162,7 +159,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
      */
     public function isDisabled()
     {
-        return intval($this->record['disable']) > 0;
+        return intval($this->getProperty('disable')) > 0;
     }
 
     /**
@@ -172,7 +169,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
      */
     public function getEmail()
     {
-        return $this->record['email'];
+        return $this->getProperty('email');
     }
 
     /**
@@ -202,10 +199,6 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
      */
     public function getUsername()
     {
-        return $this->record['username'];
+        return $this->getProperty('username');
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_feuser.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_feuser.php'];
 }

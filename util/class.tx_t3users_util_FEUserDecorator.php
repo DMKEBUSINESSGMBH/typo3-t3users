@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_t3users_mod_decorator_Base');
-
 /**
  * Diese Klasse ist für die Darstellung von FEUsern im Backend verantwortlich.
  */
@@ -51,8 +49,4 @@ class tx_t3users_util_FEUserDecorator
 
         return $ret;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FEUserDecorator.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FEUserDecorator.php'];
 }

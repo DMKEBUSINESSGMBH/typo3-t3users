@@ -380,7 +380,7 @@ class tx_t3users_services_email extends Tx_Rnbase_Service_Base
 
         //haben sich die Daten geändert dann nehmen wir einen anderen receiver
         //um den nochmaligen versand an die neue adresse zu verhindern
-        if ($feUser->record['email'] != $data['email']) {
+        if ($feUser->getProperty('email') != $data['email']) {
             $receiver = tx_rnbase::makeInstance('tx_t3users_receiver_FeUserChanged');
         } else {
             $receiver = tx_rnbase::makeInstance('tx_mkmailer_receiver_FeUser');

@@ -116,7 +116,6 @@ class tx_t3users_services_LoginForm extends Tx_Rnbase_Service_Base
      */
     protected function handleMethod_rsa($code, $statusKey, $configurations, $confId, $plugin)
     {
-        require_once tx_rnbase_util_Extensions::extPath('rsaauth').'hooks/class.tx_rsaauth_feloginhook.php';
         $rsa = tx_rnbase::makeInstance('tx_rsaauth_feloginhook');
         $result = $rsa->loginFormHook();
         // Use onSubmit only if not set by Typoscript

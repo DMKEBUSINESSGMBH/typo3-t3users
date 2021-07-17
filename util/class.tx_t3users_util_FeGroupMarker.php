@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once tx_rnbase_util_Extensions::extPath('rn_base').'util/class.tx_rnbase_util_BaseMarker.php';
-
 /**
  * Diese Klasse ist für die Erstellung von Markerarrays für FE Group verantwortlich.
  */
@@ -68,7 +66,7 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
         if (!is_object($fegroup)) {
             return '<!-- -->';
         }
-        $markerArray = $formatter->getItemMarkerArrayWrapped($fegroup->record, $confId, 0, $marker.'_', $fegroup->getColumnNames());
+        $markerArray = $formatter->getItemMarkerArrayWrapped($fegroup->getProperty(), $confId, 0, $marker.'_', $fegroup->getColumnNames());
         $wrappedSubpartArray = [];
         $subpartArray = [];
 
@@ -76,8 +74,4 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
 
         return $out;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_FeGroupMarker.php'];
 }

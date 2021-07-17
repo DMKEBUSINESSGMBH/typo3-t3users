@@ -1,4 +1,6 @@
 <?php
+use Sys25\RnBase\Utility\Strings;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -21,8 +23,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Strings');
-tx_rnbase::load('tx_mkmailer_receiver_FeUser');
+
 /**
  * Implementierung für einen Mailempfänger vom Typ FeUser.
  * Ändert ein User seine Email dann wird beim bestätigen
@@ -37,13 +38,12 @@ class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser
 {
     public function getValueString()
     {
-        return is_object($this->obj) ? $this->obj->uid.','.(!empty($this->email) ? $this->email : $this->obj->record['email']) : '';
+        return is_object($this->obj) ? $this->obj->getUid().','.(!empty($this->email) ? $this->email : $this->obj->getProperty('email')) : '';
     }
 
     public function setValueString($value)
     {
-        $aValues = tx_rnbase_util_Strings::trimExplode(',', $value, true);
-        tx_rnbase::load('tx_t3users_models_feuser');
+        $aValues = Strings::trimExplode(',', $value, true);
         $this->setFeUser(tx_t3users_models_feuser::getInstance(intval($aValues[0])));
         //die neue, geänderte Email Adresse im Empfänger setzen damit die
         //Mail nicht 2 mal verschickt wird an die neue Adresse
@@ -58,8 +58,4 @@ class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser
         //else
         return $this->email;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/receiver/class.tx_t3users_receiver_FeUserChanged.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/receiver/class.tx_t3users_receiver_FeUserChanged.php'];
 }

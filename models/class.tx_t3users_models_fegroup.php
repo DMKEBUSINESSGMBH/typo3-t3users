@@ -47,7 +47,7 @@ class tx_t3users_models_fegroup extends tx_rnbase_model_base
     public static function getInstance($data = null)
     {
         $uid = (int) $data;
-        if (!uid) {
+        if (!$uid) {
             throw new Exception('No uid for fe_group given!');
         }
         if (!is_object(self::$instances[$uid])) {
@@ -66,7 +66,7 @@ class tx_t3users_models_fegroup extends tx_rnbase_model_base
     {
         $srv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
-        return $srv->getFeUser($this->uid);
+        return $srv->getFeUser($this->getUid());
     }
 
     /**
@@ -76,10 +76,6 @@ class tx_t3users_models_fegroup extends tx_rnbase_model_base
      */
     public function getTitle()
     {
-        return $this->record['title'];
+        return $this->getProperty('title');
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_fegroup.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/models/class.tx_t3users_models_fegroup.php'];
 }

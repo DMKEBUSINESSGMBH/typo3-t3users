@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('Tx_Rnbase_Backend_Utility_Icons');
-
 /**
  * Die Klasse bereitet Objekte für die Darstellung im Backend auf.
  */
@@ -33,7 +31,7 @@ class tx_t3users_util_Decorator
     {
         $arr = [0 => [self::getHeadline($parts, $columns, $options)]];
         foreach ($entries as $entry) {
-            $record = is_object($entry) ? $entry->record : $entry;
+            $record = is_object($entry) ? $entry->getProperty() : $entry;
             $row = [];
             if (isset($options['checkbox'])) {
                 $checkName = isset($options['checkboxname']) ? $options['checkboxname'] : 'checkEntry';
@@ -119,8 +117,4 @@ class tx_t3users_util_Decorator
 interface tx_t3users_util_Linker
 {
     public function makeLink($obj, $formTool, $currentPid, $options);
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_Decorator.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/util/class.tx_t3users_util_Decorator.php'];
 }

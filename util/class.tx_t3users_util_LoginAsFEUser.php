@@ -1,4 +1,10 @@
 <?php
+use Sys25\RnBase\Utility\TYPO3;
+use Sys25\RnBase\Database\Connection;
+use Sys25\RnBase\Utility\Misc;
+use Sys25\RnBase\Utility\T3General;
+use Sys25\RnBase\Utility\Typo3Classes;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -21,11 +27,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
-tx_rnbase::load('tx_rnbase_util_Misc');
-tx_rnbase::load('tx_rnbase_util_DB');
-tx_rnbase::load('tx_rnbase_parameters');
-tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 /**
  * Übernahme von FEUser-Sessions.
@@ -84,10 +85,10 @@ class tx_t3users_util_LoginAsFEUser
     private static function updateFeUserSession($fesessionId, $feuserid)
     {
         $where = 'ses_id = %1$s';
-        $where .= tx_rnbase_util_TYPO3::isTYPO87OrHigher() ? '' : ' AND fe_sessions.ses_name = \'fe_typo_user\' ';
+        $where .= TYPO3::isTYPO87OrHigher() ? '' : ' AND fe_sessions.ses_name = \'fe_typo_user\' ';
         $where = sprintf($where, $GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions'));
         $values = ['ses_userid' => $feuserid, 'ses_tstamp' => $GLOBALS['EXEC_TIME']];
-        tx_rnbase_util_DB::doUpdate('fe_sessions', $where, $values, 0);
+        Connection::getInstance()->doUpdate('fe_sessions', $where, $values, 0);
     }
 
     private static function createFeUserSession($fesessionId, $feuserid)
@@ -100,13 +101,13 @@ class tx_t3users_util_LoginAsFEUser
             setcookie('fe_typo_user', $fesessionId, 0, '/', $cookieDomain ? $cookieDomain : '');
         }
         $values = self::getNewSessionRecord($fesessionId, $feuserid);
-        tx_rnbase_util_DB::doInsert('fe_sessions', $values, 0);
+        Connection::getInstance()->doInsert('fe_sessions', $values, 0);
     }
 
     private static function getNewSessionRecord($sessionId, $userId)
     {
-        $abstractUserAuthenticationClass = tx_rnbase_util_Typo3Classes::getAbstractUserAuthenticationClass();
-        $frontendUserAuthenticationClass = tx_rnbase_util_Typo3Classes::getFrontendUserAuthenticationClass();
+        $abstractUserAuthenticationClass = Typo3Classes::getAbstractUserAuthenticationClass();
+        $frontendUserAuthenticationClass = Typo3Classes::getFrontendUserAuthenticationClass();
         if (!is_callable([$abstractUserAuthenticationClass, 'ipLockClause_remoteIPNumber'])) {
             // Ab 4.5 ist die Methode nicht mehr public. Daher den notwendigen
             // Record anders erstellen
@@ -125,12 +126,12 @@ class tx_t3users_util_LoginAsFEUser
         $record = [
             'ses_id' => $sessionId,
             'ses_iplock' => $frontendUserAuthenticationClass::ipLockClause_remoteIPNumber($GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP']),
-            'ses_hashlock' => Tx_Rnbase_Utility_T3General::md5int(':'.tx_rnbase_util_Misc::getIndpEnv('HTTP_USER_AGENT')), //$this->hashLockClause_getHashInt(),
+            'ses_hashlock' => T3General::md5int(':'.Misc::getIndpEnv('HTTP_USER_AGENT')), //$this->hashLockClause_getHashInt(),
             'ses_userid' => $userId,
             'ses_tstamp' => $GLOBALS['EXEC_TIME'],
         ];
 
-        if (!tx_rnbase_util_TYPO3::isTYPO87OrHigher()) {
+        if (!TYPO3::isTYPO87OrHigher()) {
             $record['ses_name'] = 'fe_typo_user';
         }
 
@@ -147,10 +148,10 @@ class tx_t3users_util_LoginAsFEUser
     protected static function getCurrentFeUserSession($fesessionId)
     {
         $where = 'ses_id = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions');
-        $where .= tx_rnbase_util_TYPO3::isTYPO87OrHigher() ? '' : ' AND fe_sessions.ses_name = \'fe_typo_user\' ';
+        $where .= TYPO3::isTYPO87OrHigher() ? '' : ' AND fe_sessions.ses_name = \'fe_typo_user\' ';
         $options = ['where' => $where];
         $options['enablefieldsoff'] = 1;
-        $result = Tx_Rnbase_Database_Connection::getInstance()->doSelect('*', 'fe_sessions', $options, 0);
+        $result = Connection::getInstance()->doSelect('*', 'fe_sessions', $options, 0);
 
         return count($result) ? $result[0] : false;
     }
