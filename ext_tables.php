@@ -15,7 +15,7 @@ if (\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'acti
             'access' => 'user,group',
             'routeTarget' => 'tx_t3users_mod_Module',
             'icon' => 'EXT:t3users/Resources/Public/Icons/moduleicon.png',
-            'labels' => 'LLL:EXT:t3users/mod/locallang_mod.xml',
+            'labels' => 'LLL:EXT:t3users/Resources/Private/Language/BackendModule/locallang_mod.xlf',
         ]
     );
 
@@ -23,7 +23,7 @@ if (\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'acti
         'web_T3usersBackend',
         'tx_t3users_mod_FeUser',
         '',
-        'LLL:EXT:t3users/mod/locallang.xml:tx_t3users_module_name'
+        'LLL:EXT:t3users/Resources/Private/Language/BackendModule/locallang.xlf:tx_t3users_module_name'
     );
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(

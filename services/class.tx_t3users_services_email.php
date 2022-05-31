@@ -290,7 +290,7 @@ class tx_t3users_services_email extends \TYPO3\CMS\Core\Service\AbstractService
      */
     private function sendNewPasswordMkMailer($feuser, $newPassword, $configurations, $confId)
     {
-        // TODO: Make alternative mailtemplate via locallang.xml possible, use the lines below
+        // TODO: Make alternative mailtemplate via Resources/Private/Language/locallang.xlf possible, use the lines below
         // $emailFrom = $this->configurations->get('loginbox.emailFrom');
         // $emailFromName = $this->configurations->get('loginbox.emailFromName');
         // $emailReply = $this->configurations->get('loginbox.emailReply');
@@ -500,7 +500,7 @@ class tx_t3users_services_email extends \TYPO3\CMS\Core\Service\AbstractService
      */
     private function sendConfirmLinkMkMailer($feuser, $confirmLink, $configurations, $confId)
     {
-        // TODO: Make alternative mailtemplate via locallang.xml possible, use the lines below
+        // TODO: Make alternative mailtemplate via Resources/Private/Language/locallang.xlf possible, use the lines below
         // $emailFrom = $this->configurations->get('loginbox.emailFrom');
         // $emailFromName = $this->configurations->get('loginbox.emailFromName');
         // $emailReply = $this->configurations->get('loginbox.emailReply');

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-31T11:55:22Z" product-name="t3users">
+		<header/>
+		<body>
+			<trans-unit id="error" resname="error" >
+				<source>Error</source>
+			</trans-unit>
+			<trans-unit id="label_wrong_pass" resname="label_wrong_pass" >
+				<source>The given passwords are not valid. Check your input.</source>
+			</trans-unit>
+			<trans-unit id="label_login" resname="label_login" >
+				<source>Login</source>
+			</trans-unit>
+			<trans-unit id="label_logout" resname="label_logout" >
+				<source>Logout</source>
+			</trans-unit>
+			<trans-unit id="label_username" resname="label_username" >
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="label_password" resname="label_password" >
+				<source>Password</source>
+			</trans-unit>
+			<trans-unit id="label_permalogin" resname="label_permalogin" >
+				<source>Stay logged in</source>
+			</trans-unit>
+			<trans-unit id="label_email" resname="label_email" >
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="label_email_repeat" resname="label_email_repeat" >
+				<source>Email repeated</source>
+			</trans-unit>
+			<trans-unit id="label_sendpass" resname="label_sendpass" >
+				<source>Send password</source>
+			</trans-unit>
+			<trans-unit id="label_sendconfirmlink" resname="label_sendconfirmlink" >
+				<source>Send confirmation mail</source>
+			</trans-unit>
+			<trans-unit id="label_save" resname="label_save" >
+				<source>save</source>
+			</trans-unit>
+			<trans-unit id="loginbox_header_login" resname="loginbox_header_login" >
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="loginbox_message_login" resname="loginbox_message_login" >
+				<source>You are logged in as ###FEUSER_NAME###</source>
+			</trans-unit>
+			<trans-unit id="label_forgot_password" resname="label_forgot_password" >
+				<source>Forgot your password?</source>
+			</trans-unit>
+			<trans-unit id="label_register" resname="label_register" >
+				<source>Want to register?</source>
+			</trans-unit>
+			<trans-unit id="loginbox_header_forgot" resname="loginbox_header_forgot" >
+				<source>You forgot your password?</source>
+			</trans-unit>
+			<trans-unit id="loginbox_message_forgot" resname="loginbox_message_forgot" >
+				<source>Please enter the email address by which you registered your user account. Then press &quot;Send password&quot; and your password will immediately be emailed to you. Make sure to spell your email address correctly.</source>
+			</trans-unit>
+			<trans-unit id="loginbox_header_forgot_notfound" resname="loginbox_header_forgot_notfound" >
+				<source>Password sent</source>
+			</trans-unit>
+			<trans-unit id="loginbox_message_forgot_notfound" resname="loginbox_message_forgot_notfound" >
+				<source>If an account is linked to the mentioned email address ###YOUR_EMAIL###, a new password has been sent to this address. You may need to check your spam folder.</source>
+			</trans-unit>
+			<trans-unit id="loginbox_header_forgot_sent" resname="loginbox_header_forgot_sent" >
+				<source>Password sent</source>
+			</trans-unit>
+			<trans-unit id="loginbox_message_forgot_sent" resname="loginbox_message_forgot_sent" >
+				<source>If an account is linked to the mentioned email address ###YOUR_EMAIL###, a new password has been sent to this address. You may need to check your spam folder.</source>
+			</trans-unit>
+			<trans-unit id="loginbox_forgot_infomail" resname="loginbox_forgot_infomail" xml:space="preserve">
+				<source>Your password
+Hi ###FEUSER_NAME###
+
+Your username is &quot;###FEUSER_USERNAME###&quot;
+Your password is &quot;###PASSWORD###&quot;
+</source>
+			</trans-unit>
+			<trans-unit id="loginbox_reset_infomail" resname="loginbox_reset_infomail" xml:space="preserve">
+				<source>Your password
+Hi ###FEUSER_NAME###
+
+Your username is &quot;###FEUSER_USERNAME###&quot;
+Please open this URL to reset your password:
+
+###RESETLINKURL###
+
+This Link will work the next 48 hours.
+</source>
+			</trans-unit>
+			<trans-unit id="loginbox_reset_infomail_html" resname="loginbox_reset_infomail_html" xml:space="preserve">
+				<source>
+Your password
+Hallo ###FEUSER_NAME###&lt;br /&gt;&lt;br /&gt;
+Your username is &lt;strong&gt;###FEUSER_USERNAME###&lt;/strong&gt;;
+&lt;p&gt;To reset your password, click ###RESETLINK###this link###RESETLINK###.&lt;/p&gt;
+&lt;p&gt;This Link will work the next 48 hours.&lt;/p&gt;
+</source>
+			</trans-unit>
+			<trans-unit id="loginbox_header_requestconfirmation" resname="loginbox_header_requestconfirmation" >
+				<source>You want to request the confirmation mail?</source>
+			</trans-unit>
+			<trans-unit id="loginbox_message_requestconfirmation" resname="loginbox_message_requestconfirmation" >
+				<source>Please enter the email address by which you registered your user account. Then press &quot;Send confirmation mail&quot; and the confirmation link will immediately be emailed to you. Make sure to spell your email address correctly.</source>
+			</trans-unit>
+			<trans-unit id="loginbox_header_requestconfirmation_notfound" resname="loginbox_header_requestconfirmation_notfound" >
+				<source>Mail sent</source>
+			</trans-unit>
+			<trans-unit id="loginbox_message_requestconfirmation_notfound" resname="loginbox_message_requestconfirmation_notfound" >
+				<source>If an account is linked to the mentioned email address ###YOUR_EMAIL###, a confirmation link has been sent to this address. You may need to check your spam folder.</source>
+			</trans-unit>
+			<trans-unit id="loginbox_header_requestconfirmation_sent" resname="loginbox_header_requestconfirmation_sent" >
+				<source>Mail sent</source>
+			</trans-unit>
+			<trans-unit id="loginbox_message_requestconfirmation_sent" resname="loginbox_message_requestconfirmation_sent" >
+				<source>If an account is linked to the mentioned email address ###YOUR_EMAIL###, a confirmation link has been sent to this address. You may need to check your spam folder.</source>
+			</trans-unit>
+			<trans-unit id="loginbox_header_login_error" resname="loginbox_header_login_error" >
+				<source>Login failed</source>
+			</trans-unit>
+			<trans-unit id="loginbox_message_login_error" resname="loginbox_message_login_error" >
+				<source>Username or password was wrong!</source>
+			</trans-unit>
+			<trans-unit id="feuserdetails_nouser" resname="feuserdetails_nouser" >
+				<source>Sorry, no user found...</source>
+			</trans-unit>
+			<trans-unit id="registration_confirmation_mail" resname="registration_confirmation_mail" xml:space="preserve">
+				<source>Confirm your registration
+Thank you for your application to become a member of ###SITENAME###.
+Everyone is welcome to browse around our website but you will need to confirm your membership to have
+unrestricted access to all areas. Your username is &quot;###FEUSER_USERNAME###&quot;
+To confirm your membership please click on this link: ###MAILCONFIRM_LINKURL###
+            </source>
+			</trans-unit>
+			<trans-unit id="registration_confirmation_mail_html" resname="registration_confirmation_mail_html" xml:space="preserve">
+				<source>Confirm your registration
+&lt;p&gt;Thank you for your application to become a member of ###SITENAME###.
+Everyone is welcome to browse around our website but you will need to confirm your membership to have
+unrestricted access to all areas. Your username is &lt;strong&gt;###FEUSER_USERNAME###&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;To confirm your membership please ###MAILCONFIRM_LINK###click on this link###MAILCONFIRM_LINK###.&lt;/p&gt;
+</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_username" resname="LABEL_form_username" >
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_password" resname="LABEL_form_password" >
+				<source>Password</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_password_confirm" resname="LABEL_form_password_confirm" >
+				<source>Confirm Password</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_firstname" resname="LABEL_form_firstname" >
+				<source>First name</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_lastname" resname="LABEL_form_lastname" >
+				<source>Last name</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_email" resname="LABEL_form_email" >
+				<source>Email address</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_gender" resname="LABEL_form_gender" >
+				<source>Gender</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_gender_mr" resname="LABEL_form_gender_mr" >
+				<source>Mr.</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_gender_mrs" resname="LABEL_form_gender_mrs" >
+				<source>Mrs.</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_birthdate" resname="LABEL_form_birthdate" >
+				<source>Date of birth</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_address" resname="LABEL_form_address" >
+				<source>Street</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_zip" resname="LABEL_form_zip" >
+				<source>Postal code</source>
+			</trans-unit>
+			<trans-unit id="LABEL_form_city" resname="LABEL_form_city" >
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="LABEL_btn_save" resname="LABEL_btn_save" >
+				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="LABEL_msg_form_password_required" resname="LABEL_msg_form_password_required" >
+				<source>Password is required</source>
+			</trans-unit>
+			<trans-unit id="LABEL_msg_form_password_sameas" resname="LABEL_msg_form_password_sameas" >
+				<source>Password and confirm don't match</source>
+			</trans-unit>
+			<trans-unit id="LABEL_msg_form_username_required" resname="LABEL_msg_form_username_required" >
+				<source>Username is required</source>
+			</trans-unit>
+			<trans-unit id="LABEL_msg_form_username_unique" resname="LABEL_msg_form_username_unique" >
+				<source>Username already exists. Please choose another one.</source>
+			</trans-unit>
+			<trans-unit id="LABEL_msg_form_email_required" resname="LABEL_msg_form_email_required" >
+				<source>Email is required</source>
+			</trans-unit>
+			<trans-unit id="LABEL_msg_form_email_invalid" resname="LABEL_msg_form_email_invalid" >
+				<source>Email is invalid</source>
+			</trans-unit>
+			<trans-unit id="LABEL_msg_form_email_unique" resname="LABEL_msg_form_email_unique" >
+				<source>Email already exists. Please choose another one.</source>
+			</trans-unit>
+			<trans-unit id="LABEL_msg_form_email_sameas" resname="LABEL_msg_form_email_sameas" >
+				<source>The entered emails don't match.</source>
+			</trans-unit>
+			<trans-unit id="LABEL_msg_form_email_differsfromdb" resname="LABEL_msg_form_email_differsfromdb" >
+				<source>The new email must differ from the old one.</source>
+			</trans-unit>
+			<trans-unit id="msg_change_success" resname="msg_change_success" >
+				<source>Data changed successfully. You may now log in with the new data.</source>
+			</trans-unit>
+			<trans-unit id="msg_change_error" resname="msg_change_error" >
+				<source>There was an error. Data couldn't be changed.</source>
+			</trans-unit>
+			<trans-unit id="ERROR_default" resname="ERROR_default" >
+				<source>There was an unexpected error!</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

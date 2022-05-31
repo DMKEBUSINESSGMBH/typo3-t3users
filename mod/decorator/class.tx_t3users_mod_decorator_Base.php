@@ -127,8 +127,8 @@ class tx_t3users_mod_decorator_Base extends \Sys25\RnBase\Backend\Decorator\Base
                     break;
                 case 'remove':
                     // Es wird immer ein Bestätigungsdialog ausgegeben!!! Dieser steht
-                    // in der BE-Modul locallang.xml der jeweiligen Extension im Schlüssel
-                    // 'confirmation_deletion'. (z.B. mkkvbb/mod1/locallang.xml) Soll kein
+                    // in der BE-Modul Resources/Private/Language/locallang.xlf der jeweiligen Extension im Schlüssel
+                    // 'confirmation_deletion'. (z.B. mkkvbb/mod1/Resources/Private/Language/locallang.xlf) Soll kein
                     // Bestätigungsdialog ausgegeben werden, dann einfach 'confirmation_deletion' leer lassen
                     $ret[] = $this->getFormTool()->createDeleteLink($item->getTableName(), $item->getUid(), $bTitle, ['confirm' => $GLOBALS['LANG']->getLL('confirmation_deletion')]);
                     break;

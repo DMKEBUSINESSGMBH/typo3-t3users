@@ -5,7 +5,7 @@ plugin.tx_t3users_main.userFunc       = tx_t3users_controllers_main->main
 plugin.tx_t3users_main.defaultAction  = tx_t3users_actions_Login
 plugin.tx_t3users_main.qualifier      = t3users
 plugin.tx_t3users_main.templatePath   = EXT:t3users/Resources/Private/Templates
-plugin.tx_t3users_main.locallangFilename = EXT:t3users/locallang.xml
+plugin.tx_t3users_main.locallangFilename = EXT:t3users/Resources/Private/Language/locallang.xlf
 
 
 tt_content.list.20.tx_t3users_main    =< plugin.tx_t3users_main

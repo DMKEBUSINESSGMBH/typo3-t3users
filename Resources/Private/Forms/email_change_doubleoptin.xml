@@ -36,35 +36,35 @@
     </control>
 
     <elements>
-        <renderlet:TEXT name="email" label="LLL:EXT:t3users/locallang.xml:label_email">
+        <renderlet:TEXT name="email" label="LLL:EXT:t3users/Resources/Private/Language/locallang.xlf:label_email">
             <validators>
                 <validator:STANDARD>
-                    <required message="LLL:EXT:t3users/locallang.xml:msg_form_email_required"/>
-                    <email message="LLL:EXT:t3users/locallang.xml:msg_form_email_invalid"/>
+                    <required message="LLL:EXT:t3users/Resources/Private/Language/locallang.xlf:msg_form_email_required"/>
+                    <email message="LLL:EXT:t3users/Resources/Private/Language/locallang.xlf:msg_form_email_invalid"/>
                 </validator:STANDARD>
                 <validator:DB>
                     <unique>
-                        <message>LLL:EXT:t3users/locallang.xml:msg_form_email_unique</message>
+                        <message>LLL:EXT:t3users/Resources/Private/Language/locallang.xlf:msg_form_email_unique</message>
                     </unique>
                     <differsfromdb>
-                        <message>LLL:EXT:t3users/locallang.xml:msg_form_email_differsfromdb</message>
+                        <message>LLL:EXT:t3users/Resources/Private/Language/locallang.xlf:msg_form_email_differsfromdb</message>
                         <tablename>fe_users</tablename>
                         <field>username</field>
                     </differsfromdb>
                 </validator:DB>
             </validators>
         </renderlet:TEXT>
-        <renderlet:TEXT name="email-confirm" label="LLL:EXT:t3users/locallang.xml:label_email_repeat">
+        <renderlet:TEXT name="email-confirm" label="LLL:EXT:t3users/Resources/Private/Language/locallang.xlf:label_email_repeat">
             <validators>
                 <validator:STANDARD>
                     <sameas>
                         <value>email</value>
-                        <message>LLL:EXT:t3users/locallang.xml:msg_form_email_sameas</message>
+                        <message>LLL:EXT:t3users/Resources/Private/Language/locallang.xlf:msg_form_email_sameas</message>
                     </sameas>
                 </validator:STANDARD>
             </validators>
         </renderlet:TEXT>
 
-        <renderlet:SUBMIT name="btnsubmit" label="LLL:EXT:t3users/locallang.xml:label_save"/>
+        <renderlet:SUBMIT name="btnsubmit" label="LLL:EXT:t3users/Resources/Private/Language/locallang.xlf:label_save"/>
     </elements>
 </formidable>

@@ -40,10 +40,11 @@ class tx_t3users_util_LoginAsFEUser
     public static function hijackUser($feuserid = 0, $redirectUrl = '/')
     {
         $ret = '';
+
         if (!$feuserid) {
             $userData = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter('hijack');
             if (is_array($userData)) {
-                $feuserid = current($userData);
+                $feuserid = key($userData);
             }
             $feuserid = intval($feuserid);
         }
@@ -51,18 +52,8 @@ class tx_t3users_util_LoginAsFEUser
             return $ret;
         }
 
-        $fesession = $_COOKIE['fe_typo_user'];
-        if ($fesession) {
-            // Der User hat oder hatte schon eine FE-Session
-            // Liegt ein Datensatz in der DB?
-            if (self::isPersistedFeUserSession($fesession)) {
-                self::updateFeUserSession($fesession, $feuserid);
-            } else {
-                self::createFeUserSession($fesession, $feuserid);
-            }
-        } else {
-            self::createFeUserSession($fesession, $feuserid);
-        }
+        $fesession = $_COOKIE['fe_typo_user'] ?? null;
+        self::createFeUserSession($fesession, $feuserid);
         $ret .= '
         <script>
         window.open("'.$redirectUrl.'");
@@ -72,44 +63,19 @@ class tx_t3users_util_LoginAsFEUser
         return $ret;
     }
 
-    /**
-     * Aktualisiert die User-Session in der DB.
-     *
-     * @param string $fesession
-     * @param int $feuserid
-     */
-    private static function updateFeUserSession($fesessionId, $feuserid)
-    {
-        $values = ['ses_userid' => $feuserid, 'ses_tstamp' => $GLOBALS['EXEC_TIME']];
-        \TYPO3\CMS\Core\Session\UserSessionManager::create('login')->updateSessionTimestamp(
-            \TYPO3\CMS\Core\Session\UserSession::createFromRecord($fesessionId, $values)
-        );
-    }
-
     private static function createFeUserSession($fesessionId, $feuserid)
     {
         if (!$fesessionId) {
-            // Es muss eine neue FE-Usersession angelegt werden
-            $hash_length = 10;
-            $fesessionId = substr(md5(uniqid('').getmypid()), 0, $hash_length);
+            $hashLength = 32;
+            $fesessionId = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\Random::class)
+                ->generateRandomHexString($hashLength);
             $cookieDomain = $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieDomain'];
             setcookie('fe_typo_user', $fesessionId, 0, '/', $cookieDomain ?? '');
         }
-        \TYPO3\CMS\Core\Session\UserSessionManager::create('login')->elevateToFixatedUserSession(
+
+        \TYPO3\CMS\Core\Session\UserSessionManager::create('FE')->elevateToFixatedUserSession(
             \TYPO3\CMS\Core\Session\UserSession::createNonFixated($fesessionId),
             $feuserid
-        );
-    }
-
-    /**
-     * Prüft, ob für die SessionId eine User-Session in der Datenbank liegt.
-     *
-     * @param string $fesessionId
-     */
-    protected static function isPersistedFeUserSession($fesessionId): bool
-    {
-        return \TYPO3\CMS\Core\Session\UserSessionManager::create('login')->isSessionPersisted(
-            \TYPO3\CMS\Core\Session\UserSession::createNonFixated($fesessionId)
         );
     }
 }

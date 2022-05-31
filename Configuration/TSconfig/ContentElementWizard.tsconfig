@@ -2,8 +2,8 @@ mod.wizards.newContentElement.wizardItems.plugins {
     elements {
         t3users {
             iconIdentifier = ext-t3users-wizard-icon
-            title = LLL:EXT:t3users/locallang_db.xml:plugin.t3users.label
-            description = LLL:EXT:t3users/locallang_db.xml:plugin.t3users.description
+            title = LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.label
+            description = LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.description
             tt_content_defValues {
                 CType = list
                 list_type = tx_t3users_main

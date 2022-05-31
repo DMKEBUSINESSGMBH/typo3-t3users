@@ -6,7 +6,7 @@ if (!defined('TYPO3')) {
 
 $tx_t3users_log = [
     'ctrl' => [
-        'title' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log',
+        'title' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:tx_t3users_log',
         'label' => 'typ',
         'rootLevel' => 1,
         'default_sortby' => 'ORDER BY uid desc',
@@ -18,19 +18,19 @@ $tx_t3users_log = [
     ],
     'columns' => [
         'typ' => [
-            'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_typ',
+            'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:tx_t3users_log_typ',
             'config' => [
                 'type' => 'none',
             ],
         ],
         'tstamp' => [
-            'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_tstamp',
+            'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:tx_t3users_log_tstamp',
             'config' => [
                 'type' => 'none',
             ],
         ],
         'beuser' => [
-            'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_beuser',
+            'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:tx_t3users_log_beuser',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
@@ -40,7 +40,7 @@ $tx_t3users_log = [
             ],
         ],
         'feuser' => [
-            'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_feuser',
+            'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:tx_t3users_log_feuser',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
@@ -50,19 +50,19 @@ $tx_t3users_log = [
             ],
         ],
         'recuid' => [
-            'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_recuid',
+            'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:tx_t3users_log_recuid',
             'config' => [
                 'type' => 'none',
             ],
         ],
         'rectable' => [
-            'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_rectable',
+            'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:tx_t3users_log_rectable',
             'config' => [
                 'type' => 'none',
             ],
         ],
         'data' => [
-            'label' => 'LLL:EXT:t3users/locallang_db.xml:tx_t3users_log_data',
+            'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:tx_t3users_log_data',
             'config' => [
                 'type' => 'none',
             ],

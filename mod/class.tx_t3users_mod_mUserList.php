@@ -94,7 +94,7 @@ class tx_t3users_mod_LoginLink implements tx_t3users_util_Linker
      */
     public function makeLink($item, $formTool, $currentPid, $options)
     {
-        $out = $formTool->createSubmit('hijack['.$item->uid.']', 'FE-Anmeldung');
+        $out = $formTool->createSubmit('hijack['.$item->getUid().']', 'FE-Anmeldung');
 
         return $out;
     }

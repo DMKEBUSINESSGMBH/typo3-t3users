@@ -34,48 +34,6 @@ class tx_t3users_mod_lister_FeUser extends \Sys25\RnBase\Backend\Lister\Abstract
     }
 
     /**
-     * Returns the complete search form.
-     *
-     * @return  string
-     */
-    protected function addMoreFields(&$data, &$options)
-    {
-        $this->options['pid'] = $this->getModule()->getPid();
-        if (isset($this->options['pid'])) {
-            $options['pid'] = $this->options['pid'];
-        }
-        $selector = $this->getSelector();
-
-        $out = $this->buildFilterTable($data);
-
-        return $out;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return string
-     */
-    protected function buildFilterTable(array $data)
-    {
-        $out = '';
-        if (count($data)) {
-            $out .= '<table class="filters">';
-            foreach ($data as $label => $filter) {
-                $out .= '<tr>';
-                $out .= '<td>'.(isset($filter['label']) ? $filter['label'] : $label).'</td>';
-                unset($filter['label']);
-                $out .= '<td>'.implode(' ', $filter).'</td>';
-
-                $out .= '</tr>';
-            }
-            $out .= '</table>';
-        }
-
-        return $out;
-    }
-
-    /**
      * Der Selector wird erst erzeugt, wenn er benötigt wird.
      *
      * @return  tx_t3users_mod_util_Selector
@@ -165,8 +123,8 @@ class tx_t3users_mod_lister_FeUser extends \Sys25\RnBase\Backend\Lister\Abstract
     {
         parent::prepareFieldsAndOptions($fields, $options);
 
-        if ($this->options['pid']) {
-            $fields['FEUSER.pid'][OP_EQ_INT] = $this->options['pid'];
+        if ($this->getModule()->getPid()) {
+            $fields['FEUSER.pid'][OP_EQ_INT] = $this->getModule()->getPid();
         }
 
         // mehr Filter per Hook

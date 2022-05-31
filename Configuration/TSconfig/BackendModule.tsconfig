@@ -9,7 +9,7 @@ mod {
         }
         feuser {
             template = EXT:t3users/Resources/Private/Templates/Backend/feusers.html
-            locallang = EXT:t3users/mod/locallang.xml
+            locallang = EXT:t3users/Resources/Private/Language/BackendModule/locallang.xlf
             listerclass = tx_t3users_mod_lister_FeUser
         }
     }

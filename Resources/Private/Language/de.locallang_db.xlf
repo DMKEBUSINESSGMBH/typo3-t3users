@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2022-05-31T11:54:36Z" product-name="t3users">
+		<header/>
+		<body>
+			<trans-unit id="plugin.t3users.label" resname="plugin.t3users.label"  approved="yes">
+				<source>FE-User Management (T3users)</source>
+				<target>FE-User Management (T3users)</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.description" resname="plugin.t3users.description"  approved="yes">
+				<source>Loginbox, list of users and groups</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.tab.common" resname="plugin.t3users.flexform.tab.common"  approved="yes">
+				<source>Common</source>
+				<target>Allgemeines</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.tab.loginbox" resname="plugin.t3users.flexform.tab.loginbox"  approved="yes">
+				<source>Login-Box</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.tab.userinfo" resname="plugin.t3users.flexform.tab.userinfo"  approved="yes">
+				<source>Userinformation</source>
+				<target>Nutzerinformationen</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.tab.feuseredit" resname="plugin.t3users.flexform.tab.feuseredit"  approved="yes">
+				<source>Edit User</source>
+				<target>Nutzer editieren</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.tab.renewSession" resname="plugin.t3users.flexform.tab.renewSession"  approved="yes">
+				<source>Renew Session</source>
+				<target>Session erneuern</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.action" resname="plugin.t3users.flexform.action"  approved="yes">
+				<source>View</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.action.LoginBox" resname="plugin.t3users.flexform.action.LoginBox"  approved="yes">
+				<source>LoginBox for FE Users</source>
+				<target>LoginBox für FE-Nutzer</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.action.ResetPassword" resname="plugin.t3users.flexform.action.ResetPassword"  approved="yes">
+				<source>Password reset</source>
+				<target>Passwort zurücksetzen</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.action.Registration" resname="plugin.t3users.flexform.action.Registration"  approved="yes">
+				<source>Show registration form</source>
+				<target>Zeige Registrierungsformular</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.action.RegistrationConfirm" resname="plugin.t3users.flexform.action.RegistrationConfirm"  approved="yes">
+				<source>Show registration confirm</source>
+				<target>Zeige Registrierungsbestätigung</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.action.ListFeUsers" resname="plugin.t3users.flexform.action.ListFeUsers"  approved="yes">
+				<source>List of FE Users</source>
+				<target>Liste von FE-Nutzern</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.action.ShowFeUser" resname="plugin.t3users.flexform.action.ShowFeUser"  approved="yes">
+				<source>Show single FE User</source>
+				<target>Zeige einzelnen FE-Nutzer</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.action.EditFeUser" resname="plugin.t3users.flexform.action.EditFeUser"  approved="yes">
+				<source>Edit own profile</source>
+				<target>Eigenen Account bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.action.RenewSession" resname="plugin.t3users.flexform.action.RenewSession"  approved="yes">
+				<source>Renew Session (prevent automatic logout)</source>
+				<target>Session erneuern (automatisches Logout verhindern)</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.header_logout" resname="plugin.t3users.flexform.loginbox.header_logout"  approved="yes">
+				<source>Logout Header</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.message_logout" resname="plugin.t3users.flexform.loginbox.message_logout"  approved="yes">
+				<source>Logout Message</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.header_welcome" resname="plugin.t3users.flexform.loginbox.header_welcome"  approved="yes">
+				<source>Welcome Header</source>
+				<target>Willkommen Überschrift</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.message_welcome" resname="plugin.t3users.flexform.loginbox.message_welcome"  approved="yes">
+				<source>Welcome Message</source>
+				<target>Willkommen Nachricht</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.header_goodbye" resname="plugin.t3users.flexform.loginbox.header_goodbye"  approved="yes">
+				<source>Goodbye Header</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.message_goodbye" resname="plugin.t3users.flexform.loginbox.message_goodbye"  approved="yes">
+				<source>Goodbye Message</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.header_login" resname="plugin.t3users.flexform.loginbox.header_login"  approved="yes">
+				<source>Logged in Header</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.message_login" resname="plugin.t3users.flexform.loginbox.message_login"  approved="yes">
+				<source>Logged in Message</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.header_login_error" resname="plugin.t3users.flexform.loginbox.header_login_error"  approved="yes">
+				<source>Login error Header</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.message_login_error" resname="plugin.t3users.flexform.loginbox.message_login_error"  approved="yes">
+				<source>Login error Message</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.emailFrom" resname="plugin.t3users.flexform.loginbox.emailFrom"  approved="yes">
+				<source>Forgot password email from address</source>
+				<target>Passwortmail From Adresse</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.emailFromName" resname="plugin.t3users.flexform.loginbox.emailFromName"  approved="yes">
+				<source>Forgot password email from name</source>
+				<target>Passwortmail From Name</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.emailReply" resname="plugin.t3users.flexform.loginbox.emailReply"  approved="yes">
+				<source>Forgot password email replyto address</source>
+				<target>Passwortmail ReplyTo Adresse</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.loginRedirectPage" resname="plugin.t3users.flexform.loginbox.loginRedirectPage"  approved="yes">
+				<source>Redirect to this page after login</source>
+				<target>Weiterleitung nach Login</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.logoutRedirectPage" resname="plugin.t3users.flexform.loginbox.logoutRedirectPage"  approved="yes">
+				<source>Redirect to this page after logout</source>
+				<target>Weiterleitung nach Logout</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.loginbox.loginTemplate" resname="plugin.t3users.flexform.loginbox.loginTemplate"  approved="yes">
+				<source>HTML-Template for loginbox</source>
+				<target>HTML-Template der Loginbox</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.userinfo.listPage" resname="plugin.t3users.flexform.userinfo.listPage"  approved="yes">
+				<source>Page with userlist</source>
+				<target>Seite mit Nutzerliste</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.userinfo.listTemplate" resname="plugin.t3users.flexform.userinfo.listTemplate"  approved="yes">
+				<source>Template for userlist</source>
+				<target>Template für Nutzerliste</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.userinfo.detailsPage" resname="plugin.t3users.flexform.userinfo.detailsPage"  approved="yes">
+				<source>Page for single view</source>
+				<target>Seite mit Detailansicht</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.userinfo.detailsTemplate" resname="plugin.t3users.flexform.userinfo.detailsTemplate"  approved="yes">
+				<source>Template for single view</source>
+				<target>Template für Detailansicht</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.userinfo.staticUser" resname="plugin.t3users.flexform.userinfo.staticUser"  approved="yes">
+				<source>Static user</source>
+				<target>Fester Nutzer</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.userinfo.staticUsers" resname="plugin.t3users.flexform.userinfo.staticUsers"  approved="yes">
+				<source>Static users</source>
+				<target>Feste Nutzerliste</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.userinfo.currentUser" resname="plugin.t3users.flexform.userinfo.currentUser"  approved="yes">
+				<source>Currently logged in User</source>
+				<target>Gegenwärtig angemeldeter FE-User</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.tab.TSSetup" resname="plugin.t3users.flexform.tab.TSSetup"  approved="yes">
+				<source>Typoscript</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.tssetup" resname="plugin.t3users.flexform.tssetup"  approved="yes">
+				<source>plugin.tx_t3users_main.</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.feuseredit.xml" resname="plugin.t3users.flexform.feuseredit.xml"  approved="yes">
+				<source>XML for the form</source>
+				<target>XML für das Formular</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.feuseredit.template" resname="plugin.t3users.flexform.feuseredit.template"  approved="yes">
+				<source>Template for the View</source>
+				<target>Template für View</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.feuseredit.enableNonTcaColumns" resname="plugin.t3users.flexform.feuseredit.enableNonTcaColumns"  approved="yes">
+				<source>Do not ignore Non-TCA-Fields (like deleted, hidden)</source>
+				<target>Non-TCA-Fields nicht ignorieren (like deleted, hidden)</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.feuseredit.doubleoptin" resname="plugin.t3users.flexform.feuseredit.doubleoptin"  approved="yes">
+				<source>change via Double-Opt-In?</source>
+				<target>per Double-Opt-In ändern?</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.feuseredit.mode" resname="plugin.t3users.flexform.feuseredit.mode"  approved="yes">
+				<source>Mode</source>
+				<target>Modus</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.feuseredit.mode.normal" resname="plugin.t3users.flexform.feuseredit.mode.normal"  approved="yes">
+				<source>change Data</source>
+				<target>Daten ändern</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.feuseredit.mode.check" resname="plugin.t3users.flexform.feuseredit.mode.check"  approved="yes">
+				<source>check Double-Opt-In link</source>
+				<target>Double-Opt-In Link prüfen</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.feuseredit.doubleoptin.pid" resname="plugin.t3users.flexform.feuseredit.doubleoptin.pid"  approved="yes">
+				<source>Page where Double-Opt-In is checked</source>
+				<target>Seite auf der Double-Opt-In geprüft wird</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.feuseredit.redirect.pid" resname="plugin.t3users.flexform.feuseredit.redirect.pid"  approved="yes">
+				<source>Redirect after sending data</source>
+				<target>Weiterleitungsseite nach dem Absenden</target>
+			</trans-unit>
+			<trans-unit id="plugin.t3users.flexform.renewSession.intervallInSeconds" resname="plugin.t3users.flexform.renewSession.intervallInSeconds"  approved="yes">
+				<source>Interval for renewal (in seconds)</source>
+				<target>Intervall für Erneuerung (in Sekunden)</target>
+			</trans-unit>
+			<trans-unit id="fe_users.first_name" resname="fe_users.first_name"  approved="yes">
+				<source>First name</source>
+				<target>Vorname</target>
+			</trans-unit>
+			<trans-unit id="fe_users.last_name" resname="fe_users.last_name"  approved="yes">
+				<source>Last name</source>
+				<target>Nachname</target>
+			</trans-unit>
+			<trans-unit id="fe_users.birthday" resname="fe_users.birthday"  approved="yes">
+				<source>Date of birth</source>
+				<target>Geburtsdatum</target>
+			</trans-unit>
+			<trans-unit id="fe_users.gender" resname="fe_users.gender"  approved="yes">
+				<source>Mr./Ms.</source>
+				<target>Hr./Fr.</target>
+			</trans-unit>
+			<trans-unit id="fe_users_gender_mr" resname="fe_users_gender_mr"  approved="yes">
+				<source>Mr.</source>
+				<target>Hr.</target>
+			</trans-unit>
+			<trans-unit id="fe_users_gender_ms" resname="fe_users_gender_ms"  approved="yes">
+				<source>Ms.</source>
+				<target>Fr.</target>
+			</trans-unit>
+			<trans-unit id="tx_t3users_log" resname="tx_t3users_log"  approved="yes">
+				<source>T3users logging entry</source>
+				<target>T3users Logeintrag</target>
+			</trans-unit>
+			<trans-unit id="tx_t3users_log_typ" resname="tx_t3users_log_typ"  approved="yes">
+				<source>Type</source>
+				<target>Typ</target>
+			</trans-unit>
+			<trans-unit id="tx_t3users_log_tstamp" resname="tx_t3users_log_tstamp"  approved="yes">
+				<source>Time stamp</source>
+				<target>Zeitstemple</target>
+			</trans-unit>
+			<trans-unit id="tx_t3users_log_feuser" resname="tx_t3users_log_feuser"  approved="yes">
+				<source>FE User</source>
+				<target>FE Nutzer</target>
+			</trans-unit>
+			<trans-unit id="tx_t3users_log_beuser" resname="tx_t3users_log_beuser"  approved="yes">
+				<source>BE User</source>
+				<target>BE Nutzer</target>
+			</trans-unit>
+			<trans-unit id="tx_t3users_log_recuid" resname="tx_t3users_log_recuid"  approved="yes">
+				<source>Affected record UID</source>
+				<target>Betroffener Datensatz</target>
+			</trans-unit>
+			<trans-unit id="tx_t3users_log_rectable" resname="tx_t3users_log_rectable"  approved="yes">
+				<source>Affected record Table</source>
+				<target>Tabelle des betroffenen Datensatzes</target>
+			</trans-unit>
+			<trans-unit id="tx_t3users_log_data" resname="tx_t3users_log_data"  approved="yes">
+				<source>Additional data</source>
+				<target>Zusätzliche Daten</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

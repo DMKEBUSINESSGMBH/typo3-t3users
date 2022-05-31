@@ -16,26 +16,23 @@ if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users'
     $feUsersExtendedFields = [
         'gender' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.gender',
+            'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:fe_users.gender',
             'config' => [
                 'type' => 'radio',
                 'items' => [
-                    ['LLL:EXT:t3users/locallang_db.xml:fe_users_gender_mr', '0'],
-                    ['LLL:EXT:t3users/locallang_db.xml:fe_users_gender_ms', '1'],
+                    ['LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:fe_users_gender_mr', '0'],
+                    ['LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:fe_users_gender_ms', '1'],
                 ],
             ],
         ],
         'birthday' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.birthday',
+            'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:fe_users.birthday',
             'config' => [
                 'type' => 'input',
                 'size' => '12',
                 'max' => '10',
                 'default' => '00-00-0000',
-                'wizards' => [
-                    'calendar' => $date2CalTCA,
-                ],
             ],
         ],
     ];
@@ -44,7 +41,7 @@ if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users'
         [
             'first_name' => [
                 'exclude' => 0,
-                'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.first_name',
+                'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:fe_users.first_name',
                 'config' => [
                     'type' => 'input',
                     'size' => '20',
@@ -55,7 +52,7 @@ if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users'
             ],
             'last_name' => [
                 'exclude' => 0,
-                'label' => 'LLL:EXT:t3users/locallang_db.xml:fe_users.last_name',
+                'label' => 'LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:fe_users.last_name',
                 'config' => [
                     'type' => 'input',
                     'size' => '20',

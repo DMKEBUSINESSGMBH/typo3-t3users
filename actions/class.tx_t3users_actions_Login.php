@@ -253,7 +253,7 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
         $markerArr['storage_pid'] = $this->getStoragePid($configurations);
         if ($parameters->offsetGet('NK_logintype')) { // User want's to logout
             if (\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'trackLogin')) {
-                tx_t3users_util_ServiceRegistry::getLoggingService()->logLogout($feuser->uid);
+                tx_t3users_util_ServiceRegistry::getLoggingService()->logLogout($feuser->getUid());
             }
             // Redirect with logout
             $redirect = intval($configurations->get('loginbox.logoutRedirectPage'));
@@ -312,7 +312,7 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
 
         if (!$finished) {
             if (\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'trackLogin')) {
-                tx_t3users_util_ServiceRegistry::getLoggingService()->logLogin($feuser->uid);
+                tx_t3users_util_ServiceRegistry::getLoggingService()->logLogin($feuser->getUid());
             }
             // Redirect to same page to avoid forced logout
             // Alternativ we redirect to a configured page

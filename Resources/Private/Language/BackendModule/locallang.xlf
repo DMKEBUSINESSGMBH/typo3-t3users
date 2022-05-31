@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-31T11:53:47Z" product-name="t3users">
+		<header/>
+		<body>
+			<trans-unit id="tx_t3users_module_name" resname="tx_t3users_module_name" >
+				<source>Manage FE users</source>
+			</trans-unit>
+			<trans-unit id="msg_search_feuser" resname="msg_search_feuser" >
+				<source>Search for fe users</source>
+			</trans-unit>
+			<trans-unit id="label_info" resname="label_info" >
+				<source>Info</source>
+			</trans-unit>
+			<trans-unit id="label_searchterm" resname="label_searchterm" >
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="label_pagemode_all" resname="label_pagemode_all" >
+				<source>All pages</source>
+			</trans-unit>
+			<trans-unit id="label_pagemode_current" resname="label_pagemode_current" >
+				<source>Current page</source>
+			</trans-unit>
+			<trans-unit id="label_active_user" resname="label_active_user" >
+				<source>Active users only</source>
+			</trans-unit>
+			<trans-unit id="label_hidden_user" resname="label_hidden_user" >
+				<source>Include hidden users</source>
+			</trans-unit>
+			<trans-unit id="label_uid" resname="label_uid" >
+				<source>UID</source>
+			</trans-unit>
+			<trans-unit id="label_name" resname="label_name" >
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="label_lastname" resname="label_lastname" >
+				<source>Last name</source>
+			</trans-unit>
+			<trans-unit id="label_firstname" resname="label_firstname" >
+				<source>First name</source>
+			</trans-unit>
+			<trans-unit id="label_email" resname="label_email" >
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="label_search4uid" resname="label_search4uid" >
+				<source>Search for user with uid</source>
+			</trans-unit>
+			<trans-unit id="label_founduser" resname="label_founduser" >
+				<source>found user</source>
+			</trans-unit>
+			<trans-unit id="label_foundusers" resname="label_foundusers" >
+				<source>found users</source>
+			</trans-unit>
+			<trans-unit id="btn_search" resname="btn_search" >
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="label_common_start" resname="label_common_start" >
+				<source>Requestinfos</source>
+			</trans-unit>
+			<trans-unit id="label_common_end" resname="label_common_end" >
+				<source>Requestinfos</source>
+			</trans-unit>
+			<trans-unit id="label_common_warning" resname="label_common_warning" >
+				<source>Warning</source>
+			</trans-unit>
+			<trans-unit id="label_common_error" resname="label_common_error" >
+				<source>Error</source>
+			</trans-unit>
+			<trans-unit id="label_common_info" resname="label_common_info" >
+				<source>Information</source>
+			</trans-unit>
+			<trans-unit id="label_search_form" resname="label_search_form" >
+				<source>Filter</source>
+			</trans-unit>
+			<trans-unit id="label_buttons" resname="label_buttons" >
+				<source>Functions</source>
+			</trans-unit>
+			<trans-unit id="label_pager" resname="label_pager" >
+				<source>Navigation</source>
+			</trans-unit>
+			<trans-unit id="label_list" resname="label_list" >
+				<source>Results</source>
+			</trans-unit>
+			<trans-unit id="label_search" resname="label_search" >
+				<source>Free text search:</source>
+			</trans-unit>
+			<trans-unit id="label_hidden" resname="label_hidden" >
+				<source>Hidden entries:</source>
+			</trans-unit>
+			<trans-unit id="label_button_search" resname="label_button_search" >
+				<source>search</source>
+			</trans-unit>
+			<trans-unit id="label_select_hide_hidden" resname="label_select_hide_hidden" >
+				<source>hide</source>
+			</trans-unit>
+			<trans-unit id="label_select_show_hidden" resname="label_select_show_hidden" >
+				<source>show</source>
+			</trans-unit>
+			<trans-unit id="label_list_size" resname="label_list_size" >
+				<source>Entries found: </source>
+			</trans-unit>
+			<trans-unit id="label_add_feuser" resname="label_add_feuser" >
+				<source>Create new FE-User</source>
+			</trans-unit>
+			<trans-unit id="label_tableheader_uid" resname="label_tableheader_uid" >
+				<source>Uid</source>
+			</trans-unit>
+			<trans-unit id="label_tableheader_actions" resname="label_tableheader_actions" >
+				<source>Actions</source>
+			</trans-unit>
+			<trans-unit id="label_tableheader_username" resname="label_tableheader_username" >
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="label_tableheader_firstname" resname="label_tableheader_firstname" >
+				<source>Firstname</source>
+			</trans-unit>
+			<trans-unit id="label_tableheader_lastname" resname="label_tableheader_lastname" >
+				<source>Lastname</source>
+			</trans-unit>
+			<trans-unit id="label_tableheader_usergroup" resname="label_tableheader_usergroup" >
+				<source>Usergroup</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

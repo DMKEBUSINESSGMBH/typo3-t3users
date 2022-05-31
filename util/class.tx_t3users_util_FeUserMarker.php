@@ -239,7 +239,7 @@ class tx_t3users_util_FeUserMarker extends \Sys25\RnBase\Frontend\Marker\SimpleM
     ) {
         parent::prepareLinks($feuser, $marker, $markerArray, $subpartArray, $wrappedSubpartArray, $confId, $formatter, $template);
         if ($feuser->isDetailsEnabled()) {
-            $this->initLink($markerArray, $subpartArray, $wrappedSubpartArray, $formatter, $confId, 'details', $marker, ['feuserId' => $feuser->uid], $template);
+            $this->initLink($markerArray, $subpartArray, $wrappedSubpartArray, $formatter, $confId, 'details', $marker, ['feuserId' => $feuser->getUid()], $template);
         } else {
             $linkMarker = $marker.'_'.strtoupper('details').'LINK';
             $this->disableLink($markerArray, $subpartArray, $wrappedSubpartArray, $linkMarker, false);

@@ -33,28 +33,14 @@ define('ICON_FATAL', 3);
  *
  * @author  Rene Nitzsche <dev@dmk-ebusiness.de>
  */
-class tx_t3users_mod_index extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
+class tx_t3users_mod_index
 {
-    /**
-     * Returns the module menu.
-     *
-     * @return  array with menuitems
-     */
-    public function modMenu()
-    {
-        global $LANG;
+    public $pObj;
 
-        return [
-//      "tx_lmo2cfcleague_modfunc1_check" => "",
-        ];
-    }
-
-    public function init(&$pObj, $MCONF)
+    public function init($pObj, $MCONF)
     {
-        parent::init($pObj, $MCONF);
-        $this->MCONF = $pObj->MCONF;
-        $this->id = $pObj->id;
-        $GLOBALS['LANG']->includeLLFile('EXT:t3users/mod/locallang.xml');
+        $this->pObj = $pObj;
+        $GLOBALS['LANG']->includeLLFile('EXT:t3users/Resources/Private/Language/BackendModule/locallang.xlf');
     }
 
     /**
@@ -64,12 +50,6 @@ class tx_t3users_mod_index extends \TYPO3\CMS\Backend\Module\AbstractFunctionMod
      */
     public function main()
     {
-        // Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
-        global $SOBE,$BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS, $IMPORT_FUNC;
-        /*
-        Vorgehen
-        --------
-        */
         $this->doc = $this->pObj->doc;
         $this->doc->tableLayout = \Sys25\RnBase\Backend\Utility\Tables::getTableLayout();
         $this->formTool = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Backend\Form\ToolBox::class);

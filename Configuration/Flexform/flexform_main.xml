@@ -8,7 +8,7 @@
     <sDEF>
       <ROOT>
         <TCEforms>
-          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.common</sheetTitle>
+          <sheetTitle>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.tab.common</sheetTitle>
         </TCEforms>
 
         <type>array</type>
@@ -16,45 +16,45 @@
           <action> <!-- Bezeichner ist frei wählbar -->
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.action</label>
               <config>
                 <type>select</type>
                 <renderType>selectMultipleSideBySide</renderType>
                 <items type="array">
                   <numIndex index="100" type="array">
-                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.LoginBox</numIndex>
+                    <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.action.LoginBox</numIndex>
                     <numIndex index="1">tx_t3users_actions_Login</numIndex>
                   </numIndex>
 
                   <numIndex index="105" type="array">
-                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ResetPassword</numIndex>
+                    <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.action.ResetPassword</numIndex>
                     <numIndex index="1">tx_t3users_actions_ResetPassword</numIndex>
                   </numIndex>
 
                   <numIndex index="110" type="array">
-                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.Registration</numIndex>
+                    <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.action.Registration</numIndex>
                     <numIndex index="1">tx_t3users_actions_ShowRegistration</numIndex>
                   </numIndex>
                   <numIndex index="120" type="array">
-                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.RegistrationConfirm</numIndex>
+                    <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.action.RegistrationConfirm</numIndex>
                     <numIndex index="1">tx_t3users_actions_ShowRegistrationConfirm</numIndex>
                   </numIndex>
 
                   <numIndex index="130" type="array">
-                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.EditFeUser</numIndex>
+                    <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.action.EditFeUser</numIndex>
                     <numIndex index="1">tx_t3users_actions_EditFeUser</numIndex>
                   </numIndex>
 
                   <numIndex index="140" type="array">
-                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ListFeUsers</numIndex>
+                    <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.action.ListFeUsers</numIndex>
                     <numIndex index="1">tx_t3users_actions_ListFeUsers</numIndex>
                   </numIndex>
                   <numIndex index="150" type="array">
-                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.ShowFeUser</numIndex>
+                    <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.action.ShowFeUser</numIndex>
                     <numIndex index="1">tx_t3users_actions_ShowFeUser</numIndex>
                   </numIndex>
                   <numIndex index="160" type="array">
-                    <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.action.RenewSession</numIndex>
+                    <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.action.RenewSession</numIndex>
                     <numIndex index="1">tx_t3users_actions_RenewSession</numIndex>
                   </numIndex>
 
@@ -124,13 +124,13 @@
     <s_loginbox>
       <ROOT>
         <TCEforms>
-          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.loginbox</sheetTitle>
+          <sheetTitle>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.tab.loginbox</sheetTitle>
         </TCEforms>
         <type>array</type>
         <el>
           <loginbox.header_welcome>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_welcome</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.header_welcome</label>
                 <config>
                 <type>input</type>
                 <size>30</size>
@@ -139,7 +139,7 @@
           </loginbox.header_welcome>
           <loginbox.message_welcome>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_welcome</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.message_welcome</label>
               <config>
                 <type>text</type>
                 <cols>30</cols>
@@ -149,7 +149,7 @@
           </loginbox.message_welcome>
           <loginbox.header_goodbye>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_goodbye</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.header_goodbye</label>
                 <config>
                 <type>input</type>
                 <size>30</size>
@@ -158,7 +158,7 @@
           </loginbox.header_goodbye>
           <loginbox.message_goodbye>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_goodbye</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.message_goodbye</label>
               <config>
                 <type>text</type>
                 <cols>30</cols>
@@ -168,7 +168,7 @@
           </loginbox.message_goodbye>
           <loginbox.header_login>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_login</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.header_login</label>
                 <config>
                 <type>input</type>
                 <size>30</size>
@@ -177,7 +177,7 @@
           </loginbox.header_login>
           <loginbox.message_login>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_login</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.message_login</label>
               <config>
                 <type>text</type>
                 <cols>30</cols>
@@ -187,7 +187,7 @@
           </loginbox.message_login>
           <loginbox.header_logout>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_logout</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.header_logout</label>
                 <config>
                 <type>input</type>
                 <size>30</size>
@@ -196,7 +196,7 @@
           </loginbox.header_logout>
           <loginbox.message_logout>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_logout</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.message_logout</label>
               <config>
                 <type>text</type>
                 <cols>30</cols>
@@ -206,7 +206,7 @@
           </loginbox.message_logout>
           <loginbox.header_login_error>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.header_login_error</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.header_login_error</label>
                 <config>
                 <type>input</type>
                 <size>30</size>
@@ -215,7 +215,7 @@
           </loginbox.header_login_error>
           <loginbox.message_login_error>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.message_login_error</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.message_login_error</label>
               <config>
                 <type>text</type>
                 <cols>30</cols>
@@ -226,7 +226,7 @@
 
           <loginbox.emailFrom>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.emailFrom</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.emailFrom</label>
                 <config>
                 <type>input</type>
                 <size>30</size>
@@ -235,7 +235,7 @@
           </loginbox.emailFrom>
           <loginbox.emailFromName>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.emailFromName</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.emailFromName</label>
                 <config>
                 <type>input</type>
                 <size>30</size>
@@ -244,7 +244,7 @@
           </loginbox.emailFromName>
           <loginbox.emailReply>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.emailReply</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.emailReply</label>
                 <config>
                 <type>input</type>
                 <size>30</size>
@@ -254,7 +254,7 @@
           <loginbox.loginRedirectPage>
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.loginRedirectPage</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.loginRedirectPage</label>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -269,7 +269,7 @@
           <loginbox.logoutRedirectPage>
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.logoutRedirectPage</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.logoutRedirectPage</label>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -285,7 +285,7 @@
           <loginTemplate>
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.loginbox.loginTemplate</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.loginbox.loginTemplate</label>
               <config>
                 <type>input</type>
                 <size>24</size>
@@ -300,24 +300,24 @@
     <s_feuseredit>
       <ROOT>
         <TCEforms>
-          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.feuseredit</sheetTitle>
+          <sheetTitle>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.tab.feuseredit</sheetTitle>
         </TCEforms>
         <type>array</type>
         <el>
             <feuseredit.mode>
                 <TCEforms>
                     <exclude>1</exclude>
-                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode</label>
+                    <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.feuseredit.mode</label>
                     <config>
                         <type>select</type>
                         <renderType>selectSingle</renderType>
                         <items type="array">
                           <numIndex index="1" type="array">
-                            <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode.normal</numIndex>
+                            <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.feuseredit.mode.normal</numIndex>
                             <numIndex index="1">normal</numIndex>
                           </numIndex>
                           <numIndex index="2" type="array">
-                            <numIndex index="0">LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.mode.check</numIndex>
+                            <numIndex index="0">LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.feuseredit.mode.check</numIndex>
                             <numIndex index="1">check</numIndex>
                           </numIndex>
                         </items>
@@ -331,7 +331,7 @@
             <feuseredit.enableNonTcaColumns>
                 <TCEforms>
                     <exclude>1</exclude>
-                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.enableNonTcaColumns</label>
+                    <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.feuseredit.enableNonTcaColumns</label>
                         <config>
                             <type>check</type>
                             <default>0</default>
@@ -341,7 +341,7 @@
             <feuseredit.doubleoptin>
                 <TCEforms>
                     <exclude>1</exclude>
-                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.doubleoptin</label>
+                    <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.feuseredit.doubleoptin</label>
                         <config>
                             <type>check</type>
                             <default>0</default>
@@ -351,7 +351,7 @@
             <feuseredit.doubleoptin.pid>
                 <TCEforms>
                     <exclude>1</exclude>
-                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.doubleoptin.pid</label>
+                    <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.feuseredit.doubleoptin.pid</label>
                     <config>
                         <type>input</type>
                         <size>5</size>
@@ -374,7 +374,7 @@
             <feuseredit.formxml>
                 <TCEforms>
                     <exclude>1</exclude>
-                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.xml</label>
+                    <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.feuseredit.xml</label>
                     <config>
                         <type>input</type>
                         <size>50</size>
@@ -401,7 +401,7 @@
             <feusereditTemplate>
                 <TCEforms>
                     <exclude>1</exclude>
-                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.template</label>
+                    <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.feuseredit.template</label>
                     <config>
                         <type>input</type>
                         <size>50</size>
@@ -428,7 +428,7 @@
             <feuseredit.redirect.pid>
                 <TCEforms>
                     <exclude>1</exclude>
-                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.feuseredit.redirect.pid</label>
+                    <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.feuseredit.redirect.pid</label>
                     <config>
                         <type>input</type>
                         <size>5</size>
@@ -454,13 +454,13 @@
     <s_userinfo>
       <ROOT>
         <TCEforms>
-          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.userinfo</sheetTitle>
+          <sheetTitle>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.tab.userinfo</sheetTitle>
         </TCEforms>
         <type>array</type>
         <el>
           <feuserlist.feuser.links.list.pid>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.listPage</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.userinfo.listPage</label>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -475,7 +475,7 @@
           <feuserlistTemplate>
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.listTemplate</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.userinfo.listTemplate</label>
               <config>
                 <type>input</type>
                 <size>24</size>
@@ -486,7 +486,7 @@
           </feuserlistTemplate>
           <feuserlist.feuser.links.details.pid>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.detailsPage</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.userinfo.detailsPage</label>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -500,7 +500,7 @@
           </feuserlist.feuser.links.details.pid>
           <feuserlist.staticUsers>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.staticUsers</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.userinfo.staticUsers</label>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -516,7 +516,7 @@
           <feuserdetailsTemplate>
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.detailsTemplate</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.userinfo.detailsTemplate</label>
               <config>
                 <type>input</type>
                 <size>24</size>
@@ -527,7 +527,7 @@
           </feuserdetailsTemplate>
           <feuserdetails.staticUser>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.staticUser</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.userinfo.staticUser</label>
               <config>
                 <type>group</type>
                 <internal_type>db</internal_type>
@@ -542,7 +542,7 @@
            <feuserdetails.currentUser>
                 <TCEforms>
                     <exclude>1</exclude>
-                    <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.userinfo.currentUser</label>
+                    <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.userinfo.currentUser</label>
                         <config>
                             <type>check</type>
                             <default>0</default>
@@ -555,13 +555,13 @@
     <s_renewSession>
       <ROOT>
         <TCEforms>
-          <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.renewSession</sheetTitle>
+          <sheetTitle>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.tab.renewSession</sheetTitle>
         </TCEforms>
         <type>array</type>
         <el>
           <intervallInSeconds>
             <TCEforms>
-              <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.renewSession.intervallInSeconds</label>
+              <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.renewSession.intervallInSeconds</label>
               <config>
                 <type>input</type>
                 <size>5</size>
@@ -576,14 +576,14 @@
         <s_tssetup>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tab.TSSetup</sheetTitle>
+                    <sheetTitle>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.tab.TSSetup</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <flexformTS>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>LLL:EXT:t3users/locallang_db.xml:plugin.t3users.flexform.tssetup</label>
+                            <label>LLL:EXT:t3users/Resources/Private/Language/locallang_db.xlf:plugin.t3users.flexform.tssetup</label>
                             <config>
                                 <type>text</type>
                                 <cols>80</cols>
