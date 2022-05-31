@@ -67,15 +67,7 @@
             <label index="fe_users.gender">Mr./Ms.</label>
             <label index="fe_users_gender_mr">Mr.</label>
             <label index="fe_users_gender_ms">Ms.</label>
-            <label index="fe_users_t3usersroles">Roles</label>
 
-            <label index="tx_t3users_roles">T3users role</label>
-            <label index="tx_t3users_roles.name">Name</label>
-            <label index="tx_t3users_roles.description">Description</label>
-            <label index="tx_t3users_roles.owner">Owner</label>
-
-            <label index="tx_t3users_rights">T3users right</label>
-            <label index="tx_t3users_rights.sign">T3users right</label>
 
             <label index="tx_t3users_log">T3users logging entry</label>
             <label index="tx_t3users_log_typ">Type</label>
@@ -137,7 +129,6 @@
             <label index="fe_users.gender">Hr./Fr.</label>
             <label index="fe_users_gender_mr">Hr.</label>
             <label index="fe_users_gender_ms">Fr.</label>
-            <label index="fe_users_t3usersroles">Rollen</label>
 
             <label index="tx_t3users_log">T3users Logeintrag</label>
             <label index="tx_t3users_log_typ">Typ</label>
@@ -147,10 +138,6 @@
             <label index="tx_t3users_log_recuid">Betroffener Datensatz</label>
             <label index="tx_t3users_log_rectable">Tabelle des betroffenen Datensatzes</label>
             <label index="tx_t3users_log_data">Zusätzliche Daten</label>
-
-            <label index="tx_t3users_roles.description">Beschreibung</label>
-            <label index="tx_t3users_roles.owner">Besitzer</label>
-
         </languageKey>
     </data>
 </T3locallang>

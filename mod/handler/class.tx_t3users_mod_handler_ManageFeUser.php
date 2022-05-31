@@ -1,16 +1,14 @@
 <?php
 
-tx_rnbase::load('tx_rnbase_mod_IModHandler');
-
 /**
  * Backend Modul Praxisbörse.
  */
-class tx_t3users_mod_handler_ManageFeUser implements tx_rnbase_mod_IModHandler
+class tx_t3users_mod_handler_ManageFeUser implements \Sys25\RnBase\Backend\Module\IModHandler
 {
     /**
      * Das aktuelle Modul.
      *
-     * @var tx_rnbase_mod_IModule
+     * @var \Sys25\RnBase\Backend\Module\IModule
      */
     protected $mod;
 
@@ -26,12 +24,12 @@ class tx_t3users_mod_handler_ManageFeUser implements tx_rnbase_mod_IModHandler
 
     /**
      * @param string $template
-     * @param tx_rnbase_mod_IModule $mod
+     * @param \Sys25\RnBase\Backend\Module\IModule $mod
      * @param array $options
      *
      * @return string
      */
-    public function showScreen($template, tx_rnbase_mod_IModule $mod, $options)
+    public function showScreen($template, \Sys25\RnBase\Backend\Module\IModule $mod, $options)
     {
         $markerArray = [];
         $lister = $this->getLister($mod, $options);
@@ -46,7 +44,7 @@ class tx_t3users_mod_handler_ManageFeUser implements tx_rnbase_mod_IModHandler
         );
 
         // mehr Marker per Hook
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'mod_feuser_getMoreMarker',
             ['markerArray' => &$markerArray, 'mod' => $mod],
@@ -55,28 +53,27 @@ class tx_t3users_mod_handler_ManageFeUser implements tx_rnbase_mod_IModHandler
 
         $template = tx_t3users_util_LoginAsFEUser::hijackUser().$template;
 
-        tx_rnbase::load('tx_rnbase_util_Templates');
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray);
 
         return $out;
     }
 
     /**
-     * @param tx_rnbase_mod_IModule $mod
+     * @param \Sys25\RnBase\Backend\Module\IModule $mod
      * @param array $options
      *
      * @return tx_t3users_mod_lister_FeUser
      */
-    private function getLister(tx_rnbase_mod_IModule $mod, $options)
+    private function getLister(\Sys25\RnBase\Backend\Module\IModule $mod, $options)
     {
         // @TODO: das ist falsch, die ID muss von getSubID geholt werden
         // das würde dann ManageFeUser.listerclass ergeben!
         $lister = $mod->getConfigurations()->get('feuser.listerclass');
         if ($lister) {
-            return tx_rnbase::makeInstance($lister, $mod, $options);
+            return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($lister, $mod, $options);
         }
 
-        return tx_rnbase::makeInstance('tx_t3users_mod_lister_FeUser', $mod, $options);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_mod_lister_FeUser', $mod, $options);
     }
 
     /**
@@ -100,11 +97,7 @@ class tx_t3users_mod_handler_ManageFeUser implements tx_rnbase_mod_IModHandler
     }
 
     public function handleRequest(
-        tx_rnbase_mod_IModule $mod
+        \Sys25\RnBase\Backend\Module\IModule $mod
     ) {
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/handler/class.tx_t3users_mod_handler_ManageFeUser.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/handler/class.tx_t3users_mod_handler_ManageFeUser.php'];
 }

@@ -28,28 +28,24 @@
  * benötigte Klassen einbinden
  */
 
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
-
 /**
  * per Ajax aktuelle Seite in einem bestimmten Intervall aufrufen
  * um ein automatisches Logout von TYPO3 zu verhindern.
  *
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  */
-class tx_t3users_actions_RenewSession extends tx_rnbase_action_BaseIOC
+class tx_t3users_actions_RenewSession extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
     /**
      * per Ajax aktuelle Seite in einem bestimmten Intervall aufrufen
      * um ein automatisches Logout von TYPO3 zu verhindern.
      *
-     * @param tx_rnbase_parameters $parameters
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
-     *
-     * @return string error msg or null
+     * @return string
      */
-    protected function handleRequest(&$parameters, &$configurations, &$viewdata)
+    public function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
+        $configurations = $request->getConfigurations();
+
         $intervallInSeconds =
             $configurations->get($this->getConfId().'intervallInSeconds');
 
@@ -99,10 +95,6 @@ class tx_t3users_actions_RenewSession extends tx_rnbase_action_BaseIOC
      */
     public function getViewClassName()
     {
-        return 'tx_rnbase_view_Base';
+        return \Sys25\RnBase\Frontend\View\Marker\BaseView::class;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_Login.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_Login.php'];
 }

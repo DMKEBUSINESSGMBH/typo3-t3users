@@ -22,42 +22,29 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_view_Base');
-tx_rnbase::load('tx_rnbase_util_BaseMarker');
-tx_rnbase::load('tx_rnbase_util_Templates');
-
 /**
  * Viewklasse für die Darstellung der Loginbox.
  */
-class tx_t3users_views_ResetPassword extends tx_rnbase_view_Base
+class tx_t3users_views_ResetPassword extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
-    /**
-     * Enter description here...
-     *
-     * @param string $template
-     * @param arrayobject $viewData
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param tx_rnbase_util_FormatUtil $formatter
-     *
-     * @return string
-     */
-    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    protected function createOutput($template, \Sys25\RnBase\Frontend\Request\RequestInterface $request, $formatter)
     {
+        $viewData = $request->getViewContext();
         // Wir holen die Daten von der Action ab
         $feuser = $viewData->offsetGet('feuser');
-        $subpart = $viewData->offsetGet('subpart');
         $linkParams = $viewData->offsetGet('linkparams');
 
         $markers = [];
         $markers['message'] = $viewData->offsetGet('message');
-        $markerArray = $formatter->getItemMarkerArrayWrapped($markers, $this->getController()->getConfId().'marker.', 0, '');
+        $markerArray = $formatter->getItemMarkerArrayWrapped($markers, $request->getConfId().'marker.', 0, '');
 
-        $markerArray['###ACTION_URI###'] = $this->createPageUri($configurations, $linkParams);
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $markerArray['###ACTION_URI###'] = $this->createPageUri($request->getConfigurations(), $linkParams);
+        $subpartArray = $wrappedSubpartArray = [];
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
         if (is_object($feuser)) {
             // Jetzt mit dem FEuser-Marker drüber
-            $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+            $marker = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
             $out = $marker->parseTemplate($out, $feuser, $formatter, 'loginbox.feuser.');
         }
 
@@ -75,20 +62,10 @@ class tx_t3users_views_ResetPassword extends tx_rnbase_view_Base
         return $link->makeUrl(false);
     }
 
-    /**
-     * Subpart der im HTML-Template geladen werden soll. Dieser wird der Methode
-     * createOutput automatisch als $template übergeben.
-     *
-     * @return string
-     */
-    public function getMainSubpart(&$viewData)
+    public function getMainSubpart(\Sys25\RnBase\Frontend\View\ContextInterface $viewData)
     {
         $subpart = $viewData->offsetGet('subpart');
 
         return $subpart ? '###RESETPASSWORD_'.strtoupper($subpart).'###' : '###RESETPASSWORD_FORM###';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ResetPassword.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ResetPassword.php'];
 }

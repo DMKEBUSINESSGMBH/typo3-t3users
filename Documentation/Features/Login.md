@@ -73,7 +73,7 @@ alternative TypoScript path: *plugin.tx\_t3users\_main.loginbox.logoutRedirectPa
 
 **HTML template**
 
-File for the HTML template. Default is EXT:t3users/templates/loginbox.html
+File for the HTML template. Default is EXT:t3users/Resources/Private/Templates/loginbox.html
 
 Links
 -----
@@ -105,7 +105,7 @@ or constants: *plugin.tx\_t3users.registerPage*
 HTML Template
 -------------
 
-The default is EXT:t3users/templates/loginbox.html. It can look like this:
+The default is EXT:t3users/Resources/Private/Templates/loginbox.html. It can look like this:
 
 ~~~~ {.sourceCode .html}
 <h1>Start with template for loginbox</h1>
@@ -293,11 +293,7 @@ Crypt send password
 You can choose how the password should be crypted when sending the login. Default is auto which should be fine for most users, but you can specify it. Possible values are these:
 
 -   none
--   auto
--   nomd5
--   md5
 -   rsa
--   rsa62
 
 Password forgotten
 ------------------

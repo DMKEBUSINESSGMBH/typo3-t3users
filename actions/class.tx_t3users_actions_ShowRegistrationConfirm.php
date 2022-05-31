@@ -22,21 +22,17 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
-tx_rnbase::load('tx_t3users_models_feuser');
-
 /**
  * Controller für die Bestätigung einer Neuregistrierung.
  */
-class tx_t3users_actions_ShowRegistrationConfirm extends tx_rnbase_action_BaseIOC
+class tx_t3users_actions_ShowRegistrationConfirm extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
-    /**
-     * @param \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param ArrayObject $viewData
-     */
-    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    public function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
+        $parameters = $request->getParameters();
+        $configurations = $request->getConfigurations();
+        $viewData = $request->getViewContext();
+
         $confirm = $parameters->get('confirm');
         if (!$confirm) {
             return '<!-- -->';

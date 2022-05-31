@@ -4,12 +4,10 @@
  * benötigte Klassen einbinden
  */
 
-tx_rnbase::load('tx_rnbase_mod_ExtendedModFunc');
-
 /**
  * Backend Modul für Formulare.
  */
-class tx_t3users_mod_FeUser extends tx_rnbase_mod_ExtendedModFunc
+class tx_t3users_mod_FeUser extends \Sys25\RnBase\Backend\Module\ExtendedModFunc
 {
     /**
      * Method getFuncId.
@@ -28,7 +26,7 @@ class tx_t3users_mod_FeUser extends tx_rnbase_mod_ExtendedModFunc
     protected function getSubMenuItems()
     {
         $menuItems = [];
-        $menuItems[] = tx_rnbase::makeInstance('tx_t3users_mod_handler_ManageFeUser');
+        $menuItems[] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_mod_handler_ManageFeUser');
 
         return $menuItems;
     }
@@ -37,8 +35,4 @@ class tx_t3users_mod_FeUser extends tx_rnbase_mod_ExtendedModFunc
     {
         return false;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_FeUser.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_FeUser.php'];
 }

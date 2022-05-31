@@ -4,8 +4,6 @@ Developer Section
 There are some useful classes shipped with this extension. Here is a small code snippet:
 
 ~~~~ {.sourceCode .php}
-tx_rnbase::load('tx_t3users_models_feuser);
-
 // Let's get the current fe_user
 $user = tx_t3users_models_feuser::getInstance($uid);
 
@@ -14,7 +12,7 @@ if (!$user) {
 }
 
 // Show some details. With record you have access to the complete db record
-echo 'Hello ' . $user->record['username'] . '! You are member of these groups: ';
+echo 'Hello ' . $user->getProperty('username') . '! You are member of these groups: ';
 
 // Now retrieve users fe-groups
 $groups = $user->getGroups();

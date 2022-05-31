@@ -1,8 +1,8 @@
 <?php
-use Sys25\RnBase\Utility\TYPO3;
-use Sys25\RnBase\Utility\Logger;
+
 use Sys25\RnBase\Database\Connection;
-use Sys25\RnBase\Utility\Strings;
+use Sys25\RnBase\Utility\Logger;
+use Sys25\RnBase\Utility\TYPO3;
 
 /***************************************************************
  *  Copyright notice
@@ -32,7 +32,7 @@ use Sys25\RnBase\Utility\Strings;
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rnbase_Domain_Repository_InterfaceSearch
+class tx_t3users_services_feuser extends \TYPO3\CMS\Core\Service\AbstractService implements \Sys25\RnBase\Domain\Repository\SearchInterface
 {
     /**
      * Find a user by mail address.
@@ -44,7 +44,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      */
     public function getUserByEmail($email, $pids = '')
     {
-        if (!($email && Strings::validEmail($email))) {
+        if (!($email && \TYPO3\CMS\Core\Utility\GeneralUtility::validEmail($email))) {
             return false;
         }
 
@@ -66,7 +66,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      */
     public function getDisabledUserByEmail($email, $pids = '')
     {
-        if (!($email && Strings::validEmail($email))) {
+        if (!($email && \TYPO3\CMS\Core\Utility\GeneralUtility::validEmail($email))) {
             return false;
         }
 
@@ -190,11 +190,9 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             if ($saltedPasswordUtility::isUsageEnabled()) {
                 // generate password for db
                 $cconf = $saltedPasswordUtility::returnExtConf();
-                $objPHPass = tx_rnbase::makeInstance($cconf['saltedPWHashingMethod']);
+                $objPHPass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($cconf['saltedPWHashingMethod']);
                 $newPassword = $objPHPass->getHashedPassword($newPassword);
             }
-        } elseif ($this->useMD5()) {
-            $newPassword = md5($newPassword);
         }
 
         return $newPassword;
@@ -231,32 +229,23 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         if ($this->useSaltedPasswords()) {
             $saltedPasswordUtility = $this->getSaltedPasswordUtility();
             if ($saltedPasswordUtility::isUsageEnabled()) {
-                $new_password = $this->generatePassword($defaultLength);    //generate password
+                $new_password = $this->generatePassword($defaultLength);    // generate password
                 $ret = $new_password; // for return in email
                 // generate password for db
                 $cconf = $saltedPasswordUtility::returnExtConf();
-                $objPHPass = tx_rnbase::makeInstance($cconf['saltedPWHashingMethod']);
+                $objPHPass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($cconf['saltedPWHashingMethod']);
                 $new_password = $objPHPass->getHashedPassword($new_password);
                 // save password to db
                 $values = ['password' => $new_password];
                 $where = 'uid = '.$feuser->getUid();
                 Connection::getInstance()->doUpdate('fe_users', $where, $values, 0);
             } else {
-                tx_rnbase::load('tx_rnbase_util_Logger');
                 Logger::warn(
                     'saltedpasswords soll verwendet werden, ist aber für die Verwendung'.
                     'im FE nicht aktiviert. Bitte im Extension Manager bei saltedpasswords'.
                     'die Nutzung im FE aktivieren. Sonst kann kein neues Passwort erstellt werden.',
                     't3users'
                 );
-            }
-        } elseif ($this->useMD5()) {
-            if ($feuser->isValid()) {
-                $new_password = $this->generatePassword($defaultLength);
-                $values = ['password' => md5($new_password)];
-                $where = 'uid = '.$feuser->getUid();
-                Connection::getInstance()->doUpdate('fe_users', $where, $values, 0);
-                $ret = $new_password;
             }
         } else {
             // No encryption. We load the password vom database
@@ -305,7 +294,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
     /**
      * für tests.
      *
-     * @return Tx_Rnbase_Database_Connection
+     * @return Connection
      */
     protected function getRnBaseDbUtil()
     {
@@ -335,20 +324,9 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      */
     public function search(array $fields, array $options)
     {
-        tx_rnbase::load('tx_rnbase_util_SearchBase');
-        $searcher = tx_rnbase_util_SearchBase::getInstance('tx_t3users_search_feuser');
+        $searcher = \Sys25\RnBase\Search\SearchBase::getInstance('tx_t3users_search_feuser');
 
         return $searcher->search($fields, $options);
-    }
-
-    /**
-     * Whether or not md5 encryption is enabled.
-     *
-     * @return bool
-     */
-    public function useMD5()
-    {
-        return tx_rnbase_util_Extensions::isLoaded('kb_md5fepw');
     }
 
     /**
@@ -358,17 +336,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      */
     public function useSaltedPasswords()
     {
-        return tx_rnbase_util_Extensions::isLoaded('saltedpasswords');
-    }
-
-    /**
-     * Whether or not RSA encryption is enabled.
-     */
-    public function useRSA()
-    {
-        return
-            ('rsa' == $GLOBALS['TYPO3_CONF_VARS']['FE']['loginSecurityLevel']) &&
-            tx_rnbase_util_Extensions::isLoaded('rsaauth');
+        return \Sys25\RnBase\Utility\Extensions::isLoaded('saltedpasswords');
     }
 
     /**
@@ -385,7 +353,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         $pw = '';
         $last = '';
         $i = 0;
-        mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
+        mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7FFFFFFF);
         while ($i < $len) {
             $new = substr($pool, mt_rand(0, $strlen), 1);
             if ($new != $last) {
@@ -415,7 +383,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             $ret = 0 == intval($feuser->getProperty('disable'));
         } elseif ($feuser->getProperty('confirmstring') == $confirmString) {
             $values = ['disable' => 0, 'confirmstring' => 0];
-            tx_rnbase_util_Misc::callHook(
+            \Sys25\RnBase\Utility\Misc::callHook(
                 't3users',
                 'srv_feuser_confirmUser_before',
                 ['values' => &$values, 'feuser' => $feuser],
@@ -435,7 +403,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
                 tx_t3users_util_ServiceRegistry::getEmailService()
                     ->sendNotificationAboutConfirmationToFeUser($feuser, $options['configurations']);
             }
-            tx_rnbase_util_Misc::callHook(
+            \Sys25\RnBase\Utility\Misc::callHook(
                 't3users',
                 'srv_feuser_confirmUser_finished',
                 ['feuser' => $feuser, 'options' => $options],
@@ -444,8 +412,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
 
             $ret = true;
         } else {
-            tx_rnbase::load('tx_rnbase_util_Logger');
-            tx_rnbase_util_Logger::notice(
+            Logger::notice(
                 'confirmation failed for feuser with uid '.$feuser->getUid(),
                 't3users',
                 ['submitted' => $confirmString, 'stored' => $feuser->getProperty('confirmstring')]
@@ -463,13 +430,13 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      */
     public function addFeGroups(&$feuser, $feGroupIds)
     {
-        $feGroupIds = strlen($feGroupIds) ? Tx_Rnbase_Utility_Strings::intExplode(',', $feGroupIds) : [];
+        $feGroupIds = strlen($feGroupIds) ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $feGroupIds) : [];
         if (!count($feGroupIds)) {
             return;
         } // Nothing to do
 
         $oldFeGroups = $feuser->getProperty('usergroup');
-        $oldFeGroups = strlen($oldFeGroups) ? Tx_Rnbase_Utility_Strings::intExplode(',', $oldFeGroups) : [];
+        $oldFeGroups = strlen($oldFeGroups) ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $oldFeGroups) : [];
         $oldFeGroupsKeys = array_flip($oldFeGroups);
         foreach ($feGroupIds as $feGroupId) {
             if (!array_key_exists($feGroupId, $oldFeGroupsKeys)) {
@@ -489,7 +456,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
      */
     public function removeFeGroup($feuser, $feGroupIds)
     {
-        $feGroupIds = strlen($feGroupIds) ? Tx_Rnbase_Utility_Strings::intExplode(',', $feGroupIds) : [];
+        $feGroupIds = strlen($feGroupIds) ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $feGroupIds) : [];
         if (!count($feGroupIds)) {
             return;
         } // Nothing to do
@@ -498,7 +465,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         if (!strlen($oldFeGroups)) {
             return;
         } // Es sind gar keine Gruppen gesetzt
-        $oldFeGroups = Tx_Rnbase_Utility_Strings::intExplode(',', $oldFeGroups);
+        $oldFeGroups = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $oldFeGroups);
         $oldFeGroups = array_flip($oldFeGroups);
         // Jetzt die gelöschten Gruppen entfernen
         foreach ($feGroupIds as $feGroupId) {
@@ -535,7 +502,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
         }
         $where = 'uid = '.$uid;
 
-        return Tx_Rnbase_Database_Connection::getInstance()->doUpdate('fe_users', $where, $values, 0);
+        return Connection::getInstance()->doUpdate('fe_users', $where, $values, 0);
     }
 
     /**
@@ -611,7 +578,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
 
         // Wir benötigen ein Hash und ein Ablaufdatum
         $data = [
-            'confirmtimeout' => tx_rnbase_util_Dates::datetime_tstamp2mysql(strtotime('+2 days')),
+            'confirmtimeout' => \Sys25\RnBase\Utility\Dates::datetime_tstamp2mysql(strtotime('+2 days')),
         ];
         $secret = $configurations->get($confId.'passwordsecret');
         $data['confirmstring'] = md5($data['confirmtimeout'].$secret.$feuser->getUid());
@@ -657,7 +624,7 @@ class tx_t3users_services_feuser extends Tx_Rnbase_Service_Base implements Tx_Rn
             return null;
         }
         // Ist die Zeit noch okay
-        $timeout = tx_rnbase_util_Dates::datetime_mysql2tstamp($feUser->getProperty('confirmtimeout'));
+        $timeout = \Sys25\RnBase\Utility\Dates::datetime_mysql2tstamp($feUser->getProperty('confirmtimeout'));
         if ($timeout < time()) {
             Logger::info(
                 'Password reset failed on timeout',

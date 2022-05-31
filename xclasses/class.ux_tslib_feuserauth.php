@@ -1,4 +1,7 @@
 <?php
+
+use Psr\Http\Message\ServerRequestInterface;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -22,36 +25,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_TYPO3');
-if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-    /**
-     * tx_t3users_FrontendUserAuthenticationBase.
-     *
-     * Wrapper für TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication seit TYPO3 6.x
-     *
-     * @author          Hannes Bochmann <rene@system25.de>
-     * @license         http://www.gnu.org/licenses/lgpl.html
-     *                  GNU Lesser General Public License, version 3 or later
-     */
-    class tx_t3users_FrontendUserAuthenticationBase extends TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
-    {
-    }
-} else {
-    /**
-     * tx_t3users_FrontendUserAuthenticationBase.
-     *
-     * Wrapper für tslib_feUserAuth bis TYPO3 6.x
-     *
-     * @author          Hannes Bochmann <rene@system25.de>
-     * @license         http://www.gnu.org/licenses/lgpl.html
-     *                  GNU Lesser General Public License, version 3 or later
-     */
-    class tx_t3users_FrontendUserAuthenticationBase extends tslib_feUserAuth
-    {
-    }
-}
-
-class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
+class ux_tslib_feuserauth extends \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
 {
     public $beforelastLogin_column = 'beforelastlogin';
 
@@ -62,35 +36,16 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
      *
      * @see tslib_feUserAuth::start()
      */
-    public function start()
+    public function start(ServerRequestInterface $request = null)
     {
-        $sessionTimeoutField = $this->getSessionTimeoutFieldByTypo3Version();
-
-        // backport of TYPO3 9.x feature to have a server-side FE session timeout
-        // @see https://docs.typo3.org/typo3cms/extensions/core/Changelog/9.0/Feature-78695-SetTheSessionTimeoutForFrontendUsers.html
-        // @todo can be removed when support for TYPO3 < 9 is dropped
-        if (!tx_rnbase_util_TYPO3::isTYPO3VersionOrHigher(9000000)) {
-            $this->$sessionTimeoutField = (int) $GLOBALS['TYPO3_CONF_VARS']['FE']['sessionTimeout'];
-        }
-
         // TYPO3 8 or higher expect fieldname instead integer
         // https://github.com/TYPO3/TYPO3.CMS/commit/38f938207aebac724786613737d5fadb5af8e7af
         // Set auto timeout to lifetime, if lifetime set
         if (intval($this->lifetime) > 0) {
-            $this->$sessionTimeoutField = $this->lifetime;
+            $this->sessionTimeout = $this->lifetime;
         }
 
         parent::start();
-    }
-
-    /**
-     * @return string
-     */
-    public function getSessionTimeoutFieldByTypo3Version()
-    {
-        return (tx_rnbase_util_TYPO3::isTYPO80OrHigher())
-                ? 'sessionTimeout'
-                : 'auth_timeout_field';
     }
 
     /**
@@ -101,16 +56,15 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
      *
      * @return  void
      */
-    public function createUserSession($tempuser)
+    public function createUserSession(array $tempuser): \TYPO3\CMS\Core\Session\UserSession
     {
-        tx_rnbase::load('Sys25\\RnBase\\Configuration\\Processor');
         if ($this->lastLogin_column
             && $this->beforelastLogin_column
             && intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'useBeforelastLogin'))
-            ) {
+        ) {
             $tempuser[$this->beforelastLogin_column] = $tempuser[$this->lastLogin_column];
 
-            $connection = Tx_Rnbase_Database_Connection::getInstance();
+            $connection = \Sys25\RnBase\Database\Connection::getInstance();
             $connection->doUpdate(
                 $this->user_table,
                 $this->userid_column.'='.$connection->fullQuoteStr($tempuser[$this->userid_column], $this->user_table),
@@ -120,8 +74,4 @@ class ux_tslib_feuserauth extends tx_t3users_FrontendUserAuthenticationBase
 
         return parent::createUserSession($tempuser);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/xclasses/class.ux_tslib_feuserauth.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/xclasses/class.ux_tslib_feuserauth.php'];
 }

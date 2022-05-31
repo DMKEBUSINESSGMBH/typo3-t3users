@@ -70,7 +70,7 @@ interface tx_t3users_models_ILog
 /**
  * Model for fe_user.
  */
-class tx_t3users_models_log extends tx_rnbase_model_base implements tx_t3users_models_ILog
+class tx_t3users_models_log extends \Sys25\RnBase\Domain\Model\BaseModel implements tx_t3users_models_ILog
 {
     public function getTableName()
     {

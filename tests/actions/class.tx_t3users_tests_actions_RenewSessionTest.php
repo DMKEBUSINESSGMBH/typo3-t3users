@@ -23,17 +23,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_t3users_actions_RenewSession');
 
 /**
  * Testfälle für tx_t3users_actions_RenewSession.
  *
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  */
-class tx_t3users_tests_actions_RenewSessionTest extends tx_rnbase_tests_BaseTestCase
+class tx_t3users_tests_actions_RenewSessionTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (isset($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'])) {
             unset($GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession']);
@@ -45,8 +43,11 @@ class tx_t3users_tests_actions_RenewSessionTest extends tx_rnbase_tests_BaseTest
      */
     public function testHandleRequestReturnsCorrectJavaScriptWithDefaultIntervall()
     {
-        $this->assertEmpty(
-            $GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
+        $GLOBALS['TSFE'] = $this->getMockBuilder(\TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->assertArrayNotHasKey(
+            'tx_t3users_actions_RenewSession', $GLOBALS['TSFE']->additionalHeaderData,
             'JavaScript bereits in Header Data gesetzt.'
         );
 
@@ -66,8 +67,11 @@ class tx_t3users_tests_actions_RenewSessionTest extends tx_rnbase_tests_BaseTest
      */
     public function testHandleRequestReturnsCorrectJavaScriptWithIntervallSetByConfiguration()
     {
-        $this->assertEmpty(
-            $GLOBALS['TSFE']->additionalHeaderData['tx_t3users_actions_RenewSession'],
+        $GLOBALS['TSFE'] = $this->getMockBuilder(\TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->assertArrayNotHasKey(
+            'tx_t3users_actions_RenewSession', $GLOBALS['TSFE']->additionalHeaderData,
             'JavaScript bereits in Header Data gesetzt.'
         );
 
@@ -94,15 +98,14 @@ class tx_t3users_tests_actions_RenewSessionTest extends tx_rnbase_tests_BaseTest
      */
     private function executeAction(array $configurationsData = [])
     {
-        self::markTestIncomplete("Error: Class 'tx_t3users_tests_Util' not found");
+        self::markTestIncomplete('Test needs refactoring');
 
-        $action = tx_rnbase::makeInstance('tx_t3users_actions_RenewSession');
+        $action = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_actions_RenewSession');
         $configurations = tx_t3users_tests_Util::getConfigurations();
-        $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
 
         if (!empty($configurationsData)) {
-            tx_rnbase::load('tx_rnbase_util_Typo3Classes');
-            $cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
+            $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
             $configurations->init($configurationsData, $cObj, 't3users', 't3users');
         }
 

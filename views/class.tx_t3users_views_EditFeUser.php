@@ -22,45 +22,38 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_view_Base');
-
 /**
  * Viewclass to show a user.
  */
-class tx_t3users_views_EditFeUser extends tx_rnbase_view_Base
+class tx_t3users_views_EditFeUser extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
-    /**
-     * Erstellen des Frontend-Outputs.
-     */
-    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    protected function createOutput($template, \Sys25\RnBase\Frontend\Request\RequestInterface $request, $formatter)
     {
-        $form = &$viewData->offsetGet('form');
+        $viewData = $request->getViewContext();
+
+        $form = $viewData->offsetGet('form');
         $markerArray = [];
         $markerArray['###FORM###'] = $form;
-        $template = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
+        $template = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray);
 
         // Jetzt nochmal den User rendern
-        $feuser = &$viewData->offsetGet('user');
-        $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+        $feuser = $viewData->offsetGet('user');
+        $marker = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
 
         $confId = 'feuseredit.feuser.';
-        $out = $marker->parseTemplate($template, $feuser, $formatter, $confId);
+        $template = $marker->parseTemplate($template, $feuser, $formatter, $confId);
 
         $params['confid'] = $confId;
         $params['marker'] = 'FEUSER';
         $params['feuser'] = $feuser;
-        tx_rnbase_util_BaseMarker::callModules($template, $markerArray, $subpartArray, $wrappedSubpartArray, $params, $formatter);
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $subpartArray = $wrappedSubpartArray = [];
+        \Sys25\RnBase\Frontend\Marker\BaseMarker::callModules($template, $markerArray, $subpartArray, $wrappedSubpartArray, $params, $formatter);
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
         return $out;
     }
 
-    /**
-     * Returns the subpart to use for in template.
-     *
-     * @return string
-     */
-    public function getMainSubpart(&$viewData)
+    public function getMainSubpart(\Sys25\RnBase\Frontend\View\ContextInterface $viewData)
     {
         return '###FEUSER_EDIT###';
     }

@@ -37,7 +37,3 @@ class tx_t3users_exceptions_User extends Exception
         $this->parent = $parent;
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/exceptions/class.tx_t3users_exceptions_User.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/exceptions/class.tx_t3users_exceptions_User.php'];
-}

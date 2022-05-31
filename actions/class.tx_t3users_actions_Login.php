@@ -22,17 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_Network');
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
-tx_rnbase::load('tx_t3users_models_feuser');
-tx_rnbase::load('Tx_Rnbase_Utility_Strings');
-tx_rnbase::load('tx_rnbase_util_Misc');
-tx_rnbase::load('Tx_Rnbase_Utility_T3General');
-
 /**
  * Controller fuer Loginbox.
  */
-class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
+class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
     /**
      * UserCases:
@@ -41,16 +34,16 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      * 3. Show Welcome Message (if logged in right now)
      * 4. Show Status (if logged in).
      *
-     * @param array_object $parameters
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
-     *
-     * @return string error msg or null
+     * @return null
      */
-    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    public function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
+        $parameters = $request->getParameters();
+        $configurations = $request->getConfigurations();
+        $viewData = $request->getViewContext();
+
         // Find action: login, logout, forgotPassword
-        $action = tx_rnbase_parameters::getPostOrGetParameter('logintype');
+        $action = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter('logintype');
         $finished = intval($parameters->offsetGet('NK_loginfinished'));
         if ($finished) {
             $action = 'login';
@@ -83,10 +76,10 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
             $this->handleRequestConfirmation($parameters, $configurations, $viewData);
         } elseif (is_object($feuser)) {
             // The user is logged in, so show the status and logout stuff
-            $this->handleLoggedin($action, $parameters, $configurations, $viewData, $feuser);
+            $this->handleLoggedin($parameters, $configurations, $viewData, $feuser);
         } else {
             // User is not logged in, so show login box
-            $this->handleNotLoggedIn($action, $parameters, $configurations, $viewData);
+            $this->handleNotLoggedIn($action, $configurations, $viewData);
         }
         // Ueber die viewdata koennen wir Daten in den View transferieren
         $viewData->offsetSet('data', 'test');
@@ -97,11 +90,11 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
     /**
      * Send confirmation mail to user.
      *
-     * @param array_object $parameters
+     * @param \Sys25\RnBase\Frontend\Request\Parameters $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
+     * @param \Sys25\RnBase\Frontend\View\ViewContext $viewData
      */
-    private function handleRequestConfirmation(&$parameters, &$configurations, &$viewData)
+    private function handleRequestConfirmation($parameters, $configurations, $viewData)
     {
         $viewData->offsetSet('subpart', '###TEMPLATE_REQUESTCONFIRMATION###');
         $markerArr = [];
@@ -114,7 +107,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
         // 3. Sonstiger Fehler: Meldung im FE
 
         $email = $parameters->offsetGet('NK_requestconfirmation_email');
-        if ($email && Tx_Rnbase_Utility_Strings::validEmail($email)) {
+        if ($email && \TYPO3\CMS\Core\Utility\GeneralUtility::validEmail($email)) {
             $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
             $markerArr['your_email'] = $email;
@@ -141,11 +134,11 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
     /**
      * Send new password to user.
      *
-     * @param array_object $parameters
+     * @param \Sys25\RnBase\Frontend\Request\Parameters $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
+     * @param \Sys25\RnBase\Frontend\View\ViewContext $viewData
      */
-    protected function handleForgotPass(&$parameters, &$configurations, &$viewData)
+    protected function handleForgotPass($parameters, $configurations, $viewData)
     {
         $markerArr = [];
         $viewData->offsetSet('subpart', '###TEMPLATE_FORGOT###');
@@ -157,7 +150,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
         // 2. Nutzer nicht gefunden: Meldung im FE
         // 3. Sonstiger Fehler: Meldung im FE
         $email = $parameters->offsetGet('NK_forgot_email');
-        if ($email && Tx_Rnbase_Utility_Strings::validEmail($email)) {
+        if ($email && \TYPO3\CMS\Core\Utility\GeneralUtility::validEmail($email)) {
             $markerArr['your_email'] = $email;
             $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
             $storagePid = $this->getStoragePid($configurations);
@@ -184,11 +177,10 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      * User is not logged in.
      *
      * @param string $action
-     * @param array_object $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
+     * @param \Sys25\RnBase\Frontend\View\ViewContext $viewData
      */
-    protected function handleNotLoggedIn($action, &$parameters, &$configurations, &$viewData)
+    protected function handleNotLoggedIn($action, $configurations, $viewData)
     {
         $viewData->offsetSet('subpart', '###TEMPLATE_LOGIN###');
         $markerArr = [];
@@ -199,31 +191,26 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
             // fehlgeschlagen ist. Man könnte zwar auch etwas im HTML Body verwenden,
             // das kostet aber mehr Performance und ist nicht so einfach wenn gzip verwendet wird.
             header('Login: -1');
-            $this->delayNextLogin();
+            $this->delayNextLogin($configurations);
         } elseif ('logout' == $action) {
             // User logged out
             $statusKey = 'goodbye';
         } else {
             $statusKey = 'logout';
             if ('' == $markerArr['redirect_url'] && 'referrer' == $configurations->get($this->getConfId().'redirectMode')) {
-                $markerArr['redirect_url'] = htmlspecialchars(tx_rnbase_util_Misc::getIndpEnv('HTTP_REFERER'));
+                $markerArr['redirect_url'] = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('HTTP_REFERER'));
             }
             if ('' == $markerArr['redirect_url'] && 'force' == $configurations->get($this->getConfId().'redirectMode')) {
-                $markerArr['redirect_url'] = htmlspecialchars(tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL'));
+                $markerArr['redirect_url'] = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
             }
         }
 
         // Wenn explizit eine URL mitgegeben wurde, nutzen wir diese!
-        if (strlen($redirectUrl = tx_rnbase_parameters::getPostOrGetParameter('redirect_url')) && Tx_Rnbase_Utility_T3General::isOnCurrentHost($redirectUrl)) {
+        if (strlen($redirectUrl = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter('redirect_url')) && \TYPO3\CMS\Core\Utility\GeneralUtility::isOnCurrentHost($redirectUrl)) {
             $markerArr['redirect_url'] = $redirectUrl;
         }
 
         $markerArr['redirect_url'] = preg_replace('/[&?]logintype=[a-z]+/', '', $markerArr['redirect_url']);
-
-        $markerArr['redirect_url'] = Tx_Rnbase_Utility_Strings::removeXSS($markerArr['redirect_url']);
-        // Tx_Rnbase_Utility_Strings::removeXSS könnte Anführungszeichen etc. leer lassen.
-        // damit könnte die Ausgabe auch beeinflusst werden. daher
-        // htmlspecialchars
         $markerArr['redirect_url'] = htmlspecialchars($markerArr['redirect_url'], ENT_QUOTES);
 
         $this->setLanguageMarkers($markerArr, $configurations, $statusKey);
@@ -236,11 +223,13 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
     }
 
     /**
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     *
      * @return void
      */
-    protected function delayNextLogin()
+    protected function delayNextLogin(\Sys25\RnBase\Configuration\Processor $configurations)
     {
-        $delayInSeconds = $this->getConfigurations()->get(
+        $delayInSeconds = $configurations->get(
             $this->getConfId().'delayInSecondsAfterFailedLogin'
         );
         if ($delayInSeconds) {
@@ -251,13 +240,12 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
     /**
      * User is logged in. Show Status and logout-Button.
      *
-     * @param string $action
-     * @param array_object $parameters
+     * @param \Sys25\RnBase\Frontend\Request\Parameters $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
+     * @param \Sys25\RnBase\Frontend\View\ViewContext $viewData
      * @param tx_t3users_models_feuser $feuser
      */
-    protected function handleLoggedin($action, &$parameters, &$configurations, &$viewData, &$feuser)
+    protected function handleLoggedin($parameters, $configurations, $viewData, $feuser)
     {
         $viewData->offsetSet('subpart', '###TEMPLATE_STATUS###');
         $markerArr = [];
@@ -274,7 +262,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
             $link->initByTS($configurations, $this->getConfId().'links.logoutRedirect.', ['logintype' => 'logout']);
             $link->designatorString = '';
 
-            //soll das Formular auf eine bestimmte Seite abgeschickt werden?
+            // soll das Formular auf eine bestimmte Seite abgeschickt werden?
             if ($redirect) {
                 $link->destination($redirect);
             }
@@ -288,8 +276,8 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
         } // Direkt weiterleiten, wenn redirect_url angegeben
         // wird bei externen Links, z.B. Newsletter genutzt, die auf geschützte Bereiche verweisen
         // ist der User bereits eingeloggt, dann tritt dieser Fall in Kraft.
-        elseif (strlen($redirectUrl = tx_rnbase_parameters::getPostOrGetParameter('redirect_url')) && Tx_Rnbase_Utility_T3General::isOnCurrentHost($redirectUrl)) {
-            header('Location: '.tx_rnbase_util_Network::locationHeaderUrl($redirectUrl));
+        elseif (strlen($redirectUrl = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter('redirect_url')) && \TYPO3\CMS\Core\Utility\GeneralUtility::isOnCurrentHost($redirectUrl)) {
+            header('Location: '.\Sys25\RnBase\Utility\Network::locationHeaderUrl($redirectUrl));
         }
         $markerArr['action_uri'] = $this->createPageUri($configurations);
 
@@ -300,15 +288,15 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      * User logged in right now. Show Welcome Message.
      *
      * @param string $action
-     * @param array_object $parameters
+     * @param \Sys25\RnBase\Frontend\Request\Parameters $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
+     * @param \Sys25\RnBase\Frontend\View\ViewContext $viewData
      * @param tx_t3users_models_feuser $feuser
      */
-    protected function handleLoginConfirmed($action, $parameters, $configurations, &$viewData, $feuser)
+    protected function handleLoginConfirmed($action, $parameters, $configurations, $viewData, $feuser)
     {
         $finished = intval($parameters->offsetGet('NK_loginfinished'));
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'beforeLoginConfirmed',
             [
@@ -331,9 +319,9 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
             $redirect = $configurations->get('loginbox.loginRedirectPage');
             $redirectMode = $configurations->get($this->getConfId().'redirectMode');
             if ('forceRequestUrl' == $redirectMode) {
-                $redirect = htmlspecialchars(tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL'));
+                $redirect = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
             } // Wenn explizit eine URL mitgegeben wurde, nutzen wir diese!
-            elseif (strlen($redirectUrl = tx_rnbase_parameters::getPostOrGetParameter('redirect_url')) && Tx_Rnbase_Utility_T3General::isOnCurrentHost($redirectUrl)) {
+            elseif (strlen($redirectUrl = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter('redirect_url')) && \TYPO3\CMS\Core\Utility\GeneralUtility::isOnCurrentHost($redirectUrl)) {
                 $redirect = $redirectUrl;
             } else {
                 // Ziel-Pid in FE-Group suchen
@@ -345,7 +333,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
             $link = $configurations->createLink();
             // Initialisieren und zusaetzlich Parameter fuer Finished setzen
             $link->initByTS($configurations, $this->getConfId().'links.loginRedirect.', $params);
-            //soll das Formular auf eine bestimmte Seite abgeschickt werden?
+            // soll das Formular auf eine bestimmte Seite abgeschickt werden?
             if ($redirect) {
                 $link->destination($redirect);
             }
@@ -393,7 +381,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string $statusKey
      */
-    protected function setLanguageMarkers(&$markerArr, &$configurations, $statusKey)
+    protected function setLanguageMarkers(&$markerArr, $configurations, $statusKey)
     {
         $labels = ['username', 'password', 'login', 'logout', 'permalogin', 'forgot_password',
                         'email', 'sendpass', 'register', ];
@@ -409,7 +397,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
         $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
         $markerArr['user_online'] = $usrSrv->getOnlineUsers($storagePid);
         // Hook to append other markers
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'loginboxmarker',
             ['markerArr' => &$markerArr, 'conf' => $configurations, 'status' => $statusKey],
@@ -429,16 +417,16 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
      * @param array $params
      * @param bool $nocache
      */
-    protected function createPageUri(&$configurations, $params = [], $nocache = false)
+    protected function createPageUri($configurations, $params = [], $nocache = false)
     {
         $redirectMode = $configurations->get($this->getConfId().'redirectMode');
         if ('force' == $redirectMode || 'forceRequestUrl' == $redirectMode) {
             // Redirect auf aktuelle Seite
-            return tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL');
+            return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
         }
         $link = $configurations->createLink();
         $link->initByTS($configurations, $this->getConfId().'actionUrl.', $params);
-        //soll das Formular auf eine bestimmte Seite abgeschickt werden?
+        // soll das Formular auf eine bestimmte Seite abgeschickt werden?
         // die TargetPid wird weiter unterstützt
         $targetPid = $configurations->get($this->getConfId().'targetPid');
         if ($targetPid) {
@@ -485,7 +473,7 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
         }
 
         if ($code->jsCode) {
-            $pageRenderer = tx_rnbase_util_TYPO3::getPageRenderer();
+            $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
             $pageRenderer->addJsFooterInlineCode('t3users_loginBox', $code->jsCode);
         }
     }
@@ -504,8 +492,4 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
     {
         return 'tx_t3users_views_Login';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_Login.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_Login.php'];
 }

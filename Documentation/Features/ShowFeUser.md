@@ -18,7 +18,7 @@ plugin.tx_t3users_main.feuserdetailsTemplate = ...
 Example Template
 ----------------
 
-The extension ships with a default template (EXT:t3users/templates/feuserlist.html). Check the subpart *\#\#\#FEUSER\_DETAIL\#\#\#*. It looks like this:
+The extension ships with a default template (EXT:t3users/Resources/Private/Templates/feuserlist.html). Check the subpart *\#\#\#FEUSER\_DETAIL\#\#\#*. It looks like this:
 
 ~~~~ {.sourceCode .html}
 ###FEUSER_DETAILS###

@@ -22,55 +22,5 @@ CREATE TABLE fe_users (
     birthday date DEFAULT NULL,
     confirmstring varchar(60) DEFAULT '' NOT NULL,
     confirmtimeout datetime DEFAULT NULL,
-#    t3usersroles int(11) DEFAULT '0' NOT NULL,
     beforelastlogin int(11) unsigned DEFAULT '0' NOT NULL
 );
-
-#
-# Table structure for table 'tx_t3users_roles'
-#
-#CREATE TABLE tx_t3users_roles (
-#    uid int(11) NOT NULL auto_increment,
-#    pid int(11) DEFAULT '0' NOT NULL,
-#    tstamp int(11) DEFAULT '0' NOT NULL,
-#    crdate int(11) DEFAULT '0' NOT NULL,
-#    cruser_id int(11) DEFAULT '0' NOT NULL,
-#    deleted tinyint(4) DEFAULT '0' NOT NULL,
-
-#    name varchar(60) DEFAULT '' NOT NULL,
-#    description text NOT NULL,
-#    rights int(11) DEFAULT '0' NOT NULL,
-#    owner int(11) DEFAULT '0' NOT NULL,
-
-#    PRIMARY KEY (uid),
-#    KEY parent (pid)
-#);
-
-#
-# Table structure for table 'tx_t3users_role2owner_mm'
-# uid_local used for tx_t3users_roles
-#
-#CREATE TABLE tx_t3users_role2owner_mm (
-#    uid_local int(11) unsigned DEFAULT '0' NOT NULL,
-#    uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-#    tablenames varchar(50) DEFAULT '' NOT NULL,
-#    sorting int(11) unsigned DEFAULT '0' NOT NULL,
-#    sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-#    KEY uid_local (uid_local),
-#    KEY uid_foreign (uid_foreign)
-#);
-
-
-#
-# Table structure for table 'tx_t3users_right2role_mm'
-# uid_local used for tx_t3users_rights
-#
-#CREATE TABLE tx_t3users_right2role_mm (
-#    uid_local int(11) unsigned DEFAULT '0' NOT NULL,
-#    uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-#    tablenames varchar(50) DEFAULT '' NOT NULL,
-#    sorting int(11) unsigned DEFAULT '0' NOT NULL,
-#    sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-#    KEY uid_local (uid_local),
-#    KEY uid_foreign (uid_foreign)
-#);

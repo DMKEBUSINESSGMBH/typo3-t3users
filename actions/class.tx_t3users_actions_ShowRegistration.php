@@ -22,39 +22,35 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_DB');
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
-tx_rnbase::load('tx_t3users_models_feuser');
-tx_rnbase::load('Tx_Rnbase_Utility_Strings');
-tx_rnbase::load('tx_rnbase_util_Files');
-tx_rnbase::load('tx_rnbase_util_Templates');
-tx_rnbase::load('tx_rnbase_util_Network');
-tx_rnbase::load('tx_rnbase_util_Misc');
-
 /**
  * Controller für die Neuregistrierung.
  */
-class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
+class tx_t3users_actions_ShowRegistration extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
     private $feuser;
     private $afterRegistrationPID;
     private $userDataSaved = false;
 
-    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    private \Sys25\RnBase\Configuration\ConfigurationInterface $configurations;
+
+    public function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
+        $parameters = $request->getParameters();
+        $this->configurations = $request->getConfigurations();
+        $viewData = $request->getViewContext();
+
         $this->assertMkforms();
         $hideForm = false;
         $viewData->offsetSet('part', 'REGISTER');
         $confirm = $parameters->get('confirm');
         $userUid = $parameters->getInt('uid');
-        if ($adminReviewMail = $configurations->get($this->getConfId().'adminReviewMail')) {
-            if ($this->sendAdminReviewMail($userUid, $confirm, $adminReviewMail)) {
+        if ($adminReviewMail = $this->configurations->get($this->getConfId().'adminReviewMail')) {
+            if ($this->sendAdminReviewMail($userUid, $confirm, $adminReviewMail, $request)) {
                 $viewData->offsetSet('part', 'ADMINREVIEWMAILSENT');
             } else {
                 $viewData->offsetSet('part', 'ADMINREVIEWMAILSENTALREADY');
             }
-            // Wo kommt denn hier der $feuser her?
-            $viewData->offsetSet('confirmed', $feuser);
+            $viewData->offsetSet('confirmed', true);
         } elseif ($confirm) {
             $hideForm = true;
             // Load instance
@@ -63,9 +59,9 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
             // Set config
             $options = [];
             // Das sollte MIT Pfad gesetzt werden...
-            $options['successgroupsadd'] = $configurations->get('userGroupAfterConfirmation');
-            $options['successgroupsremove'] = $configurations->get('userGroupUponRegistration');
-            $options['configurations'] = $configurations;
+            $options['successgroupsadd'] = $this->configurations->get('userGroupAfterConfirmation');
+            $options['successgroupsremove'] = $this->configurations->get('userGroupUponRegistration');
+            $options['configurations'] = $this->configurations;
             $options['confid'] = $this->getConfId();
             $confirmed = $usrSrv->confirmUser($feuser, $confirm, $options);
             if ($confirmed) {
@@ -76,24 +72,24 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
                 $viewData->offsetSet('confirmed', '0');
             }
 
-            if ($configurations->get($this->getConfId().'notifyUserAboutConfirmation')) {
+            if ($this->configurations->get($this->getConfId().'notifyUserAboutConfirmation')) {
                 tx_t3users_util_ServiceRegistry::getEmailService()
-                    ->sendNotificationAboutConfirmationToFeUser($feuser, $configurations);
+                    ->sendNotificationAboutConfirmationToFeUser($feuser, $this->configurations);
             }
         } elseif ($parameters->offsetGet('NK_saved')) {
             $viewData->offsetSet('part', 'REGISTERFINISHED');
             $hideForm = true;
         }
-        $editors = $this->getEditors($parameters, $configurations, $hideForm);
-        //elseif($parameters->offsetGet('NK_saved')) {
+        $editors = $this->getEditors($parameters, $this->configurations, $hideForm);
+        // elseif($parameters->offsetGet('NK_saved')) {
         if ($this->userDataSaved) {
             // Redirect nach dem Versand der Email
-            $link = $configurations->createLink();
+            $link = $this->configurations->createLink();
             $link->destination($GLOBALS['TSFE']->id); // Link auf aktuelle Seite
             // Zusätzlich Parameter für Finished setzen
             $link->parameters(['NK_saved' => '1', 'NK_reguser' => $uid]);
             $redirect_url = $link->makeUrl(false);
-            header('Location: '.tx_rnbase_util_Network::locationHeaderUrl($redirect_url));
+            header('Location: '.\Sys25\RnBase\Utility\Network::locationHeaderUrl($redirect_url));
         }
         // index.php?id=38&amp;rnuser%5BNK_confirm%5D=5d52036ce724a231ab8d90ab120638db&amp;rnuser%5BNK_uid%5D=4&amp;cHash=c19b590e9c
 
@@ -102,7 +98,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
 
     protected function assertMkforms()
     {
-        if (!tx_rnbase_util_Extensions::isLoaded('mkforms')) {
+        if (!\Sys25\RnBase\Utility\Extensions::isLoaded('mkforms')) {
             throw new Exception('mkforms is not installed');
         }
     }
@@ -111,21 +107,22 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
      * @param int $userUid
      * @param string $confirmString
      * @param string $adminReviewMail
+     * @param \Sys25\RnBase\Frontend\Request\RequestInterface $request
      *
      * @return bool
      */
-    protected function sendAdminReviewMail($userUid, $confirmString, $adminReviewMail)
+    protected function sendAdminReviewMail($userUid, $confirmString, $adminReviewMail, \Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
         $feuser = tx_t3users_models_feuser::getInstance($userUid);
         if ($confirmString != $feuser->getProperty('confirmstring')) {
             return false;
         }
-        //else
+        // else
         $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
         $confirmString = $this->getConfirmString();
         $feuser->setProperty('confirmstring', $confirmString);
         $usrSrv->handleUpdate($feuser, ['confirmstring' => $confirmString]);
-        //adminEmail injizieren
+        // adminEmail injizieren
         $feuser->setProperty('email', $adminReviewMail);
         $this->sendConfirmationMail($feuser, true);
 
@@ -148,10 +145,9 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
         if ($hide) {
             return $editors;
         }
-        tx_rnbase::load('tx_mkforms_forms_Factory');
         $regForm = tx_mkforms_forms_Factory::createForm('registration');
         $xmlfile = $configurations->get($this->getConfId().'formxml');
-        $xmlfile = $xmlfile ? $xmlfile : tx_rnbase_util_Extensions::extPath('t3users').'Resources/Private/Forms/registration.xml';
+        $xmlfile = $xmlfile ? $xmlfile : \Sys25\RnBase\Utility\Extensions::extPath('t3users').'Resources/Private/Forms/registration.xml';
         $regForm->init($this, $xmlfile, false, $configurations, $this->getConfId().'formconfig.');
         $editors['FORM'] = $regForm->render();
 
@@ -167,12 +163,12 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
     public function handleBeforeUpdateDB($params, $form)
     {
         $params['confirmstring'] = $this->getConfirmString();
-        $pid = Tx_Rnbase_Utility_Strings::intExplode(',', $this->getConfigurations()->get('feuserPages'));
+        $pid = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $this->configurations->get('feuserPages'));
         $params['pid'] = (is_array($pid) && count($pid)) ? $pid[0] : 0;
         $params['disable'] = 1;
         $params['tstamp'] = $GLOBALS['EXEC_TIME'];
         $params['crdate'] = $params['tstamp'];
-        $groupId = intval($this->getConfigurations()->get('userGroupUponRegistration'));
+        $groupId = intval($this->configurations->get('userGroupUponRegistration'));
         $params['usergroup'] = $groupId;
         $params['name'] = trim($params['first_name'].' '.$params['last_name']);
         $usrSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
@@ -181,7 +177,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
         $params['password'] = $usrSrv->encryptPassword($pass);
         unset($params['password123']);
 
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'showRegistration_beforeUpdateDB_hook',
             [
@@ -212,7 +208,7 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
     {
         $uid = $form->oDataHandler->newEntryId;
 
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'showRegistration_beforeSendConfirmationMail_hook',
             [
@@ -233,10 +229,10 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
 
     /**
      * @param tx_t3users_models_feuser $feuser
-     *
-     * @return void
+     * @param $isAdminNotification
+     * @param \Sys25\RnBase\Frontend\Request\RequestInterface $request
      */
-    protected function sendConfirmationMail(tx_t3users_models_feuser $feuser, $isAdminNotification = false)
+    protected function sendConfirmationMail(tx_t3users_models_feuser $feuser, $isAdminNotification = false, \Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
         $feUserUid = $feuser->getUid();
         $feUserData = $feuser->getProperty();
@@ -248,49 +244,16 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
         ];
 
         // Mail schicken
-        $link = $this->getConfigurations()->createLink();
-        $link->initByTS($this->getConfigurations(), $this->getConfId().'links.mailconfirm.', $parameters);
+        $link = $request->getConfigurations()->createLink();
+        $link->initByTS($request->getConfigurations(), $this->getConfId().'links.mailconfirm.', $parameters);
         $token = md5(microtime());
         $link->label($token);
 
         tx_t3users_util_ServiceRegistry::getEmailService()->sendConfirmLink(
             $feuser,
             $link,
-            $this->getConfigurations(),
+            $request->getConfigurations(),
             $this->getConfId().($isAdminNotification ? 'admin' : '').'email.'
-        );
-    }
-
-    private function parseMailTemplate(
-        $template,
-        array $markerArray,
-        array $subpartArray,
-        array $wrappedSubpartArray,
-        array $feUserData
-    ) {
-        $mailtext = tx_rnbase_util_Templates::substituteMarkerArrayCached(
-            $template,
-            $markerArray,
-            $subpartArray,
-            $wrappedSubpartArray
-        );
-
-        $markerArray = [];
-        tx_rnbase::load('tx_rnbase_util_BaseMarker');
-        tx_rnbase_util_BaseMarker::callModules(
-            $mailtext,
-            $markerArray,
-            $subpartArray,
-            $wrappedSubpartArray,
-            $feUserData,
-            $this->getConfigurations()->getFormatter()
-        );
-
-        return tx_rnbase_util_Templates::substituteMarkerArrayCached(
-            $mailtext,
-            $markerArray,
-            $subpartArray,
-            $wrappedSubpartArray
         );
     }
 
@@ -309,27 +272,6 @@ class tx_t3users_actions_ShowRegistration extends tx_rnbase_action_BaseIOC
         return $this->regValues[$param['col']];
     }
 
-    /**
-     * The HTML-Template for registration form.
-     *
-     * @return string path name
-     *
-     * @deprecated der template pfad sollte im XML gesetzt werden da diese methode
-     * bei ajax calls nicht funktioniert
-     */
-    public function getFormTemplatePath()
-    {
-        $path = tx_rnbase_util_Files::getFileAbsFileName($this->getConfigurations()->get($this->getConfId().'form'));
-
-        return $path;
-    }
-
-    /**
-     * FIXME: WARUM wird hier nicht showregistration verwendet?
-     * (non-PHPdoc).
-     *
-     * @see tx_rnbase_action_BaseIOC::getTemplateName()
-     */
     public function getTemplateName()
     {
         return 'showregistration';

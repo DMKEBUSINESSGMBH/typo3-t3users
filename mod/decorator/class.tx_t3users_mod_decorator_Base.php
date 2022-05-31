@@ -23,25 +23,23 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-tx_rnbase::load('Tx_Rnbase_Backend_Decorator_BaseDecorator');
-tx_rnbase::load('tx_rnbase_mod_Util');
 
 /**
  * Diese Klasse ist für die Darstellung von Elementen im Backend verantwortlich.
  */
-class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDecorator
+class tx_t3users_mod_decorator_Base extends \Sys25\RnBase\Backend\Decorator\BaseDecorator
 {
     /**
      * @param   string                  $value
      * @param   string                  $colName
      * @param   array                   $record
-     * @param   tx_rnbase_model_base    $item
+     * @param   \Sys25\RnBase\Domain\Model\DataInterface $entry
      */
     public function format(
         $columnValue,
         $columnName,
         array $record,
-        \Tx_Rnbase_Domain_Model_DataInterface $entry
+        \Sys25\RnBase\Domain\Model\DataInterface $entry
     ) {
         $ret = $columnValue;
 
@@ -68,7 +66,7 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
     /**
      * Liefert die möglichen Optionen für die actions.
      *
-     * @param tx_rnbase_model_base $item
+     * @param \Sys25\RnBase\Domain\Model\DataInterface $item
      *
      * @return array
      */
@@ -81,7 +79,7 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
         ];
 
         $userIsAdmin = is_object($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER']->isAdmin() : 0;
-        //admins dürfen auch löschen
+        // admins dürfen auch löschen
         if ($userIsAdmin) {
             $cols['remove'] = '';
         }
@@ -109,13 +107,13 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
      * @TODO: weitere links integrieren!
      * $options = array('hide'=>'ausblenden,'edit'=>'bearbeiten,'remove'=>'löschen','history'='history','info'=>'info','move'=>'verschieben');
      *
-     * @param   tx_rnbase_model_base    $item
+     * @param   \Sys25\RnBase\Domain\Model\DataInterface    $item
      * @param   array                   $options
      *
      * @return  string
      */
     protected function getActions(
-        tx_rnbase_model_base $item,
+        \Sys25\RnBase\Domain\Model\BaseModel $item,
         array $options
     ) {
         $ret = [];
@@ -128,10 +126,10 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
                     $ret[] = $this->getFormTool()->createHideLink($item->getTableName(), $item->getUid(), $item->isHidden());
                     break;
                 case 'remove':
-                    //Es wird immer ein Bestätigungsdialog ausgegeben!!! Dieser steht
-                    //in der BE-Modul locallang.xml der jeweiligen Extension im Schlüssel
-                    //'confirmation_deletion'. (z.B. mkkvbb/mod1/locallang.xml) Soll kein
-                    //Bestätigungsdialog ausgegeben werden, dann einfach 'confirmation_deletion' leer lassen
+                    // Es wird immer ein Bestätigungsdialog ausgegeben!!! Dieser steht
+                    // in der BE-Modul locallang.xml der jeweiligen Extension im Schlüssel
+                    // 'confirmation_deletion'. (z.B. mkkvbb/mod1/locallang.xml) Soll kein
+                    // Bestätigungsdialog ausgegeben werden, dann einfach 'confirmation_deletion' leer lassen
                     $ret[] = $this->getFormTool()->createDeleteLink($item->getTableName(), $item->getUid(), $bTitle, ['confirm' => $GLOBALS['LANG']->getLL('confirmation_deletion')]);
                     break;
                 case 'userswitch':
@@ -139,7 +137,7 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
                         '<button class="btn btn-default btn-sm" name="hijack[%1$d]" value="1" title="Become this user (%2$s)">%3$s</button>',
                         $item->getUid(),
                         $item->getUsername(),
-                        tx_rnbase_mod_Util::getSpriteIcon(
+                        \Sys25\RnBase\Backend\Utility\Icons::getSpriteIcon(
                             'actions-system-backend-user-switch'
                         )
                     );
@@ -154,8 +152,4 @@ class tx_t3users_mod_decorator_Base extends Tx_Rnbase_Backend_Decorator_BaseDeco
             implode(' ', array_filter($ret))
         );
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/decorator/class.tx_t3users_mod_decorator_Base.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/decorator/class.tx_t3users_mod_decorator_Base.php'];
 }

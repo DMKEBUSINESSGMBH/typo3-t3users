@@ -23,30 +23,20 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-tx_rnbase::load('tx_t3users_actions_EditFeUser');
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Testfälle für tx_t3users_actions_EditFeUser.
  *
  * @author hbochmann
  */
-class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCase
+class tx_t3users_tests_actions_EditFeUserTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::setUp()
-     */
-    public function setUp()
+    public function setUp(): void
     {
-        if (tx_rnbase_util_TYPO3::isTYPO46OrHigher()) {
-            $GLOBALS['LOCAL_LANG']['default']['msg_change_error'][0]['target'] = 'error on update';
-            $GLOBALS['LOCAL_LANG']['default']['msg_change_success'][0]['target'] = 'success on update';
-        } else {
-            $GLOBALS['LOCAL_LANG']['msg_change_error'] = 'error on update';
-            $GLOBALS['LOCAL_LANG']['msg_change_success'] = 'success on update';
-        }
+        self::markTestIncomplete('Tests need refactoring.');
+
+        $GLOBALS['LOCAL_LANG']['default']['msg_change_error'][0]['target'] = 'error on update';
+        $GLOBALS['LOCAL_LANG']['default']['msg_change_success'][0]['target'] = 'success on update';
     }
 
     /**
@@ -54,12 +44,10 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
      */
     public function testGetFeUserService()
     {
-        self::markTestIncomplete('GeneralUtility::devLog() will be removed with TYPO3 v10.0.');
-
         self::assertInstanceOf(
             'tx_t3users_services_feuser',
             $this->callInaccessibleMethod(
-                tx_rnbase::makeInstance('tx_t3users_actions_EditFeUser'),
+                \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_actions_EditFeUser'),
                 'getFeUserService'
             )
         );
@@ -75,9 +63,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
         $uid,
         $confirmString
     ) {
-        self::markTestIncomplete('Uncaught require(typo3-t3users/.Build/Web/typo3conf/LocalConfiguration.php');
-
-        $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
         $parameters->offsetSet('NK_uid', $uid);
         $parameters->offsetSet('NK_confirmstring', $confirmString);
 
@@ -103,7 +89,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
      */
     public function testHandleRequestInModeCheckCallsUpdateFeUserByConfirmstringCorrectIfConfirmstringAndUid()
     {
-        $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
         $parameters->offsetSet('NK_uid', 123);
         $parameters->offsetSet('NK_confirmstring', 'abc');
 
@@ -121,7 +107,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
      */
     public function testHandleRequestInModeCheckCallsUpdateFeUserByConfirmstringCorrectIfConfirmstringAndUidAndAdditionalNkFieldsGiven()
     {
-        $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
         $parameters->offsetSet('NK_uid', 123);
         $parameters->offsetSet('NK_confirmstring', 'abc');
         $parameters->offsetSet('NK_city', 'def');
@@ -140,7 +126,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
      */
     public function testHandleRequestInModeCheckCallsUpdateFeUserByConfirmstringCorrectIfConfirmstringAndUidAndEmailParameter()
     {
-        $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
         $parameters->offsetSet('NK_uid', 123);
         $parameters->offsetSet('NK_confirmstring', 'abc');
         $parameters->offsetSet('NK_email', 'def');
@@ -159,7 +145,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
      */
     public function testHandleRequestInModeReturnsCorrectMessageIfUpdateSuccess()
     {
-        $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
         $parameters->offsetSet('NK_uid', 123);
         $parameters->offsetSet('NK_confirmstring', 'abc');
 
@@ -179,7 +165,7 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
      */
     public function testHandleRequestInModeReturnsCorrectMessageIfUpdateError()
     {
-        $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
         $parameters->offsetSet('NK_uid', 123);
         $parameters->offsetSet('NK_confirmstring', 'abc');
 
@@ -195,13 +181,13 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
     }
 
     /**
-     * @param tx_rnbase_parameters $parameters
+     * @param \Sys25\RnBase\Frontend\Request\Parameters $parameters
      * @param tx_t3users_services_feuser $feUserService
      *
      * @return string
      */
     protected function getActionMessageByParametersAndFeUserService(
-        tx_rnbase_parameters $parameters,
+        \Sys25\RnBase\Frontend\Request\Parameters $parameters,
         tx_t3users_services_feuser $feUserService = null
     ) {
         $configurationArray = ['feuseredit.' => [
@@ -225,8 +211,8 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
                 ->will(self::returnValue($feUserService));
         }
 
-        self::markTestIncomplete('Invalid argument supplied for foreach()');
+        $request = new \Sys25\RnBase\Frontend\Request\Request($parameters, $configurations, '');
 
-        return $action->handleRequest($parameters, $configurations, $viewData);
+        return $action->handleRequest($request);
     }
 }

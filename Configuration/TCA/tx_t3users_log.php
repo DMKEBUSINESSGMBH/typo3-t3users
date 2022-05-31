@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     exit('Access denied.');
 }
 
@@ -11,10 +11,7 @@ $tx_t3users_log = [
         'rootLevel' => 1,
         'default_sortby' => 'ORDER BY uid desc',
         'enablecolumns' => [],
-        'iconfile' => 'EXT:t3users/icon_tx_t3users_tables.gif',
-    ],
-    'interface' => [
-        'showRecordFieldList' => 'type',
+        'iconfile' => 'EXT:t3users/Resources/Public/Icons/icon_tx_t3users_tables.gif',
     ],
     'feInterface' => [
         'fe_admin_fieldList' => 'name',
@@ -76,9 +73,5 @@ $tx_t3users_log = [
     ],
     'palettes' => [],
 ];
-
-if (\Sys25\RnBase\Utility\TYPO3::isTYPO104OrHigher()) {
-    unset($tx_t3users_log['interface']['showRecordFieldList']);
-}
 
 return $tx_t3users_log;

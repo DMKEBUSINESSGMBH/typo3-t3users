@@ -21,10 +21,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_TYPO3');
-tx_rnbase::load('tx_t3users_util_LoginAsFEUser');
-tx_rnbase::load('Tx_Rnbase_Backend_AbstractFunctionModule');
-tx_rnbase::load('tx_rnbase_mod_Tables');
 
 // Mögliche Icons im BE für die Funktion doc->icons()
 define('ICON_OK', -1);
@@ -37,7 +33,7 @@ define('ICON_FATAL', 3);
  *
  * @author  Rene Nitzsche <dev@dmk-ebusiness.de>
  */
-class tx_t3users_mod_index extends Tx_Rnbase_Backend_AbstractFunctionModule
+class tx_t3users_mod_index extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
 {
     /**
      * Returns the module menu.
@@ -75,19 +71,15 @@ class tx_t3users_mod_index extends Tx_Rnbase_Backend_AbstractFunctionModule
         --------
         */
         $this->doc = $this->pObj->doc;
-        $this->doc->tableLayout = tx_rnbase_mod_Tables::getTableLayout();
-        $this->formTool = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Form_ToolBox');
+        $this->doc->tableLayout = \Sys25\RnBase\Backend\Utility\Tables::getTableLayout();
+        $this->formTool = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Backend\Form\ToolBox::class);
         $this->formTool->init($this->doc, $this);
 
-        $content .= tx_t3users_util_LoginAsFEUser::hijackUser();
+        $content = tx_t3users_util_LoginAsFEUser::hijackUser();
 
-        $module = tx_rnbase::makeInstance('tx_t3users_mod_mUserList', $this);
+        $module = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_mod_mUserList', $this);
         $content .= $module->handleRequest($this->pObj->id);
 
         return $content;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_index.php'];
 }

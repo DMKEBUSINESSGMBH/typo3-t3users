@@ -22,27 +22,21 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_view_Base');
-tx_rnbase::load('tx_rnbase_util_ListBuilder');
-
 /**
  * Viewclass to show a list of users.
  * Isn't it tiny! ;-).
  */
-class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base
+class tx_t3users_views_ListFeUsers extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
-    /**
-     * Erstellen des Frontend-Outputs.
-     */
-    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    protected function createOutput($template, \Sys25\RnBase\Frontend\Request\RequestInterface $request, $formatter)
     {
         // Die ViewData bereitstellen
-        $users = &$viewData->offsetGet('userlist');
-        $listBuilder = tx_rnbase::makeInstance('tx_rnbase_util_ListBuilder');
+        $users = $request->getViewContext()->offsetGet('userlist');
+        $listBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Marker\ListBuilder::class);
 
         $out = $listBuilder->render(
             $users,
-            $viewData,
+            $request->getViewContext(),
             $template,
             'tx_t3users_util_FeUserMarker',
             'feuserlist.feuser.',
@@ -53,17 +47,8 @@ class tx_t3users_views_ListFeUsers extends tx_rnbase_view_Base
         return $out;
     }
 
-    /**
-     * Returns the subpart to use for in template.
-     *
-     * @return string
-     */
-    public function getMainSubpart(&$viewData)
+    public function getMainSubpart(\Sys25\RnBase\Frontend\View\ContextInterface $viewData)
     {
         return '###FEUSER_LIST###';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ListFeUsers.php'];
 }

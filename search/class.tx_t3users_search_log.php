@@ -21,21 +21,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_SearchBase');
-
 /**
  * Class to search logging records from database.
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_search_log extends tx_rnbase_util_SearchBase
+class tx_t3users_search_log extends \Sys25\RnBase\Search\SearchBase
 {
     protected function getTableMappings()
     {
         $tableMapping['LOG'] = 'tx_t3users_log';
         $tableMapping['FEUSER'] = 'fe_users';
         // Hook to append other tables
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'search_log_getTableMapping_hook',
             ['tableMapping' => &$tableMapping],
@@ -67,7 +65,7 @@ class tx_t3users_search_log extends tx_rnbase_util_SearchBase
             $join .= ' JOIN fe_users AS FEUSER ON fe_users.uid = LOG.fe_user';
         }
         // Hook to append other tables
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'search_log_getJoins_hook',
             ['join' => &$join, 'tableAliases' => $tableAliases],
@@ -76,8 +74,4 @@ class tx_t3users_search_log extends tx_rnbase_util_SearchBase
 
         return $join;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_feuser.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/search/class.tx_t3users_search_feuser.php'];
 }

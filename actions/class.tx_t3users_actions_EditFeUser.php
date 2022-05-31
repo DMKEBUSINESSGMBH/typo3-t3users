@@ -22,39 +22,29 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_Network');
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
-tx_rnbase::load('tx_t3users_models_feuser');
-tx_rnbase::load('tx_rnbase_util_TCA');
-
 /**
  * Controller for edit form of FE-User.
  */
-class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
+class tx_t3users_actions_EditFeUser extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
     /** @var \Sys25\RnBase\Configuration\Processor */
     protected $configurations;
 
-    /**
-     * Erstmal nur das eigene Profil bearbeiten.
-     *
-     * @param \Sys25\RnBase\Frontend\Request\ParametersInterface $parameters
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
-     *
-     * @return string error msg or null
-     */
-    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    public function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
+        $parameters = $request->getParameters();
+        $configurations = $request->getConfigurations();
+        $viewData = $request->getViewContext();
+
         $this->configurations = $configurations;
-        //Bei Modus "check" werden die Daten aus der Url in die DB geschrieben (wenn
-        //möglich). Ansonsten wird ganz normal die Form geparsed.
+        // Bei Modus "check" werden die Daten aus der Url in die DB geschrieben (wenn
+        // möglich). Ansonsten wird ganz normal die Form geparsed.
         // @TODO das ist sehr gefährlich. Im Formular könnten Daten validiert wurden sein
         // und dann im Link geändert werden. Die Daten sollten nicht im Link übertragen werden
         // sondern in einem eigenen Feld etc. in der DB zwischengespeichert werden.
         if ('check' == $this->configurations->get($this->getConfId().'mode')) {
-            //uid und confirmstring sind nicht in tca weshalb wir sie
-            //fest auslesen müssen
+            // uid und confirmstring sind nicht in tca weshalb wir sie
+            // fest auslesen müssen
             $uid = $parameters->offsetGet('NK_uid');
             $confirmstring = $parameters->offsetGet('NK_confirmstring');
 
@@ -62,23 +52,23 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
                 return $configurations->getLL('msg_change_error');
             }
 
-            //leeres Model um alle DB Felder auszulesen
-            $feUser = tx_rnbase::makeInstance('tx_t3users_models_feuser', ['uid' => 0]);
+            // leeres Model um alle DB Felder auszulesen
+            $feUser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_models_feuser', ['uid' => 0]);
 
-            //für jedes Feld in der DB prüfen ob ein Wert übermittelt wurde
+            // für jedes Feld in der DB prüfen ob ein Wert übermittelt wurde
             foreach ($feUser->getColumnNames() as $cols) {
                 if ($parameters->offsetExists('NK_'.$cols)) {
                     $params[$cols] = $parameters->offsetGet('NK_'.$cols);
                 }
             }
 
-            //zur Sicherheit email == username setzen
+            // zur Sicherheit email == username setzen
             if (!empty($params['email'])) {
                 $params['username'] = $params['email'];
             }
-            //confirmstring wieder auf '' setzen
+            // confirmstring wieder auf '' setzen
             $params['confirmstring'] = '';
-            //und ab damit
+            // und ab damit
             $feUserSrv = $this->getFeUserService();
             if ($feUserSrv->updateFeUserByConfirmstring($uid, $confirmstring, $params)) {
                 return $configurations->getLL('msg_change_success');
@@ -116,11 +106,10 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
      */
     private function getEditors($parameters, $configurations, $item)
     {
-        if (!tx_rnbase_util_Extensions::isLoaded('mkforms')) {
+        if (!\Sys25\RnBase\Utility\Extensions::isLoaded('mkforms')) {
             throw new Exception('mkforms ist nicht installiert, wird aber benötigt für das Bearbeitungsformular');
         }
 
-        tx_rnbase::load('tx_mkforms_forms_Factory');
         $this->form = tx_mkforms_forms_Factory::createForm('');
         $formXml = $configurations->get($this->getConfId().'formxml');
 
@@ -142,25 +131,25 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
     {
         $newPassword = $params['password123'];
         $feUser = tx_t3users_models_feuser::getCurrent();
-        //If enableNonTcaColumns is set: do not eliminate the NonTCA-Enabled columns
+        // If enableNonTcaColumns is set: do not eliminate the NonTCA-Enabled columns
         if (!$this->configurations->get($this->getConfId().'enableNonTcaColumns')) {
-            //leeres Model bilden um Felder zu löschen die da nicht hingehören
-            $params = tx_rnbase_util_TCA::eleminateNonTcaColumns($feUser, $params);
+            // leeres Model bilden um Felder zu löschen die da nicht hingehören
+            $params = \Sys25\RnBase\Backend\Utility\TCA::eleminateNonTcaColumns($feUser, $params);
         }
-        //wenn die Option doubleoptin gewählt wurde dann werden die daten noch nicht
-        //gespeichert sondern mit einem confirmstring per email verschickt und
-        //erst bei der Bestätigung in die DB geschrieben
+        // wenn die Option doubleoptin gewählt wurde dann werden die daten noch nicht
+        // gespeichert sondern mit einem confirmstring per email verschickt und
+        // erst bei der Bestätigung in die DB geschrieben
         if ($this->configurations->get($this->getConfId().'doubleoptin')) {
-            //Zusätzlich Parameter setzen
-            //Bestätigungscode generieren
+            // Zusätzlich Parameter setzen
+            // Bestätigungscode generieren
             $params['confirmstring'] = md5(uniqid());
             $params['uid'] = $feUser->getUid();
-            //username == mail setzen
+            // username == mail setzen
             $params['username'] = $params['email'];
-            //Mail schicken
+            // Mail schicken
             $emailService = tx_t3users_util_ServiceRegistry::getEmailService();
             $emailService->sendEditedData($feUser, $params, $this->configurations, $this->getConfId());
-            //alles außer confirmstring löschen damit nur dieser in die db wandert
+            // alles außer confirmstring löschen damit nur dieser in die db wandert
             $confirmString = $params['confirmstring'];
             unset($params);
             $params['confirmstring'] = $confirmString;
@@ -184,7 +173,7 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
      */
     public function handleUpdateDB($params, $form)
     {
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'editFeUser_handleUpdateDB_hook',
             [
@@ -197,9 +186,9 @@ class tx_t3users_actions_EditFeUser extends tx_rnbase_action_BaseIOC
         // Wohin soll umgeleitet werden?
         $redirect = $this->configurations->get($this->getConfId().'redirect.pid');
         $link = $this->configurations->createLink();
-        $link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id); //fallback
+        $link->destination($redirect ? $redirect : $GLOBALS['TSFE']->id); // fallback
         $redirect_url = $link->makeUrl(false);
-        header('Location: '.tx_rnbase_util_Network::locationHeaderUrl($redirect_url));
+        header('Location: '.\Sys25\RnBase\Utility\Network::locationHeaderUrl($redirect_url));
     }
 
     public function getTemplateName()

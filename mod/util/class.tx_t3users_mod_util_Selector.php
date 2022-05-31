@@ -1,9 +1,5 @@
 <?php
 
-tx_rnbase::load('Tx_Rnbase_Backend_Utility');
-tx_rnbase::load('tx_rnbase_parameters');
-tx_rnbase::load('tx_rnbase_util_TCA');
-
 /**
  * Die Klasse stellt Auswahlmenus zur Verfügung.
  *
@@ -12,18 +8,18 @@ tx_rnbase::load('tx_rnbase_util_TCA');
 class tx_t3users_mod_util_Selector
 {
     /**
-     * @var     tx_rnbase_mod_IModule
+     * @var     \Sys25\RnBase\Backend\Module\IModule
      */
     private $mod;
     /**
-     * @var     Tx_Rnbase_Backend_Form_ToolBox
+     * @var     \Sys25\RnBase\Backend\Form\ToolBox
      */
     private $formTool;
 
     /**
      * Initialisiert das Objekt mit dem Template und der Modul-Config.
      */
-    public function init(tx_rnbase_mod_IModule $module)
+    public function init(\Sys25\RnBase\Backend\Module\IModule $module)
     {
         $this->mod = $module;
         $this->formTool = $this->mod->getFormTool();
@@ -47,18 +43,18 @@ class tx_t3users_mod_util_Selector
         $selectedItem = array_key_exists('forcevalue', $aOptions) ? $aOptions['forcevalue'] : $this->getValueFromModuleData($id);
 
         // Build select box items
-        $aData['selector'] = Tx_Rnbase_Backend_Utility::getFuncMenu(
+        $aData['selector'] = \Sys25\RnBase\Backend\Utility\BackendUtility::getFuncMenu(
             $pid,
             'SET['.$id.']',
             $selectedItem,
             $aItems
         );
 
-        //label
+        // label
         $aData['label'] = $aOptions['label'];
 
         // as the deleted fe users have always to be hidden the function returns always false
-        //@todo wozu die alte abfrage? return $defId==$id ? false : $selectedItem;
+        // @todo wozu die alte abfrage? return $defId==$id ? false : $selectedItem;
         return $selectedItem;
     }
 
@@ -73,7 +69,6 @@ class tx_t3users_mod_util_Selector
         if (is_array($aOptions['additionalItems'])) {
             $items = $aOptions['additionalItems'];
         }
-        tx_rnbase_util_TCA::loadTCA($table);
         if (is_array($GLOBALS['TCA'][$table]['columns'][$column]['config']['items'])) {
             foreach ($GLOBALS['TCA'][$table]['columns'][$column]['config']['items'] as $item) {
                 $items[$item[1]] = $GLOBALS['LANG']->sL($item[0]);
@@ -84,9 +79,9 @@ class tx_t3users_mod_util_Selector
     }
 
     /**
-     * Returns an instance of tx_rnbase_mod_IModule.
+     * Returns an instance of \Sys25\RnBase\Backend\Module\IModule.
      *
-     * @return  tx_rnbase_mod_IModule
+     * @return  \Sys25\RnBase\Backend\Module\IModule
      */
     protected function getModule()
     {
@@ -94,7 +89,7 @@ class tx_t3users_mod_util_Selector
     }
 
     /**
-     * @return Tx_Rnbase_Backend_Form_ToolBox
+     * @return \Sys25\RnBase\Backend\Form\ToolBox
      */
     protected function getFormTool()
     {
@@ -107,13 +102,11 @@ class tx_t3users_mod_util_Selector
      * @param   string $key
      *
      * @return  mixed
-     *
-     * @deprecated tx_rnbase_mod_Util::getModuleValue verwenden
      */
     public function getValueFromModuleData($key)
     {
         // Fetch selected company trade
-        $modData = Tx_Rnbase_Backend_Utility::getModuleData([$key => ''], tx_rnbase_parameters::getPostOrGetParameter('SET'), $this->getModule()->getName());
+        $modData = \Sys25\RnBase\Backend\Utility\BackendUtility::getModuleData([$key => ''], \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter('SET'), $this->getModule()->getName());
         if (isset($modData[$key])) {
             return $modData[$key];
         }
@@ -139,8 +132,4 @@ class tx_t3users_mod_util_Selector
         }
         $GLOBALS['BE_USER']->pushModuleData($sModuleName, $aExistingModuleData);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/util/class.tx_t3users_mod_util_Selector.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/util/class.tx_t3users_mod_util_Selector.php'];
 }

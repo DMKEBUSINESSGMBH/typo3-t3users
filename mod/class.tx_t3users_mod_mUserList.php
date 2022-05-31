@@ -22,9 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_Misc');
-tx_rnbase::load('tx_t3users_util_Decorator');
-
 /**
  * Show user list.
  */
@@ -51,7 +48,7 @@ class tx_t3users_mod_mUserList
 
         $options = [];
         if ($GLOBALS['BE_USER']->isAdmin()) {
-            $options['linker'][] = tx_rnbase::makeInstance('tx_t3users_mod_LoginLink');
+            $options['linker'][] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_mod_LoginLink');
         }
 
         $searcher = $this->getUserSearcher($options);
@@ -77,7 +74,7 @@ class tx_t3users_mod_mUserList
      */
     private function getUserSearcher(&$options)
     {
-        $searcher = tx_rnbase::makeInstance('tx_t3users_mod_userSearcher', $this->mod, $options);
+        $searcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_mod_userSearcher', $this->mod, $options);
 
         return $searcher;
     }
@@ -89,7 +86,7 @@ class tx_t3users_mod_LoginLink implements tx_t3users_util_Linker
      * Login as feuser.
      *
      * @param tx_t3users_models_feuser $item
-     * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
+     * @param \Sys25\RnBase\Backend\Form\ToolBox $formTool
      * @param int $currentPid
      * @param array $options
      *
@@ -101,8 +98,4 @@ class tx_t3users_mod_LoginLink implements tx_t3users_util_Linker
 
         return $out;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_mUserList.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_mUserList.php'];
 }

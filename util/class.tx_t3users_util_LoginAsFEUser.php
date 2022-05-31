@@ -1,9 +1,6 @@
 <?php
+
 use Sys25\RnBase\Utility\TYPO3;
-use Sys25\RnBase\Database\Connection;
-use Sys25\RnBase\Utility\Misc;
-use Sys25\RnBase\Utility\T3General;
-use Sys25\RnBase\Utility\Typo3Classes;
 
 /***************************************************************
 *  Copyright notice
@@ -44,9 +41,9 @@ class tx_t3users_util_LoginAsFEUser
     {
         $ret = '';
         if (!$feuserid) {
-            $userData = tx_rnbase_parameters::getPostOrGetParameter('hijack');
+            $userData = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter('hijack');
             if (is_array($userData)) {
-                list($feuserid) = each($userData);
+                $feuserid = current($userData);
             }
             $feuserid = intval($feuserid);
         }
@@ -58,8 +55,7 @@ class tx_t3users_util_LoginAsFEUser
         if ($fesession) {
             // Der User hat oder hatte schon eine FE-Session
             // Liegt ein Datensatz in der DB?
-            $current = self::getCurrentFeUserSession($fesession);
-            if ($current) {
+            if (self::isPersistedFeUserSession($fesession)) {
                 self::updateFeUserSession($fesession, $feuserid);
             } else {
                 self::createFeUserSession($fesession, $feuserid);
@@ -84,11 +80,10 @@ class tx_t3users_util_LoginAsFEUser
      */
     private static function updateFeUserSession($fesessionId, $feuserid)
     {
-        $where = 'ses_id = %1$s';
-        $where .= TYPO3::isTYPO87OrHigher() ? '' : ' AND fe_sessions.ses_name = \'fe_typo_user\' ';
-        $where = sprintf($where, $GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions'));
         $values = ['ses_userid' => $feuserid, 'ses_tstamp' => $GLOBALS['EXEC_TIME']];
-        Connection::getInstance()->doUpdate('fe_sessions', $where, $values, 0);
+        \TYPO3\CMS\Core\Session\UserSessionManager::create('login')->updateSessionTimestamp(
+            \TYPO3\CMS\Core\Session\UserSession::createFromRecord($fesessionId, $values)
+        );
     }
 
     private static function createFeUserSession($fesessionId, $feuserid)
@@ -97,62 +92,24 @@ class tx_t3users_util_LoginAsFEUser
             // Es muss eine neue FE-Usersession angelegt werden
             $hash_length = 10;
             $fesessionId = substr(md5(uniqid('').getmypid()), 0, $hash_length);
-            $cookieDomain = $GLOBALS[TYPO3_CONF_VARS]['SYS']['cookieDomain'];
-            setcookie('fe_typo_user', $fesessionId, 0, '/', $cookieDomain ? $cookieDomain : '');
+            $cookieDomain = $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieDomain'];
+            setcookie('fe_typo_user', $fesessionId, 0, '/', $cookieDomain ?? '');
         }
-        $values = self::getNewSessionRecord($fesessionId, $feuserid);
-        Connection::getInstance()->doInsert('fe_sessions', $values, 0);
-    }
-
-    private static function getNewSessionRecord($sessionId, $userId)
-    {
-        $abstractUserAuthenticationClass = Typo3Classes::getAbstractUserAuthenticationClass();
-        $frontendUserAuthenticationClass = Typo3Classes::getFrontendUserAuthenticationClass();
-        if (!is_callable([$abstractUserAuthenticationClass, 'ipLockClause_remoteIPNumber'])) {
-            // Ab 4.5 ist die Methode nicht mehr public. Daher den notwendigen
-            // Record anders erstellen
-            $auth = tx_rnbase::makeInstance($frontendUserAuthenticationClass);
-            $auth->id = $sessionId;
-            $auth->is_permanent = true;
-            $auth->name = 'fe_typo_user';
-            $auth->userid_column = 'uid';
-            $auth->is_permanent = 0;
-            $auth->lockIP = $GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP'];
-            $tempUser = [$auth->userid_column => $userId];
-
-            return $auth->getNewSessionRecord($tempUser);
-        }
-
-        $record = [
-            'ses_id' => $sessionId,
-            'ses_iplock' => $frontendUserAuthenticationClass::ipLockClause_remoteIPNumber($GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP']),
-            'ses_hashlock' => T3General::md5int(':'.Misc::getIndpEnv('HTTP_USER_AGENT')), //$this->hashLockClause_getHashInt(),
-            'ses_userid' => $userId,
-            'ses_tstamp' => $GLOBALS['EXEC_TIME'],
-        ];
-
-        if (!TYPO3::isTYPO87OrHigher()) {
-            $record['ses_name'] = 'fe_typo_user';
-        }
-
-        return $record;
+        \TYPO3\CMS\Core\Session\UserSessionManager::create('login')->elevateToFixatedUserSession(
+            \TYPO3\CMS\Core\Session\UserSession::createNonFixated($fesessionId),
+            $feuserid
+        );
     }
 
     /**
      * Prüft, ob für die SessionId eine User-Session in der Datenbank liegt.
      *
      * @param string $fesessionId
-     *
-     * @return array
      */
-    protected static function getCurrentFeUserSession($fesessionId)
+    protected static function isPersistedFeUserSession($fesessionId): bool
     {
-        $where = 'ses_id = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($fesessionId, 'fe_sessions');
-        $where .= TYPO3::isTYPO87OrHigher() ? '' : ' AND fe_sessions.ses_name = \'fe_typo_user\' ';
-        $options = ['where' => $where];
-        $options['enablefieldsoff'] = 1;
-        $result = Connection::getInstance()->doSelect('*', 'fe_sessions', $options, 0);
-
-        return count($result) ? $result[0] : false;
+        return \TYPO3\CMS\Core\Session\UserSessionManager::create('login')->isSessionPersisted(
+            \TYPO3\CMS\Core\Session\UserSession::createNonFixated($fesessionId)
+        );
     }
 }

@@ -28,11 +28,6 @@
  * benötigte Klassen einbinden
  */
 
-tx_rnbase::load('tx_rnbase_cache_Manager');
-tx_rnbase::load('tx_rnbase_util_TYPO3');
-tx_rnbase::load('tx_rnbase_util_Spyc');
-tx_rnbase::load('Tx_Rnbase_Backend_Utility');
-
 /**
  * Statische Hilfsmethoden für Tests.
  */
@@ -49,7 +44,7 @@ class tx_t3users_tests_Util
      */
     public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 't3users')
     {
-        return tx_rnbase_util_Extensions::extPath($extKey).$dir.$filename;
+        return \Sys25\RnBase\Utility\Extensions::extPath($extKey).$dir.$filename;
     }
 
     /**
@@ -58,17 +53,13 @@ class tx_t3users_tests_Util
     public static function getConfigurations()
     {
         $extKey = 't3users';
-        tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$extKey.'/static/ts/setup.txt">');
+        \Sys25\RnBase\Utility\Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$extKey.'/Configuration/TypoScript/setup.typoscript">');
 
-        tx_rnbase::load('Sys25\\RnBase\\Configuration\\Processor');
-        tx_rnbase::load('tx_rnbase_util_Misc');
-
-        tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+        \Sys25\RnBase\Utility\Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
         $GLOBALS['TSFE']->config = [];
-        tx_rnbase::load('tx_rnbase_util_Typo3Classes');
-        $cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
+        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 
-        $pageTSconfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0);
+        $pageTSconfig = \Sys25\RnBase\Backend\Utility\BackendUtility::getPagesTSconfig(0);
         $pageTSconfig = (array) $pageTSconfig['plugin.']['tx_'.$extKey.'.'];
         $qualifier = $pageTSconfig['qualifier'] ? $pageTSconfig['qualifier'] : $extKey;
         $configurations = new \Sys25\RnBase\Configuration\Processor();
@@ -98,8 +89,4 @@ class tx_t3users_tests_Util
         // neue Konfiguration zurückschreiben
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey] = serialize($extConfig);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/class.tx_t3users_tests_Util.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/tests/class.tx_t3users_tests_Util.php'];
 }

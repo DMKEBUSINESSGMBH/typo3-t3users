@@ -1,4 +1,5 @@
 <?php
+
 use Sys25\RnBase\Utility\Strings;
 
 /***************************************************************
@@ -45,8 +46,8 @@ class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser
     {
         $aValues = Strings::trimExplode(',', $value, true);
         $this->setFeUser(tx_t3users_models_feuser::getInstance(intval($aValues[0])));
-        //die neue, geänderte Email Adresse im Empfänger setzen damit die
-        //Mail nicht 2 mal verschickt wird an die neue Adresse
+        // die neue, geänderte Email Adresse im Empfänger setzen damit die
+        // Mail nicht 2 mal verschickt wird an die neue Adresse
         $this->email = $aValues[1];
     }
 
@@ -55,7 +56,7 @@ class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser
         if (empty($this->email)) {
             return false;
         }
-        //else
+        // else
         return $this->email;
     }
 }

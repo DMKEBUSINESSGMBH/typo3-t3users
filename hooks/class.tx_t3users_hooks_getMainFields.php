@@ -31,15 +31,10 @@ class tx_t3users_hooks_getMainFields
     {
         if ('fe_users' == $table) {
             if (!strstr($row['uid'], 'NEW')) {
-                tx_rnbase::load('tx_rnbase_util_DB');
                 $row['birthday'] = ('1' == $GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat']) ?
-                                    tx_rnbase_util_DB::date_mysql2mdY($row['birthday']) :
-                                    tx_rnbase_util_DB::date_mysql2dmY($row['birthday']);
+                    \Sys25\RnBase\Database\Connection::date_mysql2mdY($row['birthday']) :
+                    \Sys25\RnBase\Database\Connection::date_mysql2dmY($row['birthday']);
             }
         }
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_getMainFields.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_getMainFields.php'];
 }

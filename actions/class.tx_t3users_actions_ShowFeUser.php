@@ -22,23 +22,17 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
-tx_rnbase::load('tx_t3users_models_feuser');
-
 /**
  * Controller for detailview of FE-User.
  */
-class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC
+class tx_t3users_actions_ShowFeUser extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
-    /**
-     * @param array_object $parameters
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
-     *
-     * @return string error msg or null
-     */
-    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    public function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
+        $parameters = $request->getParameters();
+        $configurations = $request->getConfigurations();
+        $viewData = $request->getViewContext();
+
         $userSrv = tx_t3users_util_serviceRegistry::getFeUserService();
 
         // gegenwärtig angemeldeten User ausgeben, wenn Option gesetzt
@@ -74,8 +68,4 @@ class tx_t3users_actions_ShowFeUser extends tx_rnbase_action_BaseIOC
     {
         return 'tx_t3users_views_ShowFeUser';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowFeUser.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ShowFeUser.php'];
 }

@@ -22,18 +22,12 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_DB');
-tx_rnbase::load('tx_t3users_search_builder');
-tx_rnbase::load('tx_t3users_exceptions_User');
-tx_rnbase::load('Tx_Rnbase_Service_Base');
-tx_rnbase::load('tx_t3users_models_log');
-
 /**
  * Service for logging feuser actions.
  *
  * @author Rene Nitzsche
  */
-class tx_t3users_services_logging extends Tx_Rnbase_Service_Base
+class tx_t3users_services_logging extends \TYPO3\CMS\Core\Service\AbstractService
 {
     /**
      * TYPO3 Login of feuser.
@@ -42,7 +36,7 @@ class tx_t3users_services_logging extends Tx_Rnbase_Service_Base
      */
     public function logLogin($feuserUid)
     {
-        $log = tx_rnbase::makeInstance('tx_t3users_models_log', ['feuser' => $feuserUid, 'typ' => 'LOGIN']);
+        $log = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_models_log', ['feuser' => $feuserUid, 'typ' => 'LOGIN']);
         $this->writeLog($log);
     }
 
@@ -53,7 +47,7 @@ class tx_t3users_services_logging extends Tx_Rnbase_Service_Base
      */
     public function logLogout($feuserUid)
     {
-        $log = tx_rnbase::makeInstance('tx_t3users_models_log', ['feuser' => $feuserUid, 'typ' => 'LOGOUT']);
+        $log = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_models_log', ['feuser' => $feuserUid, 'typ' => 'LOGOUT']);
         $this->writeLog($log);
     }
 
@@ -77,11 +71,11 @@ class tx_t3users_services_logging extends Tx_Rnbase_Service_Base
         $row['typ'] = $log->getType();
         $row['recuid'] = $log->getRecUid();
         $row['rectable'] = $log->getRecTable();
-        //we support strings and arrays
+        // we support strings and arrays
         $data = $log->getData();
         $data = (is_array($data)) ? serialize($data) : $data;
         $row['data'] = trim($data);
-        tx_rnbase_util_DB::doInsert('tx_t3users_log', $row, 0);
+        \Sys25\RnBase\Database\Connection::getInstance()->doInsert('tx_t3users_log', $row, 0);
     }
 
     /**
@@ -94,14 +88,9 @@ class tx_t3users_services_logging extends Tx_Rnbase_Service_Base
      */
     public function search($fields, $options)
     {
-        tx_rnbase::load('tx_rnbase_util_SearchBase');
-        $searcher = tx_rnbase_util_SearchBase::getInstance('tx_t3users_search_log');
+        $searcher = \Sys25\RnBase\Search\SearchBase::getInstance('tx_t3users_search_log');
         $options['enablefieldsoff'] = 1;
 
         return $searcher->search($fields, $options);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_logging.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/services/class.tx_t3users_services_logging.php'];
 }

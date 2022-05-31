@@ -22,34 +22,23 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_view_Base');
-tx_rnbase::load('tx_rnbase_util_ListBuilder');
-
 /**
  * Viewclass to show a user.
  */
-class tx_t3users_views_ShowFeUser extends tx_rnbase_view_Base
+class tx_t3users_views_ShowFeUser extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
-    /**
-     * Erstellen des Frontend-Outputs.
-     */
-    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    protected function createOutput($template, \Sys25\RnBase\Frontend\Request\RequestInterface $request, $formatter)
     {
         // Die ViewData bereitstellen
-        $feuser = &$viewData->offsetGet('user');
-        $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+        $feuser = $request->getViewContext()->offsetGet('user');
+        $marker = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
 
         $out = $marker->parseTemplate($template, $feuser, $formatter, 'feuserdetails.feuser.');
 
         return $out;
     }
 
-    /**
-     * Returns the subpart to use for in template.
-     *
-     * @return string
-     */
-    public function getMainSubpart(&$viewData)
+    public function getMainSubpart(\Sys25\RnBase\Frontend\View\ContextInterface $viewData)
     {
         return '###FEUSER_DETAILS###';
     }

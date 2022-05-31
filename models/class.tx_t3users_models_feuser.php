@@ -1,4 +1,5 @@
 <?php
+
 use Sys25\RnBase\Database\Connection;
 use Sys25\RnBase\Utility\TYPO3;
 
@@ -28,7 +29,7 @@ use Sys25\RnBase\Utility\TYPO3;
 /**
  * Model for fe_user.
  */
-class tx_t3users_models_feuser extends tx_rnbase_model_base
+class tx_t3users_models_feuser extends \Sys25\RnBase\Domain\Model\BaseModel
 {
     private static $instances = [];
     private $bEnableFieldsOff = false;
@@ -127,6 +128,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
     public static function getCurrent()
     {
         $userId = TYPO3::getFEUserUID();
+
         return intval($userId) ? self::getInstance($userId) : false;
     }
 
@@ -188,7 +190,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
     public function isInGroup($groupUid)
     {
         foreach ($this->getGroups() as $value) {
-            $groups[$value->getUid()] = $value->getUid(); //alle Gruppen IDs sammeln
+            $groups[$value->getUid()] = $value->getUid(); // alle Gruppen IDs sammeln
         }
 
         return isset($groups[$groupUid]);

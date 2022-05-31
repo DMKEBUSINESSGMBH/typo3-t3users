@@ -25,7 +25,7 @@
 /**
  * Diese Klasse ist für die Erstellung von Markerarrays für FE Group verantwortlich.
  */
-class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
+class tx_t3users_util_FeGroupMarker extends \Sys25\RnBase\Frontend\Marker\BaseMarker
 {
     /**
      * Initialisiert den Marker Array.
@@ -43,7 +43,7 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
     /**
      * Initialisiert die Labels für die Profile-Klasse.
      *
-     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
      * @param array $defaultMarkerArr
      */
     public function initLabelMarkers(&$formatter, $confId, $defaultMarkerArr = 0, $marker = 'FEGROUP')
@@ -70,7 +70,7 @@ class tx_t3users_util_FeGroupMarker extends tx_rnbase_util_BaseMarker
         $wrappedSubpartArray = [];
         $subpartArray = [];
 
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
         return $out;
     }

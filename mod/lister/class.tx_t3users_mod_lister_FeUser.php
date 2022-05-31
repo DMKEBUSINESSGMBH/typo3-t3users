@@ -1,11 +1,9 @@
 <?php
 
-tx_rnbase::load('Tx_Rnbase_Backend_Lister_AbstractLister');
-
 /**
  * Hilfsklassen um nach Landkreisen im BE zu suchen.
  */
-class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractLister
+class tx_t3users_mod_lister_FeUser extends \Sys25\RnBase\Backend\Lister\AbstractLister
 {
     /**
      * Liefert die Funktions-Id.
@@ -28,7 +26,7 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
     /**
      * Returns the repository.
      *
-     * @return Tx_Rnbase_Domain_Repository_InterfaceSearch
+     * @return \Sys25\RnBase\Domain\Repository\SearchInterface
      */
     protected function getRepository()
     {
@@ -54,6 +52,30 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
     }
 
     /**
+     * @param array $data
+     *
+     * @return string
+     */
+    protected function buildFilterTable(array $data)
+    {
+        $out = '';
+        if (count($data)) {
+            $out .= '<table class="filters">';
+            foreach ($data as $label => $filter) {
+                $out .= '<tr>';
+                $out .= '<td>'.(isset($filter['label']) ? $filter['label'] : $label).'</td>';
+                unset($filter['label']);
+                $out .= '<td>'.implode(' ', $filter).'</td>';
+
+                $out .= '</tr>';
+            }
+            $out .= '</table>';
+        }
+
+        return $out;
+    }
+
+    /**
      * Der Selector wird erst erzeugt, wenn er benötigt wird.
      *
      * @return  tx_t3users_mod_util_Selector
@@ -61,7 +83,7 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
     protected function getSelector()
     {
         if (!$this->selector) {
-            $this->selector = tx_rnbase::makeInstance('tx_t3users_mod_util_Selector');
+            $this->selector = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_mod_util_Selector');
             $this->selector->init($this->getModule());
         }
 
@@ -126,7 +148,7 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
     }
 
     /**
-     * @return tx_rnbase_mod_IDecorator
+     * @return string
      */
     protected function getDecoratorClass()
     {
@@ -148,7 +170,7 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
         }
 
         // mehr Filter per Hook
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'mod_feuser_addFieldsAndOptions',
             [
@@ -170,7 +192,7 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
     {
         $data = parent::getSearchFormData();
         // mehr Filter per Hook
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'mod_feuser_addSearchFormData',
             [
@@ -183,8 +205,4 @@ class tx_t3users_mod_lister_FeUser extends Tx_Rnbase_Backend_Lister_AbstractList
 
         return $data;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/lister/class.tx_t3users_mod_lister_FeUser.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/lister/class.tx_t3users_mod_lister_FeUser.php'];
 }

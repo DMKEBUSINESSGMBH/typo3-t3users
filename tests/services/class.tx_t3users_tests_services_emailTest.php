@@ -1,43 +1,27 @@
 <?php
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-
 /**
  * @author Hannes Bochmann
  */
-class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
+class tx_t3users_tests_services_emailTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::setUp()
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
-        if (!tx_rnbase_util_Extensions::isLoaded('mkmailer')) {
+        if (!\Sys25\RnBase\Utility\Extensions::isLoaded('mkmailer')) {
             $this->markTestSkipped('mkmailer nicht installiert');
         }
-        if (!tx_rnbase_util_Extensions::isLoaded('mklib')) {
+        if (!\Sys25\RnBase\Utility\Extensions::isLoaded('mklib')) {
             $this->markTestSkipped('mklib nicht installiert');
         }
-
-        tx_rnbase::load('tx_t3users_services_email');
-        tx_rnbase::load('tx_mkmailer_services_Mail');
-        tx_rnbase::load('tx_mklib_tests_Util');
 
         tx_mklib_tests_Util::prepareTSFE();
         tx_mklib_tests_Util::storeExtConf('mkmailer');
         tx_mklib_tests_Util::setExtConfVar('cronpage', 'unknown', 'mkmailer');
     }
 
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::tearDown()
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        if (tx_rnbase_util_Extensions::isLoaded('mkmailer')) {
+        if (\Sys25\RnBase\Utility\Extensions::isLoaded('mkmailer')) {
             tx_mklib_tests_Util::restoreExtConf('mkmailer');
         }
     }
@@ -67,11 +51,11 @@ class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
             ->method('getTemplate')
             ->with('t3users_send_confirmation_notification')
             ->will($this->returnValue(
-                tx_rnbase::makeInstance('tx_mkmailer_models_Template', [])
+                \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_models_Template', [])
             ));
 
         $this->getMailServiceMock($mkMailerMailService)->sendNotificationAboutConfirmationToFeUser(
-            tx_rnbase::makeInstance('tx_t3users_models_feuser', []),
+            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_models_feuser', []),
             $this->createConfigurations([], 't3users')
         );
     }
@@ -83,7 +67,7 @@ class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
     {
         $mkMailerMailService = $this->getMkMailerMailServiceMock();
 
-        $templateObj = tx_rnbase::makeInstance(
+        $templateObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mkmailer_models_Template',
             [
                 'contenttext' => '###FEUSER_NAME###',
@@ -99,11 +83,11 @@ class tx_t3users_tests_services_emailTest extends tx_rnbase_tests_BaseTestCase
             ->with('t3users_send_confirmation_notification')
             ->will($this->returnValue($templateObj));
 
-        $feuser = tx_rnbase::makeInstance('tx_t3users_models_feuser', ['name' => 'John Doe']);
-        $receiver = tx_rnbase::makeInstance('tx_mkmailer_receiver_FeUser');
+        $feuser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_models_feuser', ['name' => 'John Doe']);
+        $receiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_receiver_FeUser');
         $receiver->setFeUser($feuser);
 
-        $expectedJob = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
+        $expectedJob = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_MailJob');
         $expectedJob->addReceiver($receiver);
         $expectedJob->setFrom($templateObj->getFromAddress());
         $expectedJob->setCCs($templateObj->getCcAddress());

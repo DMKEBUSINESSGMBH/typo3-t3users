@@ -22,11 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_Misc');
-tx_rnbase::load('Sys25\\RnBase\\Configuration\\Processor');
-tx_rnbase::load('tx_rnbase_parameters');
-tx_rnbase::load('Tx_Rnbase_Backend_Utility');
-
 /**
  * Searcher class for fe users.
  * Wird im Function-Modul verwendet.
@@ -52,20 +47,20 @@ class tx_t3users_mod_userSearcher
         $this->mod = $mod;
         $this->formTool = $this->mod->formTool;
         $this->resultSize = 0;
-        $this->data = tx_rnbase_parameters::getPostOrGetParameter('searchdata');
+        $this->data = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter('searchdata');
 
         $this->bAllowNonAdmins = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'fullModuleForNonAdmins');
 
         if (!isset($options['nopersist'])) {
             $searchData = ['termfeuser' => '', 'hiddenfeuser' => '', 'pagemode' => '', 'uidfeuser' => ''];
-            $oldSettings = Tx_Rnbase_Backend_Utility::getModuleData($searchData, false, $this->mod->MCONF['name']);
+            $oldSettings = \Sys25\RnBase\Backend\Utility\BackendUtility::getModuleData($searchData, false, $this->mod->MCONF['name']);
             if ($this->data['termfeuser'] != $oldSettings['termfeuser']) {
                 $this->data['uidfeuser'] = '';
             }
             if (strlen($this->data['uidfeuser']) && $this->data['uidfeuser'] != $oldSettings['uidfeuser']) {
                 $this->data['termfeuser'] = '';
             }
-            $this->SEARCH_SETTINGS = Tx_Rnbase_Backend_Utility::getModuleData(
+            $this->SEARCH_SETTINGS = \Sys25\RnBase\Backend\Utility\BackendUtility::getModuleData(
                 $searchData,
                 $this->data,
                 $this->mod->MCONF['name']
@@ -82,7 +77,7 @@ class tx_t3users_mod_userSearcher
      */
     public function hasSearched()
     {
-        return false != tx_rnbase_parameters::getPostOrGetParameter($this->searchButtonName);
+        return false != \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter($this->searchButtonName);
     }
 
     /**
@@ -121,11 +116,10 @@ class tx_t3users_mod_userSearcher
         $searchuid = intval($this->SEARCH_SETTINGS['uidfeuser']);
         $searchterm = trim($this->SEARCH_SETTINGS['termfeuser']);
         $pagemode = intval($this->SEARCH_SETTINGS['pagemode']);
-        $pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'feusrpager', $this->mod->MCONF['name'], $this->mod->id);
+        $pager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Backend\Utility\BEPager::class, 'feusrpager', $this->mod->MCONF['name'], $this->mod->id);
 
         if ($searchuid > 0 && ($GLOBALS['BE_USER']->isAdmin() || $this->bAllowNonAdmins)) {
             // Diese Suche nach der UID hat Vorrang.
-            tx_rnbase::load('tx_t3users_models_feuser');
             $item = tx_t3users_models_feuser::getInstance($searchuid);
             if ($item->isValid()) {
                 $items[] = $item;
@@ -160,7 +154,6 @@ class tx_t3users_mod_userSearcher
 
     public function searchFEUser($searchterm, $searchhidden, $pagemode, $options = [])
     {
-        tx_rnbase::load('tx_t3users_search_builder');
         $fields = [];
         $options['orderby'] = ['FEUSER.USERNAME' => 'asc'];
         if (!$searchhidden) {
@@ -183,8 +176,7 @@ class tx_t3users_mod_userSearcher
 
     public function showFEUser(&$content, $headline, &$items, $pager)
     {
-        tx_rnbase::load('tx_t3users_util_Decorator');
-        $decor = tx_rnbase::makeInstance('tx_t3users_util_FEUserDecorator');
+        $decor = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_util_FEUserDecorator');
         $columns['uid'] = ['title' => 'label_uid'];
         $columns['username'] = ['title' => 'label_tableheader_username', 'decorator' => $decor];
         $columns['usergroup'] = ['title' => 'label_tableheader_usergroup', 'decorator' => $decor];
@@ -212,8 +204,4 @@ class tx_t3users_mod_userSearcher
     {
         return $this->formTool;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_userSearcher.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/mod/class.tx_t3users_mod_userSearcher.php'];
 }

@@ -27,7 +27,7 @@
  *
  * @author René Nitzsche
  */
-class tx_t3users_mod_Module extends tx_rnbase_mod_BaseModule
+class tx_t3users_mod_Module extends \Sys25\RnBase\Backend\Module\BaseModule
 {
     /**
      * Method to get the extension key.
@@ -41,7 +41,7 @@ class tx_t3users_mod_Module extends tx_rnbase_mod_BaseModule
 
     protected function getFormTag()
     {
-        $modUrl = Tx_Rnbase_Backend_Utility::getModuleUrl(
+        $modUrl = \Sys25\RnBase\Backend\Utility\BackendUtility::getModuleUrl(
             'web_T3usersBackend',
             ['id' => $this->getPid()],
             ''

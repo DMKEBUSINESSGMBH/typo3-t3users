@@ -1,6 +1,13 @@
 Changelog
 =========
 
+11.0.0
+-----
+
+- Support for TYPO3 10.4 and 11.5 only
+- old TypoScript paths under static/ts are deprecated. Use Configuration/TypoScript
+
+
 3.0.1
 -----
 

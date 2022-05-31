@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3_MODE') || exit('Access denied.');
+defined('TYPO3') || exit('Access denied.');
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'tx_t3users_hooks_processDatamap';
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getMainFieldsClass'][] = 'tx_t3users_hooks_getMainFields';
@@ -8,35 +8,15 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['get
 $_EXTKEY = 't3users';
 
 if (!\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue($_EXTKEY, 'disableUxFeUserAuth')) {
-    // Anpassung tslib_feuserauth
-    // kann schon durch autoloading da sein aber auch eine andere Klasse sein
-    // als die von t3users
-    // FIXME: sollte ggf. mal angepasst werden...
-    if (class_exists('ux_tslib_feuserauth')) {
-        $reflector = new ReflectionClass('ux_tslib_feuserauth');
-        $rPath = realpath($reflector->getFileName());
-        $tPath = realpath(tx_rnbase_util_Extensions::extPath($_EXTKEY, '/xclasses/class.ux_tslib_feuserauth.php'));
-        // notice werfen wenn bisherige XClass nicht die von t3users ist
-        if (false === strpos($rPath, $tPath)) {
-            throw new LogicException('There allready exists an ux_tslib_feuserauth XCLASS in the path '.$rPath.' !'.' Remove the other XCLASS or or the user record won\'t be filled with the beforelastlogin column');
-        }
-        unset($reflector, $rPath, $tPath);
-    } else {
-        require_once tx_rnbase_util_Extensions::extPath($_EXTKEY, 'xclasses/class.ux_tslib_feuserauth.php');
+    if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class] ?? [])) {
+        throw new LogicException('There is already an overwrite in '.'$GLOBALS[\'TYPO3_CONF_VARS\'][\'SYS\'][\'Objects\'][\''.\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class.'\'] !'.' Remove the other overwrite or disable the overwrite of t3users.');
     }
-
-    if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication'] = [
-                'className' => 'ux_tslib_feuserauth',
-        ];
-    } else {
-        $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['tslib/class.tslib_feuserauth.php'] =
-            tx_rnbase_util_Extensions::extPath($_EXTKEY, 'xclasses/class.ux_tslib_feuserauth.php');
-    }
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class] = [
+        'className' => 'ux_tslib_feuserauth',
+    ];
 }
 
-// START Services
-tx_rnbase_util_Extensions::addService(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
     $_EXTKEY,
     't3users' /* sv type */ ,
     'tx_t3users_services_feuser' /* sv key */ ,
@@ -48,7 +28,7 @@ tx_rnbase_util_Extensions::addService(
     ]
 );
 
-tx_rnbase_util_Extensions::addService(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
     $_EXTKEY,
     't3users' /* sv type */ ,
     'tx_t3users_services_registration' /* sv key */ ,
@@ -60,7 +40,7 @@ tx_rnbase_util_Extensions::addService(
     ]
 );
 
-tx_rnbase_util_Extensions::addService(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
     $_EXTKEY,
     't3users' /* sv type */ ,
     'tx_t3users_services_logging' /* sv key */ ,
@@ -72,7 +52,7 @@ tx_rnbase_util_Extensions::addService(
     ]
 );
 
-tx_rnbase_util_Extensions::addService(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
     $_EXTKEY,
     'auth' /* sv type */ ,
     'tx_t3users_services_feuserauth' /* sv key */ ,
@@ -84,7 +64,7 @@ tx_rnbase_util_Extensions::addService(
     ]
 );
 
-tx_rnbase_util_Extensions::addService(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
     $_EXTKEY,
     't3users' /* sv type */ ,
     'tx_t3users_services_email' /* sv key */ ,
@@ -96,7 +76,7 @@ tx_rnbase_util_Extensions::addService(
     ]
 );
 
-tx_rnbase_util_Extensions::addService(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
     $_EXTKEY,
     't3users' /* sv type */ ,
     'tx_t3users_services_LoginForm' /* sv key */ ,
@@ -108,22 +88,17 @@ tx_rnbase_util_Extensions::addService(
     ]
 );
 
-// END Services
-
 // solange das Plugin USER_INT ist, müssen ein paar Parameter für den cHash ausgeschlossen werden
-Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash([
+\Sys25\RnBase\Utility\CHashUtility::addExcludedParametersForCacheHash([
     't3users[NK_forgotpass]',
     'logintype',
 ]);
 
-if (TYPO3_MODE === 'BE') {
-    // register wizard
-    Tx_Rnbase_Backend_Utility_Icons::getIconRegistry()->registerIcon(
-        'ext-t3users-wizard-icon',
-        'TYPO3\\CMS\Core\\Imaging\\IconProvider\\BitmapIconProvider',
-        ['source' => 'EXT:t3users/ext_icon.gif']
-    );
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:t3users/Configuration/TSconfig/ContentElementWizard.txt">'
-    );
-}
+\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class)->registerIcon(
+    'ext-t3users-wizard-icon',
+    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+    ['source' => 'EXT:t3users/Resources/Public/Icons/Extension.gif']
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:t3users/Configuration/TSconfig/ContentElementWizard.tsconfig">'
+);

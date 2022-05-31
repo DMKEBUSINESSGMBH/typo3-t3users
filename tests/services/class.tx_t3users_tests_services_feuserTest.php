@@ -1,22 +1,13 @@
 <?php
 
-tx_rnbase::load('tx_t3users_util_ServiceRegistry');
-tx_rnbase::load('tx_t3users_services_feuser');
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-
 /**
  * Testfälle für tx_t3users_services_feuser.
  *
  * @author Michael Wagner <dev@dmk-ebusiness.de>
  */
-class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
+class tx_t3users_tests_services_feuserTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::tearDown()
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (isset($_POST['user'])) {
             unset($_POST['user']);
@@ -46,7 +37,7 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
 
     public function providerEmailDisable()
     {
-        return [ //array($sEMail, $sResult),
+        return [ // array($sEMail, $sResult),
                 'Line: '.__LINE__ => ['ich@da.com', 'ich@@da.com'],
                 'Line: '.__LINE__ => ['ich@@da.com', 'ich@@da.com'],
             ];
@@ -69,7 +60,7 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
 
     public function providerEmailEnable()
     {
-        return [ //array($sEMail, $sResult),
+        return [ // array($sEMail, $sResult),
                 'Line: '.__LINE__ => ['ich@da.com', 'ich@da.com'],
                 'Line: '.__LINE__ => ['ich@@da.com', 'ich@da.com'],
                 'Line: '.__LINE__ => ['ich@@@@@@da.com', 'ich@da.com'],
@@ -90,7 +81,7 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
             ->method('getRnBaseDbUtil');
 
         $feUserRecord = ['uid' => 1];
-        $feUser = tx_rnbase::makeInstance('tx_t3users_models_feuser', $feUserRecord);
+        $feUser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_models_feuser', $feUserRecord);
         $groups = $feUserService->getFeGroups($feUser);
 
         $this->assertTrue(is_array($groups), 'kein array zurück gegeben');
@@ -103,8 +94,8 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
     public function testGetRnBaseDbUtil()
     {
         self::assertInstanceOf(
-            'Tx_Rnbase_Database_Connection',
-            $this->callInaccessibleMethod(tx_rnbase::makeInstance('tx_t3users_services_feuser'), 'getRnBaseDbUtil')
+            \Sys25\RnBase\Database\Connection::class,
+            $this->callInaccessibleMethod(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_services_feuser'), 'getRnBaseDbUtil')
         );
     }
 
@@ -119,7 +110,7 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
         );
 
         $rnBaseDbUtil = $this->getMock(
-            'tx_rnbase_util_DB',
+            \Sys25\RnBase\Database\Connection::class,
             ['doSelect']
         );
         $usergroups = '1,2,3';
@@ -138,7 +129,7 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
             ->will($this->returnValue($rnBaseDbUtil));
 
         $feUserRecord = ['uid' => 1, 'usergroup' => $usergroups];
-        $feUser = tx_rnbase::makeInstance('tx_t3users_models_feuser', $feUserRecord);
+        $feUser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_models_feuser', $feUserRecord);
         $groups = $feUserService->getFeGroups($feUser);
 
         $this->assertEquals(['testResult'], $groups, 'gruppen falsch');
@@ -146,11 +137,12 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
 
     /**
      * @group unit
-     * @expectedException \tx_t3users_exceptions_User
-     * @expectedExceptionMessage No user id given!
      */
     public function testUpdateFeUserByConfirmstringThrowsExceptionIfNoUid()
     {
+        $this->expectException('tx_t3users_exceptions_User');
+        $this->expectExceptionMessage('No user id given!');
+
         $feUserService = $this->getMock(
             'tx_t3users_services_feuser',
             ['getRnBaseDbUtil']
@@ -163,11 +155,12 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
 
     /**
      * @group unit
-     * @expectedException \tx_t3users_exceptions_User
-     * @expectedExceptionMessage No user id given!
      */
     public function testUpdateFeUserByConfirmstringThrowsExceptionIfUidIsNoInteger()
     {
+        $this->expectException('tx_t3users_exceptions_User');
+        $this->expectExceptionMessage('No user id given!');
+
         $feUserService = $this->getMock(
             'tx_t3users_services_feuser',
             ['getRnBaseDbUtil']
@@ -180,11 +173,12 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
 
     /**
      * @group unit
-     * @expectedException \tx_t3users_exceptions_User
-     * @expectedExceptionMessage No confirmstring given!
      */
     public function testUpdateFeUserByConfirmstringThrowsExceptionIfNoConfirmstring()
     {
+        $this->expectException('tx_t3users_exceptions_User');
+        $this->expectExceptionMessage('No confirmstring given!');
+
         $feUserService = $this->getMock(
             'tx_t3users_services_feuser',
             ['getRnBaseDbUtil']
@@ -205,7 +199,7 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
             ['getRnBaseDbUtil']
         );
         $databaseUtility = $this->getMock(
-            'tx_rnbase_util_DB',
+            \Sys25\RnBase\Database\Connection::class,
             ['doUpdate']
         );
         $data = ['city' => 'def'];
@@ -291,7 +285,7 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
     {
         self::markTestIncomplete("Error: Class 'TYPO3\CMS\Core\TimeTracker\NullTimeTracker' not found");
 
-        tx_rnbase_util_Misc::prepareTSFE(['force' => true]);
+        \Sys25\RnBase\Utility\Misc::prepareTSFE(['force' => true]);
 
         $GLOBALS['TSFE']->fe_user = $this->getMock('stdClass', ['start']);
         $GLOBALS['TSFE']->fe_user->expects(self::once())->method('start');

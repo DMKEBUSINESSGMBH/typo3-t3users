@@ -22,48 +22,27 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_view_Base');
-tx_rnbase::load('tx_rnbase_util_Templates');
-
 /**
  * Viewklasse für die Anzeige.
  */
-class tx_t3users_views_ShowRegistrationConfirm extends tx_rnbase_view_Base
+class tx_t3users_views_ShowRegistrationConfirm extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
-    /**
-     * Erstellen des Frontend-Outputs.
-     *
-     * @param string $template
-     * @param ArrayObject $viewData
-     * @param \Sys25\RnBase\Configuration\ProcessorInterface $configurations
-     * @param tx_rnbase_util_FormatUtil $formatter
-     *
-     * @return string
-     */
-    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    protected function createOutput($template, \Sys25\RnBase\Frontend\Request\RequestInterface $request, $formatter)
     {
-        $subpartName = '###PART_'.$viewData->offsetGet('part').'###';
-        $template = tx_rnbase_util_Templates::getSubpart($template, $subpartName);
+        $subpartName = '###PART_'.$request->getViewContext()->offsetGet('part').'###';
+        $template = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($template, $subpartName);
 
-        if (tx_rnbase_util_BaseMarker::containsMarker($template, 'FEUSER_')) {
-            $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
-            $template = $marker->parseTemplate($template, $viewData->offsetGet('feuser'), $formatter, $this->getController()->getConfId().'feuser.', 'FEUSER');
+        if (\Sys25\RnBase\Frontend\Marker\BaseMarker::containsMarker($template, 'FEUSER_')) {
+            $marker = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
+            $feuser = $request->getViewContext()->offsetGet('feuser');
+            $template = $marker->parseTemplate($template, $feuser, $formatter, $request->getConfId().'feuser.', 'FEUSER');
         }
 
         return $template;
     }
 
-    /**
-     * Returns the subpart to use for in template.
-     *
-     * @return string
-     */
-    public function getMainSubpart(&$viewData)
+    public function getMainSubpart(\Sys25\RnBase\Frontend\View\ContextInterface $viewData)
     {
         return '###REGISTRATIONCONFIRM###';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistrationConfirm.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_ShowRegistrationConfirm.php'];
 }

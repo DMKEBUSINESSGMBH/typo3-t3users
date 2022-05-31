@@ -1,4 +1,5 @@
 <?php
+
 use Sys25\RnBase\Utility\Misc;
 use Sys25\RnBase\Utility\TYPO3;
 
@@ -33,7 +34,7 @@ use Sys25\RnBase\Utility\TYPO3;
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
+class tx_t3users_util_FeUserMarker extends \Sys25\RnBase\Frontend\Marker\SimpleMarker
 {
     /**
      * Initialisiert den Marker Array.
@@ -51,14 +52,14 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
     /**
      * Initialisiert die Labels für die Profile-Klasse.
      *
-     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
      * @param string $confId
      * @param mixed|array $defaultMarkerArr
      * @param string $marker
      *
      * @return array
      */
-    public function initLabelMarkers(tx_rnbase_util_FormatUtil $formatter, $confId, $defaultMarkerArr = 0, $marker = 'FEUSER')
+    public function initLabelMarkers(\Sys25\RnBase\Frontend\Marker\FormatUtil $formatter, $confId, $defaultMarkerArr = 0, $marker = 'FEUSER')
     {
         return $this->prepareLabelMarkers('tx_t3users_models_feuser', $formatter, $confId, $defaultMarkerArr, $marker);
     }
@@ -68,7 +69,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
      *
      * @param string $template The HTML-Template
      * @param tx_t3users_models_feuser|null $feuser The fe user
-     * @param tx_rnbase_util_FormatUtil $formatter The Formatte to use
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter The Formatte to use
      * @param string $confId Pfad der TS-Config des Objekt, z.B. 'listView.event.'
      * @param string $marker Name des Markers für ein Object, z.B. FEUSER
      *        Von diesem String hängen die entsprechenden weiteren Marker ab: ###FEUSER_NAME###
@@ -78,8 +79,8 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
 
     /**
      * @param string $template das HTML-Template
-     * @param Tx_Rnbase_Domain_Model_DomainInterface $item
-     * @param tx_rnbase_util_FormatUtil $formatter der zu verwendente Formatter
+     * @param \Sys25\RnBase\Domain\Model\DomainModelInterface $item
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter der zu verwendente Formatter
      * @param string $confId Pfad der TS-Config
      * @param string $marker Name des Markers
      *
@@ -109,7 +110,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
         $template = $this->prepareTemplate($template, $feuser, $formatter, $confId, $marker);
 
         // Es wird das MarkerArray mit den Daten des Records gefüllt.
-        $ignore = Tx_Rnbase_Frontend_Marker_Utility::findUnusedAttributes($feuser, $template, $marker);
+        $ignore = \Sys25\RnBase\Frontend\Marker\MarkerUtility::findUnusedAttributes($feuser, $template, $marker);
 
         $markerArray = $formatter->getItemMarkerArrayWrapped(
             $feuser->getRecord(),
@@ -170,15 +171,15 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
     /**
      * Führt vor dem parsen Änderungen am Model durch.
      *
-     * @param Tx_Rnbase_Domain_Model_DomainInterface $item
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param \Sys25\RnBase\Domain\Model\DataInterface $item
+     * @param \Sys25\RnBase\Configuration\ConfigurationInterface $configurations
      * @param string $confId
      *
      * @return void
      */
     protected function prepareItem(
-        Tx_Rnbase_Domain_Model_DataInterface $item,
-        Tx_Rnbase_Configuration_ProcessorInterface $configurations,
+        \Sys25\RnBase\Domain\Model\DataInterface $item,
+        \Sys25\RnBase\Configuration\ConfigurationInterface $configurations,
         $confId
     ) {
         $item->setIsCurrentUser(
@@ -193,7 +194,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
      *
      * @param string $template
      * @param tx_t3users_models_feuser $feuser
-     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
      * @param string $confId
      * @param string $markerPrefix
      *
@@ -202,7 +203,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
     private function _addGroups($template, &$feuser, &$formatter, $confId, $markerPrefix)
     {
         $children = $feuser->getGroups();
-        $listBuilder = tx_rnbase::makeInstance('tx_rnbase_util_ListBuilder');
+        $listBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Marker\ListBuilder::class);
         $out = $listBuilder->render(
             $children,
             false,
@@ -224,7 +225,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker
      * @param array $markerArray
      * @param array $wrappedSubpartArray
      * @param string $confId
-     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
      */
     protected function prepareLinks(
         $feuser,

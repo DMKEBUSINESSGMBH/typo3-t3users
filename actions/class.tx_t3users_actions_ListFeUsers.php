@@ -22,36 +22,29 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
-tx_rnbase::load('tx_rnbase_filter_BaseFilter');
-tx_rnbase::load('tx_t3users_search_builder');
-
 /**
  * Controller für die Listenansicht für FeGruppen.
  */
-class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
+class tx_t3users_actions_ListFeUsers extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
-    /**
-     * @param array_object $parameters
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
-     *
-     * @return string error msg or null
-     */
-    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    public function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
+        $parameters = $request->getParameters();
+        $configurations = $request->getConfigurations();
+        $viewData = $request->getViewContext();
+
         $userSrv = tx_t3users_util_ServiceRegistry::getFeUserService();
 
         $fields = [];
         $options = ['count' => 1];
-        $this->initSearch($fields, $options, $parameters, $configurations);
+        $this->initSearch($fields, $options, $request);
         $listSize = $userSrv->search($fields, $options);
         unset($options['count']);
         // PageBrowser initialisieren
-        $pageBrowser = tx_rnbase::makeInstance('tx_rnbase_util_PageBrowser', 'feusers');
-        $pageSize = $this->getPageSize($parameters, $configurations);
+        $pageBrowser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\PageBrowser::class, 'feusers');
+        $pageSize = $this->getPageSize($configurations);
 
-        //Wurde neu gesucht?
+        // Wurde neu gesucht?
         if ($parameters->offsetGet('NK_newsearch') || $parameters->offsetGet('newsearch')) {
             // Der Suchbutton wurde neu gedrückt. Der Pager muss initialisiert werden
             $pageBrowser->setState(null, $listSize, $pageSize);
@@ -66,7 +59,7 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
         $viewData->offsetSet('userlist', $result);
         $viewData->offsetSet('pagebrowser', $pageBrowser);
 
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'actions_ListFeUsers_afterHandleRequest',
             [
@@ -83,35 +76,29 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
     /**
      * Liefert die Anzahl der Ergebnisse pro Seite.
      *
-     * @param array $parameters
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      *
      * @return int
      */
-    protected function getPageSize(&$parameters, &$configurations)
+    protected function getPageSize($configurations)
     {
         return intval($configurations->get('feuserlist.feuser.pagebrowser.limit'));
     }
 
-    protected function initSearch(&$fields, &$options, &$parameters, &$configurations)
+    protected function initSearch(&$fields, &$options, \Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
         // Look for static user uid
-        $uids = $configurations->get('feuserlist.staticUsers');
+        $uids = $request->getConfigurations()->get('feuserlist.staticUsers');
         if ($uids) {
             $fields['FEUSER.UID'][OP_IN_INT] = $uids;
         } else {
-            $filter = tx_rnbase_filter_BaseFilter::createFilter(
-                $parameters,
-                $configurations,
-                $configurations->getViewData(),
-                $this->getConfId()
-            );
+            $filter = \Sys25\RnBase\Frontend\Filter\BaseFilter::createFilter($request, $this->getConfId());
             $filter->init($fields, $options);
         }
 
         // Freitextsuche
         // @TODO freitext suche in eigenen filter auslagern
-        tx_t3users_search_builder::buildFeUserFreeText($fields, $parameters->offsetGet('searchfeuser'));
+        tx_t3users_search_builder::buildFeUserFreeText($fields, $request->getParameters()->offsetGet('searchfeuser'));
     }
 
     public function getTemplateName()
@@ -123,8 +110,4 @@ class tx_t3users_actions_ListFeUsers extends tx_rnbase_action_BaseIOC
     {
         return 'tx_t3users_views_ListFeUsers';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ListFeUsers.php'];
 }

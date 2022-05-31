@@ -23,9 +23,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-tx_rnbase::load('tx_t3users_actions_Login');
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
  * tx_t3users_tests_actions_LoginTest.
@@ -34,14 +31,9 @@ tx_rnbase::load('tx_rnbase_util_Misc');
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
+class tx_t3users_tests_actions_LoginTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::setUp()
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         /*
          * warning "Cannot modify header information" abfangen.
@@ -67,9 +59,8 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
      * @param string $errstr
      * @param string $errfile
      * @param int $errline
-     * @param array $errcontext
      */
-    public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+    public static function errorHandler($errno, $errstr, $errfile, $errline)
     {
         $ignoreMsg = [
             'Cannot modify header information - headers already sent by',
@@ -84,21 +75,16 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
         return null;
     }
 
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::tearDown()
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($_GET['redirect_url']);
 
         // error handler zurücksetzen
         restore_error_handler();
 
-        $property = new ReflectionProperty(get_class(tx_rnbase_util_TYPO3::getPageRenderer()), 'jsInline');
+        $property = new ReflectionProperty(\TYPO3\CMS\Core\Page\PageRenderer::class, 'jsInline');
         $property->setAccessible(true);
-        $property->setValue(tx_rnbase_util_TYPO3::getPageRenderer(), []);
+        $property->setValue(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class), []);
     }
 
     /**
@@ -107,7 +93,7 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
     public function testHandleNotLoggedInRemovesXssFromRedirectUrl()
     {
         $_GET['redirect_url'] =
-            tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL')."'><script>alert(\"ohoh\");</script>'";
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL')."'><script>alert(\"ohoh\");</script>'";
         $loginAction = $this->getAccessibleMock(
             'tx_t3users_actions_Login',
             [
@@ -116,31 +102,23 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
             ]
         );
 
-        $parameters = null;
-        $configurations = $this->createConfigurations([], 't3users');
+        $configurations = \Sys25\RnBase\Testing\TestUtility::createConfigurations([], 't3users');
         $viewData = new ArrayObject([]);
         $action = 'login';
-        $loginAction->setConfigurations($configurations);
 
         $loginAction->_callRef(
             'handleNotLoggedIn',
             $action,
-            $parameters,
             $configurations,
             $viewData
         );
 
         $marker = $viewData->offsetGet('markers');
 
-        // the removeXss method in rn_base changed
-        if (tx_rnbase_util_TYPO3::isExtMinVersion('rn_base', '1007001')) {
-            $expectedSanitizedString = '&#039;&amp;gt;&amp;lt;script&amp;gt;alert(&amp;quot;ohoh&amp;quot;);&amp;lt;/script&amp;gt;&#039;';
-        } else {
-            $expectedSanitizedString = '&#039;&gt;&lt;sc&lt;x&gt;ript&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;&#039;';
-        }
+        $expectedSanitizedString = '&#039;&gt;&lt;script&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;&#039;';
 
         $this->assertEquals(
-            tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_URL').$expectedSanitizedString,
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL').$expectedSanitizedString,
             $marker['redirect_url']
         );
     }
@@ -158,17 +136,14 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
             ]
         );
 
-        $parameters = null;
         $configurations = $this->createConfigurations([], 't3users');
         $viewData = new ArrayObject([]);
         $action = 'login';
-        $loginAction->setConfigurations($configurations);
 
         $startTime = microtime(true);
         $loginAction->_callRef(
             'handleNotLoggedIn',
             $action,
-            $parameters,
             $configurations,
             $viewData
         );
@@ -192,19 +167,16 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
             ]
         );
 
-        $parameters = null;
         $configurations = $this->createConfigurations([
             'loginbox.' => ['delayInSecondsAfterFailedLogin' => 1],
         ], 't3users');
         $viewData = new ArrayObject([]);
         $action = 'login';
-        $loginAction->setConfigurations($configurations);
 
         $startTime = microtime(true);
         $loginAction->_callRef(
             'handleNotLoggedIn',
             $action,
-            $parameters,
             $configurations,
             $viewData
         );
@@ -222,7 +194,7 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
     {
         self::markTestIncomplete('GeneralUtility::devLog() will be removed with TYPO3 v10.0.');
 
-        $loginAction = tx_rnbase::makeInstance('tx_t3users_actions_Login');
+        $loginAction = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_actions_Login');
 
         $configurations = $this->createConfigurations(
             ['loginbox.' => ['extend.' => ['method' => 'rsa7', 'rsa7.' => ['jsCode' => 'myCode']]]],
@@ -235,7 +207,7 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
             [&$markerArray, 'whatever', $configurations, 'loginbox.']
         );
 
-        $pageRenderer = tx_rnbase_util_TYPO3::getPageRenderer();
+        $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
         $property = new ReflectionProperty(get_class($pageRenderer), 'jsInline');
         $property->setAccessible(true);
         $inlineJavaScriptCode = $property->getValue($pageRenderer);
@@ -250,7 +222,7 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
     {
         self::markTestIncomplete('GeneralUtility::devLog() will be removed with TYPO3 v10.0.');
 
-        $loginAction = tx_rnbase::makeInstance('tx_t3users_actions_Login');
+        $loginAction = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_actions_Login');
 
         $configurations = $this->createConfigurations(
             ['loginbox.' => ['extend.' => ['method' => 'rsa7']]],
@@ -263,7 +235,7 @@ class tx_t3users_tests_actions_LoginTest extends tx_rnbase_tests_BaseTestCase
             [&$markerArray, 'whatever', $configurations, 'loginbox.']
         );
 
-        $pageRenderer = tx_rnbase_util_TYPO3::getPageRenderer();
+        $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
         $property = new ReflectionProperty(get_class($pageRenderer), 'jsInline');
         $property->setAccessible(true);
         $inlineJavaScriptCode = $property->getValue($pageRenderer);

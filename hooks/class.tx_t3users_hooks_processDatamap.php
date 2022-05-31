@@ -68,7 +68,3 @@ class tx_t3users_hooks_processDatamap
         return $ymdString;
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_processDatamap.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/hooks/class.tx_t3users_hooks_processDatamap.php'];
-}

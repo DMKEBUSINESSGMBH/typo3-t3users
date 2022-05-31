@@ -22,32 +22,22 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_view_Base');
-tx_rnbase::load('tx_rnbase_util_BaseMarker');
-
 /**
  * Viewklasse für die Darstellung der Loginbox.
  */
-class tx_t3users_views_Login extends tx_rnbase_view_Base
+class tx_t3users_views_Login extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
-    /**
-     * Enter description here...
-     *
-     * @param string $template
-     * @param arrayobject $viewData
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param tx_rnbase_util_FormatUtil $formatter
-     *
-     * @return string
-     */
-    public function createOutput($template, &$viewData, &$configurations, &$formatter)
+    protected function createOutput($template, \Sys25\RnBase\Frontend\Request\RequestInterface $request, $formatter)
     {
+        $viewData = $request->getViewContext();
+
         // Wir holen die Daten von der Action ab
         $feuser = $viewData->offsetGet('feuser');
         $markers = $viewData->offsetGet('markers');
         $markerArray = $formatter->getItemMarkerArrayWrapped($markers, 'loginbox.marker.', 0, '');
+        $subpartArray = $wrappedSubpartArray = [];
         // Passwort-Link
-        tx_rnbase_util_BaseMarker::initLink(
+        \Sys25\RnBase\Frontend\Marker\BaseMarker::initLink(
             $markerArray,
             $subpartArray,
             $wrappedSubpartArray,
@@ -58,7 +48,7 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base
             ['NK_forgotpass' => '1']
         );
         // Register-Link
-        tx_rnbase_util_BaseMarker::initLink(
+        \Sys25\RnBase\Frontend\Marker\BaseMarker::initLink(
             $markerArray,
             $subpartArray,
             $wrappedSubpartArray,
@@ -69,13 +59,13 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base
             []
         );
 
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
         // We do it twice, since some marker contain other markers
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($out, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($out, $markerArray, $subpartArray, $wrappedSubpartArray);
 
         if (is_object($feuser)) {
             // Jetzt mit dem FEuser-Marker drüber
-            $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+            $marker = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
             $out = $marker->parseTemplate($out, $feuser, $formatter, 'loginbox.feuser.');
         }
 
@@ -88,13 +78,8 @@ class tx_t3users_views_Login extends tx_rnbase_view_Base
      *
      * @return string
      */
-    public function getMainSubpart(&$viewData)
+    public function getMainSubpart(\Sys25\RnBase\Frontend\View\ContextInterface $viewData)
     {
         return $viewData->offsetGet('subpart');
-        //      return '###LOGINBOX###';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_Login.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/views/class.tx_t3users_views_Login.php'];
 }

@@ -22,12 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_model_base');
-
 /**
  * Model for fe_group.
  */
-class tx_t3users_models_fegroup extends tx_rnbase_model_base
+class tx_t3users_models_fegroup extends \Sys25\RnBase\Domain\Model\BaseModel
 {
     private static $instances = [];
 

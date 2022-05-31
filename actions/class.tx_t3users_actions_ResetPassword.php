@@ -28,22 +28,16 @@
  * benötigte Klassen einbinden
  */
 
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
-
 /**
  * Reset des Passworts eines Users.
  */
-class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC
+class tx_t3users_actions_ResetPassword extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
-    /**
-     * @param tx_rnbase_parameters $parameters
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param array $viewData
-     *
-     * @return string error msg or null
-     */
-    protected function handleRequest(&$parameters, &$configurations, &$viewdata)
+    public function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
+        $parameters = $request->getParameters();
+        $viewdata = $request->getViewContext();
+
         $confirmstring = htmlspecialchars($parameters->get('confirm'));
         $uid = $parameters->getInt('uid');
         $viewdata->offsetSet('linkparams', ['confirm' => $confirmstring, 'uid' => $uid]);
@@ -62,7 +56,7 @@ class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC
                 $validated = ($pass1 && $pass1 == $pass2);
                 $validationFailureMessage = '###LABEL_WRONG_PASS###';
                 // Hook für weitere Validierungen
-                tx_rnbase_util_Misc::callHook(
+                \Sys25\RnBase\Utility\Misc::callHook(
                     't3users',
                     'resetPassword_ValidatePassword',
                     [
@@ -103,8 +97,4 @@ class tx_t3users_actions_ResetPassword extends tx_rnbase_action_BaseIOC
     {
         return 'tx_t3users_views_ResetPassword';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ResetPassword.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/t3users/actions/class.tx_t3users_actions_ResetPassword.php'];
 }
