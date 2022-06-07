@@ -40,13 +40,8 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
      */
     public function setUp()
     {
-        if (tx_rnbase_util_TYPO3::isTYPO46OrHigher()) {
-            $GLOBALS['LOCAL_LANG']['default']['msg_change_error'][0]['target'] = 'error on update';
-            $GLOBALS['LOCAL_LANG']['default']['msg_change_success'][0]['target'] = 'success on update';
-        } else {
-            $GLOBALS['LOCAL_LANG']['msg_change_error'] = 'error on update';
-            $GLOBALS['LOCAL_LANG']['msg_change_success'] = 'success on update';
-        }
+    	$GLOBALS['LOCAL_LANG']['default']['msg_change_error'][0]['target'] = 'error on update';
+    	$GLOBALS['LOCAL_LANG']['default']['msg_change_success'][0]['target'] = 'success on update';
     }
 
     /**
