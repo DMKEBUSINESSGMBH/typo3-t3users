@@ -40,8 +40,8 @@ class tx_t3users_tests_actions_EditFeUserTest extends tx_rnbase_tests_BaseTestCa
      */
     public function setUp()
     {
-    	$GLOBALS['LOCAL_LANG']['default']['msg_change_error'][0]['target'] = 'error on update';
-    	$GLOBALS['LOCAL_LANG']['default']['msg_change_success'][0]['target'] = 'success on update';
+        $GLOBALS['LOCAL_LANG']['default']['msg_change_error'][0]['target'] = 'error on update';
+        $GLOBALS['LOCAL_LANG']['default']['msg_change_success'][0]['target'] = 'success on update';
     }
 
     /**
