@@ -1,4 +1,5 @@
 <?php
+
 use Sys25\RnBase\Utility\Misc;
 use Sys25\RnBase\Utility\TYPO3;
 

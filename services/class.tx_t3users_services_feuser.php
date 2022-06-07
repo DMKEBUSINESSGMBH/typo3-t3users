@@ -1,8 +1,9 @@
 <?php
-use Sys25\RnBase\Utility\TYPO3;
-use Sys25\RnBase\Utility\Logger;
+
 use Sys25\RnBase\Database\Connection;
+use Sys25\RnBase\Utility\Logger;
 use Sys25\RnBase\Utility\Strings;
+use Sys25\RnBase\Utility\TYPO3;
 
 /***************************************************************
  *  Copyright notice

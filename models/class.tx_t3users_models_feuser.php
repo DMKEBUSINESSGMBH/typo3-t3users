@@ -1,4 +1,5 @@
 <?php
+
 use Sys25\RnBase\Database\Connection;
 use Sys25\RnBase\Utility\TYPO3;
 
@@ -127,6 +128,7 @@ class tx_t3users_models_feuser extends tx_rnbase_model_base
     public static function getCurrent()
     {
         $userId = TYPO3::getFEUserUID();
+
         return intval($userId) ? self::getInstance($userId) : false;
     }
 

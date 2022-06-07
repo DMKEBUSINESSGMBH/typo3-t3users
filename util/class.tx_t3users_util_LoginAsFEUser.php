@@ -1,8 +1,9 @@
 <?php
-use Sys25\RnBase\Utility\TYPO3;
+
 use Sys25\RnBase\Database\Connection;
 use Sys25\RnBase\Utility\Misc;
 use Sys25\RnBase\Utility\T3General;
+use Sys25\RnBase\Utility\TYPO3;
 use Sys25\RnBase\Utility\Typo3Classes;
 
 /***************************************************************

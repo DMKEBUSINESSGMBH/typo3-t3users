@@ -103,7 +103,7 @@ class tx_t3users_tests_services_feuserTest extends tx_rnbase_tests_BaseTestCase
     public function testGetRnBaseDbUtil()
     {
         self::assertInstanceOf(
-            'Tx_Rnbase_Database_Connection',
+            \Sys25\RnBase\Database\Connection::class,
             $this->callInaccessibleMethod(tx_rnbase::makeInstance('tx_t3users_services_feuser'), 'getRnBaseDbUtil')
         );
     }
