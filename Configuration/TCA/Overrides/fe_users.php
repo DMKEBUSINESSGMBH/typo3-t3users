@@ -5,10 +5,11 @@ $GLOBALS['TCA']['fe_users']['columns']['username']['config']['eval'] = 'nospace,
 \Sys25\RnBase\Utility\Extensions::addTCAcolumns('fe_users', [
     // don't display in BE, but define it in TCA so that this column is included in fe_user-Model!
     'confirmstring' => [
-        'type' => 'none',
+        'config' => ['type' => 'none'],
     ],
     'confirmtimeout' => [
         'type' => 'none',
+        'config' => ['type' => 'none'],
     ],
 ]);
 
