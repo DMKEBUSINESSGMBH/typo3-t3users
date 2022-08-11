@@ -32,8 +32,8 @@ class tx_t3users_views_Login extends \Sys25\RnBase\Frontend\View\Marker\BaseView
         $viewData = $request->getViewContext();
 
         // Wir holen die Daten von der Action ab
-        $feuser = $viewData->offsetGet('feuser');
-        $markers = $viewData->offsetGet('markers');
+        $feuser = $viewData->offsetExists('feuser') ? $viewData->offsetGet('feuser') : null;
+        $markers = $viewData->offsetExists('markers') ? $viewData->offsetGet('markers') : null;
         $markerArray = $formatter->getItemMarkerArrayWrapped($markers, 'loginbox.marker.', 0, '');
         $subpartArray = $wrappedSubpartArray = [];
         // Passwort-Link

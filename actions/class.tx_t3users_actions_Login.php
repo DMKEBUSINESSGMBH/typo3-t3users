@@ -44,7 +44,7 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
 
         // Find action: login, logout, forgotPassword
         $action = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter('logintype');
-        $finished = intval($parameters->offsetGet('NK_loginfinished'));
+        $finished = intval($parameters->offsetExists('NK_loginfinished') ? $parameters->offsetGet('NK_loginfinished') : 0);
         if ($finished) {
             $action = 'login';
         }
@@ -53,11 +53,11 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
         $loginActionOnly = $loginActionOnly && ('true' == strtolower($loginActionOnly) || intval($loginActionOnly) > 0);
         if (!$action && !$loginActionOnly) {
             // no action found. Check forgot password
-            if (intval($parameters->offsetGet('NK_forgotpass'))) {
+            if (intval($parameters->offsetExists('NK_forgotpass') ? $parameters->offsetGet('NK_forgotpass') : 0)) {
                 $action = 'forgotpass';
             }
             // no action found. Check request confirmation mail
-            if (intval($parameters->offsetGet('NK_requestconfirmation'))) {
+            if (intval($parameters->offsetExists('NK_requestconfirmation') ? $parameters->offsetGet('NK_requestconfirmation') : 0)) {
                 $action = 'requestconfirmation';
             }
         }
@@ -197,10 +197,10 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
             $statusKey = 'goodbye';
         } else {
             $statusKey = 'logout';
-            if ('' == $markerArr['redirect_url'] && 'referrer' == $configurations->get($this->getConfId().'redirectMode')) {
+            if ('' == ($markerArr['redirect_url'] ?? '') && 'referrer' == $configurations->get($this->getConfId().'redirectMode')) {
                 $markerArr['redirect_url'] = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('HTTP_REFERER'));
             }
-            if ('' == $markerArr['redirect_url'] && 'force' == $configurations->get($this->getConfId().'redirectMode')) {
+            if ('' == ($markerArr['redirect_url'] ?? '') && 'force' == $configurations->get($this->getConfId().'redirectMode')) {
                 $markerArr['redirect_url'] = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
             }
         }
@@ -210,7 +210,7 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
             $markerArr['redirect_url'] = $redirectUrl;
         }
 
-        $markerArr['redirect_url'] = preg_replace('/[&?]logintype=[a-z]+/', '', $markerArr['redirect_url']);
+        $markerArr['redirect_url'] = preg_replace('/[&?]logintype=[a-z]+/', '', ($markerArr['redirect_url'] ?? ''));
         $markerArr['redirect_url'] = htmlspecialchars($markerArr['redirect_url'], ENT_QUOTES);
 
         $this->setLanguageMarkers($markerArr, $configurations, $statusKey);

@@ -7,17 +7,9 @@
 				<source>FE-User Management (T3users)</source>
 				<target>FE-User Management (T3users)</target>
 			</trans-unit>
-			<trans-unit id="plugin.t3users.description" resname="plugin.t3users.description"  approved="yes">
-				<source>Loginbox, list of users and groups</source>
-				<target/>
-			</trans-unit>
 			<trans-unit id="plugin.t3users.flexform.tab.common" resname="plugin.t3users.flexform.tab.common"  approved="yes">
 				<source>Common</source>
 				<target>Allgemeines</target>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.tab.loginbox" resname="plugin.t3users.flexform.tab.loginbox"  approved="yes">
-				<source>Login-Box</source>
-				<target/>
 			</trans-unit>
 			<trans-unit id="plugin.t3users.flexform.tab.userinfo" resname="plugin.t3users.flexform.tab.userinfo"  approved="yes">
 				<source>Userinformation</source>
@@ -30,10 +22,6 @@
 			<trans-unit id="plugin.t3users.flexform.tab.renewSession" resname="plugin.t3users.flexform.tab.renewSession"  approved="yes">
 				<source>Renew Session</source>
 				<target>Session erneuern</target>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.action" resname="plugin.t3users.flexform.action"  approved="yes">
-				<source>View</source>
-				<target/>
 			</trans-unit>
 			<trans-unit id="plugin.t3users.flexform.action.LoginBox" resname="plugin.t3users.flexform.action.LoginBox"  approved="yes">
 				<source>LoginBox for FE Users</source>
@@ -67,14 +55,6 @@
 				<source>Renew Session (prevent automatic logout)</source>
 				<target>Session erneuern (automatisches Logout verhindern)</target>
 			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.loginbox.header_logout" resname="plugin.t3users.flexform.loginbox.header_logout"  approved="yes">
-				<source>Logout Header</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.loginbox.message_logout" resname="plugin.t3users.flexform.loginbox.message_logout"  approved="yes">
-				<source>Logout Message</source>
-				<target/>
-			</trans-unit>
 			<trans-unit id="plugin.t3users.flexform.loginbox.header_welcome" resname="plugin.t3users.flexform.loginbox.header_welcome"  approved="yes">
 				<source>Welcome Header</source>
 				<target>Willkommen Überschrift</target>
@@ -82,30 +62,6 @@
 			<trans-unit id="plugin.t3users.flexform.loginbox.message_welcome" resname="plugin.t3users.flexform.loginbox.message_welcome"  approved="yes">
 				<source>Welcome Message</source>
 				<target>Willkommen Nachricht</target>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.loginbox.header_goodbye" resname="plugin.t3users.flexform.loginbox.header_goodbye"  approved="yes">
-				<source>Goodbye Header</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.loginbox.message_goodbye" resname="plugin.t3users.flexform.loginbox.message_goodbye"  approved="yes">
-				<source>Goodbye Message</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.loginbox.header_login" resname="plugin.t3users.flexform.loginbox.header_login"  approved="yes">
-				<source>Logged in Header</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.loginbox.message_login" resname="plugin.t3users.flexform.loginbox.message_login"  approved="yes">
-				<source>Logged in Message</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.loginbox.header_login_error" resname="plugin.t3users.flexform.loginbox.header_login_error"  approved="yes">
-				<source>Login error Header</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.loginbox.message_login_error" resname="plugin.t3users.flexform.loginbox.message_login_error"  approved="yes">
-				<source>Login error Message</source>
-				<target/>
 			</trans-unit>
 			<trans-unit id="plugin.t3users.flexform.loginbox.emailFrom" resname="plugin.t3users.flexform.loginbox.emailFrom"  approved="yes">
 				<source>Forgot password email from address</source>
@@ -158,14 +114,6 @@
 			<trans-unit id="plugin.t3users.flexform.userinfo.currentUser" resname="plugin.t3users.flexform.userinfo.currentUser"  approved="yes">
 				<source>Currently logged in User</source>
 				<target>Gegenwärtig angemeldeter FE-User</target>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.tab.TSSetup" resname="plugin.t3users.flexform.tab.TSSetup"  approved="yes">
-				<source>Typoscript</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.t3users.flexform.tssetup" resname="plugin.t3users.flexform.tssetup"  approved="yes">
-				<source>plugin.tx_t3users_main.</source>
-				<target/>
 			</trans-unit>
 			<trans-unit id="plugin.t3users.flexform.feuseredit.xml" resname="plugin.t3users.flexform.feuseredit.xml"  approved="yes">
 				<source>XML for the form</source>

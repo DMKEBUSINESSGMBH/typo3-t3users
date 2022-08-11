@@ -38,7 +38,7 @@ class tx_t3users_hooks_processDatamap
     {
         /* If we have an existing calendar event */
         if ('fe_users' == $table && count($fieldArray) > 1) {
-            if ($fieldArray['birthday']) {
+            if ($fieldArray['birthday'] ?? false) {
                 $fieldArray['birthday'] = $this->convertBackendDateToYMD($fieldArray['birthday']);
             }
         }
