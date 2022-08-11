@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3') or exit();
+defined('TYPO3') or exit;
 
 call_user_func(function () {
     // list static templates in templates selection

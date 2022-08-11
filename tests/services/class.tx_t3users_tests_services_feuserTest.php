@@ -77,7 +77,7 @@ class tx_t3users_tests_services_feuserTest extends \Sys25\RnBase\Testing\BaseTes
             ['getRnBaseDbUtil']
         );
 
-        $feUserService->expects(($this->never()))
+        $feUserService->expects($this->never())
             ->method('getRnBaseDbUtil');
 
         $feUserRecord = ['uid' => 1];
@@ -124,7 +124,7 @@ class tx_t3users_tests_services_feuserTest extends \Sys25\RnBase\Testing\BaseTes
             ->with('*', 'fe_groups')
             ->will($this->returnValue(['testResult']));
 
-        $feUserService->expects(($this->once()))
+        $feUserService->expects($this->once())
             ->method('getRnBaseDbUtil')
             ->will($this->returnValue($rnBaseDbUtil));
 
@@ -147,7 +147,7 @@ class tx_t3users_tests_services_feuserTest extends \Sys25\RnBase\Testing\BaseTes
             'tx_t3users_services_feuser',
             ['getRnBaseDbUtil']
         );
-        $feUserService->expects(($this->never()))
+        $feUserService->expects($this->never())
             ->method('getRnBaseDbUtil');
 
         $feUserService->updateFeUserByConfirmstring(0, '', []);
@@ -165,7 +165,7 @@ class tx_t3users_tests_services_feuserTest extends \Sys25\RnBase\Testing\BaseTes
             'tx_t3users_services_feuser',
             ['getRnBaseDbUtil']
         );
-        $feUserService->expects(($this->never()))
+        $feUserService->expects($this->never())
             ->method('getRnBaseDbUtil');
 
         $feUserService->updateFeUserByConfirmstring('abc', '', []);

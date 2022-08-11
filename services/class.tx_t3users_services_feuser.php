@@ -609,7 +609,7 @@ class tx_t3users_services_feuser extends \TYPO3\CMS\Core\Service\AbstractService
     public function getUserForConfirm($uid, $confirmstring)
     {
         $feUser = tx_t3users_models_feuser::getInstance(intval($uid));
-        if ((empty($feUser) || !$feUser->isValid())) {
+        if (empty($feUser) || !$feUser->isValid()) {
             throw new Exception('Requested FE user not found or invalid!');
         }
 

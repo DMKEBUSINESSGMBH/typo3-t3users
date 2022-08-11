@@ -227,7 +227,7 @@ class tx_t3users_tests_actions_LoginTest extends \Sys25\RnBase\Testing\BaseTestC
         $configurations = $this->createConfigurations(
             ['loginbox.' => ['extend.' => ['method' => 'rsa7']]],
             't3users'
-            );
+        );
 
         $markerArray = [];
         $this->callInaccessibleMethod(

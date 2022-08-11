@@ -210,7 +210,7 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
             $markerArr['redirect_url'] = $redirectUrl;
         }
 
-        $markerArr['redirect_url'] = preg_replace('/[&?]logintype=[a-z]+/', '', ($markerArr['redirect_url'] ?? ''));
+        $markerArr['redirect_url'] = preg_replace('/[&?]logintype=[a-z]+/', '', $markerArr['redirect_url'] ?? '');
         $markerArr['redirect_url'] = htmlspecialchars($markerArr['redirect_url'], ENT_QUOTES);
 
         $this->setLanguageMarkers($markerArr, $configurations, $statusKey);

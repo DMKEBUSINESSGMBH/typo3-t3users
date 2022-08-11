@@ -450,7 +450,7 @@ class tx_t3users_services_email extends \TYPO3\CMS\Core\Service\AbstractService
             }
         }
         $mailtextCC = '';
-        if (($cc = $configurations->get($confId.'cc'))) {
+        if ($cc = $configurations->get($confId.'cc')) {
             $templateCC = $configurations->getLL('registration_confirmation_mail_cc');
             $templateCC = $templateCC ? $templateCC : $template;
         }

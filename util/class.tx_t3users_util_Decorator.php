@@ -87,7 +87,7 @@ class tx_t3users_util_Decorator
                 continue;
             }
             $arr[] = intval($data['notitle']) ? '' :
-                    $LANG->getLL((isset($data['title']) ? $data['title'] : $tableName.'_'.$column));
+                    $LANG->getLL(isset($data['title']) ? $data['title'] : $tableName.'_'.$column);
         }
         if (isset($options['linker'])) {
             $arr[] = $LANG->getLL('label_action');
