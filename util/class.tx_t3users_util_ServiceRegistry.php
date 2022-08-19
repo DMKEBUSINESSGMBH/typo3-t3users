@@ -77,6 +77,6 @@ class tx_t3users_util_ServiceRegistry
      */
     public static function getLoginFormService()
     {
-        return Misc::getService('t3users', 'loginform');
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_services_LoginForm');
     }
 }

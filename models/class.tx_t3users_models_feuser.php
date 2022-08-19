@@ -88,7 +88,7 @@ class tx_t3users_models_feuser extends \Sys25\RnBase\Domain\Model\BaseModel
         if (!$uid) {
             throw new Exception('No uid for fe_user given!');
         }
-        if (!is_object(self::$instances[$uid])) {
+        if (!is_object(self::$instances[$uid] ?? null)) {
             self::$instances[$uid] = new tx_t3users_models_feuser($uid, true);
         }
 

@@ -251,7 +251,7 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
         $markerArr = [];
         $this->setLanguageMarkers($markerArr, $configurations, 'login');
         $markerArr['storage_pid'] = $this->getStoragePid($configurations);
-        if ($parameters->offsetGet('NK_logintype')) { // User want's to logout
+        if ($parameters->offsetExists('NK_logintype') && $parameters->offsetGet('NK_logintype')) { // User want's to logout
             if (\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'trackLogin')) {
                 tx_t3users_util_ServiceRegistry::getLoggingService()->logLogout($feuser->getUid());
             }
@@ -295,7 +295,7 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
      */
     protected function handleLoginConfirmed($action, $parameters, $configurations, $viewData, $feuser)
     {
-        $finished = intval($parameters->offsetGet('NK_loginfinished'));
+        $finished = intval($parameters->offsetExists('NK_loginfinished') ? $parameters->offsetGet('NK_loginfinished') : 0);
         \Sys25\RnBase\Utility\Misc::callHook(
             't3users',
             'beforeLoginConfirmed',

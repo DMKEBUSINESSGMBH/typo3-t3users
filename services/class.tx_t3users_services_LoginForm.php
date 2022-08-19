@@ -44,14 +44,7 @@ class tx_t3users_services_LoginForm extends \TYPO3\CMS\Core\Service\AbstractServ
      */
     public function extendLoginForm($code, $statusKey, $configurations, $confId, $plugin)
     {
-        // Einfachste Form ist ohne alles
-//        $method = strtolower($configurations->get($confId.'extend.method'));
-        $method = 'none';
-        if ('none' == $method) {
-            return;
-        }
-
-        $method = 'rsa';
+        $method = 'default';
         $data = $configurations->get($confId.'extend.'.$method.'.');
         $keys = ['formFields', 'jsFiles', 'jsCode', 'onsubmit'];
         foreach ($keys as $key) {
@@ -59,31 +52,5 @@ class tx_t3users_services_LoginForm extends \TYPO3\CMS\Core\Service\AbstractServ
                 $code->$key = $data[$key];
             }
         }
-
-        $methodName = 'handleMethod_'.$method;
-        if (method_exists($this, $methodName)) {
-            $this->$methodName($code, $statusKey, $configurations, $confId, $plugin);
-        }
-    }
-
-    /**
-     * https://forge.typo3.org/issues/59041.
-     *
-     * @param stdClass $code
-     * @param string $statusKey
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param string $confId
-     * @param tx_t3users_actions_Login $plugin
-     */
-    protected function handleMethod_rsa($code, $statusKey, $configurations, $confId, $plugin)
-    {
-        // Ab 6.2.? (Mai 2014) wurde der Ablauf für RSA auf Ajax umgestellt. Die Informationen
-        // werden nicht mehr beim rendern erzeugt, sondern erst vorm Submit per Ajax.
-        $rsa = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Rsaauth\\Hook\\FrontendLoginHook');
-        $result = $rsa->loginFormHook();
-        // Im Result steht jetzt nur noch eine Methode, die beim Submit ausgeführt werden soll.
-        // return TYPO3FrontendLoginFormRsaEncryption.submitForm(this, TYPO3FrontendLoginFormRsaEncryptionPublicKeyUrl);
-        // Diese ist entsprechend im JS-Code per Typoscript eingestellt. Wenn da wieder etwas umgestellt wird, müssen
-        // wir das ggf. dynamisch im JS-Code unterbringen. Also austauschen in $code.
     }
 }

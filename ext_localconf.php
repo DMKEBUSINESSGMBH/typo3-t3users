@@ -76,18 +76,6 @@ if (!\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue($_EXTKEY, 'disa
     ]
 );
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
-    $_EXTKEY,
-    't3users' /* sv type */ ,
-    'tx_t3users_services_LoginForm' /* sv key */ ,
-    [
-        'title' => 'Service to extend LoginForm', 'description' => 'Service functions for security handling in login form', 'subtype' => 'loginform',
-        'available' => true, 'priority' => 51, 'quality' => 50,
-        'os' => '', 'exec' => '',
-        'className' => 'tx_t3users_services_LoginForm',
-    ]
-);
-
 // solange das Plugin USER_INT ist, müssen ein paar Parameter für den cHash ausgeschlossen werden
 \Sys25\RnBase\Utility\CHashUtility::addExcludedParametersForCacheHash([
     't3users[NK_forgotpass]',
