@@ -419,7 +419,20 @@ class tx_t3users_actions_Login extends tx_rnbase_action_BaseIOC
 
     protected function getStoragePid(&$configurations)
     {
-        return $configurations->get('feuserPages');
+        $pidList = $configurations->get('feuserPages');
+        // support for TYPO3 ELTS 8.7.49
+        if (\Sys25\RnBase\Utility\TYPO3::isTYPO3VersionOrHigher(8007049)) {
+            $pidList = sprintf(
+                '%s@%s',
+                $pidList,
+                \TYPO3\CMS\Core\Utility\GeneralUtility::hmac(
+                    $pidList,
+                    \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class
+                )
+            );
+        }
+
+        return $pidList;
     }
 
     /**
