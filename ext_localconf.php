@@ -9,7 +9,7 @@ $_EXTKEY = 't3users';
 
 if (!\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue($_EXTKEY, 'disableUxFeUserAuth')) {
     if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class] ?? [])) {
-        throw new LogicException('There is already an overwrite in '.'$GLOBALS[\'TYPO3_CONF_VARS\'][\'SYS\'][\'Objects\'][\''.\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class.'\'] !'.' Remove the other overwrite or disable the overwrite of t3users.');
+        throw new LogicException('There is already an overwrite in $GLOBALS[\'TYPO3_CONF_VARS\'][\'SYS\'][\'Objects\'][\''.\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class.'\'] ! Remove the other overwrite or disable the overwrite of t3users.');
     }
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class] = [
         'className' => 'ux_tslib_feuserauth',

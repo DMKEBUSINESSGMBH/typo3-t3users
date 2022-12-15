@@ -22,6 +22,7 @@ class tx_t3users_tests_services_feuserTest extends \Sys25\RnBase\Testing\BaseTes
 
     /**
      * @group unit
+     *
      * @dataProvider providerEmailDisable
      */
     public function testEmailDisable($sEMail, $sResult)
@@ -45,6 +46,7 @@ class tx_t3users_tests_services_feuserTest extends \Sys25\RnBase\Testing\BaseTes
 
     /**
      * @group unit
+     *
      * @dataProvider providerEmailEnable
      */
     public function testEmailEnable($sEMail, $sResult)

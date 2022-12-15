@@ -56,7 +56,9 @@ class tx_t3users_tests_actions_EditFeUserTest extends \Sys25\RnBase\Testing\Base
     /**
      * @param int $uid
      * @param string $confirmString
+     *
      * @group unit
+     *
      * @dataProvider dataProviderUidAndConfirmstringParameter
      */
     public function testHandleRequestInModeCheckReturnsCorrectMessageIfMissingParameter(
