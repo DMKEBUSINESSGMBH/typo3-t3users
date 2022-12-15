@@ -407,7 +407,16 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
 
     protected function getStoragePid(&$configurations)
     {
-        return $configurations->get('feuserPages');
+        $pidList = $configurations->get('feuserPages');
+
+        return sprintf(
+            '%s@%s',
+            $pidList,
+            \TYPO3\CMS\Core\Utility\GeneralUtility::hmac(
+                $pidList,
+                \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class
+            )
+        );
     }
 
     /**
