@@ -61,7 +61,8 @@
             "util/",
             "views/",
             "xclasses/"
-        ]
+        ],
+        "psr-4": {"DMK\\T3users\\" : "Classes"}
     },
     "autoload-dev": {
         "classmap": [
@@ -83,7 +84,7 @@
     "scripts": {
         "lint:php": [
             "[ -e .Build/bin/parallel-lint ] || composer update",
-            ".Build/bin/parallel-lint ./actions ./controllers ./exceptions ./hooks ./mod ./models ./receiver ./search ./services ./tests/ ./util ./views ./xclasses/ ./*.php"
+            ".Build/bin/parallel-lint ./Classes ./actions ./controllers ./exceptions ./hooks ./mod ./models ./receiver ./search ./services ./tests/ ./util ./views ./xclasses/ ./*.php"
         ],
         "lint": [
             "@lint:php"

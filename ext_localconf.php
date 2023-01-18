@@ -90,3 +90,10 @@ if (!\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue($_EXTKEY, 'disa
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
     '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:t3users/Configuration/TSconfig/ContentElementWizard.tsconfig">'
 );
+$dispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+$dispatcher->connect(
+    \TYPO3\CMS\Core\Database\ReferenceIndex::class,
+    'shouldExcludeTableFromReferenceIndex',
+    \DMK\T3users\Event\Slots\ReferenceIndexSlot::class,
+    'shouldExcludeTableFromReferenceIndex'
+);
