@@ -36,7 +36,7 @@ class ReferenceIndexSlot
 {
     public function shouldExcludeTableFromReferenceIndex(string $tableName, bool &$excludeTable): void
     {
-        if ($tableName === 'tx_t3users_log') {
+        if ('tx_t3users_log' === $tableName) {
             $excludeTable = true;
         }
     }
