@@ -132,7 +132,6 @@ jobs:
                 with:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
-                    tools: "composer:v1"
             -
                 name: "Validate composer.json and composer.lock"
                 run: "composer validate --strict"
