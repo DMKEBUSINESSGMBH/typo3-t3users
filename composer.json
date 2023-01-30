@@ -39,7 +39,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "typo3/cms-core": "^10.4.34 || ^11.5.21",
-        "digedag/rn-base": "^11@dev"
+        "digedag/rn-base": "^1.16"
     },
     "require-dev": {
         "php-parallel-lint/php-parallel-lint": "^1.3",
