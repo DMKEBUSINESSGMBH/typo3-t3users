@@ -17,7 +17,7 @@ $EM_CONF['t3users'] = [
     'author_email' => 'dev@dmk-ebusiness.de',
     'shy' => '',
     'dependencies' => 'rn_base',
-    'version' => '9.2.0',
+    'version' => '11.0.0',
     'conflicts' => '',
     'priority' => '',
     'module' => '',
@@ -31,7 +31,7 @@ $EM_CONF['t3users'] = [
     'author_company' => 'DMK E-BUSINESS GmbH',
     'constraints' => [
         'depends' => [
-            'rn_base' => '1.15.0-',
+            'rn_base' => '1.16.0-',
             'typo3' => '10.4.34-11.5.99',
         ],
         'conflicts' => [],
