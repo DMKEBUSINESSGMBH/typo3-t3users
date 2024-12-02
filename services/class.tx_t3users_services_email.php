@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -546,9 +547,9 @@ class tx_t3users_services_email extends \TYPO3\CMS\Core\Service\AbstractService
      *
      * Beispiel Mailtemplate:
      *
-        Guten Tag ###FEUSER_NAME###
-        ihre Registrierung auf Serviceoasen wurde freigegeben. Sie können sich nun unter ###FEUSER_LOGINLINK###diesem Link###FEUSER_LOGINLINK### anmelden.
-        Für Fragen stehen wir Ihnen gerne jederzeit zur Verfügung.
+     * Guten Tag ###FEUSER_NAME###
+     * ihre Registrierung auf Serviceoasen wurde freigegeben. Sie können sich nun unter ###FEUSER_LOGINLINK###diesem Link###FEUSER_LOGINLINK### anmelden.
+     * Für Fragen stehen wir Ihnen gerne jederzeit zur Verfügung.
      */
     public function sendNotificationAboutConfirmationToFeUser(
         tx_t3users_models_feuser $feuser,

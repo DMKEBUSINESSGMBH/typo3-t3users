@@ -132,9 +132,9 @@ class tx_t3users_services_feuser extends \TYPO3\CMS\Core\Service\AbstractService
         $timeout = $this->getSessionLifeTime();
         if (!is_array($options)) {
             $options = [
-                    'pids' => $options,
-                    // ursprünglich lieferte die Methode nur die Anzahl der Nutzer
-                    'count' => true,
+                'pids' => $options,
+                // ursprünglich lieferte die Methode nur die Anzahl der Nutzer
+                'count' => true,
             ];
         }
         $options['distinct'] = 1;
@@ -630,8 +630,8 @@ class tx_t3users_services_feuser extends \TYPO3\CMS\Core\Service\AbstractService
                 'Password reset failed on timeout',
                 't3users',
                 ['feuser' => $feUser->getUid(), 'stored timeout' => $feUser->getProperty('confirmtimeout'),
-                'stored timeout2' => $timeout,
-                'submitted' => $GLOBALS['EXEC_TIME'], ]
+                    'stored timeout2' => $timeout,
+                    'submitted' => $GLOBALS['EXEC_TIME'], ]
             );
 
             return null;
@@ -782,7 +782,7 @@ class tx_t3users_services_feuser extends \TYPO3\CMS\Core\Service\AbstractService
      *
      * @return tx_t3users_models_feuser
      */
-    public function getFeUserWithFallback(tx_t3users_models_feuser $feUser = null, $force = true)
+    public function getFeUserWithFallback(?tx_t3users_models_feuser $feUser = null, $force = true)
     {
         if (is_null($feUser)) {
             // Don't use our own fe user service here to avoid infinite recursion

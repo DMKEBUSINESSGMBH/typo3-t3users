@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  *
@@ -77,7 +78,7 @@ class tx_t3users_tests_actions_RenewSessionTest extends \Sys25\RnBase\Testing\Ba
 
         $configurationsData = [
             'renewSession.' => [
-                    'intervallInSeconds' => 400,
+                'intervallInSeconds' => 400,
             ],
         ];
         $this->executeAction($configurationsData);

@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
 *  Copyright notice
 *
@@ -239,8 +240,8 @@ class tx_t3users_actions_ShowRegistration extends \Sys25\RnBase\Frontend\Control
 
         // Zusätzlich Parameter für Finished setzen
         $parameters = [
-                'NK_confirm' => $feUserData['confirmstring'],
-                'NK_uid' => $feUserUid,
+            'NK_confirm' => $feUserData['confirmstring'],
+            'NK_uid' => $feUserUid,
         ];
 
         // Mail schicken

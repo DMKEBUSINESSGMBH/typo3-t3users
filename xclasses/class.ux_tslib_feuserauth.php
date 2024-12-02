@@ -36,7 +36,7 @@ class ux_tslib_feuserauth extends \TYPO3\CMS\Frontend\Authentication\FrontendUse
      *
      * @see tslib_feUserAuth::start()
      */
-    public function start(ServerRequestInterface $request = null)
+    public function start(?ServerRequestInterface $request = null)
     {
         // TYPO3 8 or higher expect fieldname instead integer
         // https://github.com/TYPO3/TYPO3.CMS/commit/38f938207aebac724786613737d5fadb5af8e7af

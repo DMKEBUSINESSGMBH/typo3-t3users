@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
 *  Copyright notice
 *
@@ -384,7 +385,7 @@ class tx_t3users_actions_Login extends \Sys25\RnBase\Frontend\Controller\Abstrac
     protected function setLanguageMarkers(&$markerArr, $configurations, $statusKey)
     {
         $labels = ['username', 'password', 'login', 'logout', 'permalogin', 'forgot_password',
-                        'email', 'sendpass', 'register', ];
+            'email', 'sendpass', 'register', ];
         foreach ($labels as $label) {
             $markerArr['label_'.$label] = $configurations->getLL('label_'.$label);
         }

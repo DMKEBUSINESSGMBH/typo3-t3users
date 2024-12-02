@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author René Nitzsche <dev@dmk-ebusiness.de>
  *

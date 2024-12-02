@@ -56,9 +56,9 @@ class tx_t3users_mod_lister_FeUser extends \Sys25\RnBase\Backend\Lister\Abstract
     protected function getSearchColumns()
     {
         return ['FEUSER.uid', 'FEUSER.username', 'FEUSER.first_name',
-                'FEUSER.last_name', 'FEUSER.email', 'FEUSER.address',
-                'FEUSER.zip', 'FEUSER.company', 'FEUSER.www',
-                'FEUSER.telephone', 'FEUSER.city', ];
+            'FEUSER.last_name', 'FEUSER.email', 'FEUSER.address',
+            'FEUSER.zip', 'FEUSER.company', 'FEUSER.www',
+            'FEUSER.telephone', 'FEUSER.city', ];
     }
 
     /**

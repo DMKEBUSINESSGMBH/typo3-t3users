@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
 *  Copyright notice
 *
@@ -34,8 +35,8 @@ class tx_t3users_services_feuserauth extends \TYPO3\CMS\Core\Authentication\Auth
     {
         parent::initAuth($subType, $loginData, $authInfo, $userauth);
 
-        if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'enableLoginByEmail')) &&
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::validEmail($loginData['uname'])) {
+        if (intval(\Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('t3users', 'enableLoginByEmail'))
+                    && \TYPO3\CMS\Core\Utility\GeneralUtility::validEmail($loginData['uname'])) {
             $this->pObj->username_column = 'email';
             $this->db_user['username_column'] = 'email';
         }

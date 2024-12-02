@@ -110,6 +110,7 @@ class tx_t3users_mod_util_Selector
         if (isset($modData[$key])) {
             return $modData[$key];
         }
+
         // else
         return null;
     }

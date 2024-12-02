@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Hannes Bochmann
  *
@@ -190,11 +191,11 @@ class tx_t3users_tests_actions_EditFeUserTest extends \Sys25\RnBase\Testing\Base
      */
     protected function getActionMessageByParametersAndFeUserService(
         \Sys25\RnBase\Frontend\Request\Parameters $parameters,
-        tx_t3users_services_feuser $feUserService = null
+        ?tx_t3users_services_feuser $feUserService = null
     ) {
         $configurationArray = ['feuseredit.' => [
-                'mode' => 'check',
-            ],
+            'mode' => 'check',
+        ],
         ];
         $configurations = $this->createConfigurations($configurationArray, 't3users', $parameters);
         $viewData = $configurations->getViewData();

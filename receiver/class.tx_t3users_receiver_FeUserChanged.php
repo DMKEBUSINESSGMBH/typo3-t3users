@@ -56,6 +56,7 @@ class tx_t3users_receiver_FeUserChanged extends tx_mkmailer_receiver_FeUser
         if (empty($this->email)) {
             return false;
         }
+
         // else
         return $this->email;
     }

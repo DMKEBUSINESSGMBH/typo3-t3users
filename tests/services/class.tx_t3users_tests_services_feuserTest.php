@@ -39,9 +39,9 @@ class tx_t3users_tests_services_feuserTest extends \Sys25\RnBase\Testing\BaseTes
     public function providerEmailDisable()
     {
         return [ // array($sEMail, $sResult),
-                'Line: '.__LINE__ => ['ich@da.com', 'ich@@da.com'],
-                'Line: '.__LINE__ => ['ich@@da.com', 'ich@@da.com'],
-            ];
+            'Line: '.__LINE__ => ['ich@da.com', 'ich@@da.com'],
+            'Line: '.__LINE__ => ['ich@@da.com', 'ich@@da.com'],
+        ];
     }
 
     /**
@@ -63,10 +63,10 @@ class tx_t3users_tests_services_feuserTest extends \Sys25\RnBase\Testing\BaseTes
     public function providerEmailEnable()
     {
         return [ // array($sEMail, $sResult),
-                'Line: '.__LINE__ => ['ich@da.com', 'ich@da.com'],
-                'Line: '.__LINE__ => ['ich@@da.com', 'ich@da.com'],
-                'Line: '.__LINE__ => ['ich@@@@@@da.com', 'ich@da.com'],
-            ];
+            'Line: '.__LINE__ => ['ich@da.com', 'ich@da.com'],
+            'Line: '.__LINE__ => ['ich@@da.com', 'ich@da.com'],
+            'Line: '.__LINE__ => ['ich@@@@@@da.com', 'ich@da.com'],
+        ];
     }
 
     /**
